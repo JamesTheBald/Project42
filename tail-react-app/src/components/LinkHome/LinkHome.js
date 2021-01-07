@@ -8,7 +8,7 @@ import {
 const LinkHome = () => {
    return (
          <div className="subtitle">
-            <Link to="/">Link to Home page</Link>
+            <Link to="/">Link to Welcome page</Link>
          </div>
    )
 }

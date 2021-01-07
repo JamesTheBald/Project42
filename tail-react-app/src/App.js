@@ -18,52 +18,69 @@ function App() {
     <div>
       <Switch>
 
-        {/* If the current URL is /about, this route is rendered while the rest are ignored */}
-        <Route path="/about">
+        {/* From the React Router explanation page, https://reactrouter.com/web/guides/primary-components */}
+
+            {/* Note how these two routes are ordered. The more specific path="/contact/:id" comes before path="/contact" so that route will render when viewing an individual contact */}
+            {/* <Route path="/contact/:id">
+                div content
+            </Route> */}
+
+            {/* <Route path="/contact">
+                div content
+            </Route> */}
+
+          {/* psst... The contact:id page is accessed by this link:
+            <Link to="/contact/:id">Link to contact/:id page</Link> */}
+
+
+
+        {/* If the current URL is /tech, this route is rendered while the rest are ignored */}
+        <Route path="/tech">
            <div className="title text-green-600"> {/*text-green-600 is Tailwind formatting*/}
-              This is the About page
+              This is the Coding Technology Topics page
            </div>
            <LinkHome/>
-          {/* <About /> */}
+          {/* Let's make this it's own component, in its own file. e.g. <Tech /> */}
         </Route>
 
 
-        {/* Note how these two routes are ordered. The more specific path="/contact/:id" comes before path="/contact" so that route will render when viewing an individual contact */}
-        <Route path="/contact/:id">
+        <Route path="/process">
           <div className="title text-blue-600">
-            This is the Contact (URL = /contact/:id) page
+            This is the Coding Process Topics page
           </div>
           <LinkHome/>
-          {/* <Contact /> */}
+          {/* Let's make this it's own component, in its own file. e.g. <Process /> */}
         </Route>
 
 
-        <Route path="/contact">
+        <Route path="/people">
           <div className="title text-red-600">
-            This is the Contacts page (URL = /contact, without the :id part)
+            This is the 'Coding People' Topics page
           </div>
           <LinkHome/>
-          {/* <AllContacts /> */}
+          {/* Let's make this it's own component, in its own file. e.g. <People /> */}
         </Route>
 
 
-        {/* If none of the previous routes render anything, this route acts as a fallback.
-            A route with path="/" will *always* match the URL because all URLs begin with a /.
-            So that's why we put this one last of all */}
+        {/* If none of the previous routes render anything, this route acts as a fallback. A route with path="/" 
+        will *always* match the URL because all URLs begin with a /. So that's why we put this one last of all */}
         <Route path="/">
           <div className="title text-yellow-600 ">
-            This is the Home page
+            This is the placeholder for the Welcome page
           </div>
           <div className="subtitle">
-            <Link to="/about">Link to About page</Link>
+
+            <Link to="/tech">Coding Technology Topics</Link>
             <br/>
-            <Link to="/contact">Link to contact page</Link>
+
+            <Link to="/process">Coding Process Topics</Link>
             <br/>
-            <Link to="/contact/:id">Link to contact/:id page</Link>
+
+            <Link to="/people">Coding People Topics</Link>
+            <br/>
+
           </div>
-
-
-          {/* <Home /> */}
+          {/* Let's make this it's own component, in its own file. e.g. <Welcome /> */}
         </Route>
 
       </Switch>
