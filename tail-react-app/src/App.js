@@ -27,6 +27,7 @@ function App() {
           {/* <About /> */}
         </Route>
 
+
         {/* Note how these two routes are ordered. The more specific path="/contact/:id" comes before path="/contact" so that route will render when viewing an individual contact */}
         <Route path="/contact/:id">
           <div className="title text-blue-600">
@@ -36,6 +37,7 @@ function App() {
           {/* <Contact /> */}
         </Route>
 
+
         <Route path="/contact">
           <div className="title text-red-600">
             This is the Contacts page (URL = /contact, without the :id part)
@@ -43,6 +45,7 @@ function App() {
           <LinkHome/>
           {/* <AllContacts /> */}
         </Route>
+
 
         {/* If none of the previous routes render anything, this route acts as a fallback.
             A route with path="/" will *always* match the URL because all URLs begin with a /.
@@ -58,6 +61,7 @@ function App() {
             <br/>
             <Link to="/contact/:id">Link to contact/:id page</Link>
           </div>
+
 
           {/* <Home /> */}
         </Route>
