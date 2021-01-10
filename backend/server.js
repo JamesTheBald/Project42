@@ -1,18 +1,18 @@
-var someAlerts = [          // just some data in an array
+var somePostings = [          // just some data in an array
     {
         id: 1,
         state: 'New',
-        title: 'Octopus attacking the harbour'
+        title: 'Get familiar with JS functions and objects before learning React'
     },
     {
         id: 2,
         state: 'New',
-        title: 'Bizzaro robbing bank'
+        title: 'The e-book "Refactoring UI" is an excellent, concise intro to UI graphic design'
     },
     {
         id: 3,
         state: 'In Progress',
-        title: 'Get milk'
+        title: 'Take the time to read instructions and error messages carefully'
     }
 ]
 
@@ -26,51 +26,51 @@ app.use(express.static('../frontend'))  // serve up our files from the server in
 
 var server = app.listen(8081, function(){   // listen on port 8081
     var port = server.address().port
-    console.log(`Trouble Alert Server started on ${port}`)  // open by showing the port in case I forgot
+    console.log(`Trouble Posting Server started on ${port}`)  // open by showing the port in case I forgot
 })
 
-app.get('/alerts', function(req, res){              // get all alerts (alerts is plural and we just return the data)
-    res.send(someAlerts)
+app.get('/postings', function(req, res){              // get all postings (postings is plural and we just return the data)
+    res.send(somePostings)
 })
 
-app.post('/alerts', function(req, res){                                         // add a new alert... note not idempotent will create a new alert each time its called
-    const newId = someAlerts.reduce((max, cur)=> max>cur.id?max:cur.id, 1)+1    // spicy! get the next id with an aggregator... spicy!
-    const newAlert= {id: newId, state: 'New', title: req.body.newAlert}         // create the alert
-    someAlerts.push(newAlert)                                                   // put the alert in our data array
-    res.send(newAlert)                                                          // return the new alert
+app.post('/postings', function(req, res){                                         // add a new posting... note not idempotent will create a new posting each time its called
+    const newId = somePostings.reduce((max, cur)=> max>cur.id?max:cur.id, 1)+1    // spicy! get the next id with an aggregator... spicy!
+    const newPosting= {id: newId, state: 'New', title: req.body.newPosting}         // create the posting
+    somePostings.push(newPosting)                                                   // put the posting in our data array
+    res.send(newPosting)                                                          // return the new posting
 })
 
-app.get('/alert', function(req, res){                                   // get a specific alert
-    const alertNumber = req.query.alertNumber                           // get the alert id from the request query
-    const alert = someAlerts.find(alert => alert.id == alertNumber)     // spicy? find the alert in our data with that id
-    res.send(alert)                                                     // return the alert
+app.get('/posting', function(req, res){                                   // get a specific posting
+    const postingNumber = req.query.postingNumber                           // get the posting id from the request query
+    const posting = somePostings.find(posting => posting.id == postingNumber)     // spicy? find the posting in our data with that id
+    res.send(posting)                                                     // return the posting
 })
 
-app.put('/alert', function(req, res){                                           
-    const alertNumber = req.query.alertNumber                           // get the alert number (id) from the query
-    const alertIndex =  
-        someAlerts.findIndex(alert => alert.id == alertNumber)          // find the index that matches the id ... this should be related to the id for this code, but if the delete endpoint completely removed records then it could change. Best to be safe
-    someAlerts[alertIndex] = req.body                                   // change the data at the correct index  
-    const newAlert = someAlerts[alertIndex]                             // get the data out of the array ... it probably matches the data in req.body but probably best to return the real data that we are keeping
-    res.send(newAlert)                                                     
+app.put('/posting', function(req, res){                                           
+    const postingNumber = req.query.postingNumber                           // get the posting number (id) from the query
+    const postingIndex =  
+        somePostings.findIndex(posting => posting.id == postingNumber)          // find the index that matches the id ... this should be related to the id for this code, but if the delete endpoint completely removed records then it could change. Best to be safe
+    somePostings[postingIndex] = req.body                                   // change the data at the correct index  
+    const newPosting = somePostings[postingIndex]                             // get the data out of the array ... it probably matches the data in req.body but probably best to return the real data that we are keeping
+    res.send(newPosting)                                                     
 })
 
-app.patch('/alert', function(req, res){                                 // update an alert by patching it
-    const alertNumber = req.query.alertNumber                           // get the alert number (id) from the query
-    const alert = someAlerts.find(alert => alert.id == alertNumber)     // spicy? find the alert
-    Object.assign(alert, req.body)                                      // spicy! update the alert with Object.assing (look it up, it's helpful but basically a patch)
-    res.send(alert)                                                     // return the alert
+app.patch('/posting', function(req, res){                                 // update an posting by patching it
+    const postingNumber = req.query.postingNumber                           // get the posting number (id) from the query
+    const posting = somePostings.find(posting => posting.id == postingNumber)     // spicy? find the posting
+    Object.assign(posting, req.body)                                      // spicy! update the posting with Object.assing (look it up, it's helpful but basically a patch)
+    res.send(posting)                                                     // return the posting
 })
 
 // I went with soft-delete here because it's easier to debug. You could just remove the
-// alert from the array and redirect back to the main page
+// posting from the array and redirect back to the main page
 // But, it might be confusing if it didn't delete properly. So soft delete is nice
 // Remember: you are in charge of what your server does. You could make another choice in your project
 //           you'd just need slightly different server implementation
-app.delete('/alert', function(req, res){                                // delete an alert
-    const alertNumber = req.query.alertNumber                           // get the alert number (id) from the query
-    const alert = someAlerts.find(alert => alert.id == alertNumber)     // get the alert
-    alert.state = 'Deleted'                                             // soft delete the alert. Soft delete marks it so it won't get confused as an active alert, but keeps it in the database
-    res.send(alert)                                                     // we return the soft-deleted alert, so that we can show the operator that the alert is deleted.
+app.delete('/posting', function(req, res){                                // delete an posting
+    const postingNumber = req.query.postingNumber                           // get the posting number (id) from the query
+    const posting = somePostings.find(posting => posting.id == postingNumber)     // get the posting
+    posting.state = 'Deleted'                                             // soft delete the posting. Soft delete marks it so it won't get confused as an active posting, but keeps it in the database
+    res.send(posting)                                                     // we return the soft-deleted posting, so that we can show the operator that the posting is deleted.
 })                                          
 
