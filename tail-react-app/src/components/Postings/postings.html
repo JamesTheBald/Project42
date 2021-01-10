@@ -2,7 +2,7 @@
   <script src="functions.js"></script>
 
   <head>
-    <title>Trouble alert</title>
+    <title>Helpful posting</title>
     <link rel="stylesheet" href="style.css" />
   </head>
 
@@ -10,26 +10,26 @@
     <div class="pageContent">
       
       <div id="pictureBox">
-        <img src="TroubleAlert.jpg" alt="Trouble Alert" id="troubleAlertImage"/>
+        <img src="helpful_tips.jpg" alt="Helpful Posting" id="helpfulPostingImage"/>
       </div>
 
-      <div id="submitAlertArea" class="alertArea">
-        <div class="tabIn">Submit a new alert</div>
-        <div id="addAlertWidget">
-          <input class="textInput" id="newAlertTitle" type="text" placeholder="Enter alert details"/>
-          <div class="button" onclick="submitNewAlert()">Submit</div>
+      <div id="submitPostingArea" class="postingArea">
+        <div class="tabIn">Submit a new posting</div>
+        <div id="addPostingWidget">
+          <input class="textInput" id="newPostingTitle" type="text" placeholder="Enter posting details"/>
+          <div class="button" onclick="submitNewPosting()">Submit</div> 
         </div>
       </div>
 
       <div class="actionSection">
-        <div id="alertsTitle" class="tabIn">Alerts</div>
+        <div id="postingsTitle" class="tabIn">Postings</div>
 
-        <div id="alertColumns">
-          <div class="alertColumn" id="newAlerts">
-            <div class="alertColumnTitle">New</div>
+        <div id="postingColumns">
+          <div class="postingColumn" id="newPostings">
+            <div class="postingColumnTitle">New</div>
           </div>
-          <div class="alertColumn" id="inProgressAlerts">
-            <div class="alertColumnTitle">In progress</div>
+          <div class="postingColumn" id="inProgressPostings">
+            <div class="postingColumnTitle">In progress</div>
           </div>
         </div>
         

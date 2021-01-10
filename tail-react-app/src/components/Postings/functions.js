@@ -1,6 +1,7 @@
 const port=8081;
 
 
+//Called when page loads
 function loadPage(){                                                    // when the page loads
     loadPostings();                                                       // load all postings
 }
@@ -37,6 +38,8 @@ function populatePostings(id, postings){
     })
 }
 
+
+// Called when user clicks submit for new posting
 function submitNewPosting(){
     const newPostingTitle = document.getElementById('newPostingTitle')      // get the title for the new posting
     const postingTitle = newPostingTitle.value                                  

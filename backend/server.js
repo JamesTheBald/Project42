@@ -26,7 +26,7 @@ app.use(express.static('../frontend'))  // serve up our files from the server in
 
 var server = app.listen(8081, function(){   // listen on port 8081
     var port = server.address().port
-    console.log(`Trouble Posting Server started on ${port}`)  // open by showing the port in case I forgot
+    console.log(`Helpful Posting Server started on ${port}`)  // open by showing the port in case I forgot
 })
 
 app.get('/postings', function(req, res){              // get all postings (postings is plural and we just return the data)

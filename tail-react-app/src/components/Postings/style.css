@@ -20,7 +20,7 @@ div {
     border-bottom-right-radius: 10px;
 }
 
-.alertArea{
+.postingArea{
     padding-top: 10px;
     padding-bottom: 10px;
     height: 100px;
@@ -34,20 +34,20 @@ div {
     margin-bottom: 5px;
 }
 
-#alerttextArea{
+#postingtextArea{
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 }
 
-#submitAlertArea
+#submitPostingArea
 {
     display: flex;
     flex-direction: column;
 }
 
-#addAlertWidget{
+#addPostingWidget{
     height: 60px;
     width: 100%;
     background: pink;
@@ -63,11 +63,11 @@ img{
     margin: 25px;
     height: 500px
 }
-#troubleAlertImage{
+#helpfulPostingImage{
     border-radius: 50px;
 }
 
-#alertImage{
+#postingImage{
     border-radius: 250px;
 }
 
@@ -115,7 +115,7 @@ img{
     padding-bottom: 5px;
 }
 
-#alerts {
+#postings {
     border: 2px solid darkslategray;
     border-radius: 10px;
     min-height: 200px;
@@ -125,12 +125,12 @@ img{
     padding-bottom: 5px;
 }
 
-#alertsTitle{
+#postingsTitle{
     font-size: 24;
     margin-bottom: 10px;
 }
 
-.alertColumn{
+.postingColumn{
     border: 2px solid darkslategray;
     width: 500px;
     background-color: whitesmoke;
@@ -141,14 +141,14 @@ img{
     font-size: 18;
 }
 
-#alertColumns{
+#postingColumns{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-content: start;
 }
 
-.alertItem{
+.postingItem{
     border: 2px solid darkslategray;
     border-radius: 5px;
     padding: 10px;
@@ -159,15 +159,15 @@ img{
     cursor: pointer;
 }
 
-.alertItem:hover{
+.postingItem:hover{
     background-color: lightblue;
 }
 
-.alertColumnTitle{
+.postingColumnTitle{
     margin-bottom: 10px;
 }
 
-#alertText{
+#postingText{
     font-size: 34;
 }
 
@@ -186,7 +186,7 @@ img{
     margin-right: 30px;
 }
 
-#alertActionButtons{
+#postingActionButtons{
     width: 100%;
     display: flex;
     flex-direction: row;
