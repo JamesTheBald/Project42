@@ -9,26 +9,27 @@
 
   <body onLoad="loadPostings()">
 
-      <!-- Main container column -->
+      Main container column
       <div class="flex flex-col items-center">
 
         <img src="helpful_tips.jpg" alt="Helpful Posting"/>
 
-        <!-- Container for input section -->
+        Container for input section
         <div  class="flex flex-col p-4 my-2 w-3/4 border-2 rounded-xl border-gray-600">
 
           <div class="font-500 mb-3">Submit a new posting</div>
 
-          <!-- Input line -->
+          Input line
           <div class="flex flex-row">
             <input id="newPostingTitle" type="text" placeholder="Enter posting details" class="w-5/6 bg-gray-200"/>
             <div class="w-32 flex justify-center border-2 rounded-lg" onclick="submitNewPosting()">Submit</div> 
           </div>
         </div>
 
-        <!-- Postings -->
+        Postings
         <div class="w-3/4 flex flex-col items-center">
-          <div id="newPostings">                          <!-- ID referenced by loadPostingsOntoPage() -->
+          <div id="newPostings">
+                                      ID referenced by loadPostingsOntoPage()
         </div>
 
       </div>

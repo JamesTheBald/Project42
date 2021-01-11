@@ -2,12 +2,13 @@ import {
    BrowserRouter as Router,      // Router may show as unused but it is necessary
    Switch,
    Route,
-   Link
+  //  Link
  } from "react-router-dom";
 import './App.css';
 
 import Welcome from './components/Welcome';
 import LinkHome from './components/LinkHome.js';
+import Tech from "./components/Tech/Tech";
 
 
 function App() {
@@ -33,13 +34,7 @@ function App() {
 
 
 
-        <Route path="/tech">
-           <div className="title text-green-600"> {/*text-green-600 is Tailwind formatting*/}
-              This is the Coding Technology Topics page
-           </div>
-           <LinkHome/>
-          {/* Let's make this it's own component, in its own file. e.g. <Tech /> */}
-        </Route>
+        <Route path="/tech"> <Tech/> </Route>
 
 
         <Route path="/process">
@@ -61,9 +56,7 @@ function App() {
 
 
         {/* Path="/" *always* matches the URL because all URLs begin with /. So this route serves as a fallback */}
-        <Route path="/">
-          <Welcome />
-        </Route>
+        <Route path="/"> <Welcome /> </Route>
 
       </Switch>
     </div>
