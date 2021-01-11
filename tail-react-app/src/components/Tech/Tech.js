@@ -13,13 +13,14 @@ function Tech() {
 
   const port=8081;
 
-  // Q: How do we use the constant 'port' here? (instead of hard-coded 8081). Also change in function submitNewPosting()
+  // Q: How do we use the constant 'port' here? (instead of hard-coded 8081).
   function loadPostings(){
       console.log("loadPostings function called")
-      fetch('http://localhost:8081/postings', {cache: 'no-store'})          // get the postings... spicy! we us no-store to prevent the page from caching. Try the page without it
+      fetch('http://localhost:8081/postings', {cache: 'no-store'})          // get the postings. 'no-store' is to prevent 
+                                                                            // the page from caching. Try the page without it
       .then(response => response.json())                                    // read the json out of the response
       .then(postings => loadPostingsOntoPage(postings))                     // load the postings onto the page
-  }       // Q: How/when is postings defined and given a value?
+  }
 
 
 
@@ -42,25 +43,18 @@ function Tech() {
   
 
 
-// Called when user clicks submit for new posting
-function submitNewPosting(){
-  const newPostingTitle = document.getElementById('newPostingTitle')      // get the content for the new posting
-  const postingTitle = newPostingTitle.value
+  // Called when user clicks submit for new posting
+  function submitNewPosting(){
+    const newPostingTitle = document.getElementById('newPostingTitle')      // get the content for the new posting
+    const postingTitle = newPostingTitle.value
 
-  fetch('http://localhost:8081/postings', {                              // send a post to postings to create the new posting
-      method: 'post',
-      headers: {"Content-Type": "application/json"},                     // add a header to tell the server to expect json
-      body: JSON.stringify({newPosting: postingTitle})                   // add the body with the new title
-  })
-  .then(loadPostings)                                                    // reload the postings when it's done so that we see the new posting
-}
-
-
-
-  useEffect(() => {
-    console.log('Hello from useEffect!');
-    const load = () => loadPostings();
-  }, []); 
+    fetch('http://localhost:8081/postings', {                              // send a post to postings to create the new posting
+        method: 'post',                                                    // Update above line to use varible port instead of hard-coded 8081
+        headers: {"Content-Type": "application/json"},                     // add a header to tell the server to expect json
+        body: JSON.stringify({newPosting: postingTitle})                   // add the body with the new title
+    })
+    .then(loadPostings)                                                    // reload the postings when it's done so that we see the new posting
+  }
 
 
   return (
@@ -77,7 +71,8 @@ function submitNewPosting(){
 
           {/* Input line */}
           <div className="flex flex-row justify-around">
-            <input id="newPostingTitle" type="text" placeholder=" Enter posting details" className="w-3/4 border border-gray-900 bg-gray-200"/>
+            <input id="newPostingTitle" type="text" placeholder=" Enter posting details" 
+                   className="w-3/4 border border-gray-900 bg-gray-200"/>
             <div className="w-32 py-1 flex justify-center bg-gray-300" onClick={ () => submitNewPosting()}>Submit</div> 
           </div>
         </div>
