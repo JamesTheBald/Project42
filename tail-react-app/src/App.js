@@ -2,15 +2,13 @@ import {
    BrowserRouter as Router,      // Router may show as unused but it is necessary
    Switch,
    Route,
-   Link
+  //  Link
  } from "react-router-dom";
 import './App.css';
-import LinkHome from "./components/LinkHome/LinkHome.js"
 
-// import Home from '/components/home/Home';
-// import About from '/components/about/About';
-// import Contact from '/components/contact/Contact';
-// import AllContacts from '/components/allcontact/AllContacts';
+import Welcome from './components/Welcome';
+import LinkHome from './components/LinkHome.js';
+import Tech from "./components/Tech/Tech";
 
 
 function App() {
@@ -18,49 +16,47 @@ function App() {
     <div>
       <Switch>
 
-        {/* If the current URL is /about, this route is rendered while the rest are ignored */}
-        <Route path="/about">
-           <div className="title text-green-600"> {/*text-green-600 is Tailwind formatting*/}
-              This is the About page
-           </div>
-           <LinkHome/>
-          {/* <About /> */}
-        </Route>
+        {/* From the React Router explanation page, https://reactrouter.com/web/guides/primary-components */}
 
-        {/* Note how these two routes are ordered. The more specific path="/contact/:id" comes before path="/contact" so that route will render when viewing an individual contact */}
-        <Route path="/contact/:id">
+            {/* Note how these two routes are ordered. The more specific path="/contact/:id" comes before path="/contact" so that route will render when viewing an individual contact */}
+
+            {/* If the current URL is /contact/:id, this route is rendered while the rest are ignored */}
+            {/* <Route path="/contact/:id">
+                div content
+            </Route> */}
+
+            {/* <Route path="/contact">
+                div content
+            </Route> */}
+
+          {/* psst... The contact:id page is accessed by this link:
+            <Link to="/contact/:id">Link to contact/:id page</Link> */}
+
+
+
+        <Route path="/tech"> <Tech/> </Route>
+
+
+        <Route path="/process">
           <div className="title text-blue-600">
-            This is the Contact (URL = /contact/:id) page
+            This is the Coding Process Topics page
           </div>
           <LinkHome/>
-          {/* <Contact /> */}
+          {/* Let's make this it's own component, in its own file. e.g. <Process /> */}
         </Route>
 
-        <Route path="/contact">
+
+        <Route path="/people">
           <div className="title text-red-600">
-            This is the Contacts page (URL = /contact, without the :id part)
+            This is the 'Coding People' Topics page
           </div>
           <LinkHome/>
-          {/* <AllContacts /> */}
+          {/* Let's make this it's own component, in its own file. e.g. <People /> */}
         </Route>
 
-        {/* If none of the previous routes render anything, this route acts as a fallback.
-            A route with path="/" will *always* match the URL because all URLs begin with a /.
-            So that's why we put this one last of all */}
-        <Route path="/">
-          <div className="title text-yellow-600 ">
-            This is the Home page
-          </div>
-          <div className="subtitle">
-            <Link to="/about">Link to About page</Link>
-            <br/>
-            <Link to="/contact">Link to contact page</Link>
-            <br/>
-            <Link to="/contact/:id">Link to contact/:id page</Link>
-          </div>
 
-          {/* <Home /> */}
-        </Route>
+        {/* Path="/" *always* matches the URL because all URLs begin with /. So this route serves as a fallback */}
+        <Route path="/"> <Welcome /> </Route>
 
       </Switch>
     </div>
