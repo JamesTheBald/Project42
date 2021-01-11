@@ -1,17 +1,14 @@
 var somePostings = [          // just some data in an array
     {
         id: 1,
-        state: 'New',
         title: 'Get familiar with JS functions and objects before learning React'
     },
     {
         id: 2,
-        state: 'New',
         title: 'The e-book "Refactoring UI" is an excellent, concise intro to UI graphic design'
     },
     {
         id: 3,
-        state: 'In Progress',
         title: 'Take the time to read instructions and error messages carefully'
     }
 ]
@@ -35,7 +32,7 @@ app.get('/postings', function(req, res){              // get all postings (posti
 
 app.post('/postings', function(req, res){                                         // add a new posting... note not idempotent will create a new posting each time its called
     const newId = somePostings.reduce((max, cur)=> max>cur.id?max:cur.id, 1)+1    // spicy! get the next id with an aggregator... spicy!
-    const newPosting= {id: newId, state: 'New', title: req.body.newPosting}         // create the posting
+    const newPosting= {id: newId, title: req.body.newPosting}         // create the posting
     somePostings.push(newPosting)                                                   // put the posting in our data array
     res.send(newPosting)                                                          // return the new posting
 })
@@ -48,10 +45,10 @@ app.get('/posting', function(req, res){                                   // get
 
 app.put('/posting', function(req, res){                                           
     const postingNumber = req.query.postingNumber                           // get the posting number (id) from the query
-    const postingIndex =  
-        somePostings.findIndex(posting => posting.id == postingNumber)          // find the index that matches the id ... this should be related to the id for this code, but if the delete endpoint completely removed records then it could change. Best to be safe
+    const postingIndex = somePostings.findIndex(posting => posting.id == postingNumber)   
+           // find the index that matches the id ... this should be related to the id for this code, but if the delete endpoint completely removed records then it could change. Best to be safe
     somePostings[postingIndex] = req.body                                   // change the data at the correct index  
-    const newPosting = somePostings[postingIndex]                             // get the data out of the array ... it probably matches the data in req.body but probably best to return the real data that we are keeping
+    const newPosting = somePostings[postingIndex]                           // get the data out of the array ... it probably matches the data in req.body but probably best to return the real data that we are keeping
     res.send(newPosting)                                                     
 })
 
@@ -67,10 +64,10 @@ app.patch('/posting', function(req, res){                                 // upd
 // But, it might be confusing if it didn't delete properly. So soft delete is nice
 // Remember: you are in charge of what your server does. You could make another choice in your project
 //           you'd just need slightly different server implementation
-app.delete('/posting', function(req, res){                                // delete an posting
+app.delete('/posting', function(req, res){                                  // delete an posting
     const postingNumber = req.query.postingNumber                           // get the posting number (id) from the query
     const posting = somePostings.find(posting => posting.id == postingNumber)     // get the posting
-    posting.state = 'Deleted'                                             // soft delete the posting. Soft delete marks it so it won't get confused as an active posting, but keeps it in the database
-    res.send(posting)                                                     // we return the soft-deleted posting, so that we can show the operator that the posting is deleted.
+    posting.state = 'Deleted'                                               // soft delete the posting. Soft delete marks it so it won't get confused as an active posting, but keeps it in the database
+    res.send(posting)                                                       // we return the soft-deleted posting, so that we can show the operator that the posting is deleted.
 })                                          
 

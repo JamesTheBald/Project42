@@ -1,40 +1,37 @@
 <html>
   <script src="functions.js"></script>
-
+  
   <head>
-    <title>Helpful posting</title>
+    <title>Helpful Postings</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../../tailwind.output.css" />
   </head>
 
-  <body style="margin: 0px" style class="body" onLoad="loadPage()">
-    <div class="pageContent">
-      
-      <div id="pictureBox">
-        <img src="helpful_tips.jpg" alt="Helpful Posting" id="helpfulPostingImage"/>
-      </div>
+  <body onLoad="loadPostings()">
 
-      <div id="submitPostingArea" class="postingArea">
-        <div class="tabIn">Submit a new posting</div>
-        <div id="addPostingWidget">
-          <input class="textInput" id="newPostingTitle" type="text" placeholder="Enter posting details"/>
-          <div class="button" onclick="submitNewPosting()">Submit</div> 
-        </div>
-      </div>
+      <!-- Main container column -->
+      <div class="flex flex-col items-center">
 
-      <div class="actionSection">
-        <div id="postingsTitle" class="tabIn">Postings</div>
+        <img src="helpful_tips.jpg" alt="Helpful Posting"/>
 
-        <div id="postingColumns">
-          <div class="postingColumn" id="newPostings">
-            <div class="postingColumnTitle">New</div>
-          </div>
-          <div class="postingColumn" id="inProgressPostings">
-            <div class="postingColumnTitle">In progress</div>
+        <!-- Container for input section -->
+        <div  class="flex flex-col p-4 my-2 w-3/4 border-2 rounded-xl border-gray-600">
+
+          <div class="font-500 mb-3">Submit a new posting</div>
+
+          <!-- Input line -->
+          <div class="flex flex-row">
+            <input id="newPostingTitle" type="text" placeholder="Enter posting details" class="w-5/6 bg-gray-200"/>
+            <div class="w-32 flex justify-center border-2 rounded-lg" onclick="submitNewPosting()">Submit</div> 
           </div>
         </div>
+
+        <!-- Postings -->
+        <div class="w-3/4 flex flex-col items-center">
+          <div id="newPostings">                          <!-- ID referenced by loadPostingsOntoPage() -->
+        </div>
+
+      </div>
         
-      </div>
-
-    </div>
   </body>
 </html>
