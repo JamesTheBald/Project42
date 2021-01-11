@@ -69,13 +69,13 @@ function Tech() {
 
           <div className="font-500 mb-3">Submit a new posting</div>
 
-          {/* Input line */}
-          <div className="flex flex-row justify-around">
-            <input id="newPostingTitle" type="text" placeholder=" Enter posting details" 
-                   className="w-3/4 border border-gray-900 bg-gray-200"/>
-            <div className="w-32 py-1 flex justify-center bg-gray-300" onClick={ () => submitNewPosting()}>Submit</div> 
-          </div>
-        </div>
+                {/* Input section.  Extra indenting = "Let's make this be it's own separate component" */}
+                <div className="flex flex-row justify-around">
+                  <input id="newPostingTitle" type="text" placeholder=" Enter posting details" 
+                        className="w-3/4 border border-gray-900 bg-gray-200"/>
+                  <div className="w-32 py-1 flex justify-center bg-gray-300" onClick={ () => submitNewPosting()}>Submit</div> 
+                </div>
+              </div>
 
         {/* Postings */}
         <div className="w-3/4 flex flex-col items-center">
