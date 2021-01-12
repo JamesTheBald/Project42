@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-const { submitNewPosting } = require('./functions');    //I tried import but got 'Blah is not a function' errors
+const submitNewPosting = require('./submitNewPosting');    //I tried import but got 'Blah is not a function' errors
 
 
 function InputSection() {
@@ -21,4 +21,4 @@ function InputSection() {
   )
 }
 
-export default InputSection
+export default InputSection;

@@ -1,28 +1,16 @@
-const port=8081;
+import React from 'react'
 
-// Q: How do we use the constant 'port' here? (instead of hard-coded 8081).
-function loadPostings(){
-    console.log("loadPostings function called")
-    fetch(`http://localhost:${port}/postings`, {cache: 'no-store'})          // get the postings. 'no-store' is to prevent 
-                                                                          // the page from caching. Try the page without it
-    .then(response => response.json())                                    // read the json out of the response
-    .then(postings => loadPostingsOntoPage(postings))                     // load the postings onto the page
+
+function loadPostingsOntoPage (postings) {
+  console.log("Loading postings=",postings)
+
+    postings.map (posting => {
+    <div>
+      {posting.content}
+    </div>
+    })
+
 }
-
-
-function loadPostingsOntoPage(postings){
-  console.log("loadPostingsOntoPage function called")
-
-  postings.forEach( posting => {
-
-
-
-
-
-      // newPostingDiv.classList.add('postingItem')                          // mark it to receive styling from class 'postingItem'
-  })
-}
-
 
 
 // Called when user clicks submit for new posting

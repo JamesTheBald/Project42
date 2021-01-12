@@ -1,40 +1,42 @@
 var somePostings = [          // just some data in an array
     {
         id: 1,
-        title: 'Get familiar with JS functions and objects before learning React'
+        content: 'Get familiar with JS functions and objects before learning React'
     },
     {
         id: 2,
-        title: 'The e-book "Refactoring UI" is an excellent, concise intro to UI graphic design'
+        content: 'The e-book "Refactoring UI" is an excellent, concise intro to UI graphic design'
     },
     {
         id: 3,
-        title: 'Take the time to read instructions and error messages carefully'
+        content: 'Take the time to read instructions and error messages carefully'
     }
 ]
 
-const express = require('express')      // we're using request
-const cors=require('cors')              // cors helps us call from other websites.. in particular if we want to run from 127.0.0.1 instead of localhost
-const app = express()                   // create the express app
+const express = require('express')        // we're using request
+const cors=require('cors')                // cors helps us call from other websites.. e.g. to run from 127.0.0.1 instead of localhost
+const app = express()                     // create the express app
+app.use(express.json());                  // handles reading json, which we need for set posts
+app.use(cors());                          // open cors policy... allows us to use either http://localhost or http://127.0.0.1
+app.use(express.static('../frontend'))    // serve up our files from the server instead of using the files... html is in ../frontend
 
-app.use(express.json());                // handles reading json, which we need for set posts
-app.use(cors());                        // open cors policy... allows us to use either http://localhost or http://127.0.0.1
-app.use(express.static('../frontend'))  // serve up our files from the server instead of using the files... html is in ../frontend from this file (which is in backend)
-
-var server = app.listen(8081, function(){   // listen on port 8081
-    var port = server.address().port
-    console.log(`Helpful Posting Server started on ${port}`)  // open by showing the port in case I forgot
+const portNum = 8082;
+const server = app.listen(portNum, function(){        //J: We need to add backup port and error handling
+    let portActual = server.address().port
+    console.log(`Helpful Posting Server started`)
+    console.log(`Intended port number =`, portNum)
+    console.log(`Actual port number = ${portActual}`)
 })
 
 app.get('/postings', function(req, res){              // get all postings (postings is plural and we just return the data)
     res.send(somePostings)
 })
 
-app.post('/postings', function(req, res){                                         // add a new posting... note not idempotent will create a new posting each time its called
+app.post('/postings', function(req, res){                             // not idempotent: will create a new posting each time it's called
     const newId = somePostings.reduce((max, cur)=> max>cur.id?max:cur.id, 1)+1    // spicy! get the next id with an aggregator... spicy!
     const newPosting= {id: newId, title: req.body.newPosting}         // create the posting
-    somePostings.push(newPosting)                                                   // put the posting in our data array
-    res.send(newPosting)                                                          // return the new posting
+    somePostings.push(newPosting)                                     // put the posting in our data array
+    res.send(newPosting)                                              // return the new posting
 })
 
 app.get('/posting', function(req, res){                                   // get a specific posting
