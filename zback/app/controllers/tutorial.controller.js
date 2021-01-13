@@ -32,11 +32,13 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
+  console.log("Running findAll...");
   const title = req.query.title;
   var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
 
   Tutorial.find(condition)
     .then(data => {
+      console.log ("data=",data)
       res.send(data);
     })
     .catch(err => {
