@@ -1,3 +1,6 @@
+const port = require("../tail-react-app/src/components/misc.js");
+
+
 var somePostings = [          // just some data in an array
     {
         id: 1,
@@ -13,9 +16,9 @@ var somePostings = [          // just some data in an array
     }
 ]
 
-const express = require('express')        // we're using request
+const express = require('express')
 const cors=require('cors')                // cors helps us call from other websites.. e.g. to run from 127.0.0.1 instead of localhost
-const app = express()                     // create the express app
+const app = express()                     // create the express app, called app
 app.use(express.json());                  // handles reading json, which we need for set posts
 app.use(cors());                          // open cors policy... allows us to use either http://localhost or http://127.0.0.1
 app.use(express.static('../frontend'))    // serve up our files from the server instead of using the files... html is in ../frontend

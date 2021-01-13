@@ -5,8 +5,6 @@ import './index.css';
 import App from './App';
 import './tailwind.output.css';
 
-const port = 8082;
-
 
 // <React.StrictMode> render wrapper replaced with <Router>
 ReactDOM.render(
