@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TutorialDataService from "../services/TutorialService";
 import { Link } from "react-router-dom";
 
+
 const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]);
   const [currentTutorial, setCurrentTutorial] = useState(null);
@@ -10,22 +11,23 @@ const TutorialsList = () => {
 
   useEffect(() => {
     retrieveTutorials();
-  }, []);
-
-  const onChangeSearchTitle = e => {
-    const searchTitle = e.target.value;
-    setSearchTitle(searchTitle);
-  };
+  }, []);                     // the '[]' on this line means the useEffect function will only run THE FIRST time the page renders, not every time it renders 
 
   const retrieveTutorials = () => {
     TutorialDataService.getAll()
       .then(response => {
         setTutorials(response.data);
-        console.log(response.data);
+        // console.log("response=",response);
+        console.log("response.data=",response.data);
       })
-      .catch(e => {
-        console.log(e);
+      .catch(error => {
+        console.log(error);
       });
+  };
+
+  const onChangeSearchTitle = e => {
+    const searchTitle = e.target.value;
+    setSearchTitle(searchTitle);
   };
 
   const refreshList = () => {
@@ -61,6 +63,7 @@ const TutorialsList = () => {
       });
   };
 
+  
   return (
     <div className="list row">
       <div className="col-md-8">
