@@ -23,8 +23,8 @@ function submitNewPosting(){
       headers: {"Content-Type": "application/json"},                     // add a header to tell the server to expect json
       body: JSON.stringify({newPosting: postingTitle})                   // add the body with the new title
   })
-  .then(loadPostings)                                                    // reload the postings when it's done so that we see the new posting
+  .then(loadPostingsOntoPage)                                                    // reload the postings when it's done so that we see the new posting
 }
 
 
-module.exports = { loadPostings, submitNewPosting};
+module.exports = { loadPostingsOntoPage, submitNewPosting};
