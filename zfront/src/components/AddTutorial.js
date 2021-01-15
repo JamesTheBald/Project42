@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TutorialDataService from "../services/TutorialService";
+import TutorialAxios from "../services/TutorialAxios";
 
 const AddTutorial = () => {
   const initialTutorialState = {
@@ -22,7 +22,7 @@ const AddTutorial = () => {
       description: tutorial.description
     };
 
-    TutorialDataService.create(data)
+    TutorialAxios.create(data)
       .then(response => {
         setTutorial({
           id: response.data.id,

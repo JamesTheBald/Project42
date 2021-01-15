@@ -1,33 +1,43 @@
-import React, { useState, useEffect } from "react";
-import TutorialDataService from "../services/TutorialService";
-import { Link } from "react-router-dom";
-
+import React, { useState, useEffect } from 'react';
+import TutorialAxios from '../services/TutorialAxios';
+import { Link } from 'react-router-dom';
 
 const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]);
   const [currentTutorial, setCurrentTutorial] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
-  const [searchTitle, setSearchTitle] = useState("");
+  const [searchTitle, setSearchTitle] = useState('');
 
   useEffect(() => {
     retrieveTutorials();
-  }, []);                     // the '[]' on this line means the useEffect function will only run THE FIRST time the page renders, not every time it renders 
+  }, []); // the '[]' on this line means the useEffect function will only run THE FIRST time the page renders, not every time it renders
 
   const retrieveTutorials = () => {
-    TutorialDataService.getAll()
-      .then(response => {
+    TutorialAxios.getAll()
+      .then((response) => {
         setTutorials(response.data);
-        // console.log("response=",response);
-        console.log("response.data=",response.data);
+        console.log('retrieveTutorials response.data=', response.data);
       })
-      .catch(error => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
   };
 
-  const onChangeSearchTitle = e => {
-    const searchTitle = e.target.value;
+  const onChangeSearchTitle = (evnt) => {
+    const searchTitle = evnt.target.value;
     setSearchTitle(searchTitle);
+    console.log('searchTitle=', searchTitle); // Dev demo only. Remove for production
+  };
+
+  const onClickFindByTitle = () => {
+    TutorialAxios.findByTitle(searchTitle)
+      .then((response) => {
+        setTutorials(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const refreshList = () => {
@@ -42,75 +52,54 @@ const TutorialsList = () => {
   };
 
   const removeAllTutorials = () => {
-    TutorialDataService.removeAll()
-      .then(response => {
+    TutorialAxios.removeAll()
+      .then((response) => {
         console.log(response.data);
         refreshList();
       })
-      .catch(e => {
-        console.log(e);
+      .catch((err) => {
+        console.log(err);
       });
   };
 
-  const findByTitle = () => {
-    TutorialDataService.findByTitle(searchTitle)
-      .then(response => {
-        setTutorials(response.data);
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
-  
   return (
     <div className="list row">
+
+      {/* Search bar */}
       <div className="col-md-8">
         <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search by title"
-            value={searchTitle}
-            onChange={onChangeSearchTitle}
-          />
+          
+          <input type="text"  className="form-control"  placeholder="Search by title"
+                 value={searchTitle}  onChange={onChangeSearchTitle} />
+
           <div className="input-group-append">
-            <button
-              className="btn btn-outline-secondary"
-              type="button"
-              onClick={findByTitle}
-            >
+            <button className="btn btn-outline-secondary"  type="button"  onClick={onClickFindByTitle}>
               Search
             </button>
           </div>
+
         </div>
       </div>
+
+      {/* Tutorial List */}
       <div className="col-md-6">
         <h4>Tutorials List</h4>
 
         <ul className="list-group">
-          {tutorials &&
-            tutorials.map((tutorial, index) => (
-              <li
-                className={
-                  "list-group-item " + (index === currentIndex ? "active" : "")
-                }
-                onClick={() => setActiveTutorial(tutorial, index)}
-                key={index}
-              >
+          {tutorials && tutorials.map((tutorial, index) => (      // J: only render if the data array isn't NULL
+              <li className={'list-group-item ' + (index === currentIndex ? 'active' : '')}
+                  onClick={() => setActiveTutorial(tutorial, index)}  key={index}>
                 {tutorial.title}
               </li>
             ))}
         </ul>
 
-        <button
-          className="m-3 btn btn-sm btn-danger"
-          onClick={removeAllTutorials}
-        >
+        <button className="m-3 btn btn-sm btn-danger"  onClick={removeAllTutorials}>
           Remove All
         </button>
       </div>
+
+      {/* Tutorial details side panel */}
       <div className="col-md-6">
         {currentTutorial ? (
           <div>
@@ -118,26 +107,23 @@ const TutorialsList = () => {
             <div>
               <label>
                 <strong>Title:</strong>
-              </label>{" "}
+              </label>
               {currentTutorial.title}
             </div>
             <div>
               <label>
                 <strong>Description:</strong>
-              </label>{" "}
+              </label>
               {currentTutorial.description}
             </div>
             <div>
               <label>
                 <strong>Status:</strong>
-              </label>{" "}
-              {currentTutorial.published ? "Published" : "Pending"}
+              </label>
+              {currentTutorial.published ? 'Published' : 'Pending'}
             </div>
 
-            <Link
-              to={"/tutorials/" + currentTutorial.id}
-              className="badge badge-warning"
-            >
+            <Link to={'/tutorials/' + currentTutorial.id}  className="badge badge-warning">
               Edit
             </Link>
           </div>
