@@ -16,7 +16,6 @@ app.use(bodyParser.json());     // parse requests of content-type - application/
 app.use(bodyParser.urlencoded({ extended: true }));   // parse requests of content-type - application/x-www-form-urlencoded
 
 
-
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -37,7 +36,7 @@ app.get("/", (req, res) => {
 });
 
 
-tutorialRoutes(app);     // runs the function at that location, and passing the function app.  J: ???
+tutorialRoutes(app);     // runs the function at that location, and passing the function app (express).  J: ???
 
 // set port, listen for requests
 app.listen(PORT, () => {
