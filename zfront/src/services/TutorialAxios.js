@@ -28,7 +28,8 @@ const findByTitle = title => {
   return xios.get(`/tutorials?title=${title}`);
 };
 
-export default {
+
+const TutorialAxios = {
   getAll,
   get,
   create,
@@ -37,3 +38,5 @@ export default {
   removeAll,
   findByTitle
 };
+
+export default TutorialAxios;

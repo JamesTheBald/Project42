@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]);
-  const [currentTutorial, setCurrentTutorial] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [selectedTutorial, setSelectedTutorial] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState('');
 
   useEffect(() => {
@@ -42,19 +42,19 @@ const TutorialsList = () => {
 
   const refreshList = () => {
     retrieveTutorials();
-    setCurrentTutorial(null);
-    setCurrentIndex(-1);
+    setSelectedTutorial(null);
+    setSelectedIndex(-1);
   };
 
   const setActiveTutorial = (tutorial, index) => {
-    setCurrentTutorial(tutorial);
-    setCurrentIndex(index);
+    setSelectedTutorial(tutorial);
+    setSelectedIndex(index);
   };
 
   const removeAllTutorials = () => {
     TutorialAxios.removeAll()
       .then((response) => {
-        console.log(response.data);
+        console.log("removeAllTutorials response.data=",response.data);
         refreshList();
       })
       .catch((err) => {
@@ -87,9 +87,10 @@ const TutorialsList = () => {
 
         <ul className="list-group">
           {tutorials && tutorials.map((tutorial, index) => (      // J: only render if the data array isn't NULL
-              <li className={'list-group-item ' + (index === currentIndex ? 'active' : '')}
-                  onClick={() => setActiveTutorial(tutorial, index)}  key={index}>
-                {tutorial.title}
+              <li className={'list-group-item ' + (index === selectedIndex ? 'active' : '')}
+                  onClick={() => setActiveTutorial(tutorial, index)}  
+                  key={index}>
+                  {tutorial.title}
               </li>
             ))}
         </ul>
@@ -101,7 +102,8 @@ const TutorialsList = () => {
 
       {/* Tutorial details side panel */}
       <div className="col-md-6">
-        {currentTutorial ? (
+        {console.log ("selectedTutorial = ", selectedTutorial)}
+        {selectedTutorial ? (
           <div>
             <h4>Tutorial</h4>
 
@@ -109,24 +111,24 @@ const TutorialsList = () => {
               <label>
                 <strong>Title:</strong>
               </label>
-              {currentTutorial.title}
+              {selectedTutorial.title}
             </div>
 
             <div>
               <label>
                 <strong>Description:</strong>
               </label>
-              {currentTutorial.description}
+              {selectedTutorial.description}
             </div>
             
             <div>
               <label>
                 <strong>Status:</strong>
               </label>
-              {currentTutorial.published ? 'Published' : 'Pending'}
+              {selectedTutorial.published ? 'Published' : 'Pending'}
             </div>
 
-            <Link to={'/tutorials/' + currentTutorial.id}  className="badge badge-warning">
+            <Link to={'/tutorials/' + selectedTutorial.id}  className="badge badge-warning">
               Edit
             </Link>
           </div>
