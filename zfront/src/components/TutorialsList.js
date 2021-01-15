@@ -104,18 +104,21 @@ const TutorialsList = () => {
         {currentTutorial ? (
           <div>
             <h4>Tutorial</h4>
+
             <div>
               <label>
                 <strong>Title:</strong>
               </label>
               {currentTutorial.title}
             </div>
+
             <div>
               <label>
                 <strong>Description:</strong>
               </label>
               {currentTutorial.description}
             </div>
+            
             <div>
               <label>
                 <strong>Status:</strong>
