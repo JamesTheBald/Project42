@@ -1,22 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const db = require("./app/models");           // JM: This seems incomplete...
+const tutorialRoutes = require("./app/routes/tutorial.routes");
 
-const app = express();
+const PORT = process.env.PORT || 8080;
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: "http://localhost:8081"       //J: Should we put the port number in a variable?
 };
 
+const app = express();
 app.use(cors(corsOptions));
+app.use(bodyParser.json());     // parse requests of content-type - application/json
+app.use(bodyParser.urlencoded({ extended: true }));   // parse requests of content-type - application/x-www-form-urlencoded
 
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-
-const db = require("./app/models");           // JM: This seems incomplete...
 
 db.mongoose
   .connect(db.url, {
@@ -31,15 +30,16 @@ db.mongoose
     process.exit();
   });
 
+
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
 
-require("./app/routes/tutorial.routes")(app);     // runs the function at that location, and passing the function app
+
+tutorialRoutes(app);     // runs the function at that location, and passing the function app.  J: ???
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
