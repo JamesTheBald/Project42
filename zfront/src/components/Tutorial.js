@@ -12,11 +12,15 @@ const Tutorial = (props) => {
   
   const [selectedTutorial, setSelectedTutorial] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
+  console.log ("props=",props)
+  const tutorialID = props.match.params.id      // J: get the ID of this tutorial from the match object. 
+                  // The match object is one of three objects that are passed as props to the component by React Router.
+                  // See https://reactrouter.com/web/api/Route/route-props
 
   useEffect(() => {
-    console.log("useEffect() props.match.params.id = ", props.match.params.id);
-    getTutorial(props.match.params.id);
-  }, [props.match.params.id]);
+    console.log("So useEffect() tutorialID = props.match.params.id = ", tutorialID);
+    getTutorial(tutorialID);
+  }, [tutorialID]);             // J: run this useEffect any time tutorialID changes
 
   const getTutorial = (id) => {
     TutorialAxios.get(id)
