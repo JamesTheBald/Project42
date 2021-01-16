@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import TutorialAxios from "../services/TutorialAxios";
 
-const Tutorial = props => {
+const Tutorial = (props) => {
+
   const initialTutorialState = {
     id: null,
     title: "",
@@ -9,41 +10,42 @@ const Tutorial = props => {
     published: false
   };
   
-  const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
+  const [selectedTutorial, setSelectedTutorial] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
 
-  const getTutorial = id => {
-    TutorialAxios.get(id)
-      .then(response => {
-        setCurrentTutorial(response.data);
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
   useEffect(() => {
+    console.log("useEffect() props.match.params.id = ", props.match.params.id);
     getTutorial(props.match.params.id);
   }, [props.match.params.id]);
 
-  const handleInputChange = event => {
-    const { name, value } = event.target;
-    setCurrentTutorial({ ...currentTutorial, [name]: value });
+  const getTutorial = (id) => {
+    TutorialAxios.get(id)
+      .then(response => {
+        setSelectedTutorial(response.data);
+        console.log("getTutorial() response.data=",response.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const updatePublished = status => {
+  const handleInputChange = (evnt) => {
+    const { name, value } = evnt.target;
+    setSelectedTutorial({ ...selectedTutorial, [name]: value });
+  };
+
+  const updatePublished = (status) => {
     var data = {
-      id: currentTutorial.id,
-      title: currentTutorial.title,
-      description: currentTutorial.description,
+      id: selectedTutorial.id,          // J: i.e. no change to id, title or description
+      title: selectedTutorial.title,
+      description: selectedTutorial.description,
       published: status
     };
 
-    TutorialAxios.update(currentTutorial.id, data)
+    TutorialAxios.update(selectedTutorial.id, data)
       .then(response => {
-        setCurrentTutorial({ ...currentTutorial, published: status });
-        console.log(response.data);
+        setSelectedTutorial({ ...selectedTutorial, published: status });
+        console.log("updatePublished() response.data=",response.data);
       })
       .catch(e => {
         console.log(e);
@@ -51,10 +53,10 @@ const Tutorial = props => {
   };
 
   const updateTutorial = () => {
-    TutorialAxios.update(currentTutorial.id, currentTutorial)
+    TutorialAxios.update(selectedTutorial.id, selectedTutorial)
       .then(response => {
         console.log(response.data);
-        setMessage("The tutorial was updated successfully!");
+        setMessage("updateTutorial(): The tutorial was updated successfully!");
       })
       .catch(e => {
         console.log(e);
@@ -62,9 +64,9 @@ const Tutorial = props => {
   };
 
   const deleteTutorial = () => {
-    TutorialAxios.remove(currentTutorial.id)
+    TutorialAxios.remove(selectedTutorial.id)
       .then(response => {
-        console.log(response.data);
+        console.log("deleteTutorial() response.data=",response.data);
         props.history.push("/tutorials");
       })
       .catch(e => {
@@ -74,29 +76,32 @@ const Tutorial = props => {
 
   return (
     <div>
-      {currentTutorial ? (
+      {selectedTutorial ? (
         <div className="edit-form">
+          
           <h4>Tutorial</h4>
+
           <form>
             <div className="form-group">
               <label htmlFor="title">Title</label>
               <input
+                id="title"
                 type="text"
                 className="form-control"
-                id="title"
                 name="title"
-                value={currentTutorial.title}
+                value={selectedTutorial.title}
                 onChange={handleInputChange}
               />
             </div>
+
             <div className="form-group">
               <label htmlFor="description">Description</label>
               <input
+                id="description"
                 type="text"
                 className="form-control"
-                id="description"
                 name="description"
-                value={currentTutorial.description}
+                value={selectedTutorial.description}
                 onChange={handleInputChange}
               />
             </div>
@@ -105,22 +110,16 @@ const Tutorial = props => {
               <label>
                 <strong>Status:</strong>
               </label>
-              {currentTutorial.published ? "Published" : "Pending"}
+              {selectedTutorial.published ? "Published" : "Pending"}
             </div>
           </form>
 
-          {currentTutorial.published ? (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updatePublished(false)}
-            >
+          {selectedTutorial.published ? (
+            <button className="badge badge-primary mr-2" onClick={() => updatePublished(false)}>
               UnPublish
             </button>
           ) : (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updatePublished(true)}
-            >
+            <button className="badge badge-primary mr-2" onClick={() => updatePublished(true)}>
               Publish
             </button>
           )}
@@ -129,11 +128,7 @@ const Tutorial = props => {
             Delete
           </button>
 
-          <button
-            type="submit"
-            className="badge badge-success"
-            onClick={updateTutorial}
-          >
+          <button type="submit" className="badge badge-success" onClick={updateTutorial}>
             Update
           </button>
           <p>{message}</p>
