@@ -1,4 +1,4 @@
-const port = require("../tail-react-app/src/components/misc.js");
+const port = require("../tail-react-app/src/components/misc.js");     // Sets the PORT variable
 
 
 var somePostings = [          // just some data in an array
