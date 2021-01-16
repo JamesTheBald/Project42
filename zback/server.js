@@ -1,18 +1,18 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const db = require("./app/models");           // JM: This seems incomplete...
+const db = require("./app/models");           // JM: /app/models is a directory, so node will look for index.js there
 const tutorialRoutes = require("./app/routes/tutorial.routes");
 
 const PORT = process.env.PORT || 8080;
 
 var corsOptions = {
-  origin: "http://localhost:8081"       //J: Should we put the port number in a variable?
+  origin: "http://localhost:8081"             //J: Should we put the port number in a variable?
 };
 
 const app = express();
 app.use(cors(corsOptions));
-app.use(bodyParser.json());     // parse requests of content-type - application/json
+app.use(bodyParser.json());                           // parse requests of content-type - application/json
 app.use(bodyParser.urlencoded({ extended: true }));   // parse requests of content-type - application/x-www-form-urlencoded
 
 

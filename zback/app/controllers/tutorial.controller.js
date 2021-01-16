@@ -1,7 +1,5 @@
-const db = require("../models");    //db is the object with all the mongoose settings for the database
-                                    // J: /models is a subdirectory. Does this import the functions 
-                                    // from all of the files in that directory?
-const Tutorial = db.tutorials;      // J: db.tutorials is from /app/models/index.js
+const db = require("../models/index.js");   //db is the object with all the mongoose settings for the database
+const Tutorial = db.tutorials;
 
 
 // Create and Save a new Tutorial
