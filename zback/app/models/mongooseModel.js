@@ -1,5 +1,5 @@
 
-module.exports = mongoose => {
+module.exports = (mongoose) => {
   var schema = mongoose.Schema(
     {
       title: String,
@@ -15,6 +15,7 @@ module.exports = mongoose => {
     return object;
   });
 
-  const Tutorial = mongoose.model("tutorial", schema, "postings");
+  const Tutorial = mongoose.model("tutorial", schema, "postings");    // "tutorial" is the name of the collection in BeZKoder's database,
+                                                                      // while "postings" is the name of the collection in our db. 
   return Tutorial;
 };

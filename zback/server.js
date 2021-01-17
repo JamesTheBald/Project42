@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require("express");                   // J: Methinks Express is basically Axios for the backend
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const db = require("./app/models");           // JM: /app/models is a directory, so node will look for index.js there
-const tutorialRoutes = require("./app/routes/tutorial.routes");
+const db = require("./app/models/dbSetup.js");
+const tutorialRoutes = require("./app/routes/tutorial.routes.js");
 
 const PORT = process.env.PORT || 8080;
 
@@ -10,7 +10,7 @@ var corsOptions = {
   origin: "http://localhost:8081"             //J: Should we put the port number in a variable?
 };
 
-const app = express();
+const app = express();                                // J: This runs the express function, to initialize it.
 app.use(cors(corsOptions));
 app.use(bodyParser.json());                           // parse requests of content-type - application/json
 app.use(bodyParser.urlencoded({ extended: true }));   // parse requests of content-type - application/x-www-form-urlencoded

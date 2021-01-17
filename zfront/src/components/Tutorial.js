@@ -12,7 +12,6 @@ const Tutorial = (props) => {
   
   const [selectedTutorial, setSelectedTutorial] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
-  console.log ("props=",props)
   const tutorialID = props.match.params.id      // J: get the ID of this tutorial from the match object. 
                   // The match object is one of three objects that are passed as props to the component by React Router.
                   // See https://reactrouter.com/web/api/Route/route-props
@@ -35,7 +34,8 @@ const Tutorial = (props) => {
 
   const handleInputChange = (evnt) => {
     const { name, value } = evnt.target;
-    setSelectedTutorial({ ...selectedTutorial, [name]: value });
+    setSelectedTutorial({ ...selectedTutorial, [name]: value });      // J: See Spread tutorial on 'Javascript 
+                                                                      // Learning Tidbits' on Message Board
   };
 
   const updatePublished = (status) => {

@@ -1,5 +1,5 @@
-const db = require("../models/index.js");   //db is the object with all the mongoose settings for the database
-const Tutorial = db.tutorials;
+const db = require("../models/dbSetup.js");   //db is the object with all the mongoose settings for the database
+const mongooseModel = db.tutorials;           //J: dbModel was called Tutorial. I changed it to be clearer and less specific to tutorials
 
 
 // Create and Save a new Tutorial
@@ -11,7 +11,7 @@ exports.create = (req, res) => {
   }
 
   // Create a Tutorial
-  const tutorial = new Tutorial({
+  const tutorial = new mongooseModel({
     title: req.body.title,
     description: req.body.description,
     published: req.body.published ? req.body.published : false
@@ -31,13 +31,14 @@ exports.create = (req, res) => {
     });
 };
 
+
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
   // console.log("Running findAll...");
   const title = req.query.title;
   var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
 
-  Tutorial.find(condition)
+  mongooseModel.find(condition)
     .then(data => {
       console.log ("data=",data)
       res.send(data);
@@ -50,11 +51,12 @@ exports.findAll = (req, res) => {
     });
 };
 
+
 // Find a single Tutorial with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Tutorial.findById(id)
+  mongooseModel.findById(id)
     .then(data => {
       if (!data)
         res.status(404).send({ message: "Not found Tutorial with id " + id });
@@ -67,6 +69,7 @@ exports.findOne = (req, res) => {
     });
 };
 
+
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
   if (!req.body) {
@@ -77,7 +80,7 @@ exports.update = (req, res) => {
 
   const id = req.params.id;
 
-  Tutorial.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+  mongooseModel.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -92,11 +95,12 @@ exports.update = (req, res) => {
     });
 };
 
+
 // Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Tutorial.findByIdAndRemove(id, { useFindAndModify: false })
+  mongooseModel.findByIdAndRemove(id, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -115,9 +119,10 @@ exports.delete = (req, res) => {
     });
 };
 
+
 // Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
-  Tutorial.deleteMany({})
+  mongooseModel.deleteMany({})
     .then(data => {
       res.send({
         message: `${data.deletedCount} Tutorials were deleted successfully!`
@@ -131,9 +136,10 @@ exports.deleteAll = (req, res) => {
     });
 };
 
+
 // Find all published Tutorials
 exports.findAllPublished = (req, res) => {
-  Tutorial.find({ published: true })
+  mongooseModel.find({ published: true })
     .then(data => {
       res.send(data);
     })
