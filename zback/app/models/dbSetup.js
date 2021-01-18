@@ -1,4 +1,4 @@
-const dbConfig = require("../config/db.config.js");   // J: Sets the URL for the database
+const dbConfig = require("../config/dbUrl.js");   // J: Sets the URL for the database
 const mongoose = require("mongoose");                 // J: imports the standard Mongoose module (defined in package-lock.json)
 
 mongoose.Promise = global.Promise;        // J: ??

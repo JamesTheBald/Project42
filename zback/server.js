@@ -16,6 +16,7 @@ app.use(bodyParser.json());                           // parse requests of conte
 app.use(bodyParser.urlencoded({ extended: true }));   // parse requests of content-type - application/x-www-form-urlencoded
 
 
+//Connect to the MongoDB database using the Mongoose package & settings
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -33,10 +34,12 @@ db.mongoose
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
+  console.log('server.js app.get for "/" res.json=',res.json)
 });
 
 
 tutorialRoutes(app);     // runs the function at that location, and passing the function app (express).  J: ???
+
 
 // set port, listen for requests
 app.listen(PORT, () => {
