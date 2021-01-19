@@ -4,8 +4,13 @@ import { Link } from "react-router-dom";
 const HomePage = () => {
   return (
     <div>
-      <h1>Project 42</h1>
-      <h6>"The answer to the great question of life the universe and everything is… 42!" - Supercomputer Deep Thought</h6>
+      <h1>Helpful Postings</h1>
+      <br/>
+      <h5>Pan Galactic Gargle Blasters' "Project 42"</h5>
+      <br/>
+      <i>"The answer to the great question of life the universe and everything is… 42!" - Supercomputer Deep Thought</i>
+      <br/>
+      <br/>
       <Link to={"/tutorials"} className="nav-link">
         Link to Tutorials List
       </Link>
