@@ -13,7 +13,9 @@
     "express",
     "rest",
     "api",
-    "mongodb"
+    "mongodb",
+    "crud",
+    "react"
   ],
   "author": "bezkoder",
   "license": "ISC",
