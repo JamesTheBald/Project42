@@ -2,7 +2,7 @@ const express = require("express");                   // J: Methinks Express is 
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./app/models/dbSetup.js");
-const tutorialRoutes = require("./app/routes/tutorial.routes.js");
+const postingRoutes = require("./app/routes/posting.routes.js");
 
 const PORT = process.env.PORT || 8080;
 
@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
 });
 
 
-tutorialRoutes(app);     // runs the function at that location, and passing the function app (express).  J: ???
+postingRoutes(app);     // runs the function at that location, and passing the function app (express).  J: ???
 
 
 // set port, listen for requests

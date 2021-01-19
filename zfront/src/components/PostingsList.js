@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import TutorialAxios from '../services/TutorialAxios';
+import PostingAxios from '../services/PostingAxios';
 import { Link } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
 
-const TutorialsList = () => {
-  const [tutorials, setTutorials] = useState([]);
-  const [selectedTutorial, setSelectedTutorial] = useState(null);
+const PostingsList = () => {
+  const [postings, setPostings] = useState([]);
+  const [selectedPosting, setSelectedPosting] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState('');
 
   useEffect(() => {
-    retrieveTutorials();
+    retrievePostings();
   }, []); // the '[]' on this line means the useEffect function will only run THE FIRST time the page renders, not every time it renders
 
-  const retrieveTutorials = () => {
-    TutorialAxios.getAll()
+  const retrievePostings = () => {
+    PostingAxios.getAll()
       .then((response) => {
-        setTutorials(response.data);
-        console.log('retrieveTutorials response.data=', response.data);
+        setPostings(response.data);
+        console.log('retrievePostings response.data=', response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -32,9 +32,9 @@ const TutorialsList = () => {
   };
 
   const onClickFindByTitle = () => {
-    TutorialAxios.findByTitle(searchTitle)
+    PostingAxios.findByTitle(searchTitle)
       .then((response) => {
-        setTutorials(response.data);
+        setPostings(response.data);
         console.log(response.data);
       })
       .catch((err) => {
@@ -43,20 +43,20 @@ const TutorialsList = () => {
   };
 
   const refreshList = () => {
-    retrieveTutorials();
-    setSelectedTutorial(null);
+    retrievePostings();
+    setSelectedPosting(null);
     setSelectedIndex(-1);
   };
 
-  const setActiveTutorial = (tutorial, index) => {
-    setSelectedTutorial(tutorial);
+  const setActivePosting = (posting, index) => {
+    setSelectedPosting(posting);
     setSelectedIndex(index);
   };
 
-  const removeAllTutorials = () => {
-    TutorialAxios.removeAll()
+  const removeAllPostings = () => {
+    PostingAxios.removeAll()
       .then((response) => {
-        console.log("removeAllTutorials response.data=",response.data);
+        console.log("removeAllPostings response.data=",response.data);
         refreshList();
       })
       .catch((err) => {
@@ -83,60 +83,60 @@ const TutorialsList = () => {
         </div>
       </div>
 
-      {/* Tutorial List */}
+      {/* Posting List */}
       <div className="col-md-6">
-        <h4>Tutorials List</h4>
+        <h4>Postings List</h4>
       
         <ul className="list-group">
-          {tutorials && tutorials.map((tutorial, index) => (      // J: only render if the data array isn't NULL
+          {postings && postings.map((posting, index) => (      // J: only render if the data array isn't NULL
               <li className={'list-group-item'}   // + (index === selectedIndex ? 'active' : '')  // for highlighting the selected item
                 key={index}
-                onClick={() => setActiveTutorial(tutorial, index)} >
-                {tutorial.title}
+                onClick={() => setActivePosting(posting, index)} >
+                {posting.title}
               </li>
             ))}
         </ul>
 
-        <Button basic color='red' onClick={removeAllTutorials}>
+        <Button basic color='red' onClick={removeAllPostings}>
           {/* className="m-3 btn btn-sm btn-danger"  */}
           Remove All
         </Button>
       </div>
 
-      {/* Tutorial details side panel */}
+      {/* Posting details side panel */}
       <div className="col-md-6">
-        {console.log ("selectedTutorial = ", selectedTutorial)}
-        {selectedTutorial ? (
+        {console.log ("selectedPosting = ", selectedPosting)}
+        {selectedPosting ? (
           <div>
                   <div>
                     <label>
                       <strong>Title:</strong>
                     </label>
-                    {selectedTutorial.title}
+                    {selectedPosting.title}
                   </div>
 
                   <div>
                     <label>
                       <strong>Description:</strong>
                     </label>
-                    {selectedTutorial.description}
+                    {selectedPosting.description}
                   </div>
                   
                   <div>
                     <label>
                       <strong>Status:</strong>
                     </label>
-                    {selectedTutorial.published ? 'Published' : 'Pending'}
+                    {selectedPosting.published ? 'Published' : 'Pending'}
                   </div>
 
-                  <Link to={'/tutorials/' + selectedTutorial.id}  className="badge badge-warning">
+                  <Link to={'/postings/' + selectedPosting.id}  className="badge badge-warning">
                     Edit
                   </Link>
           </div>
         ) : (
           <div>
             <br />
-            <p>Please click on a Tutorial...</p>
+            <p>Please click on a Posting...</p>
           </div>
         )}
       </div>
@@ -144,4 +144,4 @@ const TutorialsList = () => {
   );
 };
 
-export default TutorialsList;
+export default PostingsList;

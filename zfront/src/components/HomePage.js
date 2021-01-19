@@ -11,8 +11,8 @@ const HomePage = () => {
       <i>"The answer to the great question of life the universe and everything is… 42!" - Supercomputer Deep Thought</i>
       <br/>
       <br/>
-      <Link to={"/tutorials"} className="nav-link">
-        Link to Tutorials List
+      <Link to={"/postings"} className="nav-link">
+        Link to Postings List
       </Link>
     </div>
   );

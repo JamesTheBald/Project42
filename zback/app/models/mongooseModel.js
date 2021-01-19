@@ -15,7 +15,7 @@ module.exports = (mongoose) => {
     return object;
   });
 
-  const Tutorial = mongoose.model("tutorial", schema, "postings");    // "tutorial" is the name of the collection in BeZKoder's database,
+  const Posting = mongoose.model("posting", schema, "postings");    // "posting" is the name of the collection in BeZKoder's database,
                                                                       // while "postings" is the name of the collection in our db. 
-  return Tutorial;
+  return Posting;
 };
