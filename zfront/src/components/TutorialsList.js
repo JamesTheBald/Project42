@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import TutorialAxios from '../services/TutorialAxios';
 import { Link } from 'react-router-dom';
+import { Button } from 'semantic-ui-react';
+
 
 const TutorialsList = () => {
   const [tutorials, setTutorials] = useState([]);
@@ -64,7 +66,6 @@ const TutorialsList = () => {
 
   return (
     <div className="list row">
-
       {/* Search bar */}
       <div className="col-md-8">
         <div className="input-group mb-3">
@@ -73,9 +74,10 @@ const TutorialsList = () => {
                  value={searchTitle}  onChange={onChangeSearchTitle} />
 
           <div className="input-group-append">
-            <button className="btn btn-outline-secondary"  type="button"  onClick={onClickFindByTitle}>
+            <Button primary   onClick={onClickFindByTitle}> 
+            {/* className="btn btn-outline-secondary"  type="button" */}
               Search
-            </button>
+            </Button>
           </div>
 
         </div>
@@ -84,20 +86,21 @@ const TutorialsList = () => {
       {/* Tutorial List */}
       <div className="col-md-6">
         <h4>Tutorials List</h4>
-
+      
         <ul className="list-group">
           {tutorials && tutorials.map((tutorial, index) => (      // J: only render if the data array isn't NULL
-              <li className={'list-group-item ' + (index === selectedIndex ? 'active' : '')}
-                  onClick={() => setActiveTutorial(tutorial, index)}  
-                  key={index}>
-                  {tutorial.title}
+              <li className={'list-group-item'}   // + (index === selectedIndex ? 'active' : '')  // for highlighting the selected item
+                key={index}
+                onClick={() => setActiveTutorial(tutorial, index)} >
+                {tutorial.title}
               </li>
             ))}
         </ul>
 
-        <button className="m-3 btn btn-sm btn-danger"  onClick={removeAllTutorials}>
+        <Button basic color='red' onClick={removeAllTutorials}>
+          {/* className="m-3 btn btn-sm btn-danger"  */}
           Remove All
-        </button>
+        </Button>
       </div>
 
       {/* Tutorial details side panel */}
@@ -105,32 +108,30 @@ const TutorialsList = () => {
         {console.log ("selectedTutorial = ", selectedTutorial)}
         {selectedTutorial ? (
           <div>
-            <h4>Tutorial</h4>
+                  <div>
+                    <label>
+                      <strong>Title:</strong>
+                    </label>
+                    {selectedTutorial.title}
+                  </div>
 
-            <div>
-              <label>
-                <strong>Title:</strong>
-              </label>
-              {selectedTutorial.title}
-            </div>
+                  <div>
+                    <label>
+                      <strong>Description:</strong>
+                    </label>
+                    {selectedTutorial.description}
+                  </div>
+                  
+                  <div>
+                    <label>
+                      <strong>Status:</strong>
+                    </label>
+                    {selectedTutorial.published ? 'Published' : 'Pending'}
+                  </div>
 
-            <div>
-              <label>
-                <strong>Description:</strong>
-              </label>
-              {selectedTutorial.description}
-            </div>
-            
-            <div>
-              <label>
-                <strong>Status:</strong>
-              </label>
-              {selectedTutorial.published ? 'Published' : 'Pending'}
-            </div>
-
-            <Link to={'/tutorials/' + selectedTutorial.id}  className="badge badge-warning">
-              Edit
-            </Link>
+                  <Link to={'/tutorials/' + selectedTutorial.id}  className="badge badge-warning">
+                    Edit
+                  </Link>
           </div>
         ) : (
           <div>
