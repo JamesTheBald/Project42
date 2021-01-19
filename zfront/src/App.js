@@ -3,9 +3,9 @@ import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import AddTutorial from "./components/AddTutorial";
-import Tutorial from "./components/Tutorial";
-import TutorialsList from "./components/TutorialsList";
+import AddPosting from "./components/AddPosting";
+import Posting from "./components/Posting";
+import PostingsList from "./components/PostingsList";
 import HomePage from "./components/HomePage";
 
 
@@ -15,14 +15,14 @@ function App() {
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <div className="navbar-brand"> {/* C: Would it be better to use Router here? */}
           <Link to={"/"} >
-            Thanks bezKoder!
+            Helpful Postings
           </Link>
         </div>
 
         <div className="navbar-nav mr-auto">      {/* J: 'mr-auto' is Tailwind! */}
           <li className="nav-item">
-            <Link to={"/tutorials"} className="nav-link">
-              Tutorials
+            <Link to={"/postings"} className="nav-link">
+              Postings
             </Link>
           </li>
 
@@ -36,9 +36,9 @@ function App() {
 
       <div className="container mt-3">        {/* J: What is this 'mt-3'? Looks like Tailwind! */}
         <Switch>
-          <Route exact path={["/tutorials"]} component={TutorialsList} />
-          <Route exact path="/add" component={AddTutorial} />
-          <Route path="/tutorials/:id" component={Tutorial} />
+          <Route exact path={["/postings"]} component={PostingsList} />
+          <Route exact path="/add" component={AddPosting} />
+          <Route path="/postings/:id" component={Posting} />
           <Route exact path={["/"]} component={HomePage} />
         </Switch>
       </div>

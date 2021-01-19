@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from "react";
-import TutorialAxios from "../services/TutorialAxios";
+import PostingAxios from "../services/PostingAxios";
 
-const Tutorial = (props) => {
+const Posting = (props) => {
 
-  const initialTutorialState = {
+  const initialPostingState = {
     id: null,
     title: "",
     description: "",
     published: false
   };
   
-  const [selectedTutorial, setSelectedTutorial] = useState(initialTutorialState);
+  const [selectedPosting, setSelectedPosting] = useState(initialPostingState);
   const [message, setMessage] = useState("");
-  const tutorialID = props.match.params.id      // J: get the ID of this tutorial from the match object. 
+  const postingID = props.match.params.id      // J: get the ID of this posting from the match object. 
                   // The match object is one of three objects that are passed as props to the component by React Router.
                   // See https://reactrouter.com/web/api/Route/route-props
 
   useEffect(() => {
-    console.log("So useEffect() tutorialID = props.match.params.id = ", tutorialID);
-    getTutorial(tutorialID);
-  }, [tutorialID]);             // J: run this useEffect any time tutorialID changes
+    console.log("So useEffect() postingID = props.match.params.id = ", postingID);
+    getPosting(postingID);
+  }, [postingID]);             // J: run this useEffect any time postingID changes
 
-  const getTutorial = (id) => {
-    TutorialAxios.get(id)
+  const getPosting = (id) => {
+    PostingAxios.get(id)
       .then(response => {
-        setSelectedTutorial(response.data);
-        console.log("getTutorial() response.data=",response.data);
+        setSelectedPosting(response.data);
+        console.log("getPosting() response.data=",response.data);
       })
       .catch(err => {
         console.log(err);
@@ -34,21 +34,21 @@ const Tutorial = (props) => {
 
   const handleInputChange = (evnt) => {
     const { name, value } = evnt.target;
-    setSelectedTutorial({ ...selectedTutorial, [name]: value });      // J: See Spread tutorial on 'Javascript 
+    setSelectedPosting({ ...selectedPosting, [name]: value });      // J: See Spread posting on 'Javascript 
                                                                       // Learning Tidbits' on Message Board
   };
 
   const updatePublished = (status) => {
     var data = {
-      id: selectedTutorial.id,          // J: i.e. no change to id, title or description
-      title: selectedTutorial.title,
-      description: selectedTutorial.description,
+      id: selectedPosting.id,          // J: i.e. no change to id, title or description
+      title: selectedPosting.title,
+      description: selectedPosting.description,
       published: status
     };
 
-    TutorialAxios.update(selectedTutorial.id, data)
+    PostingAxios.update(selectedPosting.id, data)
       .then(response => {
-        setSelectedTutorial({ ...selectedTutorial, published: status });
+        setSelectedPosting({ ...selectedPosting, published: status });
         console.log("updatePublished() response.data=",response.data);
       })
       .catch(e => {
@@ -56,22 +56,22 @@ const Tutorial = (props) => {
       });
   };
 
-  const updateTutorial = () => {
-    TutorialAxios.update(selectedTutorial.id, selectedTutorial)
+  const updatePosting = () => {
+    PostingAxios.update(selectedPosting.id, selectedPosting)
       .then(response => {
         console.log(response.data);
-        setMessage("updateTutorial(): The tutorial was updated successfully!");
+        setMessage("updatePosting(): The posting was updated successfully!");
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  const deleteTutorial = () => {
-    TutorialAxios.remove(selectedTutorial.id)
+  const deletePosting = () => {
+    PostingAxios.remove(selectedPosting.id)
       .then(response => {
-        console.log("deleteTutorial() response.data=",response.data);
-        props.history.push("/tutorials");
+        console.log("deletePosting() response.data=",response.data);
+        props.history.push("/postings");
       })
       .catch(e => {
         console.log(e);
@@ -80,10 +80,10 @@ const Tutorial = (props) => {
 
   return (
     <div>
-      {selectedTutorial ? (
+      {selectedPosting ? (
         <div className="edit-form">
           
-          <h4>Tutorial</h4>
+          <h4>Posting</h4>
 
           <form>
             <div className="form-group">
@@ -93,7 +93,7 @@ const Tutorial = (props) => {
                 type="text"
                 className="form-control"
                 name="title"
-                value={selectedTutorial.title}
+                value={selectedPosting.title}
                 onChange={handleInputChange}
               />
             </div>
@@ -105,7 +105,7 @@ const Tutorial = (props) => {
                 type="text"
                 className="form-control"
                 name="description"
-                value={selectedTutorial.description}
+                value={selectedPosting.description}
                 onChange={handleInputChange}
               />
             </div>
@@ -114,11 +114,11 @@ const Tutorial = (props) => {
               <label>
                 <strong>Status:</strong>
               </label>
-              {selectedTutorial.published ? "Published" : "Pending"}
+              {selectedPosting.published ? "Published" : "Pending"}
             </div>
           </form>
 
-          {selectedTutorial.published ? (
+          {selectedPosting.published ? (
             <button className="badge badge-primary mr-2" onClick={() => updatePublished(false)}>
               UnPublish
             </button>
@@ -128,11 +128,11 @@ const Tutorial = (props) => {
             </button>
           )}
 
-          <button className="badge badge-danger mr-2" onClick={deleteTutorial}>
+          <button className="badge badge-danger mr-2" onClick={deletePosting}>
             Delete
           </button>
 
-          <button type="submit" className="badge badge-success" onClick={updateTutorial}>
+          <button type="submit" className="badge badge-success" onClick={updatePosting}>
             Update
           </button>
           <p>{message}</p>
@@ -140,11 +140,11 @@ const Tutorial = (props) => {
       ) : (
         <div>
           <br />
-          <p>Please click on a Tutorial...</p>
+          <p>Please click on a Posting...</p>
         </div>
       )}
     </div>
   );
 };
 
-export default Tutorial;
+export default Posting;

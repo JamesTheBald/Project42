@@ -1,8 +1,8 @@
 const db = require("../models/dbSetup.js");   //db is the object with all the mongoose settings for the database
-const mongooseModel = db.tutorials;           //J: dbModel was called Tutorial. I changed it to be clearer and less specific to tutorials
+const mongooseModel = db.postings;           //J: dbModel was called Posting. I changed it to be clearer and less specific to postings
 
 
-// Create and Save a new Tutorial
+// Create and Save a new Posting
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.title) {
@@ -10,29 +10,29 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a Tutorial
-  const tutorial = new mongooseModel({
+  // Create a Posting
+  const posting = new mongooseModel({
     title: req.body.title,
     description: req.body.description,
     published: req.body.published ? req.body.published : false
   });
 
-  // Save Tutorial in the database
-  tutorial
-    .save(tutorial)
+  // Save Posting in the database
+  posting
+    .save(posting)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Tutorial."
+          err.message || "Some error occurred while creating the Posting."
       });
     });
 };
 
 
-// Retrieve all Tutorials from the database.
+// Retrieve all Postings from the database.
 exports.findAll = (req, res) => {
   // console.log("Running findAll...");
   const title = req.query.title;
@@ -46,31 +46,31 @@ exports.findAll = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Some error occurred while retrieving postings."
       });
     });
 };
 
 
-// Find a single Tutorial with an id
+// Find a single Posting with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
   mongooseModel.findById(id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found Tutorial with id " + id });
+        res.status(404).send({ message: "Not found Posting with id " + id });
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving Tutorial with id=" + id });
+        .send({ message: "Error retrieving Posting with id=" + id });
     });
 };
 
 
-// Update a Tutorial by the id in the request
+// Update a Posting by the id in the request
 exports.update = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
@@ -84,19 +84,19 @@ exports.update = (req, res) => {
     .then(data => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found!`
+          message: `Cannot update Posting with id=${id}. Maybe Posting was not found!`
         });
-      } else res.send({ message: "Tutorial was updated successfully." });
+      } else res.send({ message: "Posting was updated successfully." });
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Tutorial with id=" + id
+        message: "Error updating Posting with id=" + id
       });
     });
 };
 
 
-// Delete a Tutorial with the specified id in the request
+// Delete a Posting with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
 
@@ -104,40 +104,40 @@ exports.delete = (req, res) => {
     .then(data => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
+          message: `Cannot delete Posting with id=${id}. Maybe Posting was not found!`
         });
       } else {
         res.send({
-          message: "Tutorial was deleted successfully!"
+          message: "Posting was deleted successfully!"
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete Tutorial with id=" + id
+        message: "Could not delete Posting with id=" + id
       });
     });
 };
 
 
-// Delete all Tutorials from the database.
+// Delete all Postings from the database.
 exports.deleteAll = (req, res) => {
   mongooseModel.deleteMany({})
     .then(data => {
       res.send({
-        message: `${data.deletedCount} Tutorials were deleted successfully!`
+        message: `${data.deletedCount} Postings were deleted successfully!`
       });
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while removing all tutorials."
+          err.message || "Some error occurred while removing all postings."
       });
     });
 };
 
 
-// Find all published Tutorials
+// Find all published Postings
 exports.findAllPublished = (req, res) => {
   mongooseModel.find({ published: true })
     .then(data => {
@@ -146,7 +146,7 @@ exports.findAllPublished = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tutorials."
+          err.message || "Some error occurred while retrieving postings."
       });
     });
 };
