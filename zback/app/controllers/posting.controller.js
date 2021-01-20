@@ -5,19 +5,20 @@ const mongooseModel = db.postings;           //J: dbModel was called Posting. I 
 // Create and Save a new Posting
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
-    res.status(400).send({ message: "Content can not be empty!" });
+  if (!req.body.title) { 
+      res.status(400).send({ message: "Validation Error - Title Cannot Be Empty" });
     return;
   }
 
   // Create a Posting
   const posting = new mongooseModel({
     title: req.body.title,
+    authors: req.body.authors,
     description: req.body.description,
     published: req.body.published ? req.body.published : false
   });
 
-  // Save Posting in the database
+  // Save Posting to the database
   posting
     .save(posting)
     .then(data => {
@@ -26,7 +27,7 @@ exports.create = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Posting."
+          err.message || "Drat - An error occurred creating the posting."
       });
     });
 };
@@ -34,9 +35,8 @@ exports.create = (req, res) => {
 
 // Retrieve all Postings from the database.
 exports.findAll = (req, res) => {
-  // console.log("Running findAll...");
   const title = req.query.title;
-  var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+  var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};     // J: What does this line do?
 
   mongooseModel.find(condition)
     .then(data => {
@@ -59,13 +59,13 @@ exports.findOne = (req, res) => {
   mongooseModel.findById(id)
     .then(data => {
       if (!data)
-        res.status(404).send({ message: "Not found Posting with id " + id });
+        res.status(404).send({ message: "Not found Posting with ID " + id });
       else res.send(data);
     })
     .catch(err => {
       res
         .status(500)
-        .send({ message: "Error retrieving Posting with id=" + id });
+        .send({ message: "Error retrieving Posting with ID=" + id });
     });
 };
 
@@ -74,7 +74,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   if (!req.body) {
     return res.status(400).send({
-      message: "Data to update can not be empty!"
+      message: "Data to update cannot be empty!"
     });
   }
 
@@ -104,7 +104,7 @@ exports.delete = (req, res) => {
     .then(data => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot delete Posting with id=${id}. Maybe Posting was not found!`
+          message: `Cannot delete Posting with ID=${id}. Maybe Posting was not found!`
         });
       } else {
         res.send({
@@ -114,7 +114,7 @@ exports.delete = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete Posting with id=" + id
+        message: "Could not delete Posting with ID=" + id
       });
     });
 };
