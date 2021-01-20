@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -20,7 +20,12 @@ function App() {
           <Route exact path={["/postings"]} component={PostingsList} />
           <Route exact path="/add" component={AddPosting} />
           <Route path="/postings/:id" component={Posting} />
-          <Route exact path={["/"]} component={HomePage} />
+
+          <Route exact path={["/home"]} component={HomePage} />      {/* J: Let's discuss if we should call it HomePage or Home */}
+          <Route exact path={["/"]}>
+            <Redirect to="/Home"/>
+          </Route>
+          <Route component={HomePage}/>
         </Switch>
       </div>
     </div>
