@@ -54,16 +54,18 @@ const PostingsList = () => {
     setSelectedIndex(index);
   };
 
-  const removeAllPostings = () => {
-    PostingAxios.removeAll()
-      .then((response) => {
-        console.log("removeAllPostings response.data=",response.data);
-        refreshList();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const removeAllPostings = () => {
+  //   PostingAxios.removeAll()
+  //     .then((response) => {
+  //       console.log("removeAllPostings response.data=",response.data);
+  //       refreshList();
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+
 
   return (
     <div className="list row">
@@ -97,6 +99,24 @@ const PostingsList = () => {
               </li>
             ))}
         </ul>
+
+        {/* J: From React Router   https://reactrouter.com/web/api/locationconst   Use:
+        location = {
+           pathname: '/somewhere',
+           state: { fromDashboard: true } 
+        }
+           */}
+
+        {/* <Button onClick={ () => {}}/>
+          Add a posting
+        </Button> */}
+
+        <div className="nav-item">        
+        {/* J: How to replace this link with a SemanticUI button? */}
+            <Link to={"/add"} className="nav-link">
+              Add a posting
+            </Link>
+        </div>
 
         {/* <Button basic color='red' onClick={removeAllPostings}>
           {/* className="m-3 btn btn-sm btn-danger"  */}

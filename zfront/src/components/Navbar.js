@@ -13,17 +13,12 @@ function Navbar() {
         </div>
 
         <div className="navbar-nav mr-auto">      {/* J: 'mr-auto' is Tailwind! */}
-          <li className="nav-item">
+          <div className="nav-item">
             <Link to={"/postings"} className="nav-link">
               Postings
             </Link>
-          </li>
+          </div>
 
-          <li className="nav-item">
-            <Link to={"/add"} className="nav-link">
-              Add
-            </Link>
-          </li>
         </div>
       </nav>
 
