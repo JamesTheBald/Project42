@@ -4,10 +4,10 @@ const cors = require("cors");
 const db = require("./app/models/dbSetup.js");
 const postingRoutes = require("./app/routes/posting.routes.js");
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8082;
 
 var corsOptions = {
-  origin: "http://localhost:8081"             //J: Should we put the port number in a variable?
+  origin: "http://localhost:8083"             //J: Should we put the port number in a variable?
 };
 
 const app = express();                                // J: This runs the express function, to initialize it.

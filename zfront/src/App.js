@@ -6,7 +6,7 @@ import "./App.css";
 import AddPosting from "./components/AddPosting";
 import Posting from "./components/Posting";
 import PostingsList from "./components/PostingsList";
-import HomePage from "./components/HomePage";
+import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 
 
@@ -21,11 +21,11 @@ function App() {
           <Route exact path="/add" component={AddPosting} />
           <Route path="/postings/:id" component={Posting} />
 
-          <Route exact path={["/home"]} component={HomePage} />      {/* J: Let's discuss if we should call it HomePage or Home */}
+          <Route exact path={["/home"]} component={Home} />      {/* J: Let's discuss if we should call it HomePage or Home */}
           <Route exact path={["/"]}>
-            <Redirect to="/Home"/>
+            <Redirect to="/home"/>
           </Route>
-          <Route component={HomePage}/>
+          <Route component={Home}/>
         </Switch>
       </div>
     </div>
