@@ -12,7 +12,8 @@ const PostingsList = () => {
 
   useEffect(() => {
     retrievePostings();
-  }, []); // the '[]' on this line means the useEffect function will only run THE FIRST time the page renders, not every time it renders
+  }, []);                   // C: the '[]' on this line means the useEffect function will only run THE FIRST time the page renders, 
+                            // not every time it renders
 
   const retrievePostings = () => {
     PostingAxios.getAll()
@@ -97,10 +98,10 @@ const PostingsList = () => {
             ))}
         </ul>
 
-        <Button basic color='red' onClick={removeAllPostings}>
+        {/* <Button basic color='red' onClick={removeAllPostings}>
           {/* className="m-3 btn btn-sm btn-danger"  */}
-          Remove All
-        </Button>
+          {/* Remove All
+        </Button> */}
       </div>
 
       {/* Posting details side panel */}
@@ -113,6 +114,13 @@ const PostingsList = () => {
                       <strong>Title:</strong>
                     </label>
                     {selectedPosting.title}
+                  </div>
+
+                  <div>
+                    <label>
+                      <strong>Authors:</strong>
+                    </label>
+                    {selectedPosting.authors}
                   </div>
 
                   <div>

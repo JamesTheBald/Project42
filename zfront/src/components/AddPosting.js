@@ -5,6 +5,7 @@ const AddPosting = () => {
   const initialPostingState = {
     id: null,
     title: "",
+    authors: "",
     description: "",
     published: false
   };
@@ -19,6 +20,7 @@ const AddPosting = () => {
   const savePosting = () => {
     var data = {
       title: posting.title,
+      authors: posting.authors,
       description: posting.description
     };
 
@@ -27,6 +29,7 @@ const AddPosting = () => {
         setPosting({
           id: response.data.id,
           title: response.data.title,
+          authors: response.data.author,
           description: response.data.description,
           published: response.data.published
         });
@@ -53,6 +56,8 @@ const AddPosting = () => {
           </button>
         </div>
       ) : (
+
+        // We should push out the following repeated sections to be a separate component, and pass props to it.
         <div>
           <div className="form-group">
             <label htmlFor="title">Title</label>
@@ -64,6 +69,19 @@ const AddPosting = () => {
               value={posting.title}
               onChange={handleInputChange}
               name="title"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="authors">Authors' Initials</label>
+            <input
+              type="text"
+              className="form-control"
+              id="authors"
+              required
+              value={posting.authors}
+              onChange={handleInputChange}
+              name="authors"
             />
           </div>
 

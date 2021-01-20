@@ -6,6 +6,7 @@ const Posting = (props) => {
   const initialPostingState = {
     id: null,
     title: "",
+    authors: "",
     description: "",
     published: false
   };
@@ -17,7 +18,7 @@ const Posting = (props) => {
                   // See https://reactrouter.com/web/api/Route/route-props
 
   useEffect(() => {
-    console.log("So useEffect() postingID = props.match.params.id = ", postingID);
+    console.log("useEffect() postingID = props.match.params.id = ", postingID);
     getPosting(postingID);
   }, [postingID]);             // J: run this useEffect any time postingID changes
 
@@ -42,6 +43,7 @@ const Posting = (props) => {
     var data = {
       id: selectedPosting.id,          // J: i.e. no change to id, title or description
       title: selectedPosting.title,
+      authors: selectedPosting.authors,
       description: selectedPosting.description,
       published: status
     };
@@ -94,6 +96,18 @@ const Posting = (props) => {
                 className="form-control"
                 name="title"
                 value={selectedPosting.title}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="authors">Authors' Initials</label>
+              <input
+                id="authors"
+                type="text"
+                className="form-control"
+                name="authors"
+                value={selectedPosting.authors}
                 onChange={handleInputChange}
               />
             </div>
