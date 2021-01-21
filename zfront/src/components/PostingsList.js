@@ -67,13 +67,18 @@ const PostingsList = () => {
   //     });
   // };
 
+
+
+
+
     const convertISODate = (ISODate) => {
       /*
        * @param {string} called ISODate
        * This function converts ISODate received from Mongo and returns formatted date
        */
+
       const date = new Date(ISODate);
-      // TODO: CHECK IF VALID DATE, RETURN N/A IF INVALID
+      // TODO LATER: CHECK IF VALID DATE, RETURN N/A IF INVALID
       const monthNames = ["January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"];
       
@@ -193,13 +198,6 @@ const PostingsList = () => {
                   <Link to={'/postings/' + selectedPosting._id}  className="badge badge-warning">
                     Edit
                   </Link>
-
-{/* Date Created */}                    
-{/* {selectedPosting.createdAt} */}
-
-
-{/* Date Update */}
-
 
           </div>
         ) : (
