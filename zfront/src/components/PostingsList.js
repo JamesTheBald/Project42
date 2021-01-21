@@ -67,6 +67,36 @@ const PostingsList = () => {
   //     });
   // };
 
+    const convertISODate = (ISODate) => {
+      /*
+       * @param {string} called ISODate
+       * This function converts ISODate received from Mongo and returns formatted date
+       */
+      const date = new Date(ISODate);
+      // TODO: CHECK IF VALID DATE, RETURN N/A IF INVALID
+      const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+      
+      const dayOrdinal = (dayNumber) => {
+        if (dayNumber > 3 && dayNumber < 21) return 'th';
+        switch (dayNumber % 10) {
+          case 1:  return "st";
+          case 2:  return "nd";
+          case 3:  return "rd";
+          default: return "th";
+        }
+      };
+
+      const formattedDate = 
+        monthNames[date.getMonth()] // getMonth() returns INDEX of month, not value
+        + ' '
+        + date.getDate()
+        + dayOrdinal(date.getDate())
+        + ", "
+        + date.getFullYear();
+
+      return (formattedDate);
+    };
 
 
   return (
@@ -111,12 +141,6 @@ const PostingsList = () => {
             </Link>
         </div> */}
 
-        {/* J: I don't think we want a Delete All button, do we? */}
-        {/* <Button basic color='red' onClick={removeAllPostings}>
-          {/* className="m-3 btn btn-sm btn-danger"  */}
-          {/* Remove All
-        </Button> */}
-
       </div>
 
       {/* Posting details side panel */}
@@ -151,6 +175,21 @@ const PostingsList = () => {
                     </label>
                     {selectedPosting.published ? 'Published' : 'Pending'}
                   </div>
+
+                  <div>
+                    <label>
+                      <strong>Created:</strong>
+                    </label>
+                    {convertISODate(selectedPosting.createdAt)}
+                  </div>
+
+                  <div>
+                    <label>
+                      <strong>Updated:</strong>
+                    </label>
+                    {convertISODate(selectedPosting.updatedAt)}
+                  </div>
+
                   <Link to={'/postings/' + selectedPosting._id}  className="badge badge-warning">
                     Edit
                   </Link>
