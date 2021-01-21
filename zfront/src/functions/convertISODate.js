@@ -1,7 +1,7 @@
 const convertISODate = (ISODate) => {
   /*
    * @param {string} called ISODate
-   * This function converts ISODate received from Mongo and returns formatted date
+   * This function converts ISODate received from Mongo and returns a formatted/readable date
   */
 
   const date = new Date(ISODate);
