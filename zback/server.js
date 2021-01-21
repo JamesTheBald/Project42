@@ -13,8 +13,8 @@ var corsOptions = {
 const app = express();                                // J: This runs the express function, to initialize it.
 app.use(cors(corsOptions));
 app.use(bodyParser.json());                           // parse requests of content-type - application/json
-app.use(bodyParser.urlencoded({ extended: true }));   // parse requests of content-type - application/x-www-form-urlencoded
-
+app.use(bodyParser.urlencoded({ extended: true }));   // Returns middleware that only parses urlencoded bodies ...  
+                                                      // See https://github.com/expressjs/body-parser#bodyparserurlencodedoptions
 
 //Connect to the MongoDB database using the Mongoose package & settings
 db.mongoose

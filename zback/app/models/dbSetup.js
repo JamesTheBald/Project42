@@ -1,7 +1,7 @@
 const dbConfig = require("../config/dbUrl.js");   // J: Sets the URL for the database
 const mongoose = require("mongoose");                 // J: imports the standard Mongoose module (defined in package-lock.json)
 
-mongoose.Promise = global.Promise;        // J: ??
+mongoose.Promise = global.Promise;   // J: This is legacy code from older examples that isn't needed with Mongoose 5. (1st google hit)
 
 const db = {
   mongoose: mongoose,
