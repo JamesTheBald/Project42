@@ -154,6 +154,14 @@ const PostingsList = () => {
                   <Link to={'/postings/' + selectedPosting._id}  className="badge badge-warning">
                     Edit
                   </Link>
+
+{/* Date Created */}                    
+{/* {selectedPosting.createdAt} */}
+
+
+{/* Date Update */}
+
+
           </div>
         ) : (
           <div>
