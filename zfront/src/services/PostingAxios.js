@@ -20,9 +20,9 @@ const remove = id => {
   return xios.delete(`/postings/${id}`);
 };
 
-const removeAll = () => {
-  return xios.delete(`/postings`);
-};
+// const removeAll = () => {
+//   return xios.delete(`/postings`);
+// };
 
 const findByTitle = title => {
   return xios.get(`/postings?title=${title}`);
@@ -35,7 +35,7 @@ const PostingAxios = {
   create,
   update,
   remove,
-  removeAll,
+  // removeAll,
   findByTitle
 };
 
