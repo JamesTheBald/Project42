@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PostingAxios from '../services/PostingAxios';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
 
 const PostingsList = () => {
   const [postings, setPostings] = useState([]);
   const [selectedPosting, setSelectedPosting] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  // const [selectedIndex, setSelectedIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState('');
+  const history = useHistory();
 
   useEffect(() => {
     retrievePostings();
@@ -19,7 +20,7 @@ const PostingsList = () => {
     PostingAxios.getAll()
       .then((response) => {
         setPostings(response.data);
-        console.log('retrievePostings response.data=', response.data);
+        console.log('PostingsList.js retrievePostings() response.data=', response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -43,16 +44,17 @@ const PostingsList = () => {
       });
   };
 
-  const refreshList = () => {
-    retrievePostings();
-    setSelectedPosting(null);
-    setSelectedIndex(-1);
-  };
-
   const setActivePosting = (posting, index) => {
     setSelectedPosting(posting);
-    setSelectedIndex(index);
+    // console.log("setActivePosting() selectedPosting=",selectedPosting);
+    // setSelectedIndex(index);
   };
+
+  // const refreshList = () => {
+  //   retrievePostings();
+  //   setSelectedPosting(null);
+  //   setSelectedIndex(-1);
+  // };
 
   // const removeAllPostings = () => {
   //   PostingAxios.removeAll()
@@ -100,33 +102,26 @@ const PostingsList = () => {
             ))}
         </ul>
 
-        {/* J: From React Router   https://reactrouter.com/web/api/locationconst   Use:
-        location = {
-           pathname: '/somewhere',
-           state: { fromDashboard: true } 
-        }
-           */}
+        <Button className="mt-3" onClick={() => history.push('/addposting')}>Add Posting</Button>
 
-        {/* <Button onClick={ () => {}}/>
-          Add a posting
-        </Button> */}
-
-        <div className="nav-item">        
-        {/* J: How to replace this link with a SemanticUI button? */}
-            <Link to={"/add"} className="nav-link">
+        {/* J: The following link has been replaced with the above (SemanticUI) button */}
+        {/* <div className="nav-item">        
+            <Link to={"/addposting"} className="nav-link">
               Add a posting
             </Link>
-        </div>
+        </div> */}
 
+        {/* J: I don't think we want a Delete All button, do we? */}
         {/* <Button basic color='red' onClick={removeAllPostings}>
           {/* className="m-3 btn btn-sm btn-danger"  */}
           {/* Remove All
         </Button> */}
+
       </div>
 
       {/* Posting details side panel */}
       <div className="col-md-6">
-        {console.log ("selectedPosting = ", selectedPosting)}
+        {/* {console.log ("Posting Details Div: selectedPosting = ", selectedPosting)} */}
         {selectedPosting ? (
           <div>
                   <div>
@@ -156,8 +151,7 @@ const PostingsList = () => {
                     </label>
                     {selectedPosting.published ? 'Published' : 'Pending'}
                   </div>
-
-                  <Link to={'/postings/' + selectedPosting.id}  className="badge badge-warning">
+                  <Link to={'/postings/' + selectedPosting._id}  className="badge badge-warning">
                     Edit
                   </Link>
           </div>
