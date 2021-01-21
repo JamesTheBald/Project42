@@ -13,6 +13,10 @@ const Posting = (props) => {
   
   const [selectedPosting, setSelectedPosting] = useState(initialPostingState);
   const [message, setMessage] = useState("");
+
+  const [Loading, setLoading] = useState(true);
+
+
   const postingID = props.match.params.id      // J: get the ID of this posting from the match object. 
                   // The match object is one of three objects that are passed as props to the component by React Router.
                   // See https://reactrouter.com/web/api/Route/route-props
@@ -33,8 +37,6 @@ console.log("Posting.js postingID from props.match.params.id=",postingID);
         console.log(err);
       });
   };
-
-
 
   const handleInputChange = (evnt) => {
     const { name, value } = evnt.target;
@@ -85,14 +87,33 @@ console.log("Posting.js postingID from props.match.params.id=",postingID);
       });
   };
 
+
+const EditPosting = ({selectedPost}) => {
+return (
+// Put content from below here. See lecture #26 (Mongo#1, 1:20:00)
+<div>
+  
+</div>
+)
+}
+
+
+
+
   return (
+
+// Add conditional path based on Loading state variable (see line 17 above)
+
     <div>
+
+      <EditPosting selectedPost={selectedPosting} />
+
       {selectedPosting ? (
         <div className="edit-form">
           
-          <h4>Posting</h4>
+          <h4>Edit Posting</h4>
 
-{console.log("Posting.js return selectedPosting=",selectedPosting)}
+{console.log("Posting.js return selectedPosting=",selectedPosting)}   {/* J: I align temporary code like this all the way left */}
 
           <form>
             <div className="form-group">
