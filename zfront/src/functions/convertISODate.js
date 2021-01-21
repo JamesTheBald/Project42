@@ -6,8 +6,8 @@ const convertISODate = (ISODate) => {
 
   const date = new Date(ISODate);
   // TODO LATER: CHECK IF VALID DATE, RETURN N/A IF INVALID
-  const monthNames = ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"];
+  const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.",
+  "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
   
   const dayOrdinal = (dayNumber) => {
     if (dayNumber > 3 && dayNumber < 21) return 'th';
