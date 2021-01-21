@@ -75,7 +75,7 @@ const PostingsList = () => {
       /*
        * @param {string} called ISODate
        * This function converts ISODate received from Mongo and returns formatted date
-       */
+      */
 
       const date = new Date(ISODate);
       // TODO LATER: CHECK IF VALID DATE, RETURN N/A IF INVALID
