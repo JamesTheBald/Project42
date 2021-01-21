@@ -1,19 +1,19 @@
-const express = require("express");                   // J: Methinks Express is basically Axios for the backend
+const express = require("express");              // J: Methinks Express is basically Axios for the backend
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./app/models/dbSetup.js");
-const postingRoutes = require("./app/routes/posting.routes.js");
+const postingRoutes = require("./app/routes/postingRoutes.js");
 
 const PORT = process.env.PORT || 8082;
 
 var corsOptions = {
-  origin: "http://localhost:8083"             //J: Should we put the port number in a variable?
+  origin: "http://localhost:8083"               //J: Should we put the port number in a variable?
 };
 
-const app = express();                                // J: This runs the express function, to initialize it.
-app.use(cors(corsOptions));
-app.use(bodyParser.json());                           // parse requests of content-type - application/json
-app.use(bodyParser.urlencoded({ extended: true }));   // Returns middleware that only parses urlencoded bodies ...  
+const exprs = express();                                // J: This runs the express function, to initialize it.
+exprs.use(cors(corsOptions));
+exprs.use(bodyParser.json());                           // parse requests of content-type - application/json
+exprs.use(bodyParser.urlencoded({ extended: true }));   // Returns middleware that only parses urlencoded bodies ...  
                                                       // See https://github.com/expressjs/body-parser#bodyparserurlencodedoptions
 
 //Connect to the MongoDB database using the Mongoose package & settings
@@ -31,17 +31,14 @@ db.mongoose
   });
 
 
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
-  console.log('server.js app.get for "/" res.json=',res.json)
-});
+// simple route (not actually called by the frontend)
+exprs.get("/", (req, res) => {res.json({ message: "Welcome to Helpful Postings Server" })});
 
 
-postingRoutes(app);     // runs the function at that location, and passing the function app (express).  J: ???
+postingRoutes(exprs);   //J: run the postingRoutes functions (from "/routes/postingRoutes.js"), passing to them the express package
 
 
 // set port, listen for requests
-app.listen(PORT, () => {
+exprs.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
