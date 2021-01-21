@@ -18,7 +18,7 @@ function App() {
       <div className="container mt-3">        {/* J: What is this 'mt-3'? Looks like Tailwind! */}
         <Switch>
           <Route exact path={["/postings"]} component={PostingsList} />
-          <Route exact path="/add" component={AddPosting} />
+          <Route exact path="/addposting" component={AddPosting} />
           <Route path="/postings/:id" component={Posting} />
 
           <Route exact path={["/home"]} component={Home} />      {/* J: Let's discuss if we should call it HomePage or Home */}
