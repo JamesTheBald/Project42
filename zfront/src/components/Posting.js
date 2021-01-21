@@ -4,7 +4,7 @@ import PostingAxios from "../services/PostingAxios";
 const Posting = (props) => {
 
   const initialPostingState = {
-    id: null,
+    _id: null,
     title: "",
     authors: "",
     description: "",
@@ -16,9 +16,10 @@ const Posting = (props) => {
   const postingID = props.match.params.id      // J: get the ID of this posting from the match object. 
                   // The match object is one of three objects that are passed as props to the component by React Router.
                   // See https://reactrouter.com/web/api/Route/route-props
+console.log("Posting.js postingID from props.match.params.id=",postingID);
 
   useEffect(() => {
-    console.log("useEffect() postingID = props.match.params.id = ", postingID);
+    console.log("Postings.js useEffect() postingID = props.match.params.id = ", postingID);
     getPosting(postingID);
   }, [postingID]);             // J: run this useEffect any time postingID changes
 
@@ -26,12 +27,14 @@ const Posting = (props) => {
     PostingAxios.get(id)
       .then(response => {
         setSelectedPosting(response.data);
-        console.log("getPosting() response.data=",response.data);
+        console.log("Postings.js getPosting() response.data=",response.data);
       })
       .catch(err => {
         console.log(err);
       });
   };
+
+
 
   const handleInputChange = (evnt) => {
     const { name, value } = evnt.target;
@@ -40,18 +43,20 @@ const Posting = (props) => {
   };
 
   const updatePublished = (status) => {
-    var data = {
-      id: selectedPosting.id,          // J: i.e. no change to id, title or description
+    console.log("updatePublished1: selectedPosting=",selectedPosting)
+    console.log("updatePublished1: selectedPosting._id=",selectedPosting._id)
+    let data = {
+      id: selectedPosting._id,          // J: i.e. no change to id, title or description
       title: selectedPosting.title,
       authors: selectedPosting.authors,
       description: selectedPosting.description,
       published: status
     };
 
-    PostingAxios.update(selectedPosting.id, data)
+    PostingAxios.update(selectedPosting._id, data)
       .then(response => {
         setSelectedPosting({ ...selectedPosting, published: status });
-        console.log("updatePublished() response.data=",response.data);
+        console.log("updatePublished2: response.data=",response.data);
       })
       .catch(e => {
         console.log(e);
@@ -59,7 +64,7 @@ const Posting = (props) => {
   };
 
   const updatePosting = () => {
-    PostingAxios.update(selectedPosting.id, selectedPosting)
+    PostingAxios.update(selectedPosting._id, selectedPosting)
       .then(response => {
         console.log(response.data);
         setMessage("updatePosting(): The posting was updated successfully!");
@@ -70,7 +75,7 @@ const Posting = (props) => {
   };
 
   const deletePosting = () => {
-    PostingAxios.remove(selectedPosting.id)
+    PostingAxios.remove(selectedPosting._id)
       .then(response => {
         console.log("deletePosting() response.data=",response.data);
         props.history.push("/postings");
@@ -86,6 +91,8 @@ const Posting = (props) => {
         <div className="edit-form">
           
           <h4>Posting</h4>
+
+{console.log("Posting.js return selectedPosting=",selectedPosting)}
 
           <form>
             <div className="form-group">
