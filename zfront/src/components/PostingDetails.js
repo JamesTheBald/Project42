@@ -108,6 +108,18 @@ const EditPostingDetails = ({selecPost}) => {
           />
         </div>
 
+        <div className="form-group">
+          <label htmlFor="description">Tags</label>
+          <input
+            id="tags"
+            type="text"
+            className="form-control"
+            name="tags"
+            value={selecPost.tags}
+            onChange={handleInputChange}
+          />
+        </div>
+
       </form>
 
       <button className="badge badge-danger mr-2" onClick={deletePosting}>
