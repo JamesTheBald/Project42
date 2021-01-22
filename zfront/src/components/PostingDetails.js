@@ -12,7 +12,7 @@ const PostingDetails = (props) => {
   };
   
   const [selectedPosting, setSelectedPosting] = useState(initialPostingState);
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
 
   const [Loading, setLoading] = useState(true);
 
@@ -23,7 +23,7 @@ const PostingDetails = (props) => {
 console.log("PostingDetails.js postingID from props.match.params.id=",postingID);
 
   useEffect(() => {
-    console.log("PostingDetailss.js useEffect() postingID = props.match.params.id = ", postingID);
+    console.log("PostingDetails.js useEffect() postingID = props.match.params.id = ", postingID);
     getPostingDetails(postingID);
   }, [postingID]);             // J: run this useEffect any time postingID changes
 
@@ -31,7 +31,7 @@ console.log("PostingDetails.js postingID from props.match.params.id=",postingID)
     PostingAxios.get(id)
       .then(response => {
         setSelectedPosting(response.data);
-        console.log("PostingDetailss.js getPostingDetails() response.data=",response.data);
+        console.log("PostingDetails.js getPostingDetails() response.data=",response.data);
       })
       .catch(err => {
         console.log(err);
@@ -40,36 +40,13 @@ console.log("PostingDetails.js postingID from props.match.params.id=",postingID)
 
   const handleInputChange = (evnt) => {
     const { name, value } = evnt.target;
-    setSelectedPosting({ ...selectedPosting, [name]: value });      // J: See Spread posting on 'Javascript 
-                                                                      // Learning Tidbits' on Message Board
-  };
-
-  const updatePublished = (status) => {
-    console.log("updatePublished1: selectedPosting=",selectedPosting)
-    console.log("updatePublished1: selectedPosting._id=",selectedPosting._id)
-    let data = {
-      id: selectedPosting._id,          // J: i.e. no change to id, title or description
-      title: selectedPosting.title,
-      contributors: selectedPosting.contributors,
-      description: selectedPosting.description,
-      published: status
-    };
-
-    PostingAxios.update(selectedPosting._id, data)
-      .then(response => {
-        setSelectedPosting({ ...selectedPosting, published: status });
-        console.log("updatePublished2: response.data=",response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
+    setSelectedPosting({ ...selectedPosting, [name]: value });        // J: See Spread posting on 'Javascript 
+  };                                                                  // Learning Tidbits' on Message Board
 
   const updatePostingDetails = () => {
     PostingAxios.update(selectedPosting._id, selectedPosting)
       .then(response => {
-        console.log(response.data);
-        setMessage("updatePostingDetails(): The posting was updated successfully!");
+        props.history.push("/postings");
       })
       .catch(e => {
         console.log(e);
@@ -88,13 +65,63 @@ console.log("PostingDetails.js postingID from props.match.params.id=",postingID)
   };
 
 
-const EditPostingDetails = ({selectedPost}) => {
-return (
-// Put content from below here. See lecture #26 (Mongo#1, 1:20:00)
-<div>
-  
-</div>
-)}
+const EditPostingDetails = ({selecPost}) => {
+  return (
+    // Put content from below here. See lecture #26 (Mongo#1, 1:20:00)
+    <div className="edit-form">
+            
+      <h4>Edit Posting</h4>
+
+      <form>
+        <div className="form-group">
+          <label htmlFor="title">Title</label>
+          <input
+            id="title"
+            type="text"
+            className="form-control"
+            name="title"
+            value={selecPost.title}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="contributors">Contributors</label>
+          <input
+            id="contributors"
+            type="text"
+            className="form-control"
+            name="contributors"
+            value={selecPost.contributors}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
+          <input
+            id="description"
+            type="text"
+            className="form-control"
+            name="description"
+            value={selecPost.description}
+            onChange={handleInputChange}
+          />
+        </div>
+
+      </form>
+
+      <button className="badge badge-danger mr-2" onClick={deletePosting}>
+        Delete
+      </button>
+
+      <button className="badge badge-success" onClick={updatePostingDetails}>
+        Update
+      </button>
+      
+    </div>
+  )
+}
 
 
 
@@ -105,85 +132,8 @@ return (
 
     <div>
 
-      <EditPostingDetails selectedPost={selectedPosting} />
-
-      {selectedPosting ? (
-        <div className="edit-form">
-          
-          <h4>Edit Posting</h4>
-
-{console.log("PostingDetails.js return selectedPosting=",selectedPosting)}   {/* J: I align temporary code like this all the way left */}
-
-          <form>
-            <div className="form-group">
-              <label htmlFor="title">Title</label>
-              <input
-                id="title"
-                type="text"
-                className="form-control"
-                name="title"
-                value={selectedPosting.title}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="contributors">Contri</label>
-              <input
-                id="contributors"
-                type="text"
-                className="form-control"
-                name="contributors"
-                value={selectedPosting.contributors}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="description">Description</label>
-              <input
-                id="description"
-                type="text"
-                className="form-control"
-                name="description"
-                value={selectedPosting.description}
-                onChange={handleInputChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>
-                <strong>Status:</strong>
-              </label>
-              {selectedPosting.published ? "Published" : "Pending"}
-            </div>
-          </form>
-
-          {selectedPosting.published ? (
-            <button className="badge badge-primary mr-2" onClick={() => updatePublished(false)}>
-              UnPublish
-            </button>
-          ) : (
-            <button className="badge badge-primary mr-2" onClick={() => updatePublished(true)}>
-              Publish
-            </button>
-          )}
-
-          <button className="badge badge-danger mr-2" onClick={deletePosting}>
-            Delete
-          </button>
-
-          <button type="submit" className="badge badge-success" onClick={updatePostingDetails}>
-            Update
-          </button>
-          <p>{message}</p>
-        </div>
-      ) : (
-        <div>
-          <br />
-          <p>Please click on a Posting...</p>
-        </div>
-      )}
+      <EditPostingDetails selecPost={selectedPosting} />
+      
     </div>
   );
 };
