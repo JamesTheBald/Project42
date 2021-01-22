@@ -9,6 +9,7 @@ const AddPosting = () => {
     description: "",
     published: false
   };
+  
   const [posting, setPosting] = useState(initialPostingState);
   const [submitted, setSubmitted] = useState(false);
 

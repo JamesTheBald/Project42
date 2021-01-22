@@ -12,15 +12,14 @@ const PostingDetails = (props) => {
   };
   
   const [selectedPosting, setSelectedPosting] = useState(initialPostingState);
-  // const [message, setMessage] = useState("");
+  // const [Loading, setLoading] = useState(true);    // For loading/misloaded message. See lecture #26 (Mongo#1, 1:20:00)
 
-  const [Loading, setLoading] = useState(true);
-
-
+console.log("PostingDetails.js props.match.params=",props.match.params);
   const postingID = props.match.params.id      // J: get the ID of this posting from the match object. 
                   // The match object is one of three objects that are passed as props to the component by React Router.
                   // See https://reactrouter.com/web/api/Route/route-props
-console.log("PostingDetails.js postingID from props.match.params.id=",postingID);
+
+  console.log("PostingDetails.js postingID from props.match.params.id=",postingID);
 
   useEffect(() => {
     console.log("PostingDetails.js useEffect() postingID = props.match.params.id = ", postingID);
@@ -128,7 +127,7 @@ const EditPostingDetails = ({selecPost}) => {
 
   return (
 
-// Add conditional path based on Loading state variable (see line 17 above)
+//J: Later: Add conditional path based on Loading state variable. See lecture #26 (Mongo#1, 1:20:00)
 
     <div>
 

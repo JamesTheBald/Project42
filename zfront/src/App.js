@@ -19,7 +19,10 @@ function App() {
         <Switch>
           <Route exact path={["/postings"]} component={PostingsList} />
           <Route exact path="/addposting" component={AddPosting} />
+
           <Route path="/postings/:id" component={PostingDetails} />
+          {/* <Route path="/postings/:id" render={() => <PostingDetails props={props} />} /> */}
+          
 
           <Route exact path={["/home"]} component={Home} />      {/* J: Let's discuss if we should call it HomePage or Home */}
           <Route exact path={["/"]}>
