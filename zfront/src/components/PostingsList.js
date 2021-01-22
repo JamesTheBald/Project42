@@ -53,6 +53,23 @@ const PostingsList = () => {
     // setSelectedIndex(index);
   };
 
+  const removeAllPostings = () => {
+    PostingAxios.removeAll()
+      .then(response => {
+        console.log(response.data);
+        refreshList();
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  const refreshList = () => {
+    retrievePostings();
+    setSelectedPosting(null);
+    // setSelectedIndex(-1);
+  };
+
 
   return (
     <div className="list row">
@@ -89,12 +106,9 @@ const PostingsList = () => {
 
         <Button className="mt-3" onClick={() => history.push('/addposting')}>Add Posting</Button>
 
-        {/* J: The following link has been replaced with the above (SemanticUI) button */}
-        {/* <div className="nav-item">        
-            <Link to={"/addposting"} className="nav-link">
-              Add a posting
-            </Link>
-        </div> */}
+        <Button className="mt-3 color='red' " onClick={removeAllPostings}>
+          Remove All
+        </Button>
 
       </div>
 
