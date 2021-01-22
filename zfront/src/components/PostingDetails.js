@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PostingAxios from "../services/PostingAxios";
 
-const Posting = (props) => {
+const PostingDetails = (props) => {
 
   const initialPostingState = {
     _id: null,
@@ -20,18 +20,18 @@ const Posting = (props) => {
   const postingID = props.match.params.id      // J: get the ID of this posting from the match object. 
                   // The match object is one of three objects that are passed as props to the component by React Router.
                   // See https://reactrouter.com/web/api/Route/route-props
-console.log("Posting.js postingID from props.match.params.id=",postingID);
+console.log("PostingDetails.js postingID from props.match.params.id=",postingID);
 
   useEffect(() => {
-    console.log("Postings.js useEffect() postingID = props.match.params.id = ", postingID);
-    getPosting(postingID);
+    console.log("PostingDetailss.js useEffect() postingID = props.match.params.id = ", postingID);
+    getPostingDetails(postingID);
   }, [postingID]);             // J: run this useEffect any time postingID changes
 
-  const getPosting = (id) => {
+  const getPostingDetails = (id) => {
     PostingAxios.get(id)
       .then(response => {
         setSelectedPosting(response.data);
-        console.log("Postings.js getPosting() response.data=",response.data);
+        console.log("PostingDetailss.js getPostingDetails() response.data=",response.data);
       })
       .catch(err => {
         console.log(err);
@@ -65,11 +65,11 @@ console.log("Posting.js postingID from props.match.params.id=",postingID);
       });
   };
 
-  const updatePosting = () => {
+  const updatePostingDetails = () => {
     PostingAxios.update(selectedPosting._id, selectedPosting)
       .then(response => {
         console.log(response.data);
-        setMessage("updatePosting(): The posting was updated successfully!");
+        setMessage("updatePostingDetails(): The posting was updated successfully!");
       })
       .catch(e => {
         console.log(e);
@@ -88,7 +88,7 @@ console.log("Posting.js postingID from props.match.params.id=",postingID);
   };
 
 
-const EditPosting = ({selectedPost}) => {
+const EditPostingDetails = ({selectedPost}) => {
 return (
 // Put content from below here. See lecture #26 (Mongo#1, 1:20:00)
 <div>
@@ -106,14 +106,14 @@ return (
 
     <div>
 
-      <EditPosting selectedPost={selectedPosting} />
+      <EditPostingDetails selectedPost={selectedPosting} />
 
       {selectedPosting ? (
         <div className="edit-form">
           
           <h4>Edit Posting</h4>
 
-{console.log("Posting.js return selectedPosting=",selectedPosting)}   {/* J: I align temporary code like this all the way left */}
+{console.log("PostingDetails.js return selectedPosting=",selectedPosting)}   {/* J: I align temporary code like this all the way left */}
 
           <form>
             <div className="form-group">
@@ -174,7 +174,7 @@ return (
             Delete
           </button>
 
-          <button type="submit" className="badge badge-success" onClick={updatePosting}>
+          <button type="submit" className="badge badge-success" onClick={updatePostingDetails}>
             Update
           </button>
           <p>{message}</p>
@@ -189,4 +189,4 @@ return (
   );
 };
 
-export default Posting;
+export default PostingDetails;
