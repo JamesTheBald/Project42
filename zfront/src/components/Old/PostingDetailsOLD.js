@@ -31,7 +31,7 @@
               </label>
               {selectedPosting.published ? "Published" : "Pending"}
             </div> */}
-            </form>
+            // </form>
 
             {/* {selectedPosting.published ? (
               <button className="badge badge-primary mr-2" onClick={() => updatePublished(false)}>
