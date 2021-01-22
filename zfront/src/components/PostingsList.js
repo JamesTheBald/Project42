@@ -96,12 +96,16 @@ const PostingsList = () => {
       
         <ul className="list-group">
           {postings && postings.map((posting, index) => (      // J: only render if the data array isn't NULL
-              <li className={'list-group-item'}   // + (index === selectedIndex ? 'active' : '')  // for highlighting the selected item
-                key={index}
-                onClick={() => setActivePosting(posting, index)} >
+            <div>
+              <div className={'list-group-item'}   // + (index === selectedIndex ? 'active' : '')  // for highlighting the selected item
+                key={index} onClick={() => setActivePosting(posting, index)} >
                 {posting.title}
-              </li>
-            ))}
+              </div>
+              <div>
+                {posting.contributors} (better formatting pls!)
+              </div>
+            </div>
+          ))}
         </ul>
 
         <Button className="mt-3" onClick={() => history.push('/addposting')}>Add Posting</Button>
