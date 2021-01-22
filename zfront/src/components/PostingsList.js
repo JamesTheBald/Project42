@@ -159,6 +159,13 @@ const PostingsList = () => {
                     {convertISODate(selectedPosting.updatedAt)}
                   </div>
 
+                  <div>
+                    <label>
+                      <strong>Tags:</strong>
+                    </label>
+                   {selectedPosting.tags}
+                  </div>
+
                   <Link to={'/postings/' + selectedPosting._id}  className="badge badge-warning">
                     Edit
                   </Link>
