@@ -53,24 +53,6 @@ const PostingsList = () => {
     // setSelectedIndex(index);
   };
 
-  // const refreshList = () => {
-  //   retrievePostings();
-  //   setSelectedPosting(null);
-  //   setSelectedIndex(-1);
-  // };
-
-  // const removeAllPostings = () => {
-  //   PostingAxios.removeAll()
-  //     .then((response) => {
-  //       console.log("removeAllPostings response.data=",response.data);
-  //       refreshList();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
-
 
   return (
     <div className="list row">
@@ -116,7 +98,7 @@ const PostingsList = () => {
 
       </div>
 
-      {/* Posting details side panel */}
+      {/* Posting Details side panel */}
       <div className="col-md-6">
         {/* {console.log ("Posting Details Div: selectedPosting = ", selectedPosting)} */}
         {selectedPosting ? (
@@ -130,9 +112,9 @@ const PostingsList = () => {
 
                   <div>
                     <label>
-                      <strong>Authors:</strong>
+                      <strong>Contributors:</strong>
                     </label>
-                    {selectedPosting.authors}
+                    {selectedPosting.contributors}
                   </div>
 
                   <div>

@@ -13,7 +13,7 @@ exports.create = (req, res) => {
   // Create a Posting
   const posting = new mongooseModel({
     title: req.body.title,
-    authors: req.body.authors,
+    contributors: req.body.contributors,
     description: req.body.description,
     published: req.body.published ? req.body.published : false
   });

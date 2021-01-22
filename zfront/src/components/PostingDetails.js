@@ -6,7 +6,7 @@ const PostingDetails = (props) => {
   const initialPostingState = {
     _id: null,
     title: "",
-    authors: "",
+    contributors: "",
     description: "",
     published: false
   };
@@ -50,7 +50,7 @@ console.log("PostingDetails.js postingID from props.match.params.id=",postingID)
     let data = {
       id: selectedPosting._id,          // J: i.e. no change to id, title or description
       title: selectedPosting.title,
-      authors: selectedPosting.authors,
+      contributors: selectedPosting.contributors,
       description: selectedPosting.description,
       published: status
     };
@@ -94,8 +94,7 @@ return (
 <div>
   
 </div>
-)
-}
+)}
 
 
 
@@ -129,13 +128,13 @@ return (
             </div>
 
             <div className="form-group">
-              <label htmlFor="authors">Authors' Initials</label>
+              <label htmlFor="contributors">Contri</label>
               <input
-                id="authors"
+                id="contributors"
                 type="text"
                 className="form-control"
-                name="authors"
-                value={selectedPosting.authors}
+                name="contributors"
+                value={selectedPosting.contributors}
                 onChange={handleInputChange}
               />
             </div>

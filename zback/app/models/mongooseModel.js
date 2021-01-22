@@ -3,7 +3,7 @@ module.exports = (mongoose) => {
   var postingSchema = mongoose.Schema(
     {
       title: String,
-      authors: String,
+      contributors: String,
       description: String,
       published: Boolean
     },

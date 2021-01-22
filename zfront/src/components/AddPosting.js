@@ -5,7 +5,7 @@ const AddPosting = () => {
   const initialPostingState = {
     id: null,
     title: "",
-    authors: "",
+    contributors: "",
     description: "",
     published: false
   };
@@ -20,7 +20,7 @@ const AddPosting = () => {
   const savePosting = () => {
     var data = {
       title: posting.title,
-      authors: posting.authors,
+      contributors: posting.contributors,
       description: posting.description
     };
 
@@ -29,7 +29,7 @@ const AddPosting = () => {
         setPosting({
           id: response.data.id,
           title: response.data.title,
-          authors: response.data.author,
+          contributors: response.data.contributor,
           description: response.data.description,
           published: response.data.published
         });
@@ -73,15 +73,15 @@ const AddPosting = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="authors">Authors' Initials</label>
+            <label htmlFor="contributors">Contributors' Initials</label>
             <input
               type="text"
               className="form-control"
-              id="authors"
+              id="contributors"
               required
-              value={posting.authors}
+              value={posting.contributors}
               onChange={handleInputChange}
-              name="authors"
+              name="contributors"
             />
           </div>
 
