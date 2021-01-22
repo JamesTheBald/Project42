@@ -7,9 +7,10 @@ const AddPosting = () => {
     title: "",
     contributors: "",
     description: "",
-    published: false
+    published: false,
+    tags: "",
   };
-  
+  // C: we should change instances of "posting(s)" to "post(s)" less text and more accurate - plural wherever applicable
   const [posting, setPosting] = useState(initialPostingState);
   const [submitted, setSubmitted] = useState(false);
 
@@ -22,7 +23,8 @@ const AddPosting = () => {
     var data = {
       title: posting.title,
       contributors: posting.contributors,
-      description: posting.description
+      description: posting.description,
+      tags: posting.tags
     };
 
     PostingAxios.create(data)
@@ -32,7 +34,8 @@ const AddPosting = () => {
           title: response.data.title,
           contributors: response.data.contributor,
           description: response.data.description,
-          published: response.data.published
+          published: response.data.published,
+          tags: response.data.tags
         });
         setSubmitted(true);
         console.log(response.data);
@@ -96,6 +99,19 @@ const AddPosting = () => {
               value={posting.description}
               onChange={handleInputChange}
               name="description"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="description">Tags<i> (ex: react, UX)</i></label>
+            <input
+              type="text"
+              className="form-control"
+              id="tags"
+              required
+              value={posting.tags}
+              onChange={handleInputChange}
+              name="tags"
             />
           </div>
 
