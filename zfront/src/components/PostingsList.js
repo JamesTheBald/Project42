@@ -93,15 +93,12 @@ const PostingsList = () => {
       
         <ul className="list-group">
           {postings && postings.map((posting, index) => (      // J: only render if the data array isn't NULL
-            <div>
-              <div className={'list-group-item'}   // + (index === selectedIndex ? 'active' : '')  // for highlighting the selected item
-                key={index} onClick={() => setActivePosting(posting)} >  {/* Change to => PostingModal(posting) */}
-                {posting.title}
-              </div>
-              <div>
-                {posting.contributors}
-              </div>
-            </div>
+            <li className={'list-group-item'}   // + (index === selectedIndex ? 'active' : '')  // for highlighting the selected item
+              key={index} onClick={() => setActivePosting(posting)} >  {/* Change to => PostingModal(posting) */}
+              {posting.title}
+              <br />
+              {posting.contributors}
+            </li>
           ))}
         </ul>
 
