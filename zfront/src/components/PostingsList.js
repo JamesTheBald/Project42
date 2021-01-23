@@ -10,7 +10,6 @@ import convertISODate from '../functions/convertISODate';
 const PostingsList = () => {
   const [postings, setPostings] = useState([]);
   const [selectedPosting, setSelectedPosting] = useState(null);
-  // const [selectedIndex, setSelectedIndex] = useState(-1);
   const [searchTitle, setSearchTitle] = useState('');
   const history = useHistory();
 
@@ -50,7 +49,6 @@ const PostingsList = () => {
   const setActivePosting = (posting, index) => {
     setSelectedPosting(posting);
     // console.log("setActivePosting() selectedPosting=",selectedPosting);
-    // setSelectedIndex(index);
   };
 
   const removeAllPostings = () => {
@@ -67,7 +65,6 @@ const PostingsList = () => {
   const refreshList = () => {
     retrievePostings();
     setSelectedPosting(null);
-    // setSelectedIndex(-1);
   };
 
 
@@ -98,11 +95,11 @@ const PostingsList = () => {
           {postings && postings.map((posting, index) => (      // J: only render if the data array isn't NULL
             <div>
               <div className={'list-group-item'}   // + (index === selectedIndex ? 'active' : '')  // for highlighting the selected item
-                key={index} onClick={() => setActivePosting(posting, index)} >
+                key={index} onClick={() => setActivePosting(posting)} >  {/* Change to => PostingModal(posting) */}
                 {posting.title}
               </div>
               <div>
-                {posting.contributors} (better formatting pls!)
+                {posting.contributors}
               </div>
             </div>
           ))}
