@@ -1,7 +1,8 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+// import "./styles/app.css";
+// import "tailwindcss/tailwind.css"
 
 import AddPosting from "./components/AddPosting";
 import PostingDetails from "./components/PostingDetails";
