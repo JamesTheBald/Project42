@@ -22,3 +22,16 @@
 .input-wide {
   max-width: 400px;
 }
+
+/* To get the modal centered */
+/* .dimmed.dimmable > .ui.modals.dimmer.visible {
+  display: flex !important;
+} */
+
+.modal {
+  height: auto;
+  top: auto;
+  left: auto;
+  bottom: auto;
+  right: auto;
+}
