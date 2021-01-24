@@ -4,19 +4,17 @@ import { Button } from 'semantic-ui-react';
 
 import PostingAxios from '../services/PostingAxios';
 import convertISODate from '../functions/convertISODate';
-
+import PostingModal from "./PostingModal";
 
 
 const PostingsList = () => {
   const [postings, setPostings] = useState([]);
-  const [selectedPosting, setSelectedPosting] = useState(null);
   const [searchTitle, setSearchTitle] = useState('');
   const history = useHistory();
 
   useEffect(() => {
     retrievePostings();
-  }, []);                   // C: the '[]' on this line means the useEffect function will only run THE FIRST time the page renders, 
-                            // not every time it renders
+  }, []);               // C: '[]' means useEffect will only run THE FIRST time the page renders, not every time it renders
 
   const retrievePostings = () => {
     PostingAxios.getAll()
@@ -46,11 +44,6 @@ const PostingsList = () => {
       });
   };
 
-  const setActivePosting = (posting, index) => {
-    setSelectedPosting(posting);
-    // console.log("setActivePosting() selectedPosting=",selectedPosting);
-  };
-
   const removeAllPostings = () => {
     PostingAxios.removeAll()
       .then(response => {
@@ -64,7 +57,6 @@ const PostingsList = () => {
 
   const refreshList = () => {
     retrievePostings();
-    setSelectedPosting(null);
   };
 
 
@@ -78,8 +70,7 @@ const PostingsList = () => {
                  value={searchTitle}  onChange={onChangeSearchTitle} />
 
           <div className="input-group-append">
-            <Button primary   onClick={onClickFindByTitle}> 
-            {/* className="btn btn-outline-secondary"  type="button" */}
+            <Button primary   onClick={onClickFindByTitle}>  {/* className="btn btn-outline-secondary"  type="button" */}
               Search
             </Button>
           </div>
@@ -87,95 +78,35 @@ const PostingsList = () => {
         </div>
       </div>
 
-      {/* Posting List */}
+      {/* Postings List */}
       <div className="col-md-6">
         <h4>Postings List</h4>
       
-        <ul className="list-group">
-          {postings && postings.map((posting, index) => (      // J: only render if the data array isn't NULL
-            <li className={'list-group-item'}   // + (index === selectedIndex ? 'active' : '')  // for highlighting the selected item
-              key={index} onClick={() => setActivePosting(posting)} >  {/* Change to => PostingModal(posting) */}
-              {posting.title}
-              <br />
-              {posting.contributors}
-            </li>
-          ))}
-        </ul>
+        <div className="list-group">
+          {postings && postings.map((posting, index) => (     // J: only render if postings isn't NULL
+            <div key={index}>
+              <div className={'list-group-item'}>
+                {posting.title}
+                <br />
+                {posting.contributors}
+              </div>
 
-        <Button className="mt-3" onClick={() => history.push('/addposting')}>Add Posting</Button>
+              <PostingModal posting={posting} refresh={retrievePostings}/>
+            </div>
+          ))}
+      
+        </div>
+
+        <Button className="mt-3" onClick={() => history.push('/addposting')}>
+          Add Posting
+        </Button>
 
         <Button className="mt-3 color='red' " onClick={removeAllPostings}>
           Remove All
         </Button>
 
       </div>
-
-      {/* Posting Details side panel */}
-      <div className="col-md-6">
-        {/* {console.log ("Posting Details Div: selectedPosting = ", selectedPosting)} */}
-        {selectedPosting ? (
-          <div>
-                  <div>
-                    <label>
-                      <strong>Title:</strong>
-                    </label>
-                    {selectedPosting.title}
-                  </div>
-
-                  <div>
-                    <label>
-                      <strong>Contributors:</strong>
-                    </label>
-                    {selectedPosting.contributors}
-                  </div>
-
-                  <div>
-                    <label>
-                      <strong>Description:</strong>
-                    </label>
-                    {selectedPosting.description}
-                  </div>
-                  
-                  <div>
-                    <label>
-                      <strong>Status:</strong>
-                    </label>
-                    {selectedPosting.published ? 'Published' : 'Pending'}
-                  </div>
-
-                  <div>
-                    <label>
-                      <strong>Created:</strong>
-                    </label>
-                    {convertISODate(selectedPosting.createdAt)}
-                  </div>
-
-                  <div>
-                    <label>
-                      <strong>Updated:</strong>
-                    </label>
-                    {convertISODate(selectedPosting.updatedAt)}
-                  </div>
-
-                  <div>
-                    <label>
-                      <strong>Tags:</strong>
-                    </label>
-                   {selectedPosting.tags}
-                  </div>
-
-                  <Link to={'/postings/' + selectedPosting._id}  className="badge badge-warning">
-                    Edit
-                  </Link>
-
-          </div>
-        ) : (
-          <div>
-            <br />
-            <p>Please click on a Posting...</p>
-          </div>
-        )}
-      </div>
+    
     </div>
   );
 };

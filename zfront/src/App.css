@@ -13,3 +13,12 @@
   max-width: 300px;
   margin: auto;
 }
+
+
+.input-narrow {
+  max-width: 200px;
+}
+
+.input-wide {
+  max-width: 400px;
+}
