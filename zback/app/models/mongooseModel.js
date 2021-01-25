@@ -6,6 +6,7 @@ module.exports = (mongoose) => {
       contributors: String,
       description: String,
       tags: String,
+      contentType: String
     },
     { timestamps: true }
   );

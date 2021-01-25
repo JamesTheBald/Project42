@@ -15,7 +15,8 @@ exports.create = (req, res) => {
     title: req.body.title,
     contributors: req.body.contributors,
     description: req.body.description,
-    tags: req.body.tags
+    tags: req.body.tags,
+    contentType: req.body.contentType
   });
 
   // Save Posting to the database
