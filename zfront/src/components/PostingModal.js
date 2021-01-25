@@ -98,10 +98,13 @@ const PostingModal = (props) => {
       open={isOpen}
       trigger={       // ** This is the content for each posting in PostingsList **
          posting._id ? (
-          <div className={'list-group-item'}>
-            {posting.title}
-            <br />
-            {posting.contributors}
+          <div className="w-64 p-2 my-2 border border-gray-700 rounded-lg">
+            <div>
+             {posting.title}
+            </div>
+            <div className="mt-2">
+              {posting.contributors}
+            </div>
           </div>
         ) : (
           <div className="p-2">Create Post</div>
@@ -152,6 +155,14 @@ const PostingModal = (props) => {
         ) : (
           <></>
         )}
+
+        <div className="flex flex-row items-baseline p-1 mt-2">
+          <div>Tags:</div>
+          <input id="tags" name="tags" type="text" requried
+            className="w-full ml-2 p-1  focus:bg-gray-200"
+            placeholder="Enter tags/keywords here"
+            required  value={posting.tags}  onChange={handleInputChange} />
+        </div>
 
         <input id="description" name="description" type="text"  required
           className="w-full mt-2 p-1  focus:bg-gray-200"

@@ -96,8 +96,8 @@ const PostingsList = () => {
 
 
       {/* Postings List */}
-      <div className="col-md-6 mt-3">
-        <h4>Postings List</h4>
+      <div className="m-10">
+        <div className="text-lg">Postings List</div>
       
         <div className="list-group">
           {postings && postings.map((posting, index) => (     // J: render if postings isn't NULL

@@ -1,4 +1,4 @@
-import xios from "../xios";
+import xios from "./xios";
 
 const getAll = () => {
   return xios.get("/postings");
