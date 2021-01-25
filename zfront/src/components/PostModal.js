@@ -15,7 +15,8 @@ const PostModal = (props) => {
     title: "",
     contributors: "",
     description: "",
-    tags: ""
+    tags: "",
+    contentType: ""
   };
 
   const [post, setPost] = useState(props.post || emptyPost);
@@ -55,7 +56,8 @@ const PostModal = (props) => {
       title: post.title,
       contributors: post.contributors,
       description: post.description,
-      tags: post.tags
+      tags: post.tags,
+      contentType: post.contentType
     };
     // NB: other fields of 'post' may be empty. e.g. post._ID = NULL
 
@@ -171,6 +173,14 @@ const PostModal = (props) => {
           className="w-full mt-2 p-1  focus:bg-gray-200"
           placeholder="Enter content of post here"
           required  value={post.description}  onChange={handleInputChange} />
+
+        <div className="flex flex-row items-baseline p-1 mt-2">
+          <div>Content Type:</div>
+          <input id="contentType" name="contentType" type="text" requried='true'
+            className="w-full ml-2 p-1  focus:bg-gray-200"
+            placeholder="Enter type of content (Text, file, etc.)"
+            required  value={post.contentType}  onChange={handleInputChange} />
+        </div>
        
       </Modal.Content>
 
