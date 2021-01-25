@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import PostingAxios from "../services/PostingAxios";
 
 const AddPosting = () => {
+
   const initialPostingState = {
     id: null,
     title: "",
     contributors: "",
     description: "",
-    published: false,
     tags: "",
   };
+
   // C: we should change instances of "posting(s)" to "post(s)" less text and more accurate - plural wherever applicable
   const [posting, setPosting] = useState(initialPostingState);
   const [submitted, setSubmitted] = useState(false);
@@ -34,7 +35,6 @@ const AddPosting = () => {
           title: response.data.title,
           contributors: response.data.contributor,
           description: response.data.description,
-          published: response.data.published,
           tags: response.data.tags
         });
         setSubmitted(true);
@@ -45,19 +45,19 @@ const AddPosting = () => {
       });
   };
 
-  const newPosting = () => {
-    setPosting(initialPostingState);
-    setSubmitted(false);
-  };
+  // const newPosting = () => {
+  //   setPosting(initialPostingState);
+  //   setSubmitted(false);
+  // };
 
   return (
     <div className="submit-form">
       {submitted ? (
         <div>
           <h4>You submitted successfully!</h4>
-          <button className="btn btn-success" onClick={newPosting}>
+          {/* <button className="btn btn-success" onClick={newPosting}>
             Add
-          </button>
+          </button> */}
         </div>
       ) : (
 

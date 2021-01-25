@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+// import { Link, useHistory } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
 import PostingAxios from '../services/PostingAxios';
@@ -9,7 +9,7 @@ import PostingModal from "./PostingModal";
 const PostingsList = () => {
   const [postings, setPostings] = useState([]);
   const [searchTitle, setSearchTitle] = useState('');
-  const history = useHistory();
+  // const history = useHistory();
 
   useEffect(() => {
     retrievePostings();
@@ -66,15 +66,7 @@ const PostingsList = () => {
       <nav className="w-full h-20 flex flex-row items-center text-blue-200 bg-blue-900">
         
         <div className="text-2xl mx-4">
-          <Link to={"/"} >
             Helpful Postings
-          </Link>
-        </div>
-
-        <div className="mx-4">
-          <Link to={"/postings"}>
-            Postings
-          </Link>
         </div>
 
         <div className="mx-4 hover:text-blue-800">
@@ -112,11 +104,11 @@ const PostingsList = () => {
           ))}
         </div>
 
-        <Button className="mt-3" onClick={() => history.push('/addposting')}>
+        {/* <Button className="mt-3" onClick={() => history.push('/addposting')}>
           Add Posting
-        </Button>
+        </Button> */}
 
-        <Button className="mt-3 color='red' " onClick={removeAllPostings}>
+        <Button className="mt-3" basic color='red' onClick={removeAllPostings}>
           Remove All
         </Button>
 

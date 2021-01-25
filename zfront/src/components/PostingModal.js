@@ -14,8 +14,7 @@ const PostingModal = (props) => {
     title: "",
     contributors: "",
     description: "",
-    published: false,   //J: .published is deprecated. (Remove it soon)
-    tags: "",
+    tags: ""
   };
 
   const [posting, setPosting] = useState(props.posting || emptyPosting);
@@ -74,7 +73,6 @@ const PostingModal = (props) => {
         )
       }
       
-
       onClose={() => setIsOpen(false)}
       onOpen={() => setIsOpen(true)}
     >

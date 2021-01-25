@@ -5,7 +5,6 @@ module.exports = (mongoose) => {
       title: String,
       contributors: String,
       description: String,
-      published: Boolean,
       tags: String,
     },
     { timestamps: true }

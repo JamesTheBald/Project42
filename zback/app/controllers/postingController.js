@@ -15,7 +15,6 @@ exports.create = (req, res) => {
     title: req.body.title,
     contributors: req.body.contributors,
     description: req.body.description,
-    published: req.body.published ? req.body.published : false,
     tags: req.body.tags
   });
 
@@ -138,16 +137,16 @@ exports.deleteAll = (req, res) => {
 };
 
 
-// Find all published Postings
-exports.findAllPublished = (req, res) => {
-  mongooseModel.find({ published: true })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving postings."
-      });
-    });
-};
+// // Find all published Postings
+// exports.findAllPublished = (req, res) => {
+//   mongooseModel.find({ published: true })
+//     .then(data => {
+//       res.send(data);
+//     })
+//     .catch(err => {
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while retrieving postings."
+//       });
+//     });
+// };
