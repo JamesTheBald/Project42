@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'semantic-ui-react';
 
 import PostingAxios from '../services/PostingAxios';
+import WelcomeModal from "./WelcomeModal";
 import PostingModal from "./PostingModal";
 
 
@@ -63,16 +64,16 @@ const PostingsList = () => {
     <div>
       
       {/* Navbar */}
-      <nav className="w-full h-20 flex flex-row items-center text-blue-200 bg-blue-900">
+      <nav className="w-full p-4 h-20 my-auto flex flex-row items-baseline text-blue-200 bg-blue-900">
         
         <div className="text-2xl mx-4">
-            Helpful Postings
+          <WelcomeModal />
         </div>
 
+        {/* Create Post button */}
         <div className="mx-4 hover:text-blue-800">
           <PostingModal refresh={retrievePostings} />
         </div>
-
 
         {/* Search bar */}
         <div className="flex flex-row mx-4">
@@ -88,7 +89,8 @@ const PostingsList = () => {
 
         </div>
       </nav>
-
+      
+     
 
 
       {/* Postings List */}

@@ -11,3 +11,5 @@
   bottom: auto;
   right: auto;
 }
+
+.dimmer { background-color: rgba(250,250,50,0.8) }

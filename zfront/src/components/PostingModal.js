@@ -95,6 +95,7 @@ const PostingModal = (props) => {
     <Modal
       closeIcon
       size='small'
+      dimmer
       open={isOpen}
       trigger={       // ** This is the content for each posting in PostingsList **
  
