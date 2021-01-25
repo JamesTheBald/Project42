@@ -19,9 +19,8 @@ const PostModal = (props) => {
   };
 
   const [post, setPost] = useState(props.post || emptyPost);
-  const [isOpen, setIsOpen] = useState(false)
-
-  // const refreshList = props.refresh;
+  const [modalOpen, setModalOpen] = useState(false)
+  const refreshPostingsArray = props.updatePostings;
 
   const handleInputChange = event => {
     // console.log("PostModal.js handleInputChange() post=",post)
@@ -30,44 +29,14 @@ const PostModal = (props) => {
   };
 
 
-  const createPost = () => {
-    //J: The elements in the following object need to align with those in:
-    //      const posting = new mongooseModel({...}) in postingController.js
-    //and   var postingSchema = mongoose.Schema({ ... } in mongooseModel.js
-    var data = {
-      title: post.title,
-      contributors: post.contributors,
-      description: post.description,
-      tags: post.tags
-    };
-
-    PostingAxios.create(data)
-      .then(response => {
-        setPost({
-          _id: response.data._id,
-          title: response.data.title,
-          contributors: response.data.contributors,
-          description: response.data.description,
-          tags: response.data.tags
-        });
-        console.log("PostModal.js savePost response.data=",response.data);
-        // refreshList();
-        setIsOpen(false);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
-
   const updateOrCreatePost = () => {
-    console.log("PostModal.js updatePost() post=",post)
+    console.log("PostModal.js updateOrCreatePost() post=",post)
 
     post._id ? (
       PostingAxios.update(post._id, post)
       .then(response => {
-        // refreshList();
-        setIsOpen(false);
+        refreshPostingsArray(post);
+        setModalOpen(false);
       })
       .catch(err => {
         console.log(err);
@@ -77,13 +46,49 @@ const PostModal = (props) => {
     )
   };
 
+
+  const createPost = () => {
+    //J: The elements in the following object need to align with those in:
+    //      const posting = new mongooseModel({...}) in postingController.js
+    //and   var postingSchema = mongoose.Schema({ ... } in mongooseModel.js
+    var postSubset = {
+      title: post.title,
+      contributors: post.contributors,
+      description: post.description,
+      tags: post.tags
+    };
+    // NB: other fields of 'post' may be empty. e.g. post._ID = NULL
+
+    PostingAxios.create(postSubset)
+      .then(response => {
+        const newPost = response.data;
+        setPost(newPost);
+
+        // {
+          // _id: response.data._id,
+          // title: response.data.title,
+          // contributors: response.data.contributors,
+          // description: response.data.description,
+          // tags: response.data.tags
+        // });
+
+        console.log("PostModal.js createPost newPost=response.data=",newPost);
+        refreshPostingsArray(newPost);
+        setModalOpen(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+
   const deletePost = () => {
     PostingAxios.remove(post._id)
       .then(response => {
-        console.log("PostModal.js deletePost() response.data=",response.data);
-        // refreshList()
-        // setPosts([]);
-      setIsOpen(false);
+        const deletedPost = response.data;
+        console.log("PostModal.js deletePost() deletedPost=response.data=",deletedPost);
+        refreshPostingsArray(deletedPost);
+        setModalOpen(false);
       })
       .catch(err => {
         console.log(err);
@@ -95,7 +100,7 @@ const PostModal = (props) => {
       closeIcon
       size='small'
       dimmer='blurring'
-      open={isOpen}
+      open={modalOpen}
       trigger={       // ** This is the content for each posting in PostingsList **
          post._id ? (
           <div className="w-64 p-2 my-2 border border-gray-700 rounded-lg">
@@ -110,8 +115,8 @@ const PostModal = (props) => {
           <div className="p-2">Create Post</div>
         )
       }
-      onClose={() => setIsOpen(false)}
-      onOpen={() => setIsOpen(true)}
+      onClose={() => setModalOpen(false)}
+      onOpen={() => setModalOpen(true)}
     >
 
     <Modal.Content>
@@ -170,7 +175,7 @@ const PostModal = (props) => {
       </Modal.Content>
 
       <Modal.Actions>
-        <Button basic color='orange' onClick={() => setIsOpen(false)}>
+        <Button basic color='orange' onClick={() => setModalOpen(false)}>
           <Icon name='remove' />Abandon Changes
         </Button>
 
