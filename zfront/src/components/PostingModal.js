@@ -27,19 +27,55 @@ const PostingModal = (props) => {
   const handleInputChange = event => {
     console.log("PostingModalTEST.js handleInputChange() posting=",posting)
     const { name, value } = event.target;
-    setPosting(currPost => { return {...currPost, [name]: value }});     // J: Why brackets [] around name? 
+    setPosting(currPost => { return {...currPost, [name]: value }});
   };
+
+
+  const savePosting = () => {
+    //J: This elements in this object need to align with those in:
+    //      const posting = new mongooseModel({...}) in postingController.js
+    //and   var postingSchema = mongoose.Schema({ ... } in mongooseModel.js
+    var data = {
+      title: posting.title,
+      contributors: posting.contributors,
+      description: posting.description,
+      tags: posting.tags
+    };
+
+    PostingAxios.create(data)
+      .then(response => {
+        setPosting({
+          id: response.data.id,
+          title: response.data.title,
+          contributors: response.data.contributor,
+          description: response.data.description,
+          tags: response.data.tags
+        });
+        console.log(response.data);
+        refreshList();
+        setIsOpen(false);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
 
   const updatePostingDetails = () => {
     console.log("PostingModal.js updatePostingDetails() posting=",posting)
-    PostingAxios.update(posting._id, posting)
+
+    posting._id ? (
+      PostingAxios.update(posting._id, posting)
       .then(response => {
-        setIsOpen(false);
         refreshList();
+        setIsOpen(false);
       })
       .catch(err => {
         console.log(err);
-      });
+      })
+    ) : (
+      savePosting()
+    )
   };
 
   const deletePosting = () => {
