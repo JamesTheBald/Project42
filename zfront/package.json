@@ -10,7 +10,6 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "postcss": "^8.2.4",
-    "postcss-cli": "^8.3.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
@@ -19,13 +18,22 @@
     "semantic-ui-react": "^2.0.2",
     "tailwindcss": "^2.0.2"
   },
+  "devDependencies": {
+    "postcss-cli": "^8.3.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "tailbuild": "postcss ./src/styles/tailwind.css -o ./src/styles/tailwind_built.css",
-    "tailwatch": "postcss ./src/styles/tailwind.css -o ./src/styles/tailwind_built.css --watch"
+    "tailbuild": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
+    "tailwatch": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css --watch",
+
+    "build:css": "postcss src/styles/tailwind.css -o src/styles/main.css",
+    "tailwind:build": "NODE_ENV=production postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
+    "tailwind:dev": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
+    "prestart": "npm run tailwind:dev",
+    "prebuild": "npm run tailwind:build"
   },
   "eslintConfig": {
     "extends": "react-app"

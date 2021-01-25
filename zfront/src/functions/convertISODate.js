@@ -20,11 +20,11 @@ const convertISODate = (ISODate) => {
   };
 
   const formattedDate = 
-    monthNames[date.getMonth()] // getMonth() returns INDEX of month, not value
-    + ' '
-    + date.getDate()
-    + dayOrdinal(date.getDate())
-    + ", "
+    date.getDate()
+    // + dayOrdinal(date.getDate())
+    + " "
+    + monthNames[date.getMonth()] // getMonth() returns INDEX of month, not value
+    + " "
     + date.getFullYear();
 
   return (formattedDate);

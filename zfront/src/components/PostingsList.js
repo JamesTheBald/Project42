@@ -3,7 +3,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
 import PostingAxios from '../services/PostingAxios';
-import convertISODate from '../functions/convertISODate';
 import PostingModal from "./PostingModal";
 
 
@@ -30,14 +29,14 @@ const PostingsList = () => {
   const onChangeSearchTitle = (evnt) => {
     const searchTitle = evnt.target.value;
     setSearchTitle(searchTitle);
-    console.log('searchTitle=', searchTitle); // Dev demo only. Remove for production
+    console.log('searchTitle=', searchTitle);
   };
 
   const onClickFindByTitle = () => {
     PostingAxios.findByTitle(searchTitle)
       .then((response) => {
         setPostings(response.data);
-        console.log(response.data);
+        console.log("PostingsList.js onClickFindByTitle() response.data=",response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -61,40 +60,56 @@ const PostingsList = () => {
 
 
   return (
-    <div className="list row">
-      {/* Search bar */}
-      <div className="col-md-8">
-        <div className="input-group mb-3">
-          
-          <input type="text"  className="form-control"  placeholder="Search by title"
-                 value={searchTitle}  onChange={onChangeSearchTitle} />
+    <div>
+      
+      {/* Navbar */}
+      <nav className="w-full h-20 flex flex-row items-center text-blue-200 bg-blue-900">
+        
+        <div className="text-2xl mx-4">
+          <Link to={"/"} >
+            Helpful Postings
+          </Link>
+        </div>
 
-          <div className="input-group-append">
-            <Button primary   onClick={onClickFindByTitle}>  {/* className="btn btn-outline-secondary"  type="button" */}
-              Search
-            </Button>
-          </div>
+        <div className="mx-4">
+          <Link to={"/postings"}>
+            Postings
+          </Link>
+        </div>
+
+        <div className="mx-4 hover:text-blue-800">
+          <PostingModal refresh={retrievePostings} />
+        </div>
+
+
+        {/* Search bar */}
+        <div className="flex flex-row mx-4">
+          
+          <input type="text"  className="w-100 p-1 bg-gray-100 rounded-lg"  
+            placeholder=" Search by Title"
+            value={searchTitle}  onChange={onChangeSearchTitle}>
+          </input>
+
+          <button className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg" onClick={onClickFindByTitle}>
+            Search
+          </button>
 
         </div>
-      </div>
+      </nav>
+
+
 
       {/* Postings List */}
-      <div className="col-md-6">
+      <div className="col-md-6 mt-3">
         <h4>Postings List</h4>
       
         <div className="list-group">
-          {postings && postings.map((posting, index) => (     // J: only render if postings isn't NULL
+          {postings && postings.map((posting, index) => (     // J: render if postings isn't NULL
             <div key={index}>
-              <div className={'list-group-item'}>
-                {posting.title}
-                <br />
-                {posting.contributors}
-              </div>
-
-              <PostingModal posting={posting} refresh={retrievePostings}/>
+                <PostingModal posting={posting} refresh={retrievePostings} />
+                {/* setPosts={setPostings} */}
             </div>
           ))}
-      
         </div>
 
         <Button className="mt-3" onClick={() => history.push('/addposting')}>
