@@ -23,14 +23,14 @@ const PostModal = (props) => {
   const refreshPostingsArray = props.updatePostings;
 
   const handleInputChange = event => {
-    // console.log("PostModal.js handleInputChange() post=",post)
+    // console.log("PostModal.js handleInputChange() post=",post)   -TOO MUCH OUTPUT TO CONSOLE
     const { name, value } = event.target;
     setPost(currPost => { return {...currPost, [name]: value }});
   };
 
 
   const updateOrCreatePost = () => {
-    console.log("PostModal.js updateOrCreatePost() post=",post)
+    console.log("PostModal.js, updateOrCreatePost(), post=",post)
 
     post._id ? (
       PostingAxios.update(post._id, post)
@@ -72,7 +72,7 @@ const PostModal = (props) => {
           // tags: response.data.tags
         // });
 
-        console.log("PostModal.js createPost newPost=response.data=",newPost);
+        console.log("PostModal.js, createPost, newPost=response.data=",newPost);
         refreshPostingsArray(newPost);
         setModalOpen(false);
       })
@@ -85,15 +85,15 @@ const PostModal = (props) => {
   const deletePost = () => {
     PostingAxios.remove(post._id)
       .then(response => {
-        const deletedPost = response.data;
-        console.log("PostModal.js deletePost() deletedPost=response.data=",deletedPost);
-        refreshPostingsArray(deletedPost);
+        console.log("PostModal.js, deletePost(), post=",post);
+        refreshPostingsArray(post);
         setModalOpen(false);
       })
       .catch(err => {
         console.log(err);
       });
   };
+
 
   return (
     <Modal
