@@ -9,15 +9,15 @@ const convertISODate = (ISODate) => {
   const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.",
   "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
   
-  const dayOrdinal = (dayNumber) => {
-    if (dayNumber > 3 && dayNumber < 21) return 'th';
-    switch (dayNumber % 10) {
-      case 1:  return "st";
-      case 2:  return "nd";
-      case 3:  return "rd";
-      default: return "th";
-    }
-  };
+  // const dayOrdinal = (dayNumber) => {
+  //   if (dayNumber > 3 && dayNumber < 21) return 'th';
+  //   switch (dayNumber % 10) {
+  //     case 1:  return "st";
+  //     case 2:  return "nd";
+  //     case 3:  return "rd";
+  //     default: return "th";
+  //   }
+  // };
 
   const formattedDate = 
     date.getDate()

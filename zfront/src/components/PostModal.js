@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Icon, Modal } from 'semantic-ui-react'
 import PostingAxios from "../services/PostingAxios";
 import convertISODate from '../functions/convertISODate';
 
 
-const PostingModal = (props) => {
+const PostModal = (props) => {
 
-  console.log("PostingModal.js props coming in =",props)
+  useEffect(() => {
+    console.log("PostModal.js props coming in =",props)
+  }, [props]);
 
-  const emptyPosting = {
+  const emptyPost = {
     _id: null,
     title: "",
     contributors: "",
@@ -16,42 +18,40 @@ const PostingModal = (props) => {
     tags: ""
   };
 
-  const [posting, setPosting] = useState(props.posting || emptyPosting);
+  const [post, setPost] = useState(props.post || emptyPost);
   const [isOpen, setIsOpen] = useState(false)
 
-
-  const refreshList = props.refresh;
-  // const setPosts=props.setPosts;
+  // const refreshList = props.refresh;
 
   const handleInputChange = event => {
-    console.log("PostingModalTEST.js handleInputChange() posting=",posting)
+    // console.log("PostModal.js handleInputChange() post=",post)
     const { name, value } = event.target;
-    setPosting(currPost => { return {...currPost, [name]: value }});
+    setPost(currPost => { return {...currPost, [name]: value }});
   };
 
 
-  const savePosting = () => {
-    //J: This elements in this object need to align with those in:
+  const createPost = () => {
+    //J: The elements in the following object need to align with those in:
     //      const posting = new mongooseModel({...}) in postingController.js
     //and   var postingSchema = mongoose.Schema({ ... } in mongooseModel.js
     var data = {
-      title: posting.title,
-      contributors: posting.contributors,
-      description: posting.description,
-      tags: posting.tags
+      title: post.title,
+      contributors: post.contributors,
+      description: post.description,
+      tags: post.tags
     };
 
     PostingAxios.create(data)
       .then(response => {
-        setPosting({
-          id: response.data.id,
+        setPost({
+          _id: response.data._id,
           title: response.data.title,
           contributors: response.data.contributors,
           description: response.data.description,
           tags: response.data.tags
         });
-        console.log(response.data);
-        refreshList();
+        console.log("PostModal.js savePost response.data=",response.data);
+        // refreshList();
         setIsOpen(false);
       })
       .catch(e => {
@@ -60,28 +60,28 @@ const PostingModal = (props) => {
   };
 
 
-  const updatePostingDetails = () => {
-    console.log("PostingModal.js updatePostingDetails() posting=",posting)
+  const updateOrCreatePost = () => {
+    console.log("PostModal.js updatePost() post=",post)
 
-    posting._id ? (
-      PostingAxios.update(posting._id, posting)
+    post._id ? (
+      PostingAxios.update(post._id, post)
       .then(response => {
-        refreshList();
+        // refreshList();
         setIsOpen(false);
       })
       .catch(err => {
         console.log(err);
       })
     ) : (
-      savePosting()
+      createPost()
     )
   };
 
-  const deletePosting = () => {
-    PostingAxios.remove(posting._id)
+  const deletePost = () => {
+    PostingAxios.remove(post._id)
       .then(response => {
-        console.log("deletePosting() response.data=",response.data);
-        refreshList()
+        console.log("PostModal.js deletePost() response.data=",response.data);
+        // refreshList()
         // setPosts([]);
       setIsOpen(false);
       })
@@ -97,13 +97,13 @@ const PostingModal = (props) => {
       dimmer='blurring'
       open={isOpen}
       trigger={       // ** This is the content for each posting in PostingsList **
-         posting._id ? (
+         post._id ? (
           <div className="w-64 p-2 my-2 border border-gray-700 rounded-lg">
             <div>
-             {posting.title}
+             {post.title}
             </div>
             <div className="mt-2">
-              {posting.contributors}
+              {post.contributors}
             </div>
           </div>
         ) : (
@@ -114,42 +114,40 @@ const PostingModal = (props) => {
       onOpen={() => setIsOpen(true)}
     >
 
-      <Modal.Content>
+    <Modal.Content>
 
-      {posting._id ? (
+      {post._id ? (
          <></>
       ) : (
-        <div className="text-xl p-1">
-          Create New Posting
-        </div>
+        <div className="text-xl p-1">Create New Post</div>
       )}
 
         <div>  
-          <input name="title" type="text" required
-          // id="title" 
+          <input name="title" type="text" requried='true'
+          // id="title"   - J: Is this necessary?
               className="text-xl w-full p-1  focus:bg-gray-200" 
               placeholder="Enter title of posting here"
-              value={posting.title}  onChange={handleInputChange} />
+              value={post.title}  onChange={handleInputChange} />   {/* ie update state var 'post' */}
         </div>
 
         <div className="flex flex-row items-baseline p-1 mt-2">
           <div>Contributors:</div>
-          <input id="contributors" name="contributors" type="text" requried
+          <input id="contributors" name="contributors" type="text" requried='true'
             className="w-full ml-2 p-1  focus:bg-gray-200"
             placeholder="Enter names of contributors here (Firstname, last Initial)"
-            required  value={posting.contributors}  onChange={handleInputChange} />
+            required  value={post.contributors}  onChange={handleInputChange} />
         </div>
 
-        {posting._id ? (
+        {post._id ? (
           <div className="flex flex-row p-1 mt-2">
             <div className="flex flex-row">
               <div>Created:</div>
-              <div className="ml-2">{convertISODate(posting.createdAt)}</div>
+              <div className="ml-2">{convertISODate(post.createdAt)}</div>
             </div>
 
             <div className="flex flex-row ml-6">
               <div>Modified:</div>
-              <div className="ml-2">{convertISODate(posting.updatedAt)}</div>
+              <div className="ml-2">{convertISODate(post.updatedAt)}</div>
             </div>
           </div>
         ) : (
@@ -158,16 +156,16 @@ const PostingModal = (props) => {
 
         <div className="flex flex-row items-baseline p-1 mt-2">
           <div>Tags:</div>
-          <input id="tags" name="tags" type="text" requried
+          <input id="tags" name="tags" type="text" requried='true'
             className="w-full ml-2 p-1  focus:bg-gray-200"
             placeholder="Enter tags/keywords here"
-            required  value={posting.tags}  onChange={handleInputChange} />
+            required  value={post.tags}  onChange={handleInputChange} />
         </div>
 
-        <input id="description" name="description" type="text"  required
+        <input id="description" name="description" type="text"  requried='true'
           className="w-full mt-2 p-1  focus:bg-gray-200"
-          placeholder="Enter posting here"
-          required  value={posting.description}  onChange={handleInputChange} />
+          placeholder="Enter content of post here"
+          required  value={post.description}  onChange={handleInputChange} />
        
       </Modal.Content>
 
@@ -176,12 +174,12 @@ const PostingModal = (props) => {
           <Icon name='remove' />Abandon Changes
         </Button>
 
-        <Button basic color='red' onClick={deletePosting}>
-          <Icon name='remove' />Delete Posting
+        <Button basic color='red' onClick={deletePost}>
+          <Icon name='remove' />Delete Post
         </Button>
 
-        <Button basic color='green' onClick={updatePostingDetails}>
-          <Icon name='checkmark' />Submit
+        <Button basic color='green' onClick={updateOrCreatePost}>
+          <Icon name='checkmark' />Save Post
         </Button>
       </Modal.Actions>
 
@@ -189,29 +187,29 @@ const PostingModal = (props) => {
   )
 }
 
-export default PostingModal;
+export default PostModal;
 
 
 
 
-// const PostingModal = (props) => {
+// const PostModal = (props) => {
 
 //   console.log("Running PostalModal component")
 
 // }
-//   console.log("PostingModal.js props coming in =",props)
+//   console.log("PostModal.js props coming in =",props)
 
 //   const [posting, setPosting] = useState(props);
 //   const [editPosting,setEditPosting] = useState(false);
 
 //   const handleInputChange = event => {
-//     console.log("PostingModalTEST.js handleInputChange() posting=",posting)
+//     console.log("PostModalTEST.js handleInputChange() posting=",posting)
 //     const { name, value } = event.target;
 //     setPosting(currPost => { return {...currPost, [name]: value }});     // J: Why brackets [] around name? 
 //   };
 
 //   const updatePostingDetails = () => {
-//     console.log("PostingModalTEST.js updatePostingDetails() posting=",posting)
+//     console.log("PostModalTEST.js updatePostingDetails() posting=",posting)
 //     PostingAxios.update(posting._id, posting)
 //       .then(response => {
 //         props.history.push("/postings");

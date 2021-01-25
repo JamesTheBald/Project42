@@ -4,7 +4,7 @@ import { Button } from 'semantic-ui-react';
 
 import PostingAxios from '../services/PostingAxios';
 import WelcomeModal from "./WelcomeModal";
-import PostingModal from "./PostingModal";
+import PostModal from "./PostModal";
 
 
 const PostingsList = () => {
@@ -14,7 +14,13 @@ const PostingsList = () => {
 
   useEffect(() => {
     retrievePostings();
-  }, []);               // C: '[]' means useEffect will only run THE FIRST time the page renders, not every time it renders
+  }, []);     // C: '[]' means useEffect will only run THE FIRST time the page renders
+
+  const updatePostingsArray = (post) => {     // Pass this to PostModal.js
+
+  }
+
+
 
   const retrievePostings = () => {
     PostingAxios.getAll()
@@ -74,7 +80,8 @@ const PostingsList = () => {
 
           {/* Create Post button */}
           <div className="mx-4 hover:text-blue-400">
-            <PostingModal refresh={retrievePostings} />   {/* NB: No posting props passed in */}
+            <PostModal note="Create Post button"/>       {/* refresh={retrievePostings} */}
+            {/* NB: No posting props passed in here - this is for creating a new (empty) posting*/}
           </div>
 
           {/* Search bar */}
@@ -88,23 +95,24 @@ const PostingsList = () => {
             <button className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600" onClick={onClickFindByTitle}>
               Search
             </button>
+
           </div>
         </div>
       </nav>
-      
      
-
 
       {/* Postings List */}
       <div className="m-10">
-        <div className="text-lg">Postings List</div>
       
         <div className="list-group">
-          {postings && postings.map((posting, index) => (     // J: render if postings isn't NULL
+          {postings && postings.map((post, index) => (    // J: If postings isn't NULL..
+            
             <div key={index}>
-                <PostingModal posting={posting} refresh={retrievePostings} />
+                <PostModal post={post} note="post list"/>
+                {/* refresh={retrievePostings}  */}
                 {/* setPosts={setPostings} */}
             </div>
+            
           ))}
         </div>
 
