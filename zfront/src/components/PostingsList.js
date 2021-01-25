@@ -64,29 +64,31 @@ const PostingsList = () => {
     <div>
       
       {/* Navbar */}
-      <nav className="w-full p-4 h-20 my-auto flex flex-row items-baseline text-blue-200 bg-blue-900">
+      <nav className="w-full h-20 flex items-center text-blue-200 bg-blue-900">
         
-        <div className="text-2xl mx-4">
-          <WelcomeModal />
-        </div>
+        <div className="flex flex-row items-baseline">
 
-        {/* Create Post button */}
-        <div className="mx-4 hover:text-blue-800">
-          <PostingModal refresh={retrievePostings} />
-        </div>
+          <div className="text-2xl mx-4  hover:text-blue-400">
+            <WelcomeModal />
+          </div>
 
-        {/* Search bar */}
-        <div className="flex flex-row mx-4">
-          
-          <input type="text"  className="w-100 p-1 bg-gray-100 rounded-lg"  
-            placeholder=" Search by Title"
-            value={searchTitle}  onChange={onChangeSearchTitle}>
-          </input>
+          {/* Create Post button */}
+          <div className="mx-4 hover:text-blue-400">
+            <PostingModal refresh={retrievePostings} />   {/* NB: No posting props passed in */}
+          </div>
 
-          <button className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg" onClick={onClickFindByTitle}>
-            Search
-          </button>
+          {/* Search bar */}
+          <div className="flex flex-row mx-4">
+            
+            <input type="text"  className="w-100 p-1 bg-gray-100 rounded-lg"  
+              placeholder=" Search by Title"
+              value={searchTitle}  onChange={onChangeSearchTitle}>
+            </input>
 
+            <button className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600" onClick={onClickFindByTitle}>
+              Search
+            </button>
+          </div>
         </div>
       </nav>
       
@@ -105,10 +107,6 @@ const PostingsList = () => {
             </div>
           ))}
         </div>
-
-        {/* <Button className="mt-3" onClick={() => history.push('/addposting')}>
-          Add Posting
-        </Button> */}
 
         <Button className="mt-3" basic color='red' onClick={removeAllPostings}>
           Remove All

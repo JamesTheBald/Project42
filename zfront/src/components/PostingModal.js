@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Button, Icon, Modal } from 'semantic-ui-react'
-
 import PostingAxios from "../services/PostingAxios";
 import convertISODate from '../functions/convertISODate';
 
@@ -47,7 +46,7 @@ const PostingModal = (props) => {
         setPosting({
           id: response.data.id,
           title: response.data.title,
-          contributors: response.data.contributor,
+          contributors: response.data.contributors,
           description: response.data.description,
           tags: response.data.tags
         });
@@ -98,21 +97,20 @@ const PostingModal = (props) => {
       dimmer='blurring'
       open={isOpen}
       trigger={       // ** This is the content for each posting in PostingsList **
- 
-        posting._id ? (
+         posting._id ? (
           <div className={'list-group-item'}>
             {posting.title}
             <br />
             {posting.contributors}
           </div>
         ) : (
-          <div>Create Post</div>
+          <div className="p-2">Create Post</div>
         )
       }
-      
       onClose={() => setIsOpen(false)}
       onOpen={() => setIsOpen(true)}
     >
+
       <Modal.Content>
 
       {posting._id ? (
@@ -133,7 +131,7 @@ const PostingModal = (props) => {
 
         <div className="flex flex-row items-baseline p-1 mt-2">
           <div>Contributors:</div>
-          <input id="contributors" name="contributors" type="text"
+          <input id="contributors" name="contributors" type="text" requried
             className="w-full ml-2 p-1  focus:bg-gray-200"
             placeholder="Enter names of contributors here (Firstname, last Initial)"
             required  value={posting.contributors}  onChange={handleInputChange} />
@@ -155,7 +153,7 @@ const PostingModal = (props) => {
           <></>
         )}
 
-        <input id="description" name="description" type="text" 
+        <input id="description" name="description" type="text"  required
           className="w-full mt-2 p-1  focus:bg-gray-200"
           placeholder="Enter posting here"
           required  value={posting.description}  onChange={handleInputChange} />

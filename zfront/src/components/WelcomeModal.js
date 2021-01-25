@@ -10,7 +10,7 @@ function WelcomeModal() {
       open={open}
       size='tiny'
       trigger={
-        <div>
+        <div className="p-2">
           Helpful Postings
         </div>
       }
