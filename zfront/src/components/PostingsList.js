@@ -16,6 +16,11 @@ const PostingsList = () => {
     retrievePostings();
   }, []);     // C: '[]' means useEffect will only run THE FIRST time the page renders
 
+  const updatePostingsArray = (post) => {     // Pass this to PostModal.js
+
+  }
+
+
 
   const retrievePostings = () => {
     PostingAxios.getAll()
@@ -27,36 +32,6 @@ const PostingsList = () => {
         console.log(err);
       });
   };
-
-
-  const updatePostingsArray = (newPost) => {     // Pass this to PostModal.js
-
-    const idOfNewPost = newPost._id;
-    const indexOfNewPost = postings.findIndex(currPost => currPost.id === idOfNewPost);
-
-    (indexOfNewPost === -1) ? (
-      setPostings(postingsArray => postingsArray.push(newPost))
-    ) : (
-      setPostings(postingsArray => {postingsArray[indexOfNewPost] = newPost})
-    )
-  }
-  
-    // postings && postings.forEach (currPost => {
-    //   (currPost._id === idInQuestion) && (
-
-    //     currPost{_id, ...} = postToUpdateWith {_id, ...}
-
-        // currPost.title = postToUpdateWith.title
-        // currPost.contributors = postToUpdateWith.contributors;
-        // currPost.description = postToUpdateWith.description;
-        // currPost.tags = postToUpdateWith.tags
-  //     )
-  //   })
-  // }
-
-
-
-
 
   const onChangeSearchTitle = (evnt) => {
     const searchTitle = evnt.target.value;
@@ -78,18 +53,17 @@ const PostingsList = () => {
   const removeAllPostings = () => {
     PostingAxios.removeAll()
       .then(response => {
-        setPostings(response.data);
-        console.log("PostingsList.js removeAllPostings() response.data=",response.data);
-        // refreshList();
+        console.log(response.data);
+        refreshList();
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  // const refreshList = () => {
-  //   retrievePostings();
-  // };
+  const refreshList = () => {
+    retrievePostings();
+  };
 
 
   return (
@@ -106,7 +80,7 @@ const PostingsList = () => {
 
           {/* Create Post button */}
           <div className="mx-4 hover:text-blue-400">
-            <PostModal note="Create Post button" updatePostings={updatePostingsArray} />
+            <PostModal note="Create Post button"/>       {/* refresh={retrievePostings} */}
             {/* NB: No posting props passed in here - this is for creating a new (empty) posting*/}
           </div>
 
@@ -134,9 +108,9 @@ const PostingsList = () => {
           {postings && postings.map((post, index) => (    // J: If postings isn't NULL..
             
             <div key={index}>
-              <PostModal post={post} updatePostings={updatePostingsArray} note="post list"/>
-              {/* refresh={retrievePostings}  */}
-              {/* setPosts={setPostings} */}
+                <PostModal post={post} note="post list"/>
+                {/* refresh={retrievePostings}  */}
+                {/* setPosts={setPostings} */}
             </div>
             
           ))}
