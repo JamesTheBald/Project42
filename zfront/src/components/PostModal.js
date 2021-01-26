@@ -23,14 +23,15 @@ const PostModal = (props) => {
   const [modalOpen, setModalOpen] = useState(false)
   const refreshPostingsArray = props.updatePostings;
   const retrievePostings = props.getPostings;
-
+  const origin = props.origin
 
   const handleInputChange = event => {
     // console.log("PostModal.js handleInputChange() post=",post)   -TOO MUCH OUTPUT TO CONSOLE
     const { name, value } = event.target;
     setPost(currPost => { return {...currPost, [name]: value }}); 
-    // NB The brackets [] around 'name' in the above line are necessary so that js uses the VALUE of name for the key, and 
-    // not just the string 'name'. ie. so we get {...currPost, 'contributors':'James'} and not {...currPost, 'name':'James'}
+    // NB The brackets [] around 'name' in the above line are necessary so that js
+    // uses the VALUE of name for the key, and not just the string 'name'. ie. so we 
+    // get {...currPost, 'contributors':'James'} and not {...currPost, 'name':'James'}
   };
 
 
@@ -64,7 +65,7 @@ const PostModal = (props) => {
       tags: post.tags,
       contentType: post.contentType
     };
-    // NB: other fields of 'post' may be empty. e.g. post._ID = NULL
+    // NB: other fields of 'post' may be empty. e.g. post._ID = null
 
     PostingAxios.create(postSubset)
       .then(response => {
@@ -88,7 +89,7 @@ const PostModal = (props) => {
     PostingAxios.remove(post._id)
       .then(response => {
         console.log("PostModal.js- deletePost(), post=",post);
-        retrievePostings();     // Need to retrieve postings anew because postings state var is not changed, so no listing refresh 
+        retrievePostings();     // Need to retrieve postings anew because postings state var is not changed, so no React will not re-render the postings list 
         setModalOpen(false);
       })
       .catch(err => {
@@ -104,21 +105,24 @@ const PostModal = (props) => {
       dimmer='blurring'
       open={modalOpen}
       trigger={       // ** This is the content for each posting in PostingsList **
-         post._id ? (
+        (origin === "navbar") ? (
+          <div className="p-2">Create Post</div>
+        ) : (
           <div className="w-64 p-2 my-2 border border-gray-700 rounded-lg">
             <div>
-             {post.title}
+            {post.title}
             </div>
             <div className="mt-2">
               {post.contributors}
             </div>
           </div>
-        ) : (
-          <div className="p-2">Create Post</div>
         )
       }
       onClose={() => setModalOpen(false)}
-      onOpen={() => setModalOpen(true)}
+      onOpen={() => {
+        setModalOpen(true);
+        (origin==='navbar') && setPost(emptyPost);
+      }}
     >
 
     <Modal.Content>

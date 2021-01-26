@@ -103,7 +103,7 @@ const PostingsList = () => {
 
           {/* Create Post button */}
             <div className="mx-4 hover:text-blue-400">
-            <PostModal note="Create Post button" updatePostings={updatePostingsArray} getPostings={retrievePostings}/>
+            <PostModal note="Create Post button" updatePostings={updatePostingsArray} getPostings={retrievePostings} origin="navbar" />
             {/* NB: No posting props passed in here - this is for creating a new (empty) posting*/}
           </div>
 
