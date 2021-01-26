@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import { Link, useHistory } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 
 import PostingAxios from '../services/PostingAxios';
@@ -10,16 +9,10 @@ import PostModal from "./PostModal";
 const PostingsList = () => {
   const [postings, setPostings] = useState([]);
   const [searchTitle, setSearchTitle] = useState('');
-  // const history = useHistory();
 
   useEffect(() => {
     retrievePostings();
   }, []);     // C: '[]' means useEffect will only run THE FIRST time the page renders
-
-  const updatePostingsArray = (post) => {     // Pass this to PostModal.js
-
-  }
-
 
 
   const retrievePostings = () => {
@@ -33,11 +26,42 @@ const PostingsList = () => {
       });
   };
 
+
+  const updatePostingsArray = (newPost) => {     // Pass this via props to PostModal.js
+
+    console.log("PostingsList.js, updatePostingsArray, newPost=",newPost);
+
+    const idOfNewPost = (newPost) ? (newPost._id) : null;
+    const indexOfPostToReplace = postings.findIndex(currPost => currPost._id === idOfNewPost);
+
+    console.log("PostingsList.js, ditto, idOfNewPost=",idOfNewPost);
+    console.log("PostingsList.js, ditto, indexOfPostToReplace=",indexOfPostToReplace);
+    console.log("PostingsList.js, ditto, postings[indexOfPostToReplace]=", postings[indexOfPostToReplace]);
+
+    if (indexOfPostToReplace === -1) {
+      // if no match is found append new posting to end of postings array
+      setPostings( curr => [...curr, newPost] )
+    } else {
+      // Replace old post (with matching _id) with newPost
+      setPostings( curr => {
+        let updatedPostings = [...curr];      // NB: You can't do updatedPostings = curr here. You need to 
+        // spread then combine the curr array or you'll actually be modifying the state variable postings.
+        // Also you want to have this as a fat arrow function within the setPostings fn so that it's evaluated
+        // all at once when setPostings is invoked, so you don't fall into an 'async hole'
+        updatedPostings[indexOfPostToReplace] = newPost;
+        console.log("PostingsList.js, ditto, updatedPostings=",updatedPostings);
+        return updatedPostings;
+      })
+    }
+  }
+
+
   const onChangeSearchTitle = (evnt) => {
     const searchTitle = evnt.target.value;
     setSearchTitle(searchTitle);
     console.log('searchTitle=', searchTitle);
   };
+
 
   const onClickFindByTitle = () => {
     PostingAxios.findByTitle(searchTitle)
@@ -50,20 +74,19 @@ const PostingsList = () => {
       });
   };
 
+  
   const removeAllPostings = () => {
     PostingAxios.removeAll()
       .then(response => {
-        console.log(response.data);
-        refreshList();
+        setPostings(response.data);
+        console.log("PostingsList.js removeAllPostings() response.data=",response.data);
+        // refreshList();
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  const refreshList = () => {
-    retrievePostings();
-  };
 
 
   return (
@@ -79,8 +102,8 @@ const PostingsList = () => {
           </div>
 
           {/* Create Post button */}
-          <div className="mx-4 hover:text-blue-400">
-            <PostModal note="Create Post button"/>       {/* refresh={retrievePostings} */}
+            <div className="mx-4 hover:text-blue-400">
+            <PostModal note="Create Post button" updatePostings={updatePostingsArray} getPostings={retrievePostings}/>
             {/* NB: No posting props passed in here - this is for creating a new (empty) posting*/}
           </div>
 
@@ -108,9 +131,7 @@ const PostingsList = () => {
           {postings && postings.map((post, index) => (    // J: If postings isn't NULL..
             
             <div key={index}>
-                <PostModal post={post} note="post list"/>
-                {/* refresh={retrievePostings}  */}
-                {/* setPosts={setPostings} */}
+              <PostModal post={post} updatePostings={updatePostingsArray} getPostings={retrievePostings} note="post list"/>
             </div>
             
           ))}

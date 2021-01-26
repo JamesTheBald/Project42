@@ -22,29 +22,34 @@ const PostModal = (props) => {
   const [post, setPost] = useState(props.post || emptyPost);
   const [modalOpen, setModalOpen] = useState(false)
   const refreshPostingsArray = props.updatePostings;
+  const retrievePostings = props.getPostings;
+
 
   const handleInputChange = event => {
     // console.log("PostModal.js handleInputChange() post=",post)   -TOO MUCH OUTPUT TO CONSOLE
     const { name, value } = event.target;
-    setPost(currPost => { return {...currPost, [name]: value }});
+    setPost(currPost => { return {...currPost, [name]: value }}); 
+    // NB The brackets [] around 'name' in the above line are necessary so that js uses the VALUE of name for the key, and 
+    // not just the string 'name'. ie. so we get {...currPost, 'contributors':'James'} and not {...currPost, 'name':'James'}
   };
 
 
   const updateOrCreatePost = () => {
     console.log("PostModal.js, updateOrCreatePost(), post=",post)
 
-    post._id ? (
+    if (post._id) {
       PostingAxios.update(post._id, post)
       .then(response => {
+        console.log("PostModal.js, updateOrCreatePost(), response=",response)
         refreshPostingsArray(post);
         setModalOpen(false);
       })
       .catch(err => {
         console.log(err);
       })
-    ) : (
+    } else {
       createPost()
-    )
+    }
   };
 
 
@@ -63,16 +68,10 @@ const PostModal = (props) => {
 
     PostingAxios.create(postSubset)
       .then(response => {
-        const newPost = response.data;
-        setPost(newPost);
+        console.log("PostModal.js- handling response to PostingAxios.create")
 
-        // {
-          // _id: response.data._id,
-          // title: response.data.title,
-          // contributors: response.data.contributors,
-          // description: response.data.description,
-          // tags: response.data.tags
-        // });
+        const newPost = response.data;
+        setPost( () => newPost);
 
         console.log("PostModal.js, createPost, newPost=response.data=",newPost);
         refreshPostingsArray(newPost);
@@ -85,10 +84,11 @@ const PostModal = (props) => {
 
 
   const deletePost = () => {
+    console.log("PostModal.js- Running deletePost()")
     PostingAxios.remove(post._id)
       .then(response => {
-        console.log("PostModal.js, deletePost(), post=",post);
-        refreshPostingsArray(post);
+        console.log("PostModal.js- deletePost(), post=",post);
+        retrievePostings();     // Need to retrieve postings anew because postings state var is not changed, so no listing refresh 
         setModalOpen(false);
       })
       .catch(err => {
@@ -220,7 +220,7 @@ export default PostModal;
 //   const handleInputChange = event => {
 //     console.log("PostModalTEST.js handleInputChange() posting=",posting)
 //     const { name, value } = event.target;
-//     setPosting(currPost => { return {...currPost, [name]: value }});     // J: Why brackets [] around name? 
+//     setPosting(currPost => { return {...currPost, [name]: value }}); 
 //   };
 
 //   const updatePostingDetails = () => {
@@ -244,7 +244,8 @@ export default PostModal;
 
 //       {/* modal wrapper */}
 
-//         {/* {(posting && !editPosting) ? (
+//         {/* {(posting && !editPosting) ? (  
+//   {/* BEWARE - improper use of a ternary, that you're only getting away with because it's in JSX, not JS */}
 
 //           // Display details of existing posting 
 //           <div >
