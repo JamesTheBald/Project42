@@ -7,13 +7,13 @@ import convertISODate from '../functions/convertISODate';
 const PostModal = (props) => {
 
   useEffect(() => {
-    console.log("PostModal.js props coming in =",props)
+    console.log("PostModal.js start: props=",props)
   }, [props]);
 
   const emptyPost = {
     _id: null,
     title: "",
-    contributors: "",
+    contributors: "nothing here",
     description: "",
     tags: "",
     contentType: ""
@@ -24,6 +24,12 @@ const PostModal = (props) => {
   const refreshPostingsArray = props.updatePostings;
   const retrievePostings = props.getPostings;
   const origin = props.origin
+
+
+
+
+  console.log("PostModal.js start: post=",post);
+
 
   const handleInputChange = event => {
     // console.log("PostModal.js handleInputChange() post=",post)   -TOO MUCH OUTPUT TO CONSOLE
@@ -36,9 +42,11 @@ const PostModal = (props) => {
 
 
   const updateOrCreatePost = () => {
+    console.log("Running PostModal.js updateOrCreatePost()")
     console.log("PostModal.js, updateOrCreatePost(), post=",post)
 
-    if (post._id) {
+    if (post && post._id) {
+      console.log("PostModal.js updateOrCreatePost(): updating db")
       PostingAxios.update(post._id, post)
       .then(response => {
         console.log("PostModal.js, updateOrCreatePost(), response=",response)
@@ -49,52 +57,62 @@ const PostModal = (props) => {
         console.log(err);
       })
     } else {
-      createPost()
+      createPost(post)
     }
   };
 
 
-  const createPost = () => {
-    //J: The elements in the following object need to align with those in:
-    //      const posting = new mongooseModel({...}) in postingController.js
-    //and   var postingSchema = mongoose.Schema({ ... } in mongooseModel.js
-    var postSubset = {
-      title: post.title,
-      contributors: post.contributors,
-      description: post.description,
-      tags: post.tags,
-      contentType: post.contentType
-    };
-    // NB: other fields of 'post' may be empty. e.g. post._ID = null
+  const createPost = (pst) => {
+    console.log("Running PostModal.js createPost()")
 
-    PostingAxios.create(postSubset)
-      .then(response => {
-        console.log("PostModal.js- handling response to PostingAxios.create")
+    if (pst) {
+      //J: The elements in the following object need to align with those in:
+      //      const posting = new mongooseModel({...}) in postingController.js
+      //and   var postingSchema = mongoose.Schema({ ... } in mongooseModel.js
+      var postSubset = {
+        title: pst.title,
+        contributors: pst.contributors,
+        description: pst.description,
+        tags: pst.tags,
+        contentType: pst.contentType
+      };
+      // NB: other fields of 'post' may be empty. e.g. post._ID = null
 
-        const newPost = response.data;
-        setPost( () => newPost);
+      PostingAxios.create(postSubset)
+        .then(response => {
+          console.log("PostModal.js- handling response to PostingAxios.create")
 
-        console.log("PostModal.js, createPost, newPost=response.data=",newPost);
-        refreshPostingsArray(newPost);
-        setModalOpen(false);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+          const newPost = response.data;
+          setPost( () => newPost);
+
+          console.log("PostModal.js, createPost, newPost=response.data=",newPost);
+          refreshPostingsArray(newPost);
+          setModalOpen(false);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      console.log("PostModal.js, createPost: Error - falsy post data passed to createPost()")
+    }
   };
 
 
-  const deletePost = () => {
+  const deletePost = (pst) => {
     console.log("PostModal.js- Running deletePost()")
-    PostingAxios.remove(post._id)
-      .then(response => {
-        console.log("PostModal.js- deletePost(), post=",post);
+    if (pst) {
+      PostingAxios.remove(pst._id)
+      .then( () => {
+        console.log("PostModal.js- deletePost(), post=", pst);
         retrievePostings();     // Need to retrieve postings anew because postings state var is not changed, so no React will not re-render the postings list 
         setModalOpen(false);
       })
       .catch(err => {
         console.log(err);
       });
+    } else {
+      console.log("PostModal.js, deletePost: Error - falsy post data passed to deletePost()")
+    }
   };
 
 
@@ -108,14 +126,15 @@ const PostModal = (props) => {
         (origin === "navbar") ? (
           <div className="p-2">Create Post</div>
         ) : (
-          <div className="w-64 p-2 my-2 border border-gray-700 rounded-lg">
-            <div>
-            {post.title}
+            <div className="w-64 p-2 my-2 border border-gray-700 rounded-lg">
+              <div>
+              {post.title}
+              </div>
+              <div className="mt-2">
+                {post.contributors}
+              </div>
             </div>
-            <div className="mt-2">
-              {post.contributors}
-            </div>
-          </div>
+  
         )
       }
       onClose={() => setModalOpen(false)}
@@ -136,15 +155,15 @@ const PostModal = (props) => {
         <div>  
           <input name="title" type="text" requried='true'
           // id="title"   - J: Is this necessary?
-              className="text-xl w-full p-1  focus:bg-gray-200" 
+              className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200" 
               placeholder="Enter title of posting here"
               value={post.title}  onChange={handleInputChange} />   {/* ie update state var 'post' */}
         </div>
 
         <div className="flex flex-row items-baseline p-1 mt-2">
-          <div>Contributors:</div>
-          <input id="contributors" name="contributors" type="text" requried='true'
-            className="w-full ml-2 p-1  focus:bg-gray-200"
+          <div className="font-500">Contributors:</div>
+          <input name="w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200 hover:border-blue-900" type="text" requried='true' 
+            className="modalField"
             placeholder="Enter names of contributors here (Firstname, last Initial)"
             required  value={post.contributors}  onChange={handleInputChange} />
         </div>
@@ -152,13 +171,13 @@ const PostModal = (props) => {
         {post._id ? (
           <div className="flex flex-row p-1 mt-2">
             <div className="flex flex-row">
-              <div>Created:</div>
-              <div className="ml-2">{convertISODate(post.createdAt)}</div>
+              <div className="font-500">Created:</div>
+              <div className="ml-2 font-400">{convertISODate(post.createdAt)}</div>
             </div>
 
             <div className="flex flex-row ml-6">
-              <div>Modified:</div>
-              <div className="ml-2">{convertISODate(post.updatedAt)}</div>
+              <div className="font-500">Modified:</div>
+              <div className="ml-2 font-400">{convertISODate(post.updatedAt)}</div>
             </div>
           </div>
         ) : (
@@ -166,22 +185,22 @@ const PostModal = (props) => {
         )}
 
         <div className="flex flex-row items-baseline p-1 mt-2">
-          <div>Tags:</div>
-          <input id="tags" name="tags" type="text" requried='true'
-            className="w-full ml-2 p-1  focus:bg-gray-200"
+          <div className="font-500">Tags:</div>
+          <input name="tags" type="text" requried='true'
+            className="modalField"
             placeholder="Enter tags/keywords here"
             required  value={post.tags}  onChange={handleInputChange} />
         </div>
 
-        <input id="description" name="description" type="text"  requried='true'
-          className="w-full mt-2 p-1  focus:bg-gray-200"
+        <input name="description" type="text"  requried='true'
+          className="modalField"
           placeholder="Enter content of post here"
           required  value={post.description}  onChange={handleInputChange} />
 
         <div className="flex flex-row items-baseline p-1 mt-2">
-          <div>Content Type:</div>
-          <input id="contentType" name="contentType" type="text" requried='true'
-            className="w-full ml-2 p-1  focus:bg-gray-200"
+          <div className="font-500">Content Type:</div>
+          <input name="contentType" type="text" requried='true'
+            className="modalField"
             placeholder="Enter type of content (Text, file, etc.)"
             required  value={post.contentType}  onChange={handleInputChange} />
         </div>
@@ -193,7 +212,7 @@ const PostModal = (props) => {
           <Icon name='remove' />Abandon Changes
         </Button>
 
-        <Button basic color='red' onClick={deletePost}>
+        <Button basic color='red' onClick={() => deletePost(post)}>
           <Icon name='remove' />Delete Post
         </Button>
 

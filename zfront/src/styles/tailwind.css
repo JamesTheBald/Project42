@@ -1,4 +1,10 @@
 @tailwind base;
 @tailwind components;
+
+.modalField {
+  @apply w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200;
+}
+
 @tailwind utilities;
+
 

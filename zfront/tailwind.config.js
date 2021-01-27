@@ -53,7 +53,8 @@ module.exports = {
 
       fontFamily: {
 
-         sans: ['Myriad Pro', 'Tahoma', 'Verdana', 'system-ui', '-apple-system', 'sans-serif'],
+         sans: [ 'Roboto', 'Tahoma', 'Verdana', 'system-ui', '-apple-system', 'sans-serif'],
+        //  'M PLUS Rounded 1c',
          sans_bold: ['Myriad Pro Bold', 'Tahoma', 'Verdana', 'system-ui', '-apple-system', 'sans-serif'],
          serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
          mono: ['Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'],
