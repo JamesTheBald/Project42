@@ -1,40 +1,31 @@
 import React from 'react'
-import { Button, Icon, Modal } from 'semantic-ui-react'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
-function WelcomeModal() {
-  const [open, setOpen] = React.useState(true)
 
+function WelcomeModal(props) {
   return (
     <Modal
-      dimmer='blurring'
-      open={open}
-      size='tiny'
-      trigger={
-        <div className="p-2">
-          Helpful Postings
-        </div>
-      }
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
+      {...props}
+      size="lg"
+      centered
     >
-      <Modal.Content scrolling>
-        <div>
-          <div className="text-2xl">Pan Galactic Gargle Blasters' "Project 42"</div>
-          <div className="mt-6 italic">"The answer to the great question of life the universe and everything is… 42!"</div>
+      <Modal.Header closeButton>
+        <div className="text-2xl">Pan Galactic Gargle Blasters' "Project 42"</div>
+      </Modal.Header>
+      <Modal.Body>
+      <div className="text-lg text-center">
+          <div className="mt-10 text-xl italic">"The answer to the great question of life the universe and everything is… 42!"</div>
           <div className="mt-2 ml-10">- Supercomputer Deep Thought</div>
-          <div className="mt-6 text-center text-sm text-blue-800">Click on any posting to view or edit its details</div>
-          <div className="mt-1 text-center text-sm text-blue-800">Hover over any field in a posting to edit</div>
+          <div className="mt-10 text-blue-800">Click on any posting to view or edit its details</div>
+          <div className="mt-2 mb-10 text-blue-800">Hover over any field in a posting to edit</div>
         </div>
-      </Modal.Content>
-
-      <Modal.Actions>
-        <Button basic color='green' onClick={() => setOpen(false)}>
-          <Icon name='checkmark' /> Start Exploring
-        </Button>
-
-      </Modal.Actions>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
     </Modal>
-  )
+  );
 }
 
-export default WelcomeModal
+export default WelcomeModal;
