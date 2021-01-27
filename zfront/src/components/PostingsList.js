@@ -7,25 +7,26 @@ import WelcomeModal from "./WelcomeModal";
 import convertISODate from '../functions/convertISODate';
 
 
-const PostingsList = () => {
 
+const PostingsList = () => {
 
   const emptyPost = {
     _id: null,
     title: "",
-    contributors: "nothing here",
+    contributors: "",
     description: "",
     tags: "",
     contentType: ""
   };
 
-  const [postings, setPostings] = useState([]);
+  const [postings, setPostings] = useState([emptyPost]);
   const [post, setPost] = useState(emptyPost);      //J: Do we even want to track the 'post in question'?
 
   const [searchTitle, setSearchTitle] = useState('');
-  const [showMainModal, setShowMainModal] = React.useState(false);
-  const [showWelcome, setShowWelcome] = React.useState(false);
+  const [showMainModal, setShowMainModal] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
+  const [loading, setLoading] = useState(true)
 
 
   useEffect(() => {
@@ -34,12 +35,15 @@ const PostingsList = () => {
 
 
   const retrievePostings = () => {
-    console.log("Running PostingsList.js retrievePostings()")
+    console.log("Running retrievePostings()")
 
     PostingAxios.getAll()
       .then((response) => {
         setPostings(response.data);   // This will re-render if the postings data has changed.
-        console.log('PostingsList.js retrievePostings() response.data=', response.data);
+        console.log('retrievePostings() response.data=', response.data);
+
+        setLoading(false);
+
       })
       .catch((err) => {
         console.log(err);
@@ -49,9 +53,10 @@ const PostingsList = () => {
 
 
 
-  const handleInputChange = event => {
+  const handleInputChange = (event) => {
     // console.log("PostModal.js handleInputChange() post=",post)   -TOO MUCH OUTPUT TO CONSOLE
     const { name, value } = event.target;
+
     setPost(currPost => { return {...currPost, [name]: value }}); 
     // NB The brackets [] around 'name' in the above line are necessary so that js
     // uses the VALUE of name for the key, and not just the string 'name'. ie. so we 
@@ -61,7 +66,7 @@ const PostingsList = () => {
 
   const updateOrCreatePost = () => {
     console.log("Running PostModal.js updateOrCreatePost()")
-    console.log("PostModal.js, updateOrCreatePost(), post=",post)
+    console.log("PostModal.js, updateOrCreatePost(), post=", post)
 
     if (post && post._id) {
       console.log("PostModal.js updateOrCreatePost(): updating db")
@@ -138,7 +143,7 @@ const PostingsList = () => {
 
 
   const updatePostingsArray = (newPost) => {     // Pass this via props to PostModal.js
-    console.log("Running PostingsList.js updatePostingsArray()")
+    console.log("Running updatePostingsArray()")
     console.log("PostingsList.js, updatePostingsArray: newPost=",newPost);
     console.log("PostingsList.js, updatePostingsArray: initially, postings=",postings);
 
@@ -180,7 +185,7 @@ const PostingsList = () => {
     PostingAxios.findByTitle(searchTitle)
       .then((response) => {
         setPostings(response.data);
-        console.log("PostingsList.js onClickFindByTitle() response.data=",response.data);
+        console.log("onClickFindByTitle() response.data=",response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -189,12 +194,12 @@ const PostingsList = () => {
 
   
   const removeAllPostings = () => {
-    console.log("Running PostingsList.js removeAllPostings()")
+    console.log("Running removeAllPostings()")
 
     PostingAxios.removeAll()
       .then(response => {
         setPostings(response.data);
-        console.log("PostingsList.js removeAllPostings() response.data=",response.data);
+        console.log("removeAllPostings() response.data=",response.data);
       })
       .catch(err => {
         console.log(err);
@@ -203,159 +208,170 @@ const PostingsList = () => {
 
 
 
-function MainModal(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      centered
-    >
-      <Modal.Header closeButton>
-        <div className="text-2xl">Create / View / Modify Post</div>
-      </Modal.Header>
+  function MainModal(props) {
 
-      <Modal.Body>
+    let pst = props.post;
 
-        <div>  
-            <input name="title" type="text" requried='true'
-                  className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200" 
-                  placeholder="Enter title of posting here"
-                  value={post.title}  onChange={handleInputChange} />   {/* ie update state var 'post' */}
-          </div>
+    return (
+      <Modal
+        size="lg"
+        centered
+        show={showMainModal}
+        onHide={() => setShowMainModal(false)}
+        animation={false}
+      >
+        <Modal.Header closeButton>
+          <div className="text-2xl">Create / View / Modify Post</div>
+        </Modal.Header>
 
-          <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Contributors:</div>
-            <input name="w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200 hover:border-blue-900" type="text" requried='true' 
-                  className="modalField"
-                  placeholder="Enter names of contributors here (Firstname, last Initial)"
-                  required  value={post.contributors}  onChange={handleInputChange} />
-          </div>
+        <Modal.Body>
 
-          {/* {post._id ? ( */}
-            <div className="flex flex-row p-1 mt-2">
-              <div className="flex flex-row">
-                <div className="font-500">Created:</div>
-                <div className="ml-2 font-400">{convertISODate(post.createdAt)}</div>
+          <div>  
+              <input name="title" type="text" requried='true'
+                    className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200" 
+                    placeholder="Enter title of posting here"
+                    value={pst.title}  onChange={handleInputChange} />   {/* ie update state var 'post' */}
+            </div>
+
+            <div className="flex flex-row items-baseline p-1 mt-2">
+              <div className="font-500">Contributors:</div>
+              <input name="w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200 hover:border-blue-900" type="text" requried='true' 
+                    className="modalField"
+                    placeholder="Enter names of contributors here (Firstname, last Initial)"
+                    required  value={pst.contributors}  onChange={handleInputChange} />
+            </div>
+
+            {/* {pst._id ? ( */}
+              <div className="flex flex-row p-1 mt-2">
+                <div className="flex flex-row">
+                  <div className="font-500">Created:</div>
+                  <div className="ml-2 font-400">{convertISODate(pst.createdAt)}</div>
+                </div>
+
+                <div className="flex flex-row ml-6">
+                  <div className="font-500">Modified:</div>
+                  <div className="ml-2 font-400">{convertISODate(pst.updatedAt)}</div>
+                </div>
               </div>
+            {/* ) : (
+              <></>
+            )} */}
 
-              <div className="flex flex-row ml-6">
-                <div className="font-500">Modified:</div>
-                <div className="ml-2 font-400">{convertISODate(post.updatedAt)}</div>
+            <div className="flex flex-row items-baseline p-1 mt-2">
+              <div className="font-500">Tags:</div>
+              <input name="tags" type="text" requried='true'
+                    className="modalField"
+                    placeholder="Enter tags/keywords here"
+                    required  value={pst.tags}  onChange={handleInputChange} />
+            </div>
+
+            <input name="description" type="text"  requried='true'
+                  className="modalField"
+                  placeholder="Enter content of post here"
+                  required  value={pst.description}  onChange={handleInputChange} />
+
+            <div className="flex flex-row items-baseline p-1 mt-2">
+              <div className="font-500">Content Type:</div>
+              <input name="contentType" type="text" requried='true'
+                    className="modalField"
+                    placeholder="Enter type of content (Text, file, etc.)"
+                    required  value={pst.contentType}  onChange={handleInputChange} />
+            </div>
+
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="warning" onClick={props.onHide}>Abandon Changes</Button>
+
+          <Button variant="danger" onClick={() => deletePost(pst)}>
+            Delete Post          {/* Add an icon? */}
+          </Button>
+
+          <Button color='green' onClick={updateOrCreatePost}>
+            Save Post            {/* Add an icon? */}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+
+
+  const ListPostings = () => {
+
+    console.log("ListPostings: postings=",postings)
+
+    // if (postings[0]._id) {
+    return (
+      <>
+        {postings.map((pst, indx) => {
+          console.log("ListPostings .map: indx=",indx, " and pst=",pst)
+    
+          return (
+            <div key={indx} className="w-64 p-2 my-2 border border-gray-700 rounded-lg" onClick={() => {
+              setPost(pst)
+              setShowMainModal(true)}}>
+              <div>
+                {pst.title}
+              </div>
+              <div className="mt-2">
+                {pst.contributors}
               </div>
             </div>
-          {/* ) : (
-            <></>
-          )} */}
-
-          <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Tags:</div>
-            <input name="tags" type="text" requried='true'
-                  className="modalField"
-                  placeholder="Enter tags/keywords here"
-                  required  value={post.tags}  onChange={handleInputChange} />
-          </div>
-
-          <input name="description" type="text"  requried='true'
-                className="modalField"
-                placeholder="Enter content of post here"
-                required  value={post.description}  onChange={handleInputChange} />
-
-          <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Content Type:</div>
-            <input name="contentType" type="text" requried='true'
-                  className="modalField"
-                  placeholder="Enter type of content (Text, file, etc.)"
-                  required  value={post.contentType}  onChange={handleInputChange} />
-          </div>
-
-      </Modal.Body>
-      <Modal.Footer>
-
-        <Button variant="warning" onClick={props.onHide}>Abandon Changes</Button>
-
-        <Button basic variant="danger" onClick={() => deletePost(post)}>
-          Delete Post          {/* Add an icon? */}
-        </Button>
-
-        <Button basic color='green' onClick={updateOrCreatePost}>
-          Save Post            {/* Add an icon? */}
-        </Button>
-
-      </Modal.Footer>
-    </Modal>
-  );
-}
+          )
+        })}
+      </>
+    )
+  
+    // } else {
+    //   return <></>
+    // }
+  }
 
 
 
+  // Main Page JSX
   return (
-    <body>
+    <div>
       
       {/* Navbar */}
       <nav className="w-full h-20 flex items-center text-blue-200 bg-blue-900">
-        
         <div className="flex flex-row items-baseline">
 
-          {/* <WelcomeModal /> */}
-          <div className="p-2 text-2xl mx-4  hover:text-blue-400" onClick={() => setShowWelcome(true)}>
+          <WelcomeModal show={showWelcomeModal}  onHide={() => setShowWelcomeModal(false)}  animation={false} />
+          <div className="p-2 text-2xl mx-4  hover:text-blue-400"  onClick={() => setShowWelcomeModal(true)}>
             Helpful Postings
           </div>
 
-          <WelcomeModal show={showWelcome}  onHide={() => setShowWelcome(false)}  animation={false} />
-
-
-          <div className="mx-4 hover:text-blue-400" onClick={() => setShowMainModal(true)} >
+          <div className="mx-4 hover:text-blue-400" onClick={() => {
+              setPost(emptyPost);
+              setShowMainModal(true)
+            }}> 
             Create Post
-          </div>
+            </div>
           
-
           {/* Search bar */}
           <div className="flex flex-row mx-4">
-            
             <input type="text"  className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"  
-              placeholder=" Search by Title"
-              value={searchTitle}  onChange={onChangeSearchTitle}>
+              placeholder=" Search by Title"  value={searchTitle}  onChange={onChangeSearchTitle}>
             </input>
-
             <button className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600" onClick={onClickFindByTitle}>
               Search
             </button>
-
           </div>
         </div>
       </nav>
      
 
-      {/* Postings List */}
-      <div className="m-10">
+      <ListPostings />
 
-        <div className="list-group">
-          {console.log("PostingsList.js Postings List JSX, postings =",postings)}
-          {postings[0] && postings.map((post, index) => (    // J: If postings isn't NULL..
-            
-            <div key={index}>
-              {/* <PostModal post={post} updatePostings={updatePostingsArray} getPostings={retrievePostings} note="post list"/> */}
+      <MainModal post={post}/>
 
-            </div>
-            
-          ))}
-        </div>
-
-
-        <Button variant="primary" onClick={() => setShowMainModal(true)}>
-          Launch Centered Modal
-        </Button>
-
-        <MainModal show={showMainModal}  onHide={() => setShowMainModal(false)}  animation={false} />
-
-
-        <Button className="mt-3" variant="outline-danger" onClick={removeAllPostings}>    {/* For Bootstrap use: basic color='red' */}
-          Remove All
-        </Button>
-
-      </div>
+      <Button variant="outline-danger" onClick={removeAllPostings}>
+        [Dev Only] Remove All
+      </Button>
     
-    </body>
+    </div>
   );
 };
 
