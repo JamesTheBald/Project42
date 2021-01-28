@@ -153,7 +153,7 @@ const PostModal = (props) => {
       )}
 
         <div>  
-          <input name="title" type="text" requried='true'
+          <input name="title" type="text" required='true'
           // id="title"   - J: Is this necessary?
               className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200" 
               placeholder="Enter title of posting here"
