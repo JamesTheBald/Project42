@@ -226,8 +226,8 @@ const PostingsList = () => {
 
         <Modal.Body>
 
-          <div>  
-              <input name="title" type="text" requried='true'
+            <div>  
+              <input name="title" type="text" required='true'
                     className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200" 
                     placeholder="Enter title of posting here"
                     value={pst.title}  onChange={handleInputChange} />   {/* ie update state var 'post' */}
@@ -235,7 +235,7 @@ const PostingsList = () => {
 
             <div className="flex flex-row items-baseline p-1 mt-2">
               <div className="font-500">Contributors:</div>
-              <input name="w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200 hover:border-blue-900" type="text" requried='true' 
+              <input name="w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200 hover:border-blue-900" type="text" required='true' 
                     className="modalField"
                     placeholder="Enter names of contributors here (Firstname, last Initial)"
                     required  value={pst.contributors}  onChange={handleInputChange} />
@@ -259,20 +259,20 @@ const PostingsList = () => {
 
             <div className="flex flex-row items-baseline p-1 mt-2">
               <div className="font-500">Tags:</div>
-              <input name="tags" type="text" requried='true'
+              <input name="tags" type="text" required='true'
                     className="modalField"
                     placeholder="Enter tags/keywords here"
                     required  value={pst.tags}  onChange={handleInputChange} />
             </div>
 
-            <input name="description" type="text"  requried='true'
+            <input name="description" type="text"  required='true'
                   className="modalField"
                   placeholder="Enter content of post here"
                   required  value={pst.description}  onChange={handleInputChange} />
 
             <div className="flex flex-row items-baseline p-1 mt-2">
               <div className="font-500">Content Type:</div>
-              <input name="contentType" type="text" requried='true'
+              <input name="contentType" type="text" required='true'
                     className="modalField"
                     placeholder="Enter type of content (Text, file, etc.)"
                     required  value={pst.contentType}  onChange={handleInputChange} />
