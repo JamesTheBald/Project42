@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown';
+
+
 
 import PostingAxios from '../services/PostingAxios';
 import WelcomeModal from "./WelcomeModal";
@@ -16,7 +19,9 @@ const PostingsList = () => {
     contributors: "",
     description: "",
     tags: "",
-    contentType: ""
+    contentType: "",
+    spiciness: 0,
+    upvotes: 0,
   };
 
   const [postings, setPostings] = useState([emptyPost]);
@@ -97,7 +102,9 @@ const PostingsList = () => {
         contributors: pst.contributors,
         description: pst.description,
         tags: pst.tags,
-        contentType: pst.contentType
+        contentType: pst.contentType,
+        spiciness: pst.spiciness,
+        upvotes: pst.upvotes
       };
       // NB: other fields of 'post' may be empty. e.g. post._ID = null
 
@@ -227,18 +234,26 @@ const PostingsList = () => {
         <Modal.Body>
 
             <div>  
-              <input name="title" type="text" required='true'
-                    className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200" 
-                    placeholder="Enter title of posting here"
-                    value={pst.title}  onChange={handleInputChange} />   {/* ie update state var 'post' */}
+              <input 
+                name="title" 
+                type="text"
+                required='true'
+                className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200" 
+                placeholder="Enter title of posting here"
+                value={pst.title}
+                onChange={handleInputChange} />   {/* ie update state var 'post' */}
             </div>
 
             <div className="flex flex-row items-baseline p-1 mt-2">
               <div className="font-500">Contributors:</div>
-              <input name="w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200 hover:border-blue-900" type="text" required='true' 
-                    className="modalField"
-                    placeholder="Enter names of contributors here (Firstname, last Initial)"
-                    required  value={pst.contributors}  onChange={handleInputChange} />
+              <input 
+                name="w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200 hover:border-blue-900"
+                type="text"
+                required='true' 
+                className="modalField"
+                placeholder="Enter names of contributors here (Firstname, last Initial)"
+                value={pst.contributors}
+                onChange={handleInputChange} />
             </div>
 
             {/* {pst._id ? ( */}
@@ -259,24 +274,64 @@ const PostingsList = () => {
 
             <div className="flex flex-row items-baseline p-1 mt-2">
               <div className="font-500">Tags:</div>
-              <input name="tags" type="text" required='true'
-                    className="modalField"
-                    placeholder="Enter tags/keywords here"
-                    required  value={pst.tags}  onChange={handleInputChange} />
+              <input 
+                name="tags" 
+                type="text" 
+                required='true'
+                className="modalField"
+                placeholder="Enter tags/keywords here"
+                value={pst.tags}
+                onChange={handleInputChange} />
             </div>
 
-            <input name="description" type="text"  required='true'
-                  className="modalField"
-                  placeholder="Enter content of post here"
-                  required  value={pst.description}  onChange={handleInputChange} />
+            <input 
+              name="description"
+              type="text"
+              required='true'
+              className="modalField"
+              placeholder="Enter content of post here"
+              value={pst.description}
+              onChange={handleInputChange} />
 
             <div className="flex flex-row items-baseline p-1 mt-2">
               <div className="font-500">Content Type:</div>
-              <input name="contentType" type="text" required='true'
-                    className="modalField"
-                    placeholder="Enter type of content (Text, file, etc.)"
-                    required  value={pst.contentType}  onChange={handleInputChange} />
+              <input 
+                name="contentType"
+                type="text"
+                required='true'
+                className="modalField"
+                placeholder="Enter type of content (Text, file, etc.)"
+                value={pst.contentType}
+                onChange={handleInputChange} />
             </div>
+
+            <div className="flex flex-row items-baseline p-1 mt-2">
+              <Dropdown>
+                <Dropdown.Toggle 
+                  variant="success" 
+                  id="dropdown-basic"
+                  name="contentType"
+                  required='true'
+                  className="modalField"
+                  value={pst.spiciness}
+                  defaultValue='0'
+                  onChange={handleInputChange} >
+                    Spiciness
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item href="#/action-1" value='1'>Mild</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2" value='2'>Medium</Dropdown.Item>
+                  <Dropdown.Item href="#/action-3" value='3'>Spicy</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+
+            <div className="flex flex-row items-baseline p-1 mt-2">
+              <div className="font-500">Upvotes:</div>
+            </div>
+
+
 
         </Modal.Body>
 
