@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 import PostingAxios from '../services/PostingAxios';
+import MainModal from "./MainModal";
 import WelcomeModal from "./WelcomeModal";
 import convertISODate from '../functions/convertISODate';
 import retrievePostings from '../functions/retrievePostings';
@@ -22,50 +23,70 @@ const PostingsList = () => {
     upvotes: 0,
   };
 
-  const [postings, setPostings] = useState([emptyPost]);
-  const [currPostIndex, setCurrPostIndex] = useState(0);
+  const [postingsDataArray, setPostingsDataArray] = useState([emptyPost]);
+  const [currPostIndex, setCurrPostIndex] = useState(0);   //points to which element in the postings array that we're interested in
 
   const [searchTitle, setSearchTitle] = useState('');
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-
   // const [loading, setLoading] = useState(true)
-  // JAMES JUST WROTE THIS
+
 
   useEffect(() => {
     retrievePostings();
   }, []);     // C: '[]' means useEffect will only run THE FIRST time the page renders
 
 
-
-  const handleInputChange = (event) => {    // Uses state vars 'postings' and 'currPostIndex' (assumed global and current)
+  const handleInputChange = (evnt, currPstIndx) => {    // Uses state vars 'postingsDataArray' and 'currPostIndex' (assumed global and current)
+  // Need to pass in setPostingsDataArray() and currPostIndex
 
     const { name, value } = evnt.target;
-    const newPost = { ...postings[currPostIndex], [name]: value }
+    const currPost = postingsDataArray[currPstIndx]     // currPstIndx is -1 for Create Post case
+    const alteredPost = { ...currPost, [name]: value }
     // NB The brackets [] around 'name' in the above line are necessary so that js
     // uses the VALUE of name for the key, and not just the string 'name'. 
 
     console.log("handleInputChange: name =",name)
     console.log("handleInputChange: value =",value)
-    console.log("handleInputChange: postings[currPostIndex] =",postings[currPostIndex])
-    console.log("handleInputChange: newPost =",newPost)
+    console.log("handleInputChange: postings[currPostIndex] =",currPost)
+    console.log("handleInputChange: newPost =",alteredPost)
 
-    setPostings( currArray => {
-      let newPostingsArray = [...currArray];
-      newPostingsArray[currPostIndex] = newPost;
-      console.log("handleInputChange: newPostingsArray =",newPostingsArray)
-      return newPostingsArray;
-    })
+    if (currPstIndx === -1) {
+
+      setPostingsDataArray( currDataArray => {
+        let newPostingsArray = [...currDataArray];
+        newPostingsArray.push(alteredPost);
+        console.log("handleInputChange: newPostingsArray =",newPostingsArray)
+        return newPostingsArray;
+      })
+    } else {
+
+      setPostingsDataArray( currDataArray => {
+        let newPostingsArray = [...currDataArray];
+        newPostingsArray[currPostingIndex] = alteredPost;
+        console.log("handleInputChange: newPostingsArray =",newPostingsArray)
+        return newPostingsArray;
+      })
+  
+  
+
+    }
+
+
+
+
+
+
   };
 
 
-  const updateOrCreatePost = () => {
-    console.log("updateOrCreatePost(), currPostIndex=", currPostIndex)
+  const updateOrCreatePost = () => {        // Runs when 'Save' button on modal is clicked
+    console.log("updateOrCreatePost(), currPostIndex=", currPostingIndex)
 
-    if (currPostIndex) {
+    if (currPostingIndex) {
       console.log("updateOrCreatePost(): updating db...")
 
-      PostingAxios.update(postings[currPostIndex]._id, postings[currPostIndex])
+      PostingAxios.update(postingsDataArray[currPostingIndex]._id, postingsDataArray[currPostingIndex])
       .then(response => {
         console.log("updateOrCreatePost(), response=",response)
         // replacePost(currPostIndex);                             // THERE IS NO replacePost FUNCTION!!
@@ -142,13 +163,13 @@ const PostingsList = () => {
   const updatePostingsArray = (newPost) => {     // Pass this via props to PostModal.js
     console.log("Running updatePostingsArray()")
     console.log("PostingsList.js, updatePostingsArray: newPost=",newPost);
-    console.log("PostingsList.js, updatePostingsArray: initially, postings=",postings);
+    console.log("PostingsList.js, updatePostingsArray: initially, postings=",postingsDataArray);
 
-    if (newPost && newPost._id && postings) {
+    if (newPost && newPost._id && postingsDataArray) {
       const idOfNewPost = newPost._id;
-      const indexOfPostToReplace = postings.findIndex(currPost => currPost._id === idOfNewPost);
+      const indexOfPostToReplace = postingsDataArray.findIndex(currPost => currPost._id === idOfNewPost);
 
-      console.log("PostingsList.js, ditto: postings[indexOfPostToReplace]=", postings[indexOfPostToReplace]);
+      console.log("PostingsList.js, ditto: postings[indexOfPostToReplace]=", postingsDataArray[indexOfPostToReplace]);
       console.log("PostingsList.js, ditto: idOfNewPost=",idOfNewPost);
       console.log("PostingsList.js, ditto: indexOfPostToReplace=",indexOfPostToReplace);
   
@@ -204,173 +225,38 @@ const PostingsList = () => {
   };
 
 
+ 
 
-  function MainModal(props) {
+  //uses state var
+  const RenderStubs = () => {
 
-    let pst = props.post;
+    console.log("ListPostings: postings=",postingsDataArray)
 
-    return (
-      <Modal
-        size="lg"
-        centered
-        show={showMainModal}
-        onHide={() => setShowMainModal(false)}
-        animation={false}
-      >
-        <Modal.Header closeButton>
-          <div className="text-2xl">Create / View / Modify Post</div>
-        </Modal.Header>
-
-        <Modal.Body>
-
-            <div>  
-              <input 
-                name="title" 
-                type="text"
-                required='true'
-                className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200" 
-                placeholder="Enter title of posting here"
-                value={pst.title}
-                onChange={handleInputChange} />   {/* ie update state var 'post' */}
-            </div>
-
-            <div className="flex flex-row items-baseline p-1 mt-2">
-              <div className="font-500">Contributors:</div>
-              <input 
-                name="w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200 hover:border-blue-900"
-                type="text"
-                required='true' 
-                className="modalField"
-                placeholder="Enter names of contributors here (Firstname, last Initial)"
-                value={pst.contributors}
-                onChange={handleInputChange} />
-            </div>
-
-            {/* {pst._id ? ( */}
-              <div className="flex flex-row p-1 mt-2">
-                <div className="flex flex-row">
-                  <div className="font-500">Created:</div>
-                  <div className="ml-2 font-400">{convertISODate(pst.createdAt)}</div>
+    if (postings[0]._id) {
+      return (
+        <>
+          {postingsDataArray.map((pst, indx) => {
+            console.log("RenderStubs .map: indx=",indx, " and pst=",pst)
+      
+            return (
+              <div key={indx} className="w-64 p-2 my-2 border border-gray-700 rounded-lg" onClick={() => {
+                setPost(pst)
+                setShowMainModal(true)}}>
+                <div>
+                  {pst.title}
                 </div>
-
-                <div className="flex flex-row ml-6">
-                  <div className="font-500">Modified:</div>
-                  <div className="ml-2 font-400">{convertISODate(pst.updatedAt)}</div>
+                <div className="mt-2">
+                  {pst.contributors}
                 </div>
               </div>
-            {/* ) : (
-              <></>
-            )} */}
-
-            <div className="flex flex-row items-baseline p-1 mt-2">
-              <div className="font-500">Tags:</div>
-              <input 
-                name="tags" 
-                type="text" 
-                required='true'
-                className="modalField"
-                placeholder="Enter tags/keywords here"
-                value={pst.tags}
-                onChange={handleInputChange} />
-            </div>
-
-            <input 
-              name="description"
-              type="text"
-              required='true'
-              className="modalField"
-              placeholder="Enter content of post here"
-              value={pst.description}
-              onChange={handleInputChange} />
-
-            <div className="flex flex-row items-baseline p-1 mt-2">
-              <div className="font-500">Content Type:</div>
-              <input 
-                name="contentType"
-                type="text"
-                required='true'
-                className="modalField"
-                placeholder="Enter type of content (Text, file, etc.)"
-                value={pst.contentType}
-                onChange={handleInputChange} />
-            </div>
-
-            <div className="flex flex-row items-baseline p-1 mt-2">
-              <Dropdown>
-                <Dropdown.Toggle 
-                  variant="success" 
-                  id="dropdown-basic"
-                  name="contentType"
-                  required='true'
-                  className="modalField"
-                  value={pst.spiciness}
-                  defaultValue='0'
-                  onChange={handleInputChange} >
-                    Spiciness
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1" value='1'>Mild</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2" value='2'>Medium</Dropdown.Item>
-                  <Dropdown.Item href="#/action-3" value='3'>Spicy</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </div>
-
-            <div className="flex flex-row items-baseline p-1 mt-2">
-              <div className="font-500">Upvotes:</div>
-            </div>
-
-
-
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="warning" onClick={props.onHide}>Abandon Changes</Button>
-
-          <Button variant="danger" onClick={() => deletePost(pst)}>
-            Delete Post          {/* Add an icon? */}
-          </Button>
-
-          <Button color='green' onClick={updateOrCreatePost}>
-            Save Post            {/* Add an icon? */}
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-
-
-
-  const ListPostings = () => {
-
-    console.log("ListPostings: postings=",postings)
-
-    // if (postings[0]._id) {
-    return (
-      <>
-        {postings.map((pst, indx) => {
-          console.log("ListPostings .map: indx=",indx, " and pst=",pst)
-    
-          return (
-            <div key={indx} className="w-64 p-2 my-2 border border-gray-700 rounded-lg" onClick={() => {
-              setPost(pst)
-              setShowMainModal(true)}}>
-              <div>
-                {pst.title}
-              </div>
-              <div className="mt-2">
-                {pst.contributors}
-              </div>
-            </div>
-          )
-        })}
-      </>
-    )
-  
-    // } else {
-    //   return <></>
-    // }
+            )
+          })}
+        </>
+      )
+    }
+     else {
+      return <div> Please create a post </div>
+    }
   }
 
 
@@ -389,10 +275,10 @@ const PostingsList = () => {
           </div>
 
           <div className="mx-4 hover:text-blue-400" onClick={() => {
-              setPost(emptyPost);
+              setCurrPostIndex(-1)      // use index of -1 to indicate a new, blank modal form
               setShowMainModal(true)
             }}> 
-            Create Post
+              Create Post
             </div>
           
           {/* Search bar */}
@@ -404,13 +290,14 @@ const PostingsList = () => {
               Search
             </button>
           </div>
+
         </div>
       </nav>
      
 
-      <ListPostings />
+      <RenderStubs />
 
-      <MainModal post={post}/>
+    <MainModal postingsDataArr={postingsDataArray} currPstIndx={currPstIndex} setPostingsDataArr={setPostingsDataArray} emptyPst={emptyPost} />
 
       <Button variant="outline-danger" onClick={removeAllPostings}>
         [Dev Only] Remove All
