@@ -29,8 +29,8 @@ const PostingsList = () => {
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
-  const [loading, setLoading] = useState(true)
-
+  // const [loading, setLoading] = useState(true)
+  // JAMES JUST WROTE THIS
 
   useEffect(() => {
     retrievePostings();
