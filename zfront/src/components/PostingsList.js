@@ -6,7 +6,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import PostingAxios from '../services/PostingAxios';
 import WelcomeModal from "./WelcomeModal";
 import convertISODate from '../functions/convertISODate';
-
+import retrievePostings from '../functions/retrievePostings';
 
 
 const PostingsList = () => {
@@ -37,24 +37,6 @@ const PostingsList = () => {
   }, []);     // C: '[]' means useEffect will only run THE FIRST time the page renders
 
 
-  const retrievePostings = () => {
-    console.log("Running retrievePostings()")
-
-    PostingAxios.getAll()
-      .then((response) => {
-        setPostings(response.data);   // This will re-render if the postings data has changed.
-        console.log('retrievePostings() response.data=', response.data);
-
-        // setLoading(false);
-
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-
-
 
   const handleInputChange = (event) => {    // Uses state vars 'postings' and 'currPostIndex' (assumed global and current)
 
@@ -78,15 +60,15 @@ const PostingsList = () => {
 
 
   const updateOrCreatePost = () => {
-    console.log("Running PostModal.js updateOrCreatePost()")
-    console.log("PostModal.js, updateOrCreatePost(), post=", post)
+    console.log("updateOrCreatePost(), currPostIndex=", currPostIndex)
 
-    if (post && post._id) {
-      console.log("PostModal.js updateOrCreatePost(): updating db")
-      PostingAxios.update(post._id, post)
+    if (currPostIndex) {
+      console.log("updateOrCreatePost(): updating db...")
+
+      PostingAxios.update(postings[currPostIndex]._id, postings[currPostIndex])
       .then(response => {
-        console.log("PostModal.js, updateOrCreatePost(), response=",response)
-        updatePostingsArray(post);
+        console.log("updateOrCreatePost(), response=",response)
+        // replacePost(currPostIndex);                             // THERE IS NO replacePost FUNCTION!!
         setShowMainModal(false);
       })
       .catch(err => {
