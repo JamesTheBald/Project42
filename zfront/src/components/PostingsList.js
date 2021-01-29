@@ -3,8 +3,6 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 
-
-
 import PostingAxios from '../services/PostingAxios';
 import WelcomeModal from "./WelcomeModal";
 import convertISODate from '../functions/convertISODate';
@@ -14,7 +12,7 @@ import convertISODate from '../functions/convertISODate';
 const PostingsList = () => {
 
   const emptyPost = {
-    _id: null,
+    _id: null,      //  It'd be better if we used 0
     title: "",
     contributors: "",
     description: "",
@@ -25,7 +23,7 @@ const PostingsList = () => {
   };
 
   const [postings, setPostings] = useState([emptyPost]);
-  const [post, setPost] = useState(emptyPost);      //J: Do we even want to track the 'post in question'?
+  const [currPostIndex, setCurrPostIndex] = useState(0);
 
   const [searchTitle, setSearchTitle] = useState('');
   const [showMainModal, setShowMainModal] = useState(false);
@@ -47,7 +45,7 @@ const PostingsList = () => {
         setPostings(response.data);   // This will re-render if the postings data has changed.
         console.log('retrievePostings() response.data=', response.data);
 
-        setLoading(false);
+        // setLoading(false);
 
       })
       .catch((err) => {
@@ -58,14 +56,24 @@ const PostingsList = () => {
 
 
 
-  const handleInputChange = (event) => {
-    // console.log("PostModal.js handleInputChange() post=",post)   -TOO MUCH OUTPUT TO CONSOLE
-    const { name, value } = event.target;
+  const handleInputChange = (event) => {    // Uses state vars 'postings' and 'currPostIndex' (assumed global and current)
 
-    setPost(currPost => { return {...currPost, [name]: value }}); 
+    const { name, value } = evnt.target;
+    const newPost = { ...postings[currPostIndex], [name]: value }
     // NB The brackets [] around 'name' in the above line are necessary so that js
-    // uses the VALUE of name for the key, and not just the string 'name'. ie. so we 
-    // get {...currPost, 'contributors':'James'} and not {...currPost, 'name':'James'}
+    // uses the VALUE of name for the key, and not just the string 'name'. 
+
+    console.log("handleInputChange: name =",name)
+    console.log("handleInputChange: value =",value)
+    console.log("handleInputChange: postings[currPostIndex] =",postings[currPostIndex])
+    console.log("handleInputChange: newPost =",newPost)
+
+    setPostings( currArray => {
+      let newPostingsArray = [...currArray];
+      newPostingsArray[currPostIndex] = newPost;
+      console.log("handleInputChange: newPostingsArray =",newPostingsArray)
+      return newPostingsArray;
+    })
   };
 
 
