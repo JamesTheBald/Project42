@@ -2,7 +2,8 @@ import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
-// import deletePost from "../functions/deletePost";
+import deletePost from "../functions/deletePost";
+
 
 
 const MainModal = (props) => {

@@ -5,7 +5,6 @@ import PostingAxios from "../services/PostingAxios";
 import MainModal from "./MainModal";
 import WelcomeModal from "./WelcomeModal";
 import retrievePostings from "../functions/retrievePostings";   
-import deletePost from "../functions/deletePost";
 
 
 const PostingsList = () => {
@@ -31,7 +30,7 @@ const PostingsList = () => {
 
   useEffect(() => {
     retrievePostings();
-  }, []); // C: '[]' means useEffect will only run THE FIRST time the page renders
+  }, []);                 // C: '[]' means useEffect will only run THE FIRST time the page renders
 
 
   //J: handleInputChange has been fixed up (29JAN2021)
