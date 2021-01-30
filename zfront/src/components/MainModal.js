@@ -1,31 +1,39 @@
 import React from "react";
+import Dropdown from "react-bootstrap/Dropdown";
+import Modal from "react-bootstrap/Modal";
+import convertISODate from "../functions/convertISODate";
+
 
 const MainModal = (props) => {
 
-  const currPstIndx = props.currPstIndx; 
-  let postingsDataArr = props.postingsDataArr;    // will this change? If so, switch to const
-  let setPostingsDataArr = props.setPostingsDataArr
   const emptyPst = props.emptyPst;
+  let currPostIndx = props.currPostIndx; 
+  const setCurrPostIndx = props.setCurrPostIndx;
+  let postingsDataArr = props.postingsDataArr;    // will this change? If so, switch to const
+  const setPostingsDataArr = props.setPostingsDataArr
 
-  console.log("MainModal.js: currPstIndx=",currPstIndx);
-  console.log("MainModal.js: postingsDataArr=",postingsDataArr);
-  console.log("MainModal.js: setPostingsDataArr=",setPostingsDataArr);
-  console.log("MainModal.js: emptyPst=",emptyPst);
+  console.log("MainModal.js: emptyPst=", emptyPst);
+  console.log("MainModal.js: currPostIndx=", currPostIndx);
+  console.log("MainModal.js: postingsDataArr=", postingsDataArr);
+  console.log("MainModal.js: setPostingsDataArr=", setPostingsDataArr);
   
+  let isNewPost = false;
+  let pst = emptyPst;
 
-  if (currPstIndx === -1) {
-    let pst = emptyPst;
+  if (currPostIndx === -1) {   
+    setCurrPostIndx( () => postingsDataArr.length);
+    isNewPost = true;
 
-    setPostingsDataArray( currDataArray => {
-      let newPostingsArr = [...currDataArray];
+    setPostingsDataArray( currDataArr => {
+      let newPostingsArr = [...currDataArr];
       newPostingsArr.push(pst);
       console.log("handleInputChange: newPostingsArray =",newPostingsArr)
       return newPostingsArr;
     })
-    currPstIndx = postingsDataArr.length;
 
   } else {
-    let pst = postingsDataArray[currPostIndex];
+    pst = postingsDataArray[currPostIndx];
+    isNewPost = false;
   }
 
 
@@ -33,10 +41,10 @@ const MainModal = (props) => {
     <>
       <Modal size="lg" centered show={showMainModal} onHide={() => setShowMainModal(false)} animation={false}>
         <Modal.Header closeButton>
-          {(currPostIndex === -1) ? (
+          {(isNewPost) ? (
             <div className="text-2xl">Create Post</div>
           ) : (
-            <></>   
+            <></>
           )}
         </Modal.Header>
 
@@ -49,27 +57,28 @@ const MainModal = (props) => {
               className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
               placeholder="Enter title of posting here"
               value={pst.title}
-              onChange={handleInputChange}
+              onChange={handleInputChange(currPostIndx)}
             />
           </>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Contributors:</div>
+            <div className="font-500">Contributors:</div>            {/* font-500 is Tailwind for bold */}
             <input
-              name="w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200 hover:border-blue-900"
+              name="contributors"
               type="text"
               required="true"
               className="modalField"
               placeholder="Enter names of contributors here (Firstname, last Initial)"
               value={pst.contributors}
-              onChange={handleInputChange}
+              onChange={handleInputChange(currPostIndx)}
             />
           </div>
 
-          {currPostIndex === -1 ? (
+          {(isNewPost) ? (
             <></>
           ) : (
-            <div className="flex flex-row p-1 mt-2">
+            <div className="flex flex-row p-1 mt-2">   {/* Dates are read-only, and only shown for existing posts */}
+
               <div className="flex flex-row">
                 <div className="font-500">Created:</div>
                 <div className="ml-2 font-400">{convertISODate(pst.createdAt)}</div>
@@ -91,19 +100,19 @@ const MainModal = (props) => {
               className="modalField"
               placeholder="Enter tags/keywords here"
               value={pst.tags}
-              onChange={handleInputChange}
+              onChange={handleInputChange(currPostIndx)}
             />
           </div>
 
           <input
-            name="description"
+            name="description"                              //J: I'd like to change this to 'content' 
             type="text"
             required="true"
             className="modalField"
             placeholder="Enter content of post here"
-            value={pst.description}
-            onChange={handleInputChange}
-          />
+            value={pst.description}                         //J: I'd like to change this to '.content' 
+            onChange={handleInputChange(currPostIndx)}
+            />
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Content Type:</div>
@@ -114,40 +123,35 @@ const MainModal = (props) => {
               className="modalField"
               placeholder="Enter type of content (Text, file, etc.)"
               value={pst.contentType}
-              onChange={handleInputChange}
+              onChange={handleInputChange(currPostIndx)}
             />
           </div>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <Dropdown>
               <Dropdown.Toggle
-                variant="success"
+                variant="success"       //J: How about we change this to checkboxes, so it's easy to select more than 1
                 id="dropdown-basic"
-                name="contentType"
+                name="spiciness"
                 required="true"
                 className="modalField"
                 value={pst.spiciness}
                 defaultValue="0"
-                onChange={handleInputChange}>
+                onChange={handleInputChange(currPostIndx)}
+              >
                 Spiciness
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1" value="1">
-                  Mild
-                </Dropdown.Item>
-                <Dropdown.Item href="#/action-2" value="2">
-                  Medium
-                </Dropdown.Item>
-                <Dropdown.Item href="#/action-3" value="3">
-                  Spicy
-                </Dropdown.Item>
+                <Dropdown.Item href="#/action-1" value="1">Mild</Dropdown.Item>
+                <Dropdown.Item href="#/action-2" value="2">Medium</Dropdown.Item>
+                <Dropdown.Item href="#/action-3" value="3">Spicy</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Upvotes:</div>
+            <div className="font-500">Upvotes:</div>          {/*J: Need to add Collin's counter code here */}
           </div>
         </Modal.Body>
 
@@ -156,7 +160,7 @@ const MainModal = (props) => {
             Abandon Changes
           </Button>
 
-          <Button variant="danger" onClick={() => deletePost(pst)}>
+          <Button variant="danger" onClick={() => deletePost(currPostIndx)}>
             Delete Post {/* Add an icon? */}
           </Button>
 
