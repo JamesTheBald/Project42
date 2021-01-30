@@ -3,7 +3,8 @@ import React from "react";
 const RenderStubs = (postingsDataArr, setCurrPostIndx, setShowMainModl) => {
   console.log("RenderStubs.js postingsDataArr=", postingsDataArr);
 
-  if (postingsDataArr[0]._id) {
+
+  if (postingsDataArr && postingsDataArr[0]) {    // was postingsDataArr[0]._id
     return (
       <>
         {postingsDataArr.map((pst, indx) => {

@@ -1,7 +1,6 @@
-// import React from 'react'
+import PostingAxios from "../services/PostingAxios";
 
 const deletePost = (postingsDataArr, setPostingsDataArr, currPostIndx) => {
-
   console.log("deletePost.js- postingsDataArr=",postingsDataArr);
   console.log("deletePost.js- setPostingsDataArr=",setPostingsDataArr);
   console.log("deletePost.js- currPostIndx=",currPostIndx);
@@ -13,7 +12,7 @@ const deletePost = (postingsDataArr, setPostingsDataArr, currPostIndx) => {
     
       setPostingsDataArr((currDataArr) => {
         let newPostingsArr = [...currDataArr];
-        newPostingsArr.splice(currPostIndx,1);    // remove 1 item by index
+        newPostingsArr.splice(currPostIndx,1);       // remove 1 item by index
         console.log("deletePost.js- newPostingsArr =", newPostingsArr);
         return newPostingsArr;
       })

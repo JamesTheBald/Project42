@@ -1,5 +1,6 @@
-const updatePostingsDB = (postingsDataArr, currPostIndx) => {
+import PostingAxios from "../services/PostingAxios";
 
+const updatePostingsDB = (postingsDataArr, currPostIndx) => {
   console.log("MainModal.js: updatePostingsDB(), currPostIndex=", currPostIndx);
 
   if (postingsDataArr && postingsDataArr[currPostIndx]) {

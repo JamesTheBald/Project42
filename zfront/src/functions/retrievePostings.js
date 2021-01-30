@@ -1,5 +1,6 @@
-const retrievePostings = (setPostingsDataArray) => {
+import PostingAxios from "../services/PostingAxios";
 
+const retrievePostings = (setPostingsDataArray) => {
   console.log("Running retrievePostings.js")
 
   PostingAxios.getAll()

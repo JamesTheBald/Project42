@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 
-import PostingAxios from "../services/PostingAxios";
 import MainModal from "./MainModal";
 import WelcomeModal from "./WelcomeModal";
 import RenderStubs from "./RenderStubs";
@@ -12,7 +11,7 @@ import onClickFindByTitle from "../functions/onClickFindByTitle";
 
 const PostingsList = () => {
   const emptyPost = {
-    _id: null, //J:  It'd be better if we used 0
+    _id: 0,           //J: _id was null
     title: "",
     contributors: "",
     description: "",
@@ -24,7 +23,6 @@ const PostingsList = () => {
 
   const [postingsDataArray, setPostingsDataArray] = useState([emptyPost]);
   const [currPostIndex, setCurrPostIndex] = useState(0); //C: points to the element in the postings array that we're interested in
-
   const [searchTitle, setSearchTitle] = useState("");
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
@@ -32,8 +30,7 @@ const PostingsList = () => {
 
   useEffect(() => {
     retrievePostings(setPostingsDataArray);
-  }, []);                                   // C: '[]' means useEffect will only run THE FIRST time the page renders
-
+  }, []); // C: '[]' means useEffect will only run THE FIRST time the page renders
 
   const onChangeSearchTitle = (evnt) => {
     setSearchTitle(evnt.target.value);
@@ -41,7 +38,6 @@ const PostingsList = () => {
   };
 
 
-  // Main Page JSX
   return (
     <div>
       {/* Navbar */}
@@ -85,6 +81,8 @@ const PostingsList = () => {
       />
 
       <MainModal
+        showMainModl={showMainModal}
+        setShowMainModl={setShowMainModal}
         postingsDataArr={postingsDataArray}
         currPostIndx={currPostIndex}
         setCurrPostIndx={setCurrPostIndex}
@@ -92,7 +90,8 @@ const PostingsList = () => {
         emptyPst={emptyPost}
       />
 
-      <Button variant="outline-danger" onClick={removeAllPostings(setPostingsDataArray)}>  {/* Refreshes postingsDataArray */}
+      <Button variant="outline-danger" onClick={() => removeAllPostings(setPostingsDataArray)}>
+        {/* Refreshes postingsDataArray */}
         [Dev Only] Remove All
       </Button>
     </div>
