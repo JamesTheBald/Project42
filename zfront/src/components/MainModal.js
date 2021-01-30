@@ -2,6 +2,7 @@ import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
+// import deletePost from "../functions/deletePost";
 
 
 const MainModal = (props) => {
@@ -27,7 +28,7 @@ const MainModal = (props) => {
     setPostingsDataArray( currDataArr => {
       let newPostingsArr = [...currDataArr];
       newPostingsArr.push(pst);
-      console.log("handleInputChange: newPostingsArray =",newPostingsArr)
+      console.log("MainModal.js: newPostingsArray =",newPostingsArr)
       return newPostingsArr;
     })
 
@@ -57,7 +58,7 @@ const MainModal = (props) => {
               className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
               placeholder="Enter title of posting here"
               value={pst.title}
-              onChange={handleInputChange(currPostIndx)}
+              onChange={handleInputChange(currPostIndx)}            // Try onBlur ??
             />
           </>
 
@@ -160,12 +161,15 @@ const MainModal = (props) => {
             Abandon Changes
           </Button>
 
-          <Button variant="danger" onClick={() => deletePost(currPostIndx)}>
-            Delete Post {/* Add an icon? */}
+          <Button variant="danger" onClick={() => {
+            deletePost(postingsDataArr, setPostingsDataArr, currPostIndx);
+            setShowMainModal(false);
+          }}>
+            Delete Post       {/* Add an icon? */}
           </Button>
 
-          <Button color="green" onClick={updateOrCreatePost}>
-            Save Post {/* Add an icon? */}
+          <Button color="green" onClick={updateOrCreatePost}>    {/* updateOrCreatePost() has NOT been fixed up yet */}
+            Save Post         {/* Add an icon? */}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -33,9 +33,10 @@ const PostingsList = () => {
   }, []); // C: '[]' means useEffect will only run THE FIRST time the page renders
 
 
+  //J: handleInputChange has been fixed up (29JAN2021)
   const handleInputChange = (evnt, currPostIndx) => {
-    // Uses state vars 'postingsDataArray' and 'currPostIndex' (assumed global and current)
-    // Assumes postingsDataArray != null,  currPostIndex >= 0
+    // Leave in PostingList.js for now: this function uses state vars 'postingsDataArray' and 
+    // 'currPostIndex' (assumed global and current). Assumes postingsDataArray != null,  currPostIndex >= 0
     const { name, value } = evnt.target;
     const currPost = postingsDataArray[currPostIndx];
     const alteredPost = { ...currPost, [name]: value };
@@ -56,6 +57,7 @@ const PostingsList = () => {
   };
 
 
+  //J: THIS FUNCTION HAS NOT BEEN FIXED UP YET (as of 29JAN2021)
   const updateOrCreatePost = () => {
     // Runs when 'Save' button on modal is clicked
     console.log("updateOrCreatePost(), currPostIndex=", currPostingIndex);
@@ -77,6 +79,8 @@ const PostingsList = () => {
     }
   };
 
+
+  //J: THIS FUNCTION HAS NOT BEEN FIXED UP YET (as of 29JAN2021)
   const createPost = (pst) => {
     console.log("Running PostModal.js createPost()");
 
@@ -97,7 +101,7 @@ const PostingsList = () => {
 
       PostingAxios.create(postSubset)
         .then((response) => {
-          console.log("PostModal.js- handling response to PostingAxios.create");
+          console.log("PostModal.js: handling response to PostingAxios.create");
 
           const newPost = response.data;
           setPost(() => newPost);
@@ -114,24 +118,39 @@ const PostingsList = () => {
     }
   };
 
-  
-  const deletePost = (currPostIndx) => {              //J: RECONFIGURE TO RECEIVE & USE currPostIndx
-    console.log("PostModal.js- Running deletePost()");
-    if (pst) {
+
+
+//J: LOOKS GOOD TO GO. MOVE TO SEPARATE FILE (29JAN2021)
+  const deletePost = (postingsDataArr, setPostingsDataArr, currPostIndx) => {
+
+    console.log("PostModal.js- deletePost() postingsDataArr=",postingsDataArr);
+    console.log("PostModal.js- deletePost() setPostingsDataArr=",setPostingsDataArr);
+    console.log("PostModal.js- deletePost() currPostIndx=",currPostIndx);
+
+    if (postingsDataArr && postingsDataArr[currPostIndx]) {
       PostingAxios.remove(pst._id)
-        .then(() => {
-          console.log("PostModal.js- deletePost(), post=", pst);
-          retrievePostings(); // Need to retrieve postings anew because postings state var is not changed, so no React will not re-render the postings list
-          setShowMainModal(false);
+      .then((response) => {
+        console.log("PostModal.js- deletePost(), response=", response);
+      
+        setPostingsDataArr((currDataArr) => {
+          let newPostingsArr = [...currDataArr];
+          newPostingsArr.splice(currPostIndx,1);    // remove 1 item by index
+          console.log("PostModal.js- deletePost(): newPostingsArray =", newPostingsArr);
+          return newPostingsArr;
         })
-        .catch((err) => {
-          console.log(err);
-        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      
     } else {
-      console.log("PostModal.js, deletePost: Error - falsy post data passed to deletePost()");
+      console.log("PostModal.js, deletePost: Error - received falsy array/index data passed");
     }
   };
 
+
+
+  //J: THIS FUNCTION HAS NOT BEEN FIXED UP YET (as of 29JAN2021)    INDEED IS IT NECESSARY ANY MORE???
   const updatePostingsArray = (newPost) => {
     // Pass this via props to PostModal.js
     console.log("Running updatePostingsArray()");
@@ -195,6 +214,7 @@ const PostingsList = () => {
   };
 
   //uses state var
+  //J: THIS FUNCTION HAS NOT BEEN FIXED UP YET (as of 29JAN2021)
   const RenderStubs = () => {
     console.log("ListPostings: postings=", postingsDataArray);
 
@@ -209,7 +229,7 @@ const PostingsList = () => {
                 key={indx}
                 className="w-64 p-2 my-2 border border-gray-700 rounded-lg"
                 onClick={() => {
-                  setPost(pst);
+                  setPost(pst);                         //J: DEPRECATED!!
                   setShowMainModal(true);
                 }}>
                 <div>{pst.title}</div>
