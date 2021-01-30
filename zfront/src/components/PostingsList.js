@@ -6,13 +6,13 @@ import MainModal from "./MainModal";
 import WelcomeModal from "./WelcomeModal";
 import RenderStubs from "./RenderStubs";
 import retrievePostings from "../functions/retrievePostings";
-import deleteAllPostings from "../functions/deleteAllPostings";
+import removeAllPostings from "../functions/removeAllPostings";
 import onClickFindByTitle from "../functions/onClickFindByTitle";
 
 
 const PostingsList = () => {
   const emptyPost = {
-    _id: null, //  It'd be better if we used 0
+    _id: null, //J:  It'd be better if we used 0
     title: "",
     contributors: "",
     description: "",
@@ -29,7 +29,7 @@ const PostingsList = () => {
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
-  
+
   useEffect(() => {
     retrievePostings(setPostingsDataArray);
   }, []);                                   // C: '[]' means useEffect will only run THE FIRST time the page renders
@@ -86,13 +86,13 @@ const PostingsList = () => {
 
       <MainModal
         postingsDataArr={postingsDataArray}
-        currPostIndx={currPstIndex}
+        currPostIndx={currPostIndex}
         setCurrPostIndx={setCurrPostIndex}
         setPostingsDataArr={setPostingsDataArray}
         emptyPst={emptyPost}
       />
 
-      <Button variant="outline-danger" onClick={deleteAllPostings(setPostingsDataArray)}>  {/* Refreshes postingsDataArray */}
+      <Button variant="outline-danger" onClick={removeAllPostings(setPostingsDataArray)}>  {/* Refreshes postingsDataArray */}
         [Dev Only] Remove All
       </Button>
     </div>

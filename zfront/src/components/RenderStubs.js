@@ -1,8 +1,6 @@
-import React from 'react'
+import React from "react";
 
-      
 const RenderStubs = (postingsDataArr, setCurrPostIndx, setShowMainModl) => {
-
   console.log("RenderStubs.js postingsDataArr=", postingsDataArr);
 
   if (postingsDataArr[0]._id) {
@@ -31,5 +29,4 @@ const RenderStubs = (postingsDataArr, setCurrPostIndx, setShowMainModl) => {
   }
 };
 
-
-export default RenderStubs
+export default RenderStubs;
