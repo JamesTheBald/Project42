@@ -29,7 +29,7 @@ const PostingsList = () => {
 
 
   useEffect(() => {
-    retrievePostings();
+    retrievePostings(setPostingsDataArray);
   }, []);                 // C: '[]' means useEffect will only run THE FIRST time the page renders
 
 

@@ -41,7 +41,7 @@ const MainModal = (props) => {
 
   return (
     <>
-      <Modal size="lg" centered show={showMainModal} onHide={() => setShowMainModal(false)} animation={false}>
+      <Modal size="lg" centered show={showMainModal} animation={false} onHide={() => setShowMainModal(false)}>
         <Modal.Header closeButton>
           {(isNewPost) ? (
             <div className="text-2xl">Create Post</div>
@@ -158,7 +158,10 @@ const MainModal = (props) => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="warning" onClick={props.onHide}>
+          <Button variant="warning" onClick={ () => {          {/* Was onClick={props.onHide} */}
+            setShowMainModal(false);
+            retrievePostings(setPostingsDataArr);
+          }}>
             Abandon Changes
           </Button>
 
