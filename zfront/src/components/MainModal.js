@@ -24,13 +24,13 @@ const MainModal = (props) => {
   let pst = emptyPst;
 
 
-  // For 'Create Post' case, append an empty postings data object to postingsDataArray
+  // This function supports the 'Create Post' case by appending an empty postings data object to postingsDataArray
   // Do not move to separate file. Uses postingsDataArr, currPostIndx, setcurrPostIndx, isNewPost and pst 
   if (currPostIndx === -1) {   
     setCurrPostIndx( () => postingsDataArr.length);
     isNewPost = true;
 
-    setpostingsDataArr( currDataArr => {
+    setPostingsDataArr( currDataArr => {
       let newPostingsArr = [...currDataArr];
       newPostingsArr.push(pst);
       console.log("MainModal.js: newPostingsArray =",newPostingsArr)
@@ -44,7 +44,7 @@ const MainModal = (props) => {
 
 
  const handleInputChange = (evnt, currPostIndx) => {          //J: This could be called updatePostingsDataArray()
-  //J: Do not move to separate file. Uses postingsDataArr, setpostingsDataArr and currPostIndx
+  //J: Do not move to separate file. Uses postingsDataArr, setPostingsDataArr and currPostIndx
   //   Assumes postingsDataArray != null,  currPostIndex >= 0
 
   const { name, value } = evnt.target;
@@ -58,7 +58,7 @@ const MainModal = (props) => {
   console.log("MainModal.js: handleInputChange: postings[currPostIndex] =", currPost);
   console.log("MainModal.js: handleInputChange: newPost =", alteredPost);
 
-  setpostingsDataArr((currDataArr) => {
+  setPostingsDataArr((currDataArr) => {
     let newPostingsArr = [...currDataArr];
     newPostingsArr[currPostIndx] = alteredPost;
     console.log("MainModal.js: handleInputChange: newPostingsArray =", newPostingsArr);
@@ -106,7 +106,6 @@ const MainModal = (props) => {
 //     console.log("PostModal.js, createPost: Error - falsy post data passed to createPost()");
 //   }
 // };
-
 
 
 
@@ -230,22 +229,22 @@ const MainModal = (props) => {
 
         <Modal.Footer>
           <Button variant="warning" onClick={ () => {          {/* Was onClick={props.onHide} */}
-            retrievePostings(setPostingsDataArr);
+            retrievePostings(setPostingsDataArr);         // This will also refresh postingsDataArray
             setShowMainModal(false);
           }}>
             Abandon Changes
           </Button>
 
           <Button variant="danger" onClick={() => {
-            deletePost(postingsDataArr, setPostingsDataArr, currPostIndx);
+            deletePost(postingsDataArr, setPostingsDataArr, currPostIndx);    // This will refresh postingsDataArray
             setShowMainModal(false);
           }}>
             Delete Post       {/* Add an icon? */}
           </Button>
 
           <Button color="green" onClick={ () => {
-            updatePostingsDB(postingsDataArr, currPostIndx);
-            setShowMainModal(false);
+            updatePostingsDB(postingsDataArr, currPostIndx);       // This will NOT refresh postingsDataArray, but 
+            setShowMainModal(false);                            // handleInputChange() should keep postingsDataArray up to date
           }}>
             Save Post         {/* Add an icon? */}
           </Button>

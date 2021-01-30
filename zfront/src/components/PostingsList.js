@@ -4,7 +4,10 @@ import Button from "react-bootstrap/Button";
 import PostingAxios from "../services/PostingAxios";
 import MainModal from "./MainModal";
 import WelcomeModal from "./WelcomeModal";
-import retrievePostings from "../functions/retrievePostings";   
+import RenderStubs from "./RenderStubs";
+import retrievePostings from "../functions/retrievePostings";
+import deleteAllPostings from "../functions/deleteAllPostings";
+import onClickFindByTitle from "../functions/onClickFindByTitle";
 
 
 const PostingsList = () => {
@@ -20,116 +23,23 @@ const PostingsList = () => {
   };
 
   const [postingsDataArray, setPostingsDataArray] = useState([emptyPost]);
-  const [currPostIndex, setCurrPostIndex] = useState(0);    //C: points to the element in the postings array that we're interested in
+  const [currPostIndex, setCurrPostIndex] = useState(0); //C: points to the element in the postings array that we're interested in
 
   const [searchTitle, setSearchTitle] = useState("");
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  // const [loading, setLoading] = useState(true)
 
-
+  
   useEffect(() => {
     retrievePostings(setPostingsDataArray);
-  }, []);                 // C: '[]' means useEffect will only run THE FIRST time the page renders
+  }, []);                                   // C: '[]' means useEffect will only run THE FIRST time the page renders
 
-
- 
-
-
-
-  //J: THIS FUNCTION HAS NOT BEEN FIXED UP YET (as of 29JAN2021)    INDEED IS IT NECESSARY ANY MORE???
-  const updatePostingsArray = (newPost) => {
-    // Pass this via props to PostModal.js
-    console.log("Running updatePostingsArray()");
-    console.log("PostingsList.js, updatePostingsArray: newPost=", newPost);
-    console.log("PostingsList.js, updatePostingsArray: initially, postings=", postingsDataArray);
-
-    if (newPost && newPost._id && postingsDataArray) {
-      const idOfNewPost = newPost._id;
-      const indexOfPostToReplace = postingsDataArray.findIndex((currPost) => currPost._id === idOfNewPost);
-
-      console.log("PostingsList.js, ditto: postings[indexOfPostToReplace]=", postingsDataArray[indexOfPostToReplace]);
-      console.log("PostingsList.js, ditto: idOfNewPost=", idOfNewPost);
-      console.log("PostingsList.js, ditto: indexOfPostToReplace=", indexOfPostToReplace);
-
-      if (indexOfPostToReplace === -1) {
-        // if no match is found append new posting to end of postings array
-        setPostings((curr) => [...curr, newPost]);
-      } else {
-        // Replace old post (with matching _id) with newPost
-        setPostings((curr) => {
-          let updatedPostings = [...curr]; // NB: You can't do updatedPostings = curr here. You need to
-          // spread then combine the curr array or you'll actually be modifying the state variable 'postings'.
-          // Also you want to have this as a fat arrow function within the setPostings fn so that it's evaluated
-          // all at once when setPostings is invoked, so you don't fall into an 'async hole'
-          updatedPostings[indexOfPostToReplace] = newPost;
-          console.log("PostingsList.js, ditto, updatedPostings=", updatedPostings);
-          return updatedPostings;
-        });
-      }
-    }
-  };
 
   const onChangeSearchTitle = (evnt) => {
-    const searchTitle = evnt.target.value;
-    setSearchTitle(searchTitle);
-    console.log("searchTitle=", searchTitle);
+    setSearchTitle(evnt.target.value);
+    console.log("onChangeSearchTitle(): setSearchTitle to:", evnt.target.value);
   };
 
-  const onClickFindByTitle = () => {
-    PostingAxios.findByTitle(searchTitle)
-      .then((response) => {
-        setPostings(response.data);
-        console.log("onClickFindByTitle() response.data=", response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const removeAllPostings = () => {
-    console.log("Running removeAllPostings()");
-
-    PostingAxios.removeAll()
-      .then((response) => {
-        setPostings(response.data);
-        console.log("removeAllPostings() response.data=", response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  //uses state var
-  //J: THIS FUNCTION HAS NOT BEEN FIXED UP YET (as of 29JAN2021)
-  const RenderStubs = () => {
-    console.log("ListPostings: postings=", postingsDataArray);
-
-    if (postings[0]._id) {
-      return (
-        <>
-          {postingsDataArray.map((pst, indx) => {
-            console.log("RenderStubs .map: indx=", indx, " and pst=", pst);
-
-            return (
-              <div
-                key={indx}
-                className="w-64 p-2 my-2 border border-gray-700 rounded-lg"
-                onClick={() => {
-                  setPost(pst);                         //J: DEPRECATED!!
-                  setShowMainModal(true);
-                }}>
-                <div>{pst.title}</div>
-                <div className="mt-2">{pst.contributors}</div>
-              </div>
-            );
-          })}
-        </>
-      );
-    } else {
-      return <div> Please create a post </div>;
-    }
-  };
 
   // Main Page JSX
   return (
@@ -168,7 +78,11 @@ const PostingsList = () => {
         </div>
       </nav>
 
-      <RenderStubs />
+      <RenderStubs
+        postingsDataArr={postingsDataArray}
+        setCurrPostIndx={setCurrPostIndex}
+        setShowMainModl={setShowMainModal}
+      />
 
       <MainModal
         postingsDataArr={postingsDataArray}
@@ -178,7 +92,7 @@ const PostingsList = () => {
         emptyPst={emptyPost}
       />
 
-      <Button variant="outline-danger" onClick={removeAllPostings}>
+      <Button variant="outline-danger" onClick={deleteAllPostings(setPostingsDataArray)}>  {/* Refreshes postingsDataArray */}
         [Dev Only] Remove All
       </Button>
     </div>
