@@ -6,44 +6,50 @@ import convertISODate from "../functions/convertISODate";
 import retrievePostings from "../functions/retrievePostings";
 import deletePost from "../functions/deletePost";
 import updatePostingsDB from "../functions/updatePostingsDB";
+import RenderHeadingCreatePost from "./RenderHeadingCreatePost";
 
 
 const MainModal = (props) => {
 
-  let showMainModl = props.showMainModl
-  const setShowMainModl = props.setShowMainModl
+  let showMainModl = props.showMainModl;
+  const setShowMainModl = props.setShowMainModl;
   const emptyPst = props.emptyPst;
   let currPostIndx = props.currPostIndx; 
   const setCurrPostIndx = props.setCurrPostIndx;
   let postingsDataArr = props.postingsDataArr;
-  const setPostingsDataArr = props.setPostingsDataArr
+  const setPostingsDataArr = props.setPostingsDataArr;
+  let creatingNewPst = props.creatingNewPst;
+  const setCreatingNewPst = props.setCreatingNewPst;
 
-  console.log("MainModal.js begins. emptyPst=", emptyPst);
+
+  // console.log("MainModal.js begins. emptyPst=", emptyPst);
   console.log("MainModal.js begins. currPostIndx=", currPostIndx);
   console.log("MainModal.js begins. postingsDataArr=", postingsDataArr);
+  console.log("MainModal.js begins. creatingNewPst=", creatingNewPst);
   // console.log("MainModal.js begins. setPostingsDataArr=", setPostingsDataArr);
   
-  let isNewPost = false;
-  let pst = emptyPst;
 
-
-  // This function supports the 'Create Post' case by appending an empty postings data object to postingsDataArray
-  // Do not move to separate file. Uses postingsDataArr, currPostIndx, setcurrPostIndx, isNewPost and pst 
-  if (currPostIndx === -1) {   
-    setCurrPostIndx( () => postingsDataArr.length);
-    isNewPost = true;
-
-    setPostingsDataArr( currDataArr => {
-      let newPostingsArr = [...currDataArr];
-      newPostingsArr.push(pst);
-      console.log("MainModal.js: newPostingsArray =",newPostingsArr)
-      return newPostingsArr;
-    })
-
+  // Handle 'No Data' case and 'Create Post' case
+  if (postingsDataArr === []) {
+    console.log("MainModal.js postingsDataArr is falsy to setting it to emptyPst")
+    setPostingsDataArr(emptyPst);
+    setCurrPostIndx(0);
+    setCreatingNewPst(true);
   } else {
-    pst = postingsDataArr[currPostIndx];
-    isNewPost = false;
+    // Append an empty postings data object to postingsDataArray for 'Create Post' case
+    // (Do not move to separate file. Uses postingsDataArr, currPostIndx, setcurrPostIndx, and creatingNewPst)
+    if (creatingNewPst === true) {   
+      console.log("MainModal.js appending emptyPst posting to end of postingsDataArray")
+      setCurrPostIndx( () => postingsDataArr.length);
+      setPostingsDataArr( currDataArr => {
+        let newPostingsArr = [...currDataArr];
+        newPostingsArr.push(emptyPst);
+        console.log("MainModal.js: newPostingsArray =",newPostingsArr)
+        return newPostingsArr;
+      })
+    }
   }
+
 
 
  const handleInputChange = (evnt) => {          //J: This could be called updatePostingsDataArray()
@@ -67,6 +73,7 @@ const MainModal = (props) => {
     console.log("MainModal.js: handleInputChange: newPostingsArray =", newPostingsArr);
     return newPostingsArr;
   });
+
 };
 
 
@@ -74,11 +81,9 @@ const MainModal = (props) => {
     <>
       <Modal size="lg" centered show={showMainModl} animation={false} onHide={() => setShowMainModl(false)}>
         <Modal.Header closeButton>
-          {(isNewPost) ? (
-            <div className="text-2xl">Create Post</div>
-          ) : (
-            <></>
-          )}
+
+          <RenderHeadingCreatePost creatingNewPst={creatingNewPst} />
+
         </Modal.Header>
 
         <Modal.Body>
@@ -89,7 +94,7 @@ const MainModal = (props) => {
               required="true"
               className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
               placeholder="Enter title of posting here"
-              value={pst.title}
+              value={postingsDataArr[currPostIndx].title}
               onChange={handleInputChange}            // Try onBlur ??
             />
           </>
@@ -102,27 +107,30 @@ const MainModal = (props) => {
               required="true"
               className="modalField"
               placeholder="Enter names of contributors here (Firstname, last Initial)"
-              value={pst.contributors}
+              value={postingsDataArr[currPostIndx].contributors}
               onChange={handleInputChange}
             />
           </div>
 
-          {(isNewPost) ? (
+          {(creatingNewPst) ? (
             <></>
           ) : (
             <div className="flex flex-row p-1 mt-2">   {/* Dates are read-only, and only shown for existing posts */}
 
               <div className="flex flex-row">
                 <div className="font-500">Created:</div>
-                <div className="ml-2 font-400">{convertISODate(pst.createdAt)}</div>
+                <div className="ml-2 font-400">{convertISODate(postingsDataArr[currPostIndx].createdAt)}</div>
               </div>
 
               <div className="flex flex-row ml-6">
                 <div className="font-500">Modified:</div>
-                <div className="ml-2 font-400">{convertISODate(pst.updatedAt)}</div>
+                <div className="ml-2 font-400">{convertISODate(postingsDataArr[currPostIndx].updatedAt)}</div>
               </div>
             </div>
           )}
+
+          {setCreatingNewPst(false)}         {/* Reset this state var. (No further rendering specific to Create Post case) */}
+
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Tags:</div>
@@ -132,7 +140,7 @@ const MainModal = (props) => {
               required="true"
               className="modalField"
               placeholder="Enter tags/keywords here"
-              value={pst.tags}
+              value={postingsDataArr[currPostIndx].tags}
               onChange={handleInputChange}
             />
           </div>
@@ -143,7 +151,7 @@ const MainModal = (props) => {
             required="true"
             className="modalField"
             placeholder="Enter content of post here"
-            value={pst.description}                         //J: I'd like to change this to '.content' 
+            value={postingsDataArr[currPostIndx].description}                         //J: I'd like to change this to '.content' 
             onChange={handleInputChange}
             />
 
@@ -155,7 +163,7 @@ const MainModal = (props) => {
               required="true"
               className="modalField"
               placeholder="Enter type of content (Text, file, etc.)"
-              value={pst.contentType}
+              value={postingsDataArr[currPostIndx].contentType}
               onChange={handleInputChange}
             />
           </div>
@@ -168,7 +176,7 @@ const MainModal = (props) => {
                 name="spiciness"
                 required="true"
                 className="modalField"
-                value={pst.spiciness}
+                value={postingsDataArr[currPostIndx].spiciness}
                 defaultValue="0"
                 onChange={handleInputChange}
               >

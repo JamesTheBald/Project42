@@ -8,10 +8,9 @@ import retrievePostings from "../functions/retrievePostings";
 import removeAllPostings from "../functions/removeAllPostings";
 import onClickFindByTitle from "../functions/onClickFindByTitle";
 
-
 const PostingsList = () => {
   const emptyPost = {
-    _id: 0,           //J: _id was null
+    _id: 0, //J: _id was null
     title: "",
     contributors: "",
     description: "",
@@ -26,6 +25,7 @@ const PostingsList = () => {
   const [searchTitle, setSearchTitle] = useState("");
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [creatingNewPost, setCreatingNewPost] = useState(false);
 
 
   useEffect(() => {
@@ -37,21 +37,22 @@ const PostingsList = () => {
     console.log("onChangeSearchTitle(): setSearchTitle to:", evnt.target.value);
   };
 
-
   return (
     <div>
       {/* Navbar */}
       <nav className="w-full h-20 flex items-center text-blue-200 bg-blue-900">
         <div className="flex flex-row items-baseline">
-          <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} animation={false} />
+          
           <div className="p-2 text-2xl mx-4  hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
             Helpful Postings
           </div>
+          <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} animation={false} />
 
+          {/* Create Post link */}
           <div
             className="mx-4 hover:text-blue-400"
             onClick={() => {
-              setCurrPostIndex(-1); // use index of -1 to indicate a new, blank modal form
+              setCreatingNewPost(true);
               setShowMainModal(true);
             }}>
             Create Post
@@ -75,19 +76,22 @@ const PostingsList = () => {
       </nav>
 
       <RenderStubs
-        postingsDataArr={postingsDataArray}
-        setCurrPostIndx={setCurrPostIndex}
-        setShowMainModl={setShowMainModal}
+        postingsDataArr = {postingsDataArray}
+        setCurrPostIndx = {setCurrPostIndex}
+        setShowMainModl = {setShowMainModal}
+        setCreatingNewPst = {setCreatingNewPost}
       />
 
       <MainModal
-        showMainModl={showMainModal}
-        setShowMainModl={setShowMainModal}
-        postingsDataArr={postingsDataArray}
-        currPostIndx={currPostIndex}
-        setCurrPostIndx={setCurrPostIndex}
-        setPostingsDataArr={setPostingsDataArray}
-        emptyPst={emptyPost}
+        showMainModl = {showMainModal}
+        setShowMainModl = {setShowMainModal}
+        emptyPst = {emptyPost}
+        postingsDataArr = {postingsDataArray}
+        currPostIndx = {currPostIndex}
+        setCurrPostIndx = {setCurrPostIndex}
+        setPostingsDataArr = {setPostingsDataArray}
+        creatingNewPst = {creatingNewPost}
+        setCreatingNewPst = {setCreatingNewPost}
       />
 
       <Button variant="outline-danger" onClick={() => removeAllPostings(setPostingsDataArray)}>

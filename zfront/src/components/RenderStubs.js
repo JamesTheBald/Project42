@@ -1,6 +1,12 @@
 import React from "react";
 
-const RenderStubs = (postingsDataArr, setCurrPostIndx, setShowMainModl) => {
+const RenderStubs = (props) => {
+
+  let postingsDataArr = props.postingsDataArr;
+  const setCurrPostIndx = props.setCurrPostIndx;
+  const setShowMainModl = props.setShowMainModl;
+  const setCreatingNewPst = props.setCreatingNewPst;
+
   console.log("RenderStubs.js postingsDataArr=", postingsDataArr);
 
 
@@ -14,9 +20,10 @@ const RenderStubs = (postingsDataArr, setCurrPostIndx, setShowMainModl) => {
             <div
               key={indx}
               className="w-64 p-2 my-2 border border-gray-700 rounded-lg"
-              onClick={() => {
+              onClick={(creatingNewPst) => {
                 setCurrPostIndx(pst);
                 setShowMainModl(true);
+                setCreatingNewPst(false);
               }}>
               <div>{pst.title}</div>
               <div className="mt-2">{pst.contributors}</div>
