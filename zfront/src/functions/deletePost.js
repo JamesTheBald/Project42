@@ -23,7 +23,7 @@ const deletePost = (postingsDataArr, setPostingsDataArr, currPostIndx) => {
     });
     
   } else {
-    console.log("deletePost.js, Error - received falsy array/index data passed");
+    console.log("deletePost.js, Error - received falsy array/index");
   }
 };
 

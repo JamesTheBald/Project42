@@ -5,10 +5,7 @@ const retrievePostings = (setPostingsDataArray) => {
   PostingAxios.getAll()
     .then((response) => {
       console.log('retrievePostings.js response.data=', response.data);
-      setPostingsDataArray(response.data);   // This will re-render if the postings data has changed.
-
-      // setLoading(false);
-
+      setPostingsDataArray(response.data);      // This will cause a re-render if the postings data has changed.
     })
     .catch((err) => {
       console.log(err);

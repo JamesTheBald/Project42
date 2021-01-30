@@ -3,6 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
 import deletePost from "../functions/deletePost";
+import updatePostingsDB from "../functions/updatePostingsDB";
 
 
 
@@ -14,19 +15,22 @@ const MainModal = (props) => {
   let postingsDataArr = props.postingsDataArr;    // will this change? If so, switch to const
   const setPostingsDataArr = props.setPostingsDataArr
 
-  console.log("MainModal.js: emptyPst=", emptyPst);
-  console.log("MainModal.js: currPostIndx=", currPostIndx);
-  console.log("MainModal.js: postingsDataArr=", postingsDataArr);
-  console.log("MainModal.js: setPostingsDataArr=", setPostingsDataArr);
+  console.log("MainModal.js begins. emptyPst=", emptyPst);
+  console.log("MainModal.js begins. currPostIndx=", currPostIndx);
+  console.log("MainModal.js begins. postingsDataArr=", postingsDataArr);
+  console.log("MainModal.js begins. setPostingsDataArr=", setPostingsDataArr);
   
   let isNewPost = false;
   let pst = emptyPst;
 
+
+  // For 'Create Post' case, append an empty postings data object to postingsDataArray
+  // Do not move to separate file. Uses postingsDataArr, currPostIndx, setcurrPostIndx, isNewPost and pst 
   if (currPostIndx === -1) {   
     setCurrPostIndx( () => postingsDataArr.length);
     isNewPost = true;
 
-    setPostingsDataArray( currDataArr => {
+    setpostingsDataArr( currDataArr => {
       let newPostingsArr = [...currDataArr];
       newPostingsArr.push(pst);
       console.log("MainModal.js: newPostingsArray =",newPostingsArr)
@@ -34,9 +38,76 @@ const MainModal = (props) => {
     })
 
   } else {
-    pst = postingsDataArray[currPostIndx];
+    pst = postingsDataArr[currPostIndx];
     isNewPost = false;
   }
+
+
+ const handleInputChange = (evnt, currPostIndx) => {          //J: This could be called updatePostingsDataArray()
+  //J: Do not move to separate file. Uses postingsDataArr, setpostingsDataArr and currPostIndx
+  //   Assumes postingsDataArray != null,  currPostIndex >= 0
+
+  const { name, value } = evnt.target;
+  const currPost = postingsDataArr[currPostIndx];
+  const alteredPost = { ...currPost, [name]: value };
+  // NB The brackets [] around 'name' in the above line are so that js
+  // uses the VALUE of name for the key and not just the string 'name'.
+
+  console.log("MainModal.js: handleInputChange: value =", value);
+  console.log("MainModal.js: handleInputChange: name =", name);
+  console.log("MainModal.js: handleInputChange: postings[currPostIndex] =", currPost);
+  console.log("MainModal.js: handleInputChange: newPost =", alteredPost);
+
+  setpostingsDataArr((currDataArr) => {
+    let newPostingsArr = [...currDataArr];
+    newPostingsArr[currPostIndx] = alteredPost;
+    console.log("MainModal.js: handleInputChange: newPostingsArray =", newPostingsArr);
+    return newPostingsArr;
+  });
+};
+
+
+// *** DEPRECATED ***
+// //J: (THIS FUNCTION HAS NOT BEEN FIXED UP YET (as of 29JAN2021))
+//
+// const createPost = (pst) => {
+//   console.log("Running PostModal.js createPost()");
+
+//   if (pst) {
+//     //J: The elements in the following object need to align with those in:
+//     //      const posting = new mongooseModel({...}) in postingController.js
+//     //and   var postingSchema = mongoose.Schema({ ... } in mongooseModel.js
+//     var postSubset = {
+//       title: pst.title,
+//       contributors: pst.contributors,
+//       description: pst.description,
+//       tags: pst.tags,
+//       contentType: pst.contentType,
+//       spiciness: pst.spiciness,
+//       upvotes: pst.upvotes,
+//     };
+//     // NB: other fields of 'post' may be empty. e.g. post._ID = null
+
+//     PostingAxios.create(postSubset)
+//       .then((response) => {
+//         console.log("PostModal.js: handling response to PostingAxios.create");
+
+//         const newPost = response.data;
+//         setPost(() => newPost);
+
+//         console.log("PostModal.js, createPost, newPost=response.data=", newPost);
+//         updatePostingsArray(newPost);
+//         setShowMainModal(false);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   } else {
+//     console.log("PostModal.js, createPost: Error - falsy post data passed to createPost()");
+//   }
+// };
+
+
 
 
   return (
@@ -159,8 +230,8 @@ const MainModal = (props) => {
 
         <Modal.Footer>
           <Button variant="warning" onClick={ () => {          {/* Was onClick={props.onHide} */}
-            setShowMainModal(false);
             retrievePostings(setPostingsDataArr);
+            setShowMainModal(false);
           }}>
             Abandon Changes
           </Button>
@@ -172,7 +243,10 @@ const MainModal = (props) => {
             Delete Post       {/* Add an icon? */}
           </Button>
 
-          <Button color="green" onClick={updateOrCreatePost}>    {/* updateOrCreatePost() has NOT been fixed up yet */}
+          <Button color="green" onClick={ () => {
+            updatePostingsDB(postingsDataArr, currPostIndx);
+            setShowMainModal(false);
+          }}>
             Save Post         {/* Add an icon? */}
           </Button>
         </Modal.Footer>

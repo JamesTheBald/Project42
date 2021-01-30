@@ -20,7 +20,7 @@ const PostingsList = () => {
   };
 
   const [postingsDataArray, setPostingsDataArray] = useState([emptyPost]);
-  const [currPostIndex, setCurrPostIndex] = useState(0); //points to which element in the postings array that we're interested in
+  const [currPostIndex, setCurrPostIndex] = useState(0);    //C: points to the element in the postings array that we're interested in
 
   const [searchTitle, setSearchTitle] = useState("");
   const [showMainModal, setShowMainModal] = useState(false);
@@ -33,120 +33,7 @@ const PostingsList = () => {
   }, []);                 // C: '[]' means useEffect will only run THE FIRST time the page renders
 
 
-  //J: handleInputChange has been fixed up (29JAN2021)
-  const handleInputChange = (evnt, currPostIndx) => {
-    // Leave in PostingList.js for now: this function uses state vars 'postingsDataArray' and 
-    // 'currPostIndex' (assumed global and current). Assumes postingsDataArray != null,  currPostIndex >= 0
-    const { name, value } = evnt.target;
-    const currPost = postingsDataArray[currPostIndx];
-    const alteredPost = { ...currPost, [name]: value };
-    // NB The brackets [] around 'name' in the above line are so that js
-    // uses the VALUE of name for the key, and not just the string 'name'.
-
-    console.log("handleInputChange: name =", name);
-    console.log("handleInputChange: value =", value);
-    console.log("handleInputChange: postings[currPostIndex] =", currPost);
-    console.log("handleInputChange: newPost =", alteredPost);
-
-    setPostingsDataArray((currDataArr) => {
-      let newPostingsArr = [...currDataArr];
-      newPostingsArr[currPostIndx] = alteredPost;
-      console.log("handleInputChange: newPostingsArray =", newPostingsArr);
-      return newPostingsArr;
-    });
-  };
-
-
-  //J: THIS FUNCTION HAS NOT BEEN FIXED UP YET (as of 29JAN2021)
-  const updateOrCreatePost = () => {
-    // Runs when 'Save' button on modal is clicked
-    console.log("updateOrCreatePost(), currPostIndex=", currPostingIndex);
-
-    if (currPostingIndex) {
-      console.log("updateOrCreatePost(): updating db...");
-
-      PostingAxios.update(postingsDataArray[currPostingIndex]._id, postingsDataArray[currPostingIndex])
-        .then((response) => {
-          console.log("updateOrCreatePost(), response=", response);
-          // replacePost(currPostIndex);                             // THERE IS NO replacePost FUNCTION!!
-          setShowMainModal(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      createPost(post);
-    }
-  };
-
-
-  //J: THIS FUNCTION HAS NOT BEEN FIXED UP YET (as of 29JAN2021)
-  const createPost = (pst) => {
-    console.log("Running PostModal.js createPost()");
-
-    if (pst) {
-      //J: The elements in the following object need to align with those in:
-      //      const posting = new mongooseModel({...}) in postingController.js
-      //and   var postingSchema = mongoose.Schema({ ... } in mongooseModel.js
-      var postSubset = {
-        title: pst.title,
-        contributors: pst.contributors,
-        description: pst.description,
-        tags: pst.tags,
-        contentType: pst.contentType,
-        spiciness: pst.spiciness,
-        upvotes: pst.upvotes,
-      };
-      // NB: other fields of 'post' may be empty. e.g. post._ID = null
-
-      PostingAxios.create(postSubset)
-        .then((response) => {
-          console.log("PostModal.js: handling response to PostingAxios.create");
-
-          const newPost = response.data;
-          setPost(() => newPost);
-
-          console.log("PostModal.js, createPost, newPost=response.data=", newPost);
-          updatePostingsArray(newPost);
-          setShowMainModal(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log("PostModal.js, createPost: Error - falsy post data passed to createPost()");
-    }
-  };
-
-
-
-//J: LOOKS GOOD TO GO. MOVE TO SEPARATE FILE (29JAN2021)
-  const deletePost = (postingsDataArr, setPostingsDataArr, currPostIndx) => {
-
-    console.log("PostModal.js- deletePost() postingsDataArr=",postingsDataArr);
-    console.log("PostModal.js- deletePost() setPostingsDataArr=",setPostingsDataArr);
-    console.log("PostModal.js- deletePost() currPostIndx=",currPostIndx);
-
-    if (postingsDataArr && postingsDataArr[currPostIndx]) {
-      PostingAxios.remove(pst._id)
-      .then((response) => {
-        console.log("PostModal.js- deletePost(), response=", response);
-      
-        setPostingsDataArr((currDataArr) => {
-          let newPostingsArr = [...currDataArr];
-          newPostingsArr.splice(currPostIndx,1);    // remove 1 item by index
-          console.log("PostModal.js- deletePost(): newPostingsArray =", newPostingsArr);
-          return newPostingsArr;
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-      
-    } else {
-      console.log("PostModal.js, deletePost: Error - received falsy array/index data passed");
-    }
-  };
+ 
 
 
 
