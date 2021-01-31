@@ -20,8 +20,8 @@ const RenderStubs = (props) => {
             <div
               key={indx}
               className="w-64 p-2 my-2 border border-gray-700 rounded-lg"
-              onClick={(creatingNewPst) => {
-                setCurrPostIndx(pst);
+              onClick={() => {
+                setCurrPostIndx(indx);
                 setShowMainModl(true);
                 setCreatingNewPst(false);
               }}>

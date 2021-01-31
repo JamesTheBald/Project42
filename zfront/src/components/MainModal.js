@@ -28,28 +28,34 @@ const MainModal = (props) => {
   console.log("MainModal.js begins. creatingNewPst=", creatingNewPst);
   // console.log("MainModal.js begins. setPostingsDataArr=", setPostingsDataArr);
   
-
-  // Handle 'No Data' case and 'Create Post' case
-  if (postingsDataArr === []) {
-    console.log("MainModal.js postingsDataArr is falsy to setting it to emptyPst")
+//PUT ME IN A USEEFFECT FN!!
+  // Take care of 'No Data' case
+  if (!postingsDataArr[0]) {
+    console.log("MainModal.js Start of 'No Data' case. postingsDataArr[0] is null (falsy). Setting it to emptyPst")
     setPostingsDataArr(emptyPst);
     setCurrPostIndx(0);
     setCreatingNewPst(true);
-  } else {
-    // Append an empty postings data object to postingsDataArray for 'Create Post' case
-    // (Do not move to separate file. Uses postingsDataArr, currPostIndx, setcurrPostIndx, and creatingNewPst)
-    if (creatingNewPst === true) {   
-      console.log("MainModal.js appending emptyPst posting to end of postingsDataArray")
-      setCurrPostIndx( () => postingsDataArr.length);
-      setPostingsDataArr( currDataArr => {
-        let newPostingsArr = [...currDataArr];
-        newPostingsArr.push(emptyPst);
-        console.log("MainModal.js: newPostingsArray =",newPostingsArr)
-        return newPostingsArr;
-      })
-    }
+
+    console.log("MainModal.js End of 'No Data' case: currPostIndx=", currPostIndx);
+    console.log("MainModal.js End of 'No Data' case: postingsDataArr=", postingsDataArr);
+    console.log("MainModal.js End of 'No Data' case: creatingNewPst=", creatingNewPst);
   }
 
+  // Take care of 'Create Post' case. Append an empty postings data object to end of postingsDataArray
+  //J: Do not move to separate file. Uses postingsDataArr, currPostIndx, setcurrPostIndx, and creatingNewPst
+  if (creatingNewPst === true) {   
+    console.log("MainModal.js appending emptyPst posting to end of postingsDataArray")
+    setCurrPostIndx( () => postingsDataArr.length);   //J: Why?
+    setPostingsDataArr( currDataArr => {
+      let newPostingsArr = [...currDataArr];
+      newPostingsArr.push(emptyPst);
+      console.log("MainModal.js: newPostingsArray =",newPostingsArr)
+      return newPostingsArr;
+    })
+    console.log("MainModal.js End of 'Create Data' case: currPostIndx=", currPostIndx);
+    console.log("MainModal.js End of 'Create Data' case: postingsDataArr=", postingsDataArr);
+  }
+  
 
 
  const handleInputChange = (evnt) => {          //J: This could be called updatePostingsDataArray()
