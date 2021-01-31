@@ -36,7 +36,8 @@
     "tailwind:build": "NODE_ENV=production postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
     "tailwind:dev": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
     "prestart": "npm run tailwind:dev",
-    "prebuild": "npm run tailwind:build"
+    "prebuild": "npm run tailwind:build",
+    "lint": "eslint ."
   },
   "eslintConfig": {
     "extends": "react-app"
