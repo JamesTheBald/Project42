@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 
 import MainModal from "./MainModal";
@@ -21,13 +21,17 @@ const PostingsList = () => {
   };
 
   const [postingsDataArray, setPostingsDataArray] = useState([emptyPost]);
-  const [currPostIndex, setCurrPostIndex] = useState(0); //C: points to the element in the postings array that we're interested in
+  const [currPostIndex, setCurrPostIndex] = useState(0);
   const [searchTitle, setSearchTitle] = useState("");
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [creatingNewPost, setCreatingNewPost] = useState(false);     //J: use useRef & .current instead of useState to avoid unnec re-renders
                                                                      // See part 4 of https://dmitripavlutin.com/react-hooks-mistakes-to-avoid/
 
+
+  // let currPostIndex = useRef();
+  //C: points to the element in the postings array that we're interested in
+  //J: Why is currPostIndex a state variable???
 
   useEffect(() => {
     retrievePostings(setPostingsDataArray);
@@ -78,21 +82,22 @@ const PostingsList = () => {
 
       <RenderStubs
         postingsDataArr = {postingsDataArray}
-        setCurrPostIndx = {setCurrPostIndex}
-        setShowMainModl = {setShowMainModal}
-        setCreatingNewPst = {setCreatingNewPost}
+        currPostIndex = {currPostIndex}           //J: We need currPostIndex available to both MainModal & RenderStubs. Do we need Redux?
+         setCurrPostIndex = {setCurrPostIndex}
+         setShowMainModl = {setShowMainModal}
+         setCreatingNewPst = {setCreatingNewPost}   //J: Thinking this shouldn't be a state var
       />
 
       <MainModal
-        showMainModl = {showMainModal}
-        setShowMainModl = {setShowMainModal}
         emptyPst = {emptyPost}
+        showMainModl = {showMainModal}
+         setShowMainModl = {setShowMainModal}
         postingsDataArr = {postingsDataArray}
-        currPostIndx = {currPostIndex}
-        setCurrPostIndx = {setCurrPostIndex}
-        setPostingsDataArr = {setPostingsDataArray}
-        creatingNewPst = {creatingNewPost}
-        setCreatingNewPst = {setCreatingNewPost}
+         setPostingsDataArr = {setPostingsDataArray}
+        currPostIndex = {currPostIndex}
+         setCurrPostIndex = {setCurrPostIndex}
+        creatingNewPst = {creatingNewPost}          //J: Thinking this shouldn't be a state var
+         setCreatingNewPst = {setCreatingNewPost}
       />
 
       <Button variant="outline-danger" onClick={() => removeAllPostings(setPostingsDataArray)}>

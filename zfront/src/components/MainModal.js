@@ -13,13 +13,13 @@ const MainModal = (props) => {
 
   let showMainModl = props.showMainModl;
   const setShowMainModl = props.setShowMainModl;
+  let currPostIndx = props.currPostIndex;
   const emptyPst = props.emptyPst;
-  let currPostIndx = props.currPostIndx; 
-  const setCurrPostIndx = props.setCurrPostIndx;
   let postingsDataArr = props.postingsDataArr;
   const setPostingsDataArr = props.setPostingsDataArr;
   let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState
   const setCreatingNewPst = props.setCreatingNewPst;
+
 
 
   // console.log("MainModal.js begins. emptyPst=", emptyPst);
@@ -32,9 +32,9 @@ const MainModal = (props) => {
   // Take care of 'No Data' case
   if (!postingsDataArr[0]) {
     console.log("MainModal.js Start of 'No Data' case. postingsDataArr[0] is null (falsy). Setting it to emptyPst")
-    setPostingsDataArr(emptyPst);
-    setCurrPostIndx(0);
-    setCreatingNewPst(true);
+    setPostingsDataArr(emptyPst);       //J: CAN'T HAVE SET-STATE FUNCTIONS WITHIN AN IF!!! 
+    currPostIndx=0;
+    setCreatingNewPst(true);            //J: CAN'T HAVE SET-STATE FUNCTIONS WITHIN AN IF!!! 
 
     console.log("MainModal.js End of 'No Data' case: currPostIndx=", currPostIndx);
     console.log("MainModal.js End of 'No Data' case: postingsDataArr=", postingsDataArr);
@@ -45,9 +45,8 @@ const MainModal = (props) => {
   //J: Do not move to separate file. Uses postingsDataArr, currPostIndx, setcurrPostIndx, and creatingNewPst
   if (creatingNewPst === true) {   
     console.log("MainModal.js appending emptyPst posting to end of postingsDataArray")
-    setCurrPostIndx( () => postingsDataArr.length);   //J: Why?
-    setPostingsDataArr( currDataArr => {
-      let newPostingsArr = [...currDataArr];
+    setPostingsDataArr( oldPostingsDataArr => {              //J: CAN'T HAVE SET-STATE FUNCTIONS WITHIN AN IF!!! 
+      let newPostingsArr = [...oldPostingsDataArr];
       newPostingsArr.push(emptyPst);
       console.log("MainModal.js: newPostingsArray =",newPostingsArr)
       return newPostingsArr;
