@@ -3,14 +3,16 @@ import React from "react";
 const RenderStubs = (props) => {
 
   let postingsDataArr = props.postingsDataArr;
-  // let currPostIndx = props.currPostIndex;
+  const assignCurrPostIndx= props.assignCurrPostIndex;
   const setShowMainModl = props.setShowMainModl;
   const setCreatingNewPst = props.setCreatingNewPst;
 
   console.log("RenderStubs.js postingsDataArr=", postingsDataArr);
+  console.log("RenderStubs.js setCreatingNewPst=", setCreatingNewPst);
 
 
-  if (postingsDataArr && postingsDataArr[0]) {    //J: was postingsDataArr[0]._id
+  if (postingsDataArr && postingsDataArr[0]) {    //J: was postingsDataArr[0]._id   
+    // J: Does this constitute conditional calling of the set-state functions below? They'll only run later, upon click 
     return (
       <>
         {postingsDataArr.map((pst, indx) => {
@@ -21,10 +23,9 @@ const RenderStubs = (props) => {
               key={indx}
               className="w-64 p-2 my-2 border border-gray-700 rounded-lg"
               onClick={() => {
-                const currPostIndx = indx;        //J: Should this be a useRef? Or does it get 'baked in' here?
-            
-                setShowMainModl(true);
+                assignCurrPostIndx(indx);    //J: The value of indx gets 'baked in' here, right?
                 setCreatingNewPst(false);
+                setShowMainModl(true);
               }}>
               <div>{pst.title}</div>
               <div className="mt-2">{pst.contributors}</div>

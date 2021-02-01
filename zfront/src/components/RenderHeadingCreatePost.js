@@ -2,9 +2,9 @@ import React from 'react'
 
 const RenderHeadingCreatePost = (props) => {
 
-  const creatingNewPst = props.creatingNewPst;
+  const renderHeadingCreatePst = props.renderHeadingCreatePst;
 
-  if (creatingNewPst) {
+  if (renderHeadingCreatePst) {
     return (
       <div className="text-2xl">Create Post</div>
     )

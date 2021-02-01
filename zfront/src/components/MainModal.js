@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
@@ -11,50 +11,50 @@ import RenderHeadingCreatePost from "./RenderHeadingCreatePost";
 
 const MainModal = (props) => {
 
+  //J: I like to leave out a letter or 2 from the names of variables that are actually just references to the original variable.
   let showMainModl = props.showMainModl;
   const setShowMainModl = props.setShowMainModl;
   let currPostIndx = props.currPostIndex;
   const emptyPst = props.emptyPst;
   let postingsDataArr = props.postingsDataArr;
   const setPostingsDataArr = props.setPostingsDataArr;
-  let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState
+  let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState?
   const setCreatingNewPst = props.setCreatingNewPst;
 
 
-
-  // console.log("MainModal.js begins. emptyPst=", emptyPst);
+  console.log("MainModal.js begins. emptyPst=", emptyPst);
   console.log("MainModal.js begins. currPostIndx=", currPostIndx);
   console.log("MainModal.js begins. postingsDataArr=", postingsDataArr);
   console.log("MainModal.js begins. creatingNewPst=", creatingNewPst);
-  // console.log("MainModal.js begins. setPostingsDataArr=", setPostingsDataArr);
-  
-//PUT ME IN A USEEFFECT FN!!
-  // Take care of 'No Data' case
-  if (!postingsDataArr[0]) {
-    console.log("MainModal.js Start of 'No Data' case. postingsDataArr[0] is null (falsy). Setting it to emptyPst")
-    setPostingsDataArr(emptyPst);       //J: CAN'T HAVE SET-STATE FUNCTIONS WITHIN AN IF!!! 
-    currPostIndx=0;
-    setCreatingNewPst(true);            //J: CAN'T HAVE SET-STATE FUNCTIONS WITHIN AN IF!!! 
 
-    console.log("MainModal.js End of 'No Data' case: currPostIndx=", currPostIndx);
-    console.log("MainModal.js End of 'No Data' case: postingsDataArr=", postingsDataArr);
-    console.log("MainModal.js End of 'No Data' case: creatingNewPst=", creatingNewPst);
-  }
+  let renderCreatePostDivs = useRef(false);
 
-  // Take care of 'Create Post' case. Append an empty postings data object to end of postingsDataArray
-  //J: Do not move to separate file. Uses postingsDataArr, currPostIndx, setcurrPostIndx, and creatingNewPst
-  if (creatingNewPst === true) {   
-    console.log("MainModal.js appending emptyPst posting to end of postingsDataArray")
-    setPostingsDataArr( oldPostingsDataArr => {              //J: CAN'T HAVE SET-STATE FUNCTIONS WITHIN AN IF!!! 
+  // Take care of 'No Data' & 'Create Post' cases.  Will cause a re-render, but first time only
+  useEffect( () => {
+    setPostingsDataArr( (oldPostingsDataArr) => {
       let newPostingsArr = [...oldPostingsDataArr];
-      newPostingsArr.push(emptyPst);
-      console.log("MainModal.js: newPostingsArray =",newPostingsArr)
+
+
+      if (!(postingsDataArr && postingsDataArr[0]._id) || (creatingNewPst === true)) {
+        let newPostingsArr = [...oldPostingsDataArr];
+        newPostingsArr.push(emptyPst);
+        console.log("MainModal.js 'No Data/Create Post' fn: appending emptyPst posting to end of postingsDataArray");
+
+        renderCreatePostDivs.current = true;
+
+      } else {
+        newPostingsArr = oldPostingsDataArr;
+        console.log("MainModal.js 'No Data/Create Post' fn: NOT appending emptyPst posting to end of postingsDataArray");
+      }
       return newPostingsArr;
-    })
-    console.log("MainModal.js End of 'Create Data' case: currPostIndx=", currPostIndx);
-    console.log("MainModal.js End of 'Create Data' case: postingsDataArr=", postingsDataArr);
-  }
-  
+    }); 
+
+    console.log("MainModal.js after running 'no data' function, postingsDataArray", postingsDataArr);
+    setCreatingNewPst(false);
+
+  }, [] );    //J: empty [] so this only runs on MainModal's first render
+
+
 
 
  const handleInputChange = (evnt) => {          //J: This could be called updatePostingsDataArray()
@@ -85,10 +85,9 @@ const MainModal = (props) => {
   return (
     <>
       <Modal size="lg" centered show={showMainModl} animation={false} onHide={() => setShowMainModl(false)}>
+
         <Modal.Header closeButton>
-
-          <RenderHeadingCreatePost creatingNewPst={creatingNewPst} />
-
+          <RenderHeadingCreatePost renderHeadingCreatePst={renderCreatePostDivs.current} />
         </Modal.Header>
 
         <Modal.Body>
@@ -105,7 +104,7 @@ const MainModal = (props) => {
           </>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Contributors:</div>            {/* font-500 is Tailwind for bold */}
+            <div className="font-500">Contributors:</div>        {/* font-500 is Tailwind for bold */}
             <input
               name="contributors"
               type="text"

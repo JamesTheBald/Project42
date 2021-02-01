@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 
 import MainModal from "./MainModal";
@@ -21,18 +21,22 @@ const PostingsList = () => {
   };
 
   const [postingsDataArray, setPostingsDataArray] = useState([emptyPost]);
-  const [currPostIndex, setCurrPostIndex] = useState(0);
+  // const [currPostIndex, setCurrPostIndex] = useState(0); 
+  // currPostIndex doesn't need to be a state var as it doesn't change once MainModal is invoked.
   const [searchTitle, setSearchTitle] = useState("");
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const [creatingNewPost, setCreatingNewPost] = useState(false);     //J: use useRef & .current instead of useState to avoid unnec re-renders
-                                                                     // See part 4 of https://dmitripavlutin.com/react-hooks-mistakes-to-avoid/
+  const [creatingNewPost, setCreatingNewPost] = useState(false);   
+   // creatingNewPost needs to be a state var as it controls display of 'Create Post' title and of creation date & modified date. 
 
 
-  // let currPostIndex = useRef();
-  //C: points to the element in the postings array that we're interested in
-  //J: Why is currPostIndex a state variable???
-
+  let currPostIndex = 0;        //C: points to the element in the postings array that we're interested in
+  const assignCurrPostIndex = (indx) => {     //J: Creating a callback function to pass to RenderStub.js. 
+                                              //   See Tony's suggestion in React channel of Discord server
+    currPostIndex = indx;
+  }
+    
+  
   useEffect(() => {
     retrievePostings(setPostingsDataArray);
   }, []); // C: '[]' means useEffect will only run THE FIRST time the page renders
@@ -82,22 +86,23 @@ const PostingsList = () => {
 
       <RenderStubs
         postingsDataArr = {postingsDataArray}
-        currPostIndex = {currPostIndex}           //J: We need currPostIndex available to both MainModal & RenderStubs. Do we need Redux?
-         setCurrPostIndex = {setCurrPostIndex}
-         setShowMainModl = {setShowMainModal}
-         setCreatingNewPst = {setCreatingNewPost}   //J: Thinking this shouldn't be a state var
+        assignCurrPostIndex = {assignCurrPostIndex}
+        setShowMainModl = {setShowMainModal}
+        setCreatingNewPst = {setCreatingNewPost}   //J: Thinking this shouldn't be a state var
       />
 
       <MainModal
         emptyPst = {emptyPost}
         showMainModl = {showMainModal}
-         setShowMainModl = {setShowMainModal}
+        setShowMainModl = {setShowMainModal}
+
         postingsDataArr = {postingsDataArray}
-         setPostingsDataArr = {setPostingsDataArray}
+        setPostingsDataArr = {setPostingsDataArray}
+
         currPostIndex = {currPostIndex}
-         setCurrPostIndex = {setCurrPostIndex}
-        creatingNewPst = {creatingNewPost}          //J: Thinking this shouldn't be a state var
-         setCreatingNewPst = {setCreatingNewPost}
+
+        creatingNewPst = {creatingNewPost}          //J: Thinking this shouldn't be a state var..?
+        setCreatingNewPst = {setCreatingNewPost}
       />
 
       <Button variant="outline-danger" onClick={() => removeAllPostings(setPostingsDataArray)}>
