@@ -27,7 +27,7 @@ const PostingsList = () => {
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [creatingNewPost, setCreatingNewPost] = useState(false);     //J: use useRef & .current instead of useState to avoid unnec re-renders
                                                                      // See part 4 of https://dmitripavlutin.com/react-hooks-mistakes-to-avoid/
-
+  const [voteCount, setVoteCount] = useState(0);
 
   // let currPostIndex = useRef();
   //C: points to the element in the postings array that we're interested in
@@ -90,14 +90,16 @@ const PostingsList = () => {
 
       <MainModal
         emptyPst = {emptyPost}
-        showMainModl = {showMainModal}
-         setShowMainModl = {setShowMainModal}
-        postingsDataArr = {postingsDataArray}
-         setPostingsDataArr = {setPostingsDataArray}
-        currPostIndex = {currPostIndex}
-         setCurrPostIndex = {setCurrPostIndex}
-        creatingNewPst = {creatingNewPost}          //J: Thinking this shouldn't be a state var
-         setCreatingNewPst = {setCreatingNewPost}
+         showMainModl = {showMainModal}
+        setShowMainModl = {setShowMainModal}
+         postingsDataArr = {postingsDataArray}
+        setPostingsDataArr = {setPostingsDataArray}
+         currPostIndex = {currPostIndex}
+        setCurrPostIndex = {setCurrPostIndex}
+         creatingNewPst = {creatingNewPost}          //J: Thinking this shouldn't be a state var
+        setCreatingNewPst = {setCreatingNewPost}
+         voteCount = {voteCount}
+        setVoteCount = {setVoteCount}
       />
 
       <Button variant="outline-danger" onClick={() => removeAllPostings(setPostingsDataArray)}>

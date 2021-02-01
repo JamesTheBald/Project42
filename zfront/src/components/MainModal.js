@@ -9,6 +9,7 @@ import updatePostingsDB from "../functions/updatePostingsDB";
 import RenderHeadingCreatePost from "./RenderHeadingCreatePost";
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
+import VoteCounter from 'VoteCounter.js'
 
 
 const MainModal = (props) => {
@@ -21,6 +22,8 @@ const MainModal = (props) => {
   const setPostingsDataArr = props.setPostingsDataArr;
   let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState
   const setCreatingNewPst = props.setCreatingNewPst;
+  let voteTotal = props.voteCount;
+  const setVoteCount = props.setVoteCount;
 
 
 
@@ -208,7 +211,7 @@ const MainModal = (props) => {
           </div>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Upvotes:</div>          {/*J: Need to add Collin's counter code here */}
+            <VoteCounter voteCount={voteTotal} setVoteCount={setVoteCount}></VoteCounter>
           </div>
         </Modal.Body>
 
