@@ -18,7 +18,7 @@ const MainModal = (props) => {
   const setCurrPostIndx = props.setCurrPostIndx;
   let postingsDataArr = props.postingsDataArr;
   const setPostingsDataArr = props.setPostingsDataArr;
-  let creatingNewPst = props.creatingNewPst;
+  let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState
   const setCreatingNewPst = props.setCreatingNewPst;
 
 

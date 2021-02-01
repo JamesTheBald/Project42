@@ -25,7 +25,8 @@ const PostingsList = () => {
   const [searchTitle, setSearchTitle] = useState("");
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const [creatingNewPost, setCreatingNewPost] = useState(false);
+  const [creatingNewPost, setCreatingNewPost] = useState(false);     //J: use useRef & .current instead of useState to avoid unnec re-renders
+                                                                     // See part 4 of https://dmitripavlutin.com/react-hooks-mistakes-to-avoid/
 
 
   useEffect(() => {
