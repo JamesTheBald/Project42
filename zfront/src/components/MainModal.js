@@ -90,7 +90,8 @@ const MainModal = (props) => {
         size="lg"
         centered show={showMainModl}
         animation={false}
-        onHide={() => setShowMainModl(false)}>
+        onHide={() => setShowMainModl(false)}
+      >
         <Modal.Header closeButton>
 
           <RenderHeadingCreatePost creatingNewPst={creatingNewPst} />
@@ -166,7 +167,8 @@ const MainModal = (props) => {
             className="modalField"
             placeholder="What would you like to share?"
             value={postingsDataArr[currPostIndx].description}                         //J: I'd like to change this to '.content' 
-            onChange={handleInputChange} >
+            onChange={handleInputChange}
+          >
           </SunEditor>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
@@ -198,9 +200,9 @@ const MainModal = (props) => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1" value="1">Mild</Dropdown.Item>
-                <Dropdown.Item href="#/action-2" value="2">Medium</Dropdown.Item>
-                <Dropdown.Item href="#/action-3" value="3">Spicy</Dropdown.Item>
+                <Dropdown.Item value="1">Mild</Dropdown.Item>
+                <Dropdown.Item value="2">Medium</Dropdown.Item>
+                <Dropdown.Item value="3">Spicy</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -211,24 +213,33 @@ const MainModal = (props) => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="warning" onClick={ () => {
+          <Button
+            variant="warning"
+            onClick={ () => {
             retrievePostings(setPostingsDataArr);         // This will also refresh postingsDataArray
             setShowMainModl(false);
-          }}>
+            }}
+          >
             Abandon Changes
           </Button>
 
-          <Button variant="danger" onClick={() => {
+          <Button
+            variant="danger"
+            onClick={() => {
             deletePost(postingsDataArr, setPostingsDataArr, currPostIndx);    // This will refresh postingsDataArray
             setShowMainModl(false);
-          }}>
+            }}
+          >
             Delete Post       {/* Add an icon? */}
           </Button>
 
-          <Button color="green" onClick={ () => {
+          <Button
+            color="green"
+            onClick={ () => {
             updatePostingsDB(postingsDataArr, currPostIndx);       // This will NOT refresh postingsDataArray, but 
             setShowMainModl(false);                            // handleInputChange() should keep postingsDataArray up to date
-          }}>
+            }}
+          >
             Save Post         {/* Add an icon? */}
           </Button>
         </Modal.Footer>
