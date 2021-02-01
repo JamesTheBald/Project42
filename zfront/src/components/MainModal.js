@@ -7,6 +7,8 @@ import retrievePostings from "../functions/retrievePostings";
 import deletePost from "../functions/deletePost";
 import updatePostingsDB from "../functions/updatePostingsDB";
 import RenderHeadingCreatePost from "./RenderHeadingCreatePost";
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 
 
 const MainModal = (props) => {
@@ -84,7 +86,11 @@ const MainModal = (props) => {
 
   return (
     <>
-      <Modal size="lg" centered show={showMainModl} animation={false} onHide={() => setShowMainModl(false)}>
+      <Modal
+        size="lg"
+        centered show={showMainModl}
+        animation={false}
+        onHide={() => setShowMainModl(false)}>
         <Modal.Header closeButton>
 
           <RenderHeadingCreatePost creatingNewPst={creatingNewPst} />
@@ -150,15 +156,18 @@ const MainModal = (props) => {
             />
           </div>
 
-          <input
+
+          {/* TO DO LATER: Make a function that only renders the SunEditor onBlur */}
+
+          <SunEditor
             name="description"                              //J: I'd like to change this to 'content' 
             type="text"
             required="true"
             className="modalField"
-            placeholder="Enter content of post here"
+            placeholder="What would you like to share?"
             value={postingsDataArr[currPostIndx].description}                         //J: I'd like to change this to '.content' 
-            onChange={handleInputChange}
-            />
+            onChange={handleInputChange} >
+          </SunEditor>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Content Type:</div>
