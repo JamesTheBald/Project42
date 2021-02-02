@@ -8,7 +8,7 @@ const RenderStubs = (props) => {
   const setCreatingNewPst = props.setCreatingNewPst;
 
   console.log("RenderStubs.js postingsDataArr=", postingsDataArr);
-  console.log("RenderStubs.js setCreatingNewPst=", setCreatingNewPst);
+  // console.log("RenderStubs.js setCreatingNewPst=", setCreatingNewPst);
 
 
   if (postingsDataArr && postingsDataArr[0]) {    //J: was postingsDataArr[0]._id   

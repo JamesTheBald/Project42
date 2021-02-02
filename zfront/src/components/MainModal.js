@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
@@ -6,7 +6,7 @@ import convertISODate from "../functions/convertISODate";
 import retrievePostings from "../functions/retrievePostings";
 import deletePost from "../functions/deletePost";
 import updatePostingsDB from "../functions/updatePostingsDB";
-import RenderHeadingCreatePost from "./RenderHeadingCreatePost";
+import DisplayHeadingForCreateCase from "./DisplayHeadingCreateCase";
 
 
 const MainModal = (props) => {
@@ -19,45 +19,63 @@ const MainModal = (props) => {
   let postingsDataArr = props.postingsDataArr;
   const setPostingsDataArr = props.setPostingsDataArr;
   let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState?
-  const setCreatingNewPst = props.setCreatingNewPst;
+  // const setCreatingNewPst = props.setCreatingNewPst;
+
+  let displayCreatePostCase = useRef(false);
+  let alreadyAppended = useRef(false);
 
 
+  console.log("MainModal.js Begins.");
   console.log("MainModal.js begins. emptyPst=", emptyPst);
   console.log("MainModal.js begins. currPostIndx=", currPostIndx);
   console.log("MainModal.js begins. postingsDataArr=", postingsDataArr);
   console.log("MainModal.js begins. creatingNewPst=", creatingNewPst);
 
-  let renderCreatePostDivs = useRef(false);
 
-  // Take care of 'No Data' & 'Create Post' cases.  Will cause a re-render, but first time only
-  useEffect( () => {
-    setPostingsDataArr( (oldPostingsDataArr) => {
-      let newPostingsArr = [...oldPostingsDataArr];
+  // Take care of 'No Data' & 'Create Post' cases.
+  let appendEmptyPost = false;
 
-
-      if (!(postingsDataArr && postingsDataArr[0]._id) || (creatingNewPst === true)) {
-        let newPostingsArr = [...oldPostingsDataArr];
-        newPostingsArr.push(emptyPst);
-        console.log("MainModal.js 'No Data/Create Post' fn: appending emptyPst posting to end of postingsDataArray");
-
-        renderCreatePostDivs.current = true;
-
-      } else {
-        newPostingsArr = oldPostingsDataArr;
-        console.log("MainModal.js 'No Data/Create Post' fn: NOT appending emptyPst posting to end of postingsDataArray");
-      }
-      return newPostingsArr;
-    }); 
-
-    console.log("MainModal.js after running 'no data' function, postingsDataArray", postingsDataArr);
-    setCreatingNewPst(false);
-
-  }, [] );    //J: empty [] so this only runs on MainModal's first render
+  if (postingsDataArr?.length <= 0) {
+    console.log("MainModal.js Boolean test1: postingsDataArr?.length=", postingsDataArr?.length)
+    appendEmptyPost = true;
+    console.log("MainModal.js Boolean test1: appendEmptyPost=", appendEmptyPost)
+  }
+  
+  console.log("MainModal.js after Boolean test1: appendEmptyPost=", appendEmptyPost)
 
 
+  if ((creatingNewPst === true) && (!alreadyAppended.current)) {
+    console.log("MainModal.js Boolean test2: alreadyAppended.current=", alreadyAppended.current)
+    appendEmptyPost = true;
+  }
+
+  if (alreadyAppended.current === true) appendEmptyPost=false;    // just to be safe
+
+  console.log("MainModal.js: Prior to useEffect, appendEmptyPost=", appendEmptyPost);
+  console.log("MainModal.js: Prior to useEffect, alreadyAppended.current=", alreadyAppended.current);
 
 
- const handleInputChange = (evnt) => {          //J: This could be called updatePostingsDataArray()
+  setPostingsDataArr( (oldPostingsDataArr) => {
+
+    let newPostingsDataArr = [...oldPostingsDataArr];
+
+    if (appendEmptyPost === true) {
+      newPostingsDataArr.push(emptyPst);
+      console.log("MainModal.js 'Create Post' fn: appending emptyPst posting to end of postingsDataArray");
+
+      displayCreatePostCase.current = true;
+      alreadyAppended.current = true;   // To avoid repeat appendings
+
+    } else {
+      newPostingsDataArr = oldPostingsDataArr;
+      console.log("MainModal.js 'No Data/Create Post' fn: NOT appending emptyPst posting to end of postingsDataArray");
+    }
+    return newPostingsDataArr;
+  }); 
+  console.log("MainModal.js after running 'no data' function, postingsDataArray", postingsDataArr);
+
+
+  const handleInputChange = (evnt) => {          //J: This could be called updatePostingsDataArray()
   //J: Do not move to separate file. Also uses postingsDataArr, setPostingsDataArr and currPostIndx
   //   Assumes postingsDataArray != null,  currPostIndex >= 0
 
@@ -87,7 +105,7 @@ const MainModal = (props) => {
       <Modal size="lg" centered show={showMainModl} animation={false} onHide={() => setShowMainModl(false)}>
 
         <Modal.Header closeButton>
-          <RenderHeadingCreatePost renderHeadingCreatePst={renderCreatePostDivs.current} />
+          <DisplayHeadingForCreateCase DisplayHeadingForCreateCas={displayCreatePostCase.current} />
         </Modal.Header>
 
         <Modal.Body>
@@ -116,9 +134,7 @@ const MainModal = (props) => {
             />
           </div>
 
-          {(creatingNewPst) ? (
-            <></>
-          ) : (
+          {(displayCreatePostCase.current) ? (
             <div className="flex flex-row p-1 mt-2">   {/* Dates are read-only, and only shown for existing posts */}
 
               <div className="flex flex-row">
@@ -131,10 +147,9 @@ const MainModal = (props) => {
                 <div className="ml-2 font-400">{convertISODate(postingsDataArr[currPostIndx].updatedAt)}</div>
               </div>
             </div>
+          ) : (
+            <></>
           )}
-
-          {setCreatingNewPst(false)}         {/* Reset this state var. (No further rendering specific to Create Post case) */}
-
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Tags:</div>

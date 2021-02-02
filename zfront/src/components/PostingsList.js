@@ -30,6 +30,8 @@ const PostingsList = () => {
    // creatingNewPost needs to be a state var as it controls display of 'Create Post' title and of creation date & modified date. 
 
 
+  console.log("PostingsList.js begins. postingsDataArray=",postingsDataArray);    // Should be emptyPost
+
   let currPostIndex = 0;        //C: points to the element in the postings array that we're interested in
   const assignCurrPostIndex = (indx) => {     //J: Creating a callback function to pass to RenderStub.js. 
                                               //   See Tony's suggestion in React channel of Discord server
@@ -102,7 +104,7 @@ const PostingsList = () => {
         currPostIndex = {currPostIndex}
 
         creatingNewPst = {creatingNewPost}          //J: Thinking this shouldn't be a state var..?
-        setCreatingNewPst = {setCreatingNewPost}
+        // setCreatingNewPst = {setCreatingNewPost}
       />
 
       <Button variant="outline-danger" onClick={() => removeAllPostings(setPostingsDataArray)}>
