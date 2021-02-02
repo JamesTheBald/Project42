@@ -12,9 +12,8 @@ import appendEmptyPost from "../functions/appendEmptyPost";
 
 const PostingsList = () => {
   const emptyPost = [{
-    _id: 0, //J: _id was null
-    title: "",
-    contributors: "",
+    title: "Empty Post",
+    contributors: "Click to Edit",
     description: "",
     tags: "",
     contentType: "",
@@ -34,9 +33,9 @@ const PostingsList = () => {
 
   console.log("PostingsList.js begins. postingsDataArray=",postingsDataArray);    // Should be emptyPost
 
-  let createCaseHeading = "";
+  let modalTitle = "";
   useEffect(() => {
-    createCaseHeading = "";
+    modalTitle = "";
     retrievePostings(setPostingsDataArray, emptyPost);  // This function should now never allow postingsDataArray to be null
   }, []);                                               // C: '[]' means useEffect will only run THE FIRST time the page renders
 
@@ -67,7 +66,7 @@ const PostingsList = () => {
           <div
             className="mx-4 hover:text-blue-400"
             onClick={() => {
-              createCaseHeading = '<div className="text-2xl">Create Post</div>';
+              modalTitle = "Create Post";
               appendEmptyPost(setPostingsDataArray, emptyPost);
               setShowMainModal(true);
             }}>
@@ -105,7 +104,7 @@ const PostingsList = () => {
         postingsDataArr = {postingsDataArray}
         setPostingsDataArr = {setPostingsDataArray}
         currPostIndx = {currPostIndex}   //C: currPostIndex points to the element in the postings array that we're interested in
-        createCaseHeadng = {createCaseHeading}
+        modalTitle = {modalTitle}
         // creatingNewPst = {creatingNewPost}
       />
 

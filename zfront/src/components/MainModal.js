@@ -5,7 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
 import retrievePostings from "../functions/retrievePostings";
 import deletePost from "../functions/deletePost";
-import updatePostingsDB from "../functions/updatePostingsDB";
+import updatePostOnDB from "../functions/updatePostOnDB";
+import createPostOnDB from "../functions/createPostOnDB";
 // import DisplayHeadingForCreateCase from "./DisplayHeadingCreateCase";
 
 
@@ -19,6 +20,7 @@ const MainModal = (props) => {
   const setPostingsDataArr = props.setPostingsDataArr;
   let postingsDataArr = props.postingsDataArr;
   let createCaseHeadng = props.createCaseHeadng;
+  let modalTitle = props.modalTitle
   // let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState?
   // const setCreatingNewPst = props.setCreatingNewPst;
 
@@ -63,7 +65,7 @@ const MainModal = (props) => {
       <Modal size="lg" centered show={showMainModl} animation={false} onHide={() => setShowMainModl(false)}>
 
         <Modal.Header closeButton>
-          {createCaseHeadng}
+          <div className="text-2xl">{modalTitle}</div>
         </Modal.Header>
 
         <Modal.Body>
@@ -199,8 +201,15 @@ const MainModal = (props) => {
             color="green"
             type="submit"
             onClick={ () => {
-            updatePostingsDB(postingsDataArr, currPostIndx);       // This will NOT refresh postingsDataArray, but 
-            setShowMainModl(false);                            // handleInputChange() should keep postingsDataArray up to date
+              (currPostIndx) ? (
+                updatePostOnDB(postingsDataArr, currPostIndx)     // This will NOT refresh postingsDataArray, but 
+               ) : (                                              // handleInputChange() should keep postingsDataArray up to date
+                createPostOnDB(postingsDataArr, currPostIndx)
+               )
+
+          
+
+            setShowMainModl(false); 
             }}
           >
             Save Post         {/* Add an icon? */}

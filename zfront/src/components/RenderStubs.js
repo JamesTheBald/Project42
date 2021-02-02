@@ -23,7 +23,7 @@ const RenderStubs = (props) => {
               key={indx}
               className="w-64 p-2 my-2 border border-gray-700 rounded-lg"
               onClick={() => {
-                setCurrPostIndx(indx);    //J: The value of indx gets 'baked in' here, right?
+                setCurrPostIndx(indx);    //J: The value of indx gets 'baked in' here
                 // setCreatingNewPst(false);
                 setShowMainModl(true);
               }}>
