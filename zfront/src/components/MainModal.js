@@ -18,82 +18,86 @@ const MainModal = (props) => {
   const setShowMainModl = props.setShowMainModl;
   const setPostingsDataArr = props.setPostingsDataArr;
   let postingsDataArr = props.postingsDataArr;
-  let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState?
+  // let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState?
   // const setCreatingNewPst = props.setCreatingNewPst;
 
   let displayCreatePostCase = useRef(false);
-  let alreadyAppended = useRef(false);
+  // let alreadyAppended = useRef(false);
 
 
   console.log("MainModal.js Begins.");
   console.log("MainModal.js begins. emptyPst=", emptyPst);
   console.log("MainModal.js begins. currPostIndx=", currPostIndx);
   console.log("MainModal.js begins. postingsDataArr=", postingsDataArr);
-  console.log("MainModal.js begins. creatingNewPst=", creatingNewPst);
+  // console.log("MainModal.js begins. creatingNewPst=", creatingNewPst);
 
 
   // Take care of 'No Data' & 'Create Post' cases.
-  let appendEmptyPost = false;
+  // let appendEmptyPost = false;
 
-  if ((postingsDataArr?.length <= 0) || ((creatingNewPst === true) && (!alreadyAppended.current))) {
-    console.log("MainModal.js Boolean test: postingsDataArr?.length=", postingsDataArr?.length)
-    console.log("MainModal.js Boolean test: alreadyAppended.current=", alreadyAppended.current)
+  // if ((postingsDataArr?.length <= 0) || ((creatingNewPst === true) && (!alreadyAppended.current))) {
+  //   console.log("MainModal.js Boolean test: postingsDataArr?.length=", postingsDataArr?.length)
+  //   console.log("MainModal.js Boolean test: alreadyAppended.current=", alreadyAppended.current)
 
-    appendEmptyPost = true;
-  }
+  //   appendEmptyPost = true;
+  // }
   
-  console.log("MainModal.js after Boolean test1: appendEmptyPost=", appendEmptyPost)
-
+  // console.log("MainModal.js after Boolean test1: appendEmptyPost=", appendEmptyPost)
+ 
   // if ((creatingNewPst === true) && (!alreadyAppended.current)) {
   //   console.log("MainModal.js Boolean test2: alreadyAppended.current=", alreadyAppended.current)
   //   appendEmptyPost = true;
   // }
 
-  if (alreadyAppended.current === true) appendEmptyPost=false;    // just to be safe
+  // if (alreadyAppended.current === true) appendEmptyPost=false;    // just to be safe
 
-  console.log("MainModal.js: Prior to setPostingsDataArr, alreadyAppended.current=", alreadyAppended.current);
+  // console.log("MainModal.js: Prior to setPostingsDataArr, alreadyAppended.current=", alreadyAppended.current);
 
 
-  setPostingsDataArr( (oldPostingsDataArr) => {
-    let newPostingsDataArr = [...oldPostingsDataArr];
+  // setPostingsDataArr( (oldPostingsDataArr) => {   //J: This function is causing the "Warning: Cannot update a component (`PostingsList`) while rendering a different component (`MainModal`)" !!!
+  //   let newPostingsDataArr = [...oldPostingsDataArr];
 
-    if (appendEmptyPost === true) {
-      newPostingsDataArr.push(emptyPst);
-      console.log("MainModal.js 'Create Post' fn: appending emptyPst posting to end of postingsDataArray");
-      displayCreatePostCase.current = true;
-      alreadyAppended.current = true;   // To avoid repeat appendings
+  //   console.log("Running the offending setPostingsDataArr()")
+  //   if (appendEmptyPost === true) {
+  //     newPostingsDataArr.push(emptyPst);
+  //     console.log("MainModal.js 'Create Post' fn: appending emptyPst posting to end of postingsDataArray");
+  //     displayCreatePostCase.current = true;
+  //     alreadyAppended.current = true;   // To avoid repeat appendings
 
-    } else {
-      newPostingsDataArr = oldPostingsDataArr;
-      console.log("MainModal.js 'No Data/Create Post' fn: NOT appending emptyPst posting to end of postingsDataArray");
-    }
-    return newPostingsDataArr;
-  }); 
-  console.log("MainModal.js after running 'no data' function, postingsDataArray", postingsDataArr);
+  //   } else {
+  //     newPostingsDataArr = oldPostingsDataArr;
+  //     console.log("MainModal.js 'No Data/Create Post' fn: NOT appending emptyPst posting to end of postingsDataArray");
+  //   }
+  //   return newPostingsDataArr;
+  // }); 
+  // console.log("MainModal.js after running 'no data' function, postingsDataArray", postingsDataArr);
 
+
+  displayCreatePostCase.current = true; // FIX ME
+
+  
 
   const handleInputChange = (evnt) => {          //J: This could be called updatePostingsDataArray()
-  //   Assumes postingsDataArray != null,  currPostIndex >= 0
+    //   Assumes postingsDataArray != null,  currPostIndex >= 0
 
-  const { name, value } = evnt.target;
-  const currPost = postingsDataArr[currPostIndx];
-  const alteredPost = { ...currPost, [name]: value };
-  // NB The brackets [] around 'name' in the above line are so that js
-  // uses the VALUE of name for the key and not just the string 'name'.
+    const { name, value } = evnt.target;
+    const currPost = postingsDataArr[currPostIndx];
+    const alteredPost = { ...currPost, [name]: value };
+    // NB The brackets [] around 'name' in the above line are so that js
+    // uses the VALUE of name for the key and not just the string 'name'.
 
-  console.log("MainModal.js: handleInputChange: value =", value);
-  console.log("MainModal.js: handleInputChange: name =", name);
-  console.log("MainModal.js: handleInputChange: postings[currPostIndex] =", currPost);
-  console.log("MainModal.js: handleInputChange: newPost =", alteredPost);
+    console.log("MainModal.js: handleInputChange: value =", value);
+    console.log("MainModal.js: handleInputChange: name =", name);
+    console.log("MainModal.js: handleInputChange: postings[currPostIndex] =", currPost);
+    console.log("MainModal.js: handleInputChange: newPost =", alteredPost);
 
-  setPostingsDataArr((currDataArr) => {
-    let newPostingsArr = [...currDataArr];
-    newPostingsArr[currPostIndx] = alteredPost;
-    console.log("MainModal.js: handleInputChange: newPostingsArray =", newPostingsArr);
-    return newPostingsArr;
-  });
-
-};
+    setPostingsDataArr((currDataArr) => {
+      let newPostingsArr = [...currDataArr];
+      newPostingsArr[currPostIndx] = alteredPost;
+      console.log("MainModal.js: handleInputChange: newPostingsArray =", newPostingsArr);
+      return newPostingsArr;
+   });
+  };
 
 
   return (
@@ -213,7 +217,8 @@ const MainModal = (props) => {
 
         <Modal.Footer>
           <Button variant="warning" onClick={ () => {
-            retrievePostings(setPostingsDataArr);         // This will also refresh postingsDataArray
+            retrievePostings(setPostingsDataArr, emptyPst);   
+               // The above line will refresh postingsDataArray, undoing the changes to postingsDataArray[currPostIndex]
             setShowMainModl(false);
           }}>
             Abandon Changes

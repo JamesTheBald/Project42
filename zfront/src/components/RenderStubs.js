@@ -5,7 +5,7 @@ const RenderStubs = (props) => {
   let postingsDataArr = props.postingsDataArr;
   const assignCurrPostIndx= props.assignCurrPostIndex;
   const setShowMainModl = props.setShowMainModl;
-  const setCreatingNewPst = props.setCreatingNewPst;
+  // const setCreatingNewPst = props.setCreatingNewPst;
 
   console.log("RenderStubs.js postingsDataArr=", postingsDataArr);
   // console.log("RenderStubs.js setCreatingNewPst=", setCreatingNewPst);
@@ -24,7 +24,7 @@ const RenderStubs = (props) => {
               className="w-64 p-2 my-2 border border-gray-700 rounded-lg"
               onClick={() => {
                 assignCurrPostIndx(indx);    //J: The value of indx gets 'baked in' here, right?
-                setCreatingNewPst(false);
+                // setCreatingNewPst(false);
                 setShowMainModl(true);
               }}>
               <div>{pst.title}</div>

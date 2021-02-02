@@ -7,9 +7,11 @@ import RenderStubs from "./RenderStubs";
 import retrievePostings from "../functions/retrievePostings";
 import removeAllPostings from "../functions/removeAllPostings";
 import onClickFindByTitle from "../functions/onClickFindByTitle";
+import appendEmptyPost from "../functions/appendEmptyPost";
+
 
 const PostingsList = () => {
-  const emptyPost = {
+  const emptyPost = [{
     _id: 0, //J: _id was null
     title: "",
     contributors: "",
@@ -18,7 +20,7 @@ const PostingsList = () => {
     contentType: "",
     spiciness: 0,
     upvotes: 0,
-  };
+  }];
 
   const [postingsDataArray, setPostingsDataArray] = useState([emptyPost]);
   // const [currPostIndex, setCurrPostIndex] = useState(0); 
@@ -32,21 +34,27 @@ const PostingsList = () => {
 
   console.log("PostingsList.js begins. postingsDataArray=",postingsDataArray);    // Should be emptyPost
 
-  let currPostIndex = 0;        //C: points to the element in the postings array that we're interested in
-  const assignCurrPostIndex = (indx) => {     //J: Creating a callback function to pass to RenderStub.js. 
-                                              //   See Tony's suggestion in React channel of Discord server
-    currPostIndex = indx;
+  let currPostIndex = 0;
+  const assignCurrPostIndex = (indx) => {     //J: This creates a callback function to pass to RenderStub.js. 
+    currPostIndex = indx;                     //   See Tony's suggestion in React channel of Discord server
   }
-    
-  
+
+
   useEffect(() => {
-    retrievePostings(setPostingsDataArray);
-  }, []); // C: '[]' means useEffect will only run THE FIRST time the page renders
+    retrievePostings(setPostingsDataArray, emptyPost);  // This function should now never allow postingsDataArray to be null
+  }, []);                                               // C: '[]' means useEffect will only run THE FIRST time the page renders
+
+
+  useEffect(() => {
+    setCreatingNewPost(false);    // Reset the creatingNewPost flag every timt it changes
+  }, [creatingNewPost]); 
+
 
   const onChangeSearchTitle = (evnt) => {
     setSearchTitle(evnt.target.value);
     console.log("onChangeSearchTitle(): setSearchTitle to:", evnt.target.value);
   };
+
 
   return (
     <div>
@@ -63,7 +71,8 @@ const PostingsList = () => {
           <div
             className="mx-4 hover:text-blue-400"
             onClick={() => {
-              setCreatingNewPost(true);
+              // setCreatingNewPost(true);     //J: I assume that this won't cause the flag-reset useEffect above to run yet !!!
+              appendEmptyPost(setPostingsDataArray, emptyPost);
               setShowMainModal(true);
             }}>
             Create Post
@@ -90,21 +99,18 @@ const PostingsList = () => {
         postingsDataArr = {postingsDataArray}
         assignCurrPostIndex = {assignCurrPostIndex}
         setShowMainModl = {setShowMainModal}
-        setCreatingNewPst = {setCreatingNewPost}   //J: Thinking this shouldn't be a state var
+        // setCreatingNewPst = {setCreatingNewPost}
       />
 
       <MainModal
         emptyPst = {emptyPost}
         showMainModl = {showMainModal}
         setShowMainModl = {setShowMainModal}
-
         postingsDataArr = {postingsDataArray}
         setPostingsDataArr = {setPostingsDataArray}
+        currPostIndex = {currPostIndex}   //C: currPostIndex points to the element in the postings array that we're interested in
 
-        currPostIndex = {currPostIndex}
-
-        creatingNewPst = {creatingNewPost}          //J: Thinking this shouldn't be a state var..?
-        // setCreatingNewPst = {setCreatingNewPost}
+        // creatingNewPst = {creatingNewPost}
       />
 
       <Button variant="outline-danger" onClick={() => removeAllPostings(setPostingsDataArray)}>
