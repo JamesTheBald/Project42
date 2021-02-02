@@ -30,51 +30,8 @@ const MainModal = (props) => {
   console.log("MainModal.js begins. emptyPst=", emptyPst);
   console.log("MainModal.js begins. currPostIndx=", currPostIndx);
   console.log("MainModal.js begins. postingsDataArr=", postingsDataArr);
+  console.log("MainModal.js begins. createCaseHeadng = ",createCaseHeadng)
   // console.log("MainModal.js begins. creatingNewPst=", creatingNewPst);
-
-
-  // Take care of 'No Data' & 'Create Post' cases.
-  // let appendEmptyPost = false;
-
-  // if ((postingsDataArr?.length <= 0) || ((creatingNewPst === true) && (!alreadyAppended.current))) {
-  //   console.log("MainModal.js Boolean test: postingsDataArr?.length=", postingsDataArr?.length)
-  //   console.log("MainModal.js Boolean test: alreadyAppended.current=", alreadyAppended.current)
-
-  //   appendEmptyPost = true;
-  // }
-  
-  // console.log("MainModal.js after Boolean test1: appendEmptyPost=", appendEmptyPost)
- 
-  // if ((creatingNewPst === true) && (!alreadyAppended.current)) {
-  //   console.log("MainModal.js Boolean test2: alreadyAppended.current=", alreadyAppended.current)
-  //   appendEmptyPost = true;
-  // }
-
-  // if (alreadyAppended.current === true) appendEmptyPost=false;    // just to be safe
-
-  // console.log("MainModal.js: Prior to setPostingsDataArr, alreadyAppended.current=", alreadyAppended.current);
-
-
-  // setPostingsDataArr( (oldPostingsDataArr) => {   //J: This function is causing the "Warning: Cannot update a component (`PostingsList`) while rendering a different component (`MainModal`)" !!!
-  //   let newPostingsDataArr = [...oldPostingsDataArr];
-
-  //   console.log("Running the offending setPostingsDataArr()")
-  //   if (appendEmptyPost === true) {
-  //     newPostingsDataArr.push(emptyPst);
-  //     console.log("MainModal.js 'Create Post' fn: appending emptyPst posting to end of postingsDataArray");
-  //     displayCreatePostCase.current = true;
-  //     alreadyAppended.current = true;   // To avoid repeat appendings
-
-  //   } else {
-  //     newPostingsDataArr = oldPostingsDataArr;
-  //     console.log("MainModal.js 'No Data/Create Post' fn: NOT appending emptyPst posting to end of postingsDataArray");
-  //   }
-  //   return newPostingsDataArr;
-  // }); 
-  // console.log("MainModal.js after running 'no data' function, postingsDataArray", postingsDataArr);
-
-
-  // displayCreatePostCase.current = true; // FIX ME
 
   
 

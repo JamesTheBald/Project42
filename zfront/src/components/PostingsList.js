@@ -23,7 +23,7 @@ const PostingsList = () => {
   }];
 
   const [postingsDataArray, setPostingsDataArray] = useState([emptyPost]);
-  // const [currPostIndex, setCurrPostIndex] = useState(0); 
+  const [currPostIndex, setCurrPostIndex] = useState(0); 
   // currPostIndex doesn't need to be a state var as it doesn't change once MainModal is invoked.
   const [searchTitle, setSearchTitle] = useState("");
   const [showMainModal, setShowMainModal] = useState(false);
@@ -33,11 +33,6 @@ const PostingsList = () => {
 
 
   console.log("PostingsList.js begins. postingsDataArray=",postingsDataArray);    // Should be emptyPost
-
-  let currPostIndex = 0;
-  const assignCurrPostIndex = (indx) => {     //J: This creates a callback function to pass to RenderStub.js. 
-    currPostIndex = indx;                     //   See Tony's suggestion in React channel of Discord server
-  }
 
   let createCaseHeading = "";
   useEffect(() => {
@@ -98,7 +93,7 @@ const PostingsList = () => {
 
       <RenderStubs
         postingsDataArr = {postingsDataArray}
-        assignCurrPostIndex = {assignCurrPostIndex}
+        setCurrPostIndx = {setCurrPostIndex}
         setShowMainModl = {setShowMainModal}
         // setCreatingNewPst = {setCreatingNewPost}
       />

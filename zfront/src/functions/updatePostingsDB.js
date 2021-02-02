@@ -1,22 +1,22 @@
 import PostingAxios from "../services/PostingAxios";
 
 const updatePostingsDB = (postingsDataArr, currPostIndx) => {
-  console.log("MainModal.js: updatePostingsDB(), currPostIndex=", currPostIndx);
+  console.log("updatePostingsDB.js: postingsDataArr=", postingsDataArr);
+  console.log("updatePostingsDB.js: currPostIndex=", currPostIndx);
 
-  if (postingsDataArr && postingsDataArr[currPostIndx]) {
-   
+  if (postingsDataArr.length>0) {
     const pst = postingsDataArr[currPostIndx];
-    console.log("MainModal.js: updatePostingsDB(): post to update=", pst);
+    console.log("updatePostingsDB.js: sending to DB pst=", pst);
 
     PostingAxios.update(pst._id, pst)
       .then((response) => {
-        console.log("MainModal.js: updatePostingsDB(), response=", response);
+        console.log("updatePostingsDB.js: after sending post to DB, response=", response);
       })
       .catch((err) => {
         console.log(err);
       });
   } else {
-    console.log("MainModal.js: updatePostingsDB() Error - received falsy array/index");
+    console.log("updatePostingsDB.js: Error - received falsy array/index");
   }
 };
 
