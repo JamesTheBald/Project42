@@ -10,95 +10,109 @@ import RenderHeadingCreatePost from "./RenderHeadingCreatePost";
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 import VoteCounter from 'VoteCounter.js'
+// import DisplayHeadingForCreateCase from "./DisplayHeadingCreateCase";
 
 
 const MainModal = (props) => {
 
-  let showMainModl = props.showMainModl;
-  const setShowMainModl = props.setShowMainModl;
-  let currPostIndx = props.currPostIndex;
+  //J: I like to leave out a letter or 2 from the names of variables that are actually just references to the original variable.
   const emptyPst = props.emptyPst;
-  let postingsDataArr = props.postingsDataArr;
+  let showMainModl = props.showMainModl;
+  let currPostIndx = props.currPostIndx;
+  const setShowMainModl = props.setShowMainModl;
   const setPostingsDataArr = props.setPostingsDataArr;
-  let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState
-  const setCreatingNewPst = props.setCreatingNewPst;
   let voteTotal = props.voteCount;
   const setVoteCount = props.setVoteCount;
+  let postingsDataArr = props.postingsDataArr;
+  let createCaseHeadng = props.createCaseHeadng;
+  // let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState?
+  // const setCreatingNewPst = props.setCreatingNewPst;
+
+  // let displayCreatePostCase = useRef(false);
+  // let alreadyAppended = useRef(false);
 
 
-
-  // console.log("MainModal.js begins. emptyPst=", emptyPst);
+  console.log("MainModal.js Begins.");
+  console.log("MainModal.js begins. emptyPst=", emptyPst);
   console.log("MainModal.js begins. currPostIndx=", currPostIndx);
   console.log("MainModal.js begins. postingsDataArr=", postingsDataArr);
-  console.log("MainModal.js begins. creatingNewPst=", creatingNewPst);
-  // console.log("MainModal.js begins. setPostingsDataArr=", setPostingsDataArr);
+  // console.log("MainModal.js begins. creatingNewPst=", creatingNewPst);
+
+
+  // Take care of 'No Data' & 'Create Post' cases.
+  // let appendEmptyPost = false;
+
+  // if ((postingsDataArr?.length <= 0) || ((creatingNewPst === true) && (!alreadyAppended.current))) {
+  //   console.log("MainModal.js Boolean test: postingsDataArr?.length=", postingsDataArr?.length)
+  //   console.log("MainModal.js Boolean test: alreadyAppended.current=", alreadyAppended.current)
+
+  //   appendEmptyPost = true;
+  // }
   
-//PUT ME IN A USEEFFECT FN!!
-  // Take care of 'No Data' case
-  if (!postingsDataArr[0]) {
-    console.log("MainModal.js Start of 'No Data' case. postingsDataArr[0] is null (falsy). Setting it to emptyPst")
-    setPostingsDataArr(emptyPst);       //J: CAN'T HAVE SET-STATE FUNCTIONS WITHIN AN IF!!! 
-    currPostIndx=0;
-    setCreatingNewPst(true);            //J: CAN'T HAVE SET-STATE FUNCTIONS WITHIN AN IF!!! 
+  // console.log("MainModal.js after Boolean test1: appendEmptyPost=", appendEmptyPost)
+ 
+  // if ((creatingNewPst === true) && (!alreadyAppended.current)) {
+  //   console.log("MainModal.js Boolean test2: alreadyAppended.current=", alreadyAppended.current)
+  //   appendEmptyPost = true;
+  // }
 
-    console.log("MainModal.js End of 'No Data' case: currPostIndx=", currPostIndx);
-    console.log("MainModal.js End of 'No Data' case: postingsDataArr=", postingsDataArr);
-    console.log("MainModal.js End of 'No Data' case: creatingNewPst=", creatingNewPst);
-  }
+  // if (alreadyAppended.current === true) appendEmptyPost=false;    // just to be safe
 
-  // Take care of 'Create Post' case. Append an empty postings data object to end of postingsDataArray
-  //J: Do not move to separate file. Uses postingsDataArr, currPostIndx, setcurrPostIndx, and creatingNewPst
-  if (creatingNewPst === true) {   
-    console.log("MainModal.js appending emptyPst posting to end of postingsDataArray")
-    setPostingsDataArr( oldPostingsDataArr => {              //J: CAN'T HAVE SET-STATE FUNCTIONS WITHIN AN IF!!! 
-      let newPostingsArr = [...oldPostingsDataArr];
-      newPostingsArr.push(emptyPst);
-      console.log("MainModal.js: newPostingsArray =",newPostingsArr)
+  // console.log("MainModal.js: Prior to setPostingsDataArr, alreadyAppended.current=", alreadyAppended.current);
+
+
+  // setPostingsDataArr( (oldPostingsDataArr) => {   //J: This function is causing the "Warning: Cannot update a component (`PostingsList`) while rendering a different component (`MainModal`)" !!!
+  //   let newPostingsDataArr = [...oldPostingsDataArr];
+
+  //   console.log("Running the offending setPostingsDataArr()")
+  //   if (appendEmptyPost === true) {
+  //     newPostingsDataArr.push(emptyPst);
+  //     console.log("MainModal.js 'Create Post' fn: appending emptyPst posting to end of postingsDataArray");
+  //     displayCreatePostCase.current = true;
+  //     alreadyAppended.current = true;   // To avoid repeat appendings
+
+  //   } else {
+  //     newPostingsDataArr = oldPostingsDataArr;
+  //     console.log("MainModal.js 'No Data/Create Post' fn: NOT appending emptyPst posting to end of postingsDataArray");
+  //   }
+  //   return newPostingsDataArr;
+  // }); 
+  // console.log("MainModal.js after running 'no data' function, postingsDataArray", postingsDataArr);
+
+
+  // displayCreatePostCase.current = true; // FIX ME
+
+  
+
+  const handleInputChange = (evnt) => {          //J: This could be called updatePostingsDataArray()
+    //   Assumes postingsDataArray != null,  currPostIndex >= 0
+
+    const { name, value } = evnt.target;
+    const currPost = postingsDataArr[currPostIndx];
+    const alteredPost = { ...currPost, [name]: value };
+    // NB The brackets [] around 'name' in the above line are so that js
+    // uses the VALUE of name for the key and not just the string 'name'.
+
+    console.log("MainModal.js: handleInputChange: value =", value);
+    console.log("MainModal.js: handleInputChange: name =", name);
+    console.log("MainModal.js: handleInputChange: postings[currPostIndex] =", currPost);
+    console.log("MainModal.js: handleInputChange: newPost =", alteredPost);
+
+    setPostingsDataArr((currDataArr) => {
+      let newPostingsArr = [...currDataArr];
+      newPostingsArr[currPostIndx] = alteredPost;
+      console.log("MainModal.js: handleInputChange: newPostingsArray =", newPostingsArr);
       return newPostingsArr;
-    })
-    console.log("MainModal.js End of 'Create Data' case: currPostIndx=", currPostIndx);
-    console.log("MainModal.js End of 'Create Data' case: postingsDataArr=", postingsDataArr);
-  }
-  
-
-
- const handleInputChange = (evnt) => {          //J: This could be called updatePostingsDataArray()
-  //J: Do not move to separate file. Also uses postingsDataArr, setPostingsDataArr and currPostIndx
-  //   Assumes postingsDataArray != null,  currPostIndex >= 0
-
-  const { name, value } = evnt.target;
-  const currPost = postingsDataArr[currPostIndx];
-  const alteredPost = { ...currPost, [name]: value };
-  // NB The brackets [] around 'name' in the above line are so that js
-  // uses the VALUE of name for the key and not just the string 'name'.
-
-  console.log("MainModal.js: handleInputChange: value =", value);
-  console.log("MainModal.js: handleInputChange: name =", name);
-  console.log("MainModal.js: handleInputChange: postings[currPostIndex] =", currPost);
-  console.log("MainModal.js: handleInputChange: newPost =", alteredPost);
-
-  setPostingsDataArr((currDataArr) => {
-    let newPostingsArr = [...currDataArr];
-    newPostingsArr[currPostIndx] = alteredPost;
-    console.log("MainModal.js: handleInputChange: newPostingsArray =", newPostingsArr);
-    return newPostingsArr;
-  });
-
-};
+   });
+  };
 
 
   return (
     <>
-      <Modal
-        size="lg"
-        centered show={showMainModl}
-        animation={false}
-        onHide={() => setShowMainModl(false)}
-      >
+      <Modal size="lg" centered show={showMainModl} animation={false} onHide={() => setShowMainModl(false)}>
+
         <Modal.Header closeButton>
-
-          <RenderHeadingCreatePost creatingNewPst={creatingNewPst} />
-
+          {createCaseHeadng}
         </Modal.Header>
 
         <Modal.Body>
@@ -106,7 +120,7 @@ const MainModal = (props) => {
             <input
               name="title"
               type="text"
-              required="true"
+              required
               className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
               placeholder="Post title"
               value={postingsDataArr[currPostIndx].title}
@@ -115,11 +129,11 @@ const MainModal = (props) => {
           </>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Contributors:</div>            {/* font-500 is Tailwind for bold */}
+            <div className="font-500">Contributors:</div>        {/* font-500 is Tailwind for bold */}
             <input
               name="contributors"
               type="text"
-              required="true"
+              required
               className="modalField"
               placeholder="Contributors (first name, last initial)"
               value={postingsDataArr[currPostIndx].contributors}
@@ -127,9 +141,7 @@ const MainModal = (props) => {
             />
           </div>
 
-          {(creatingNewPst) ? (
-            <></>
-          ) : (
+          {(createCaseHeadng) ? (
             <div className="flex flex-row p-1 mt-2">   {/* Dates are read-only, and only shown for existing posts */}
 
               <div className="flex flex-row">
@@ -142,17 +154,16 @@ const MainModal = (props) => {
                 <div className="ml-2 font-400">{convertISODate(postingsDataArr[currPostIndx].updatedAt)}</div>
               </div>
             </div>
+          ) : (
+            <></>
           )}
-
-          {setCreatingNewPst(false)}         {/* Reset this state var. (No further rendering specific to Create Post case) */}
-
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Tags:</div>
             <input
               name="tags"
               type="text"
-              required="true"
+              required
               className="modalField"
               placeholder="Relevant tags"
               value={postingsDataArr[currPostIndx].tags}
@@ -166,7 +177,7 @@ const MainModal = (props) => {
           <SunEditor
             name="description"                              //J: I'd like to change this to 'content' 
             type="text"
-            required="true"
+            required
             className="modalField"
             placeholder="What would you like to share?"
             value={postingsDataArr[currPostIndx].description}                         //J: I'd like to change this to '.content' 
@@ -180,7 +191,7 @@ const MainModal = (props) => {
             <input
               name="contentType"
               type="text"
-              required="true"
+              required
               className="modalField"
               placeholder="Primary content type (Text, video, etc.)"
               value={postingsDataArr[currPostIndx].contentType}
@@ -194,7 +205,7 @@ const MainModal = (props) => {
                 variant="success"       //J: How about we change this to checkboxes, so it's easy to select more than 1
                 id="dropdown-basic"
                 name="spiciness"
-                required="true"
+                required
                 className="modalField"
                 value={postingsDataArr[currPostIndx].spiciness}
                 defaultValue="0"
@@ -220,7 +231,8 @@ const MainModal = (props) => {
           <Button
             variant="warning"
             onClick={ () => {
-            retrievePostings(setPostingsDataArr);         // This will also refresh postingsDataArray
+            retrievePostings(setPostingsDataArr, emptyPst);   
+               // The above line will refresh postingsDataArray, undoing the changes to postingsDataArray[currPostIndex]
             setShowMainModl(false);
             }}
           >
@@ -239,6 +251,7 @@ const MainModal = (props) => {
 
           <Button
             color="green"
+            type="submit"
             onClick={ () => {
             updatePostingsDB(postingsDataArr, currPostIndx);       // This will NOT refresh postingsDataArray, but 
             setShowMainModl(false);                            // handleInputChange() should keep postingsDataArray up to date
