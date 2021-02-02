@@ -12,12 +12,12 @@ import DisplayHeadingForCreateCase from "./DisplayHeadingCreateCase";
 const MainModal = (props) => {
 
   //J: I like to leave out a letter or 2 from the names of variables that are actually just references to the original variable.
-  let showMainModl = props.showMainModl;
-  const setShowMainModl = props.setShowMainModl;
-  let currPostIndx = props.currPostIndex;
   const emptyPst = props.emptyPst;
-  let postingsDataArr = props.postingsDataArr;
+  let showMainModl = props.showMainModl;
+  let currPostIndx = props.currPostIndex;
+  const setShowMainModl = props.setShowMainModl;
   const setPostingsDataArr = props.setPostingsDataArr;
+  let postingsDataArr = props.postingsDataArr;
   let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState?
   // const setCreatingNewPst = props.setCreatingNewPst;
 
@@ -35,34 +35,31 @@ const MainModal = (props) => {
   // Take care of 'No Data' & 'Create Post' cases.
   let appendEmptyPost = false;
 
-  if (postingsDataArr?.length <= 0) {
-    console.log("MainModal.js Boolean test1: postingsDataArr?.length=", postingsDataArr?.length)
+  if ((postingsDataArr?.length <= 0) || ((creatingNewPst === true) && (!alreadyAppended.current))) {
+    console.log("MainModal.js Boolean test: postingsDataArr?.length=", postingsDataArr?.length)
+    console.log("MainModal.js Boolean test: alreadyAppended.current=", alreadyAppended.current)
+
     appendEmptyPost = true;
-    console.log("MainModal.js Boolean test1: appendEmptyPost=", appendEmptyPost)
   }
   
   console.log("MainModal.js after Boolean test1: appendEmptyPost=", appendEmptyPost)
 
-
-  if ((creatingNewPst === true) && (!alreadyAppended.current)) {
-    console.log("MainModal.js Boolean test2: alreadyAppended.current=", alreadyAppended.current)
-    appendEmptyPost = true;
-  }
+  // if ((creatingNewPst === true) && (!alreadyAppended.current)) {
+  //   console.log("MainModal.js Boolean test2: alreadyAppended.current=", alreadyAppended.current)
+  //   appendEmptyPost = true;
+  // }
 
   if (alreadyAppended.current === true) appendEmptyPost=false;    // just to be safe
 
-  console.log("MainModal.js: Prior to useEffect, appendEmptyPost=", appendEmptyPost);
-  console.log("MainModal.js: Prior to useEffect, alreadyAppended.current=", alreadyAppended.current);
+  console.log("MainModal.js: Prior to setPostingsDataArr, alreadyAppended.current=", alreadyAppended.current);
 
 
   setPostingsDataArr( (oldPostingsDataArr) => {
-
     let newPostingsDataArr = [...oldPostingsDataArr];
 
     if (appendEmptyPost === true) {
       newPostingsDataArr.push(emptyPst);
       console.log("MainModal.js 'Create Post' fn: appending emptyPst posting to end of postingsDataArray");
-
       displayCreatePostCase.current = true;
       alreadyAppended.current = true;   // To avoid repeat appendings
 
@@ -76,7 +73,6 @@ const MainModal = (props) => {
 
 
   const handleInputChange = (evnt) => {          //J: This could be called updatePostingsDataArray()
-  //J: Do not move to separate file. Also uses postingsDataArr, setPostingsDataArr and currPostIndx
   //   Assumes postingsDataArray != null,  currPostIndex >= 0
 
   const { name, value } = evnt.target;
