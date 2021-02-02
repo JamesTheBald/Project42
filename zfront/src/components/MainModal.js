@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
@@ -6,7 +6,7 @@ import convertISODate from "../functions/convertISODate";
 import retrievePostings from "../functions/retrievePostings";
 import deletePost from "../functions/deletePost";
 import updatePostingsDB from "../functions/updatePostingsDB";
-import DisplayHeadingForCreateCase from "./DisplayHeadingCreateCase";
+// import DisplayHeadingForCreateCase from "./DisplayHeadingCreateCase";
 
 
 const MainModal = (props) => {
@@ -14,14 +14,15 @@ const MainModal = (props) => {
   //J: I like to leave out a letter or 2 from the names of variables that are actually just references to the original variable.
   const emptyPst = props.emptyPst;
   let showMainModl = props.showMainModl;
-  let currPostIndx = props.currPostIndex;
+  let currPostIndx = props.currPostIndx;
   const setShowMainModl = props.setShowMainModl;
   const setPostingsDataArr = props.setPostingsDataArr;
   let postingsDataArr = props.postingsDataArr;
+  let createCaseHeadng = props.createCaseHeadng;
   // let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState?
   // const setCreatingNewPst = props.setCreatingNewPst;
 
-  let displayCreatePostCase = useRef(false);
+  // let displayCreatePostCase = useRef(false);
   // let alreadyAppended = useRef(false);
 
 
@@ -73,7 +74,7 @@ const MainModal = (props) => {
   // console.log("MainModal.js after running 'no data' function, postingsDataArray", postingsDataArr);
 
 
-  displayCreatePostCase.current = true; // FIX ME
+  // displayCreatePostCase.current = true; // FIX ME
 
   
 
@@ -105,7 +106,7 @@ const MainModal = (props) => {
       <Modal size="lg" centered show={showMainModl} animation={false} onHide={() => setShowMainModl(false)}>
 
         <Modal.Header closeButton>
-          <DisplayHeadingForCreateCase DisplayHeadingForCreateCas={displayCreatePostCase.current} />
+          {createCaseHeadng}
         </Modal.Header>
 
         <Modal.Body>
@@ -113,7 +114,7 @@ const MainModal = (props) => {
             <input
               name="title"
               type="text"
-              required="true"
+              required
               className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
               placeholder="Enter title of posting here"
               value={postingsDataArr[currPostIndx].title}
@@ -126,7 +127,7 @@ const MainModal = (props) => {
             <input
               name="contributors"
               type="text"
-              required="true"
+              required
               className="modalField"
               placeholder="Enter names of contributors here (Firstname, last Initial)"
               value={postingsDataArr[currPostIndx].contributors}
@@ -134,7 +135,7 @@ const MainModal = (props) => {
             />
           </div>
 
-          {(displayCreatePostCase.current) ? (
+          {(createCaseHeadng) ? (
             <div className="flex flex-row p-1 mt-2">   {/* Dates are read-only, and only shown for existing posts */}
 
               <div className="flex flex-row">
@@ -156,7 +157,7 @@ const MainModal = (props) => {
             <input
               name="tags"
               type="text"
-              required="true"
+              required
               className="modalField"
               placeholder="Enter tags/keywords here"
               value={postingsDataArr[currPostIndx].tags}
@@ -167,19 +168,19 @@ const MainModal = (props) => {
           <input
             name="description"                              //J: I'd like to change this to 'content' 
             type="text"
-            required="true"
+            required
             className="modalField"
             placeholder="Enter content of post here"
             value={postingsDataArr[currPostIndx].description}                         //J: I'd like to change this to '.content' 
             onChange={handleInputChange}
-            />
+          />
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Content Type:</div>
             <input
               name="contentType"
               type="text"
-              required="true"
+              required
               className="modalField"
               placeholder="Enter type of content (Text, file, etc.)"
               value={postingsDataArr[currPostIndx].contentType}
@@ -193,7 +194,7 @@ const MainModal = (props) => {
                 variant="success"       //J: How about we change this to checkboxes, so it's easy to select more than 1
                 id="dropdown-basic"
                 name="spiciness"
-                required="true"
+                required
                 className="modalField"
                 value={postingsDataArr[currPostIndx].spiciness}
                 defaultValue="0"
@@ -216,25 +217,35 @@ const MainModal = (props) => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="warning" onClick={ () => {
+          <Button
+            variant="warning"
+            onClick={ () => {
             retrievePostings(setPostingsDataArr, emptyPst);   
                // The above line will refresh postingsDataArray, undoing the changes to postingsDataArray[currPostIndex]
             setShowMainModl(false);
-          }}>
+            }}
+          >
             Abandon Changes
           </Button>
 
-          <Button variant="danger" onClick={() => {
+          <Button
+            variant="danger"
+            onClick={() => {
             deletePost(postingsDataArr, setPostingsDataArr, currPostIndx);    // This will refresh postingsDataArray
             setShowMainModl(false);
-          }}>
+            }}
+          >
             Delete Post       {/* Add an icon? */}
           </Button>
 
-          <Button color="green" onClick={ () => {
+          <Button
+            color="green"
+            type="submit"
+            onClick={ () => {
             updatePostingsDB(postingsDataArr, currPostIndx);       // This will NOT refresh postingsDataArray, but 
             setShowMainModl(false);                            // handleInputChange() should keep postingsDataArray up to date
-          }}>
+            }}
+          >
             Save Post         {/* Add an icon? */}
           </Button>
         </Modal.Footer>

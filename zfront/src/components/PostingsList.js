@@ -28,7 +28,7 @@ const PostingsList = () => {
   const [searchTitle, setSearchTitle] = useState("");
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const [creatingNewPost, setCreatingNewPost] = useState(false);   
+  // const [creatingNewPost, setCreatingNewPost] = useState(false);   
    // creatingNewPost needs to be a state var as it controls display of 'Create Post' title and of creation date & modified date. 
 
 
@@ -39,15 +39,16 @@ const PostingsList = () => {
     currPostIndex = indx;                     //   See Tony's suggestion in React channel of Discord server
   }
 
-
+  let createCaseHeading = "";
   useEffect(() => {
+    createCaseHeading = "";
     retrievePostings(setPostingsDataArray, emptyPost);  // This function should now never allow postingsDataArray to be null
   }, []);                                               // C: '[]' means useEffect will only run THE FIRST time the page renders
 
 
-  useEffect(() => {
-    setCreatingNewPost(false);    // Reset the creatingNewPost flag every timt it changes
-  }, [creatingNewPost]); 
+  // useEffect(() => {
+  //   setCreatingNewPost(false);    // Reset the creatingNewPost flag every timt it changes
+  // }, [creatingNewPost]); 
 
 
   const onChangeSearchTitle = (evnt) => {
@@ -71,7 +72,7 @@ const PostingsList = () => {
           <div
             className="mx-4 hover:text-blue-400"
             onClick={() => {
-              // setCreatingNewPost(true);     //J: I assume that this won't cause the flag-reset useEffect above to run yet !!!
+              createCaseHeading = '<div className="text-2xl">Create Post</div>';
               appendEmptyPost(setPostingsDataArray, emptyPost);
               setShowMainModal(true);
             }}>
@@ -108,8 +109,8 @@ const PostingsList = () => {
         setShowMainModl = {setShowMainModal}
         postingsDataArr = {postingsDataArray}
         setPostingsDataArr = {setPostingsDataArray}
-        currPostIndex = {currPostIndex}   //C: currPostIndex points to the element in the postings array that we're interested in
-
+        currPostIndx = {currPostIndex}   //C: currPostIndex points to the element in the postings array that we're interested in
+        createCaseHeadng = {createCaseHeading}
         // creatingNewPst = {creatingNewPost}
       />
 
