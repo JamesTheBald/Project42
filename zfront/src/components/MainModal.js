@@ -6,10 +6,9 @@ import convertISODate from "../functions/convertISODate";
 import retrievePostings from "../functions/retrievePostings";
 import deletePost from "../functions/deletePost";
 import updatePostingsDB from "../functions/updatePostingsDB";
-import RenderHeadingCreatePost from "./RenderHeadingCreatePost";
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
-import VoteCounter from 'VoteCounter.js'
+import VoteCounter from './VoteCounter'
 // import DisplayHeadingForCreateCase from "./DisplayHeadingCreateCase";
 
 
