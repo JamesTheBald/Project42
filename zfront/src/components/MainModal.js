@@ -108,7 +108,7 @@ const MainModal = (props) => {
               type="text"
               required="true"
               className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
-              placeholder="Enter title of posting here"
+              placeholder="Post title"
               value={postingsDataArr[currPostIndx].title}
               onChange={handleInputChange}            // Try onBlur ??
             />
@@ -121,7 +121,7 @@ const MainModal = (props) => {
               type="text"
               required="true"
               className="modalField"
-              placeholder="Enter names of contributors here (Firstname, last Initial)"
+              placeholder="Contributors (first name, last initial)"
               value={postingsDataArr[currPostIndx].contributors}
               onChange={handleInputChange}
             />
@@ -154,14 +154,14 @@ const MainModal = (props) => {
               type="text"
               required="true"
               className="modalField"
-              placeholder="Enter tags/keywords here"
+              placeholder="Relevant tags"
               value={postingsDataArr[currPostIndx].tags}
               onChange={handleInputChange}
             />
           </div>
 
 
-          {/* TO DO LATER: Make a function that only renders the SunEditor onBlur */}
+          {/* TO DO LATER: Make a function that only renders the SunEditor onClick */}
 
           <SunEditor
             name="description"                              //J: I'd like to change this to 'content' 
@@ -171,6 +171,7 @@ const MainModal = (props) => {
             placeholder="What would you like to share?"
             value={postingsDataArr[currPostIndx].description}                         //J: I'd like to change this to '.content' 
             onChange={handleInputChange}
+            // onClick={renderSunEditor}
           >
           </SunEditor>
 
@@ -181,7 +182,7 @@ const MainModal = (props) => {
               type="text"
               required="true"
               className="modalField"
-              placeholder="Enter type of content (Text, file, etc.)"
+              placeholder="Primary content type (Text, video, etc.)"
               value={postingsDataArr[currPostIndx].contentType}
               onChange={handleInputChange}
             />
