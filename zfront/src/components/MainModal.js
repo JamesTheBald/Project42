@@ -7,53 +7,42 @@ import retrievePostings from "../functions/retrievePostings";
 import deletePost from "../functions/deletePost";
 import updatePostOnDB from "../functions/updatePostOnDB";
 import createPostOnDB from "../functions/createPostOnDB";
-// import DisplayHeadingForCreateCase from "./DisplayHeadingCreateCase";
 
 
 const MainModal = (props) => {
 
-  //J: I like to leave out a letter or 2 from the names of variables that are actually just references to the original variable.
-  const emptyPst = props.emptyPst;
-  let showMainModl = props.showMainModl;
-  let currPostIndx = props.currPostIndx;
-  const setShowMainModl = props.setShowMainModl;
-  const setPostingsDataArr = props.setPostingsDataArr;
-  let postingsDataArr = props.postingsDataArr;
-  let createCaseHeadng = props.createCaseHeadng;
-  let modalTitle = props.modalTitle
-  // let creatingNewPst = props.creatingNewPst;                //J: should be using useRef instead of useState?
-  // const setCreatingNewPst = props.setCreatingNewPst;
-
-  // let displayCreatePostCase = useRef(false);
-  // let alreadyAppended = useRef(false);
+  const emptyPostArray = props.emptyPostArray;
+  let showMainModal = props.showMainModal;
+  let currPostIndex = props.currPostIndex;
+  const setShowMainModal = props.setShowMainModal;
+  const setPostingsDataArray = props.setPostingsDataArray;
+  let postingsDataArray = props.postingsDataArray;
+  let showDates = props.showDates;
 
 
   console.log("MainModal.js Begins.");
-  console.log("MainModal.js begins. emptyPst=", emptyPst);
-  console.log("MainModal.js begins. currPostIndx=", currPostIndx);
-  console.log("MainModal.js begins. postingsDataArr=", postingsDataArr);
-  console.log("MainModal.js begins. createCaseHeadng = ",createCaseHeadng)
-  // console.log("MainModal.js begins. creatingNewPst=", creatingNewPst);
+  console.log("MainModal.js begins. emptyPostArray=", emptyPostArray);
+  console.log("MainModal.js begins. currPostIndex=", currPostIndex);
+  console.log("MainModal.js begins. postingsDataArray=", postingsDataArray);
 
-  
 
   const handleInputChange = (evnt) => {          //J: This could be called updatePostingsDataArray()
     //   Assumes postingsDataArray != null,  currPostIndex >= 0
 
     const { name, value } = evnt.target;
-    const currPost = postingsDataArr[currPostIndx];
+    const currPost = postingsDataArray[currPostIndex];
     const alteredPost = { ...currPost, [name]: value };
     // NB The brackets [] around 'name' in the above line are so that js
     // uses the VALUE of name for the key and not just the string 'name'.
 
-    console.log("MainModal.js: handleInputChange: value =", value);
-    console.log("MainModal.js: handleInputChange: name =", name);
-    console.log("MainModal.js: handleInputChange: postings[currPostIndex] =", currPost);
-    console.log("MainModal.js: handleInputChange: newPost =", alteredPost);
+    // console.log("MainModal.js: handleInputChange: value =", value);
+    // console.log("MainModal.js: handleInputChange: name =", name);
+    // console.log("MainModal.js: handleInputChange: postings[currPostIndex] =", currPost);
+    // console.log("MainModal.js: handleInputChange: newPost =", alteredPost);
 
-    setPostingsDataArr((currDataArr) => {
+    setPostingsDataArray((currDataArr) => {
       let newPostingsArr = [...currDataArr];
-      newPostingsArr[currPostIndx] = alteredPost;
+      newPostingsArr[currPostIndex] = alteredPost;
       console.log("MainModal.js: handleInputChange: newPostingsArray =", newPostingsArr);
       return newPostingsArr;
    });
@@ -62,11 +51,7 @@ const MainModal = (props) => {
 
   return (
     <>
-      <Modal size="lg" centered show={showMainModl} animation={false} onHide={() => setShowMainModl(false)}>
-
-        <Modal.Header closeButton>
-          <div className="text-2xl">{modalTitle}</div>
-        </Modal.Header>
+      <Modal size="lg" centered show={showMainModal} animation={false} onHide={() => setShowMainModal(false)}>
 
         <Modal.Body>
           <>
@@ -76,7 +61,7 @@ const MainModal = (props) => {
               required
               className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
               placeholder="Enter title of posting here"
-              value={postingsDataArr[currPostIndx].title}
+              value={postingsDataArray[currPostIndex].title}
               onChange={handleInputChange}            // Try onBlur ??
             />
           </>
@@ -89,22 +74,22 @@ const MainModal = (props) => {
               required
               className="modalField"
               placeholder="Enter names of contributors here (Firstname, last Initial)"
-              value={postingsDataArr[currPostIndx].contributors}
+              value={postingsDataArray[currPostIndex].contributors}
               onChange={handleInputChange}
             />
           </div>
 
-          {(createCaseHeadng) ? (
+          {(showDates) ? (
             <div className="flex flex-row p-1 mt-2">   {/* Dates are read-only, and only shown for existing posts */}
 
               <div className="flex flex-row">
                 <div className="font-500">Created:</div>
-                <div className="ml-2 font-400">{convertISODate(postingsDataArr[currPostIndx].createdAt)}</div>
+                <div className="ml-2 font-400">{convertISODate(postingsDataArray[currPostIndex].createdAt)}</div>
               </div>
 
               <div className="flex flex-row ml-6">
                 <div className="font-500">Modified:</div>
-                <div className="ml-2 font-400">{convertISODate(postingsDataArr[currPostIndx].updatedAt)}</div>
+                <div className="ml-2 font-400">{convertISODate(postingsDataArray[currPostIndex].updatedAt)}</div>
               </div>
             </div>
           ) : (
@@ -119,7 +104,7 @@ const MainModal = (props) => {
               required
               className="modalField"
               placeholder="Enter tags/keywords here"
-              value={postingsDataArr[currPostIndx].tags}
+              value={postingsDataArray[currPostIndex].tags}
               onChange={handleInputChange}
             />
           </div>
@@ -130,7 +115,7 @@ const MainModal = (props) => {
             required
             className="modalField"
             placeholder="Enter content of post here"
-            value={postingsDataArr[currPostIndx].description}                         //J: I'd like to change this to '.content' 
+            value={postingsDataArray[currPostIndex].description}                         //J: I'd like to change this to '.content' 
             onChange={handleInputChange}
           />
 
@@ -142,7 +127,7 @@ const MainModal = (props) => {
               required
               className="modalField"
               placeholder="Enter type of content (Text, file, etc.)"
-              value={postingsDataArr[currPostIndx].contentType}
+              value={postingsDataArray[currPostIndex].contentType}
               onChange={handleInputChange}
             />
           </div>
@@ -155,7 +140,7 @@ const MainModal = (props) => {
                 name="spiciness"
                 required
                 className="modalField"
-                value={postingsDataArr[currPostIndx].spiciness}
+                value={postingsDataArray[currPostIndex].spiciness}
                 defaultValue="0"
                 onChange={handleInputChange}
               >
@@ -179,9 +164,9 @@ const MainModal = (props) => {
           <Button
             variant="warning"
             onClick={ () => {
-            retrievePostings(setPostingsDataArr, emptyPst);   
+            retrievePostings(setPostingsDataArray, emptyPostArray);   
                // The above line will refresh postingsDataArray, undoing the changes to postingsDataArray[currPostIndex]
-            setShowMainModl(false);
+            setShowMainModal(false);
             }}
           >
             Abandon Changes
@@ -190,8 +175,8 @@ const MainModal = (props) => {
           <Button
             variant="danger"
             onClick={() => {
-            deletePost(postingsDataArr, setPostingsDataArr, currPostIndx);    // This will refresh postingsDataArray
-            setShowMainModl(false);
+            deletePost(postingsDataArray, setPostingsDataArray, currPostIndex);    // This will refresh postingsDataArray
+            setShowMainModal(false);
             }}
           >
             Delete Post       {/* Add an icon? */}
@@ -201,15 +186,15 @@ const MainModal = (props) => {
             color="green"
             type="submit"
             onClick={ () => {
-              (currPostIndx) ? (
-                updatePostOnDB(postingsDataArr, currPostIndx)     // This will NOT refresh postingsDataArray, but 
+              (currPostIndex) ? (
+                updatePostOnDB(postingsDataArray, currPostIndex)     // This will NOT refresh postingsDataArray, but 
                ) : (                                              // handleInputChange() should keep postingsDataArray up to date
-                createPostOnDB(postingsDataArr, currPostIndx)
+                createPostOnDB(postingsDataArray, currPostIndex)
                )
 
           
 
-            setShowMainModl(false); 
+            setShowMainModal(false); 
             }}
           >
             Save Post         {/* Add an icon? */}

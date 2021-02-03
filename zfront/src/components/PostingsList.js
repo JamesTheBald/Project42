@@ -11,9 +11,9 @@ import appendEmptyPost from "../functions/appendEmptyPost";
 
 
 const PostingsList = () => {
-  const emptyPost = [{
-    title: "Empty Post",
-    contributors: "Click to Edit",
+  const emptyPostArray = [{
+    title: "",
+    contributors: "Click to edit post",
     description: "",
     tags: "",
     contentType: "",
@@ -21,28 +21,19 @@ const PostingsList = () => {
     upvotes: 0,
   }];
 
-  const [postingsDataArray, setPostingsDataArray] = useState([emptyPost]);
+  const [postingsDataArray, setPostingsDataArray] = useState([emptyPostArray]);
   const [currPostIndex, setCurrPostIndex] = useState(0); 
-  // currPostIndex doesn't need to be a state var as it doesn't change once MainModal is invoked.
   const [searchTitle, setSearchTitle] = useState("");
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  // const [creatingNewPost, setCreatingNewPost] = useState(false);   
-   // creatingNewPost needs to be a state var as it controls display of 'Create Post' title and of creation date & modified date. 
+  const [showDates, setShowDates] = useState(false);
 
 
-  console.log("PostingsList.js begins. postingsDataArray=",postingsDataArray);    // Should be emptyPost
+  console.log("PostingsList.js begins.");
 
-  let modalTitle = "";
   useEffect(() => {
-    modalTitle = "";
-    retrievePostings(setPostingsDataArray, emptyPost);  // This function should now never allow postingsDataArray to be null
+    retrievePostings(setPostingsDataArray, emptyPostArray);  // This function should now never allow postingsDataArray to be null
   }, []);                                               // C: '[]' means useEffect will only run THE FIRST time the page renders
-
-
-  // useEffect(() => {
-  //   setCreatingNewPost(false);    // Reset the creatingNewPost flag every timt it changes
-  // }, [creatingNewPost]); 
 
 
   const onChangeSearchTitle = (evnt) => {
@@ -62,12 +53,17 @@ const PostingsList = () => {
           </div>
           <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} animation={false} />
 
-          {/* Create Post link */}
+          {/* 'CreatePost' link */}
           <div
             className="mx-4 hover:text-blue-400"
             onClick={() => {
-              modalTitle = "Create Post";
-              appendEmptyPost(setPostingsDataArray, emptyPost);
+              setShowDates(false);
+              appendEmptyPost(setPostingsDataArray, emptyPostArray);
+              setCurrPostIndex( () => {
+                const newCurrPostIndex = postingsDataArray.length-1;
+                console.log("PostingsList.js CreatePost onClick: newCurrPostIndex=",newCurrPostIndex);
+                return newCurrPostIndex
+              });
               setShowMainModal(true);
             }}>
             Create Post
@@ -91,24 +87,29 @@ const PostingsList = () => {
       </nav>
 
       <RenderStubs
-        postingsDataArr = {postingsDataArray}
-        setCurrPostIndx = {setCurrPostIndex}
-        setShowMainModl = {setShowMainModal}
+        postingsDataArray = {postingsDataArray}
+        setCurrPostIndex = {setCurrPostIndex}
+        setShowMainModal = {setShowMainModal}
+        setShowDates = {setShowDates}
         // setCreatingNewPst = {setCreatingNewPost}
       />
 
       <MainModal
-        emptyPst = {emptyPost}
-        showMainModl = {showMainModal}
-        setShowMainModl = {setShowMainModal}
-        postingsDataArr = {postingsDataArray}
-        setPostingsDataArr = {setPostingsDataArray}
-        currPostIndx = {currPostIndex}   //C: currPostIndex points to the element in the postings array that we're interested in
-        modalTitle = {modalTitle}
+        emptyPostArray = {emptyPostArray}
+        showMainModal = {showMainModal}
+        setShowMainModal = {setShowMainModal}
+        postingsDataArray = {postingsDataArray}
+        setPostingsDataArray = {setPostingsDataArray}
+        currPostIndex = {currPostIndex}   //C: currPostIndex points to the element in the postings array that we're interested in
+        showDates = {showDates}
         // creatingNewPst = {creatingNewPost}
       />
 
-      <Button variant="outline-danger" onClick={() => removeAllPostings(setPostingsDataArray)}>
+      <Button variant="outline-danger" onClick={() => {
+        removeAllPostings;
+        setPostingsDataArray(emptyPostArray);
+      }
+      }>
         {/* Refreshes postingsDataArray */}
         [Dev Only] Remove All
       </Button>

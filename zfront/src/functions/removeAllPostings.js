@@ -1,11 +1,10 @@
 import PostingAxios from "../services/PostingAxios";
 
-const removeAllPostings = (setPostingsDataArr) => {
+const removeAllPostings = () => {
   console.log("removeAllPostings.js invoked");
 
   PostingAxios.removeAll()
     .then((response) => {
-      setPostingsDataArr(response.data);
       console.log("removeAllPostings() response.data=", response.data);
     })
     .catch((err) => {

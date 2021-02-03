@@ -1,12 +1,12 @@
 import PostingAxios from "../services/PostingAxios";
 
-const updatePostOnDB = (postingsDataArr, currPostIndx) => {
-  console.log("updatePostOnDB.js: postingsDataArr=", postingsDataArr);
-  console.log("updatePostOnDB.js: currPostIndex=", currPostIndx);
+const updatePostOnDB = (postingsDataArray, currPostIndex) => {
+  console.log("updatePostOnDB.js: postingsDataArray=", postingsDataArray);
+  console.log("updatePostOnDB.js: currPostIndex=", currPostIndex);
 
-  if (postingsDataArr.length>0) {
-    const post = postingsDataArr[currPostIndx];
-    console.log("updatePostOnDB.js: sending to DB pst=", post);
+  if (postingsDataArray?.length>0) {
+    const post = postingsDataArray[currPostIndex];
+    console.log("updatePostOnDB.js: sending to DB post=", post);
 
     PostingAxios.update(post._id, post)
       .then((response) => {

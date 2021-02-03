@@ -1,18 +1,18 @@
 import PostingAxios from "../services/PostingAxios";
 
-const deletePost = (postingsDataArr, setPostingsDataArr, currPostIndx) => {
-  console.log("deletePost.js- postingsDataArr=",postingsDataArr);
-  console.log("deletePost.js- setPostingsDataArr=",setPostingsDataArr);
-  console.log("deletePost.js- currPostIndx=",currPostIndx);
+const deletePost = (postingsDataArray, setPostingsDataArray, currPostIndex) => {
+  console.log("deletePost.js- postingsDataArray=",postingsDataArray);
+  console.log("deletePost.js- setPostingsDataArray=",setPostingsDataArray);
+  console.log("deletePost.js- currPostIndex=",currPostIndex);
 
-  if (postingsDataArr && postingsDataArr[currPostIndx]) {
-    PostingAxios.remove(postingsDataArr[currPostIndx]._id)
+  if (postingsDataArray?.length>0) {
+    PostingAxios.remove(postingsDataArray[currPostIndex]._id)
     .then((response) => {
       console.log("deletePost.js- response=", response);
     
-      setPostingsDataArr((currDataArr) => {
+      setPostingsDataArray((currDataArr) => {
         let newPostingsArr = [...currDataArr];
-        newPostingsArr.splice(currPostIndx,1);       // remove 1 item by index
+        newPostingsArr.splice(currPostIndex,1);       // remove 1 item by index
         console.log("deletePost.js- newPostingsArr =", newPostingsArr);
         return newPostingsArr;
       })
@@ -22,7 +22,7 @@ const deletePost = (postingsDataArr, setPostingsDataArr, currPostIndx) => {
     });
     
   } else {
-    console.log("deletePost.js, Error - received falsy array/index");
+    console.log("deletePost.js, Error - received null or empty array");
   }
 };
 
