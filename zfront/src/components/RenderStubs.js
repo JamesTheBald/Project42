@@ -5,6 +5,7 @@ const RenderStubs = (props) => {
   let postingsDataArray = props.postingsDataArray;
   const setCurrPostIndex= props.setCurrPostIndex;
   const setShowMainModal = props.setShowMainModal;
+  const setPostBuffer = props.setPostBuffer
   const setShowDates = props.setShowDates;
 
 
@@ -17,14 +18,16 @@ const RenderStubs = (props) => {
     return (
       <>
         {postingsDataArray.map((pst, indx) => {
-          console.log("RenderStubs .map: indx=", indx, " and pst=", pst);
+          // console.log("RenderStubs .map: indx=", indx, " and pst=", pst);
 
           return (
             <div
               key={indx}
               className="w-64 p-2 my-2 border border-gray-700 rounded-lg"
               onClick={() => {
-                setCurrPostIndex(indx);    //J: The value of indx gets 'baked in' here
+                setCurrPostIndex(indx);
+                console.log("RenderStubs.js CurrPostIndex=",indx);
+                setPostBuffer(pst)
                 setShowDates(true);
                 setShowMainModal(true);
               }}>

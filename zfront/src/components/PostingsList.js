@@ -7,11 +7,11 @@ import RenderStubs from "./RenderStubs";
 import retrievePostings from "../functions/retrievePostings";
 import removeAllPostings from "../functions/removeAllPostings";
 import onClickFindByTitle from "../functions/onClickFindByTitle";
-import appendEmptyPost from "../functions/appendEmptyPost";
+// import appendEmptyPost from "../functions/appendEmptyPost";
 
 
 const PostingsList = () => {
-  const emptyPostArray = [{
+  const emptyPost = {
     title: "",
     contributors: "Click to edit post",
     description: "",
@@ -19,20 +19,22 @@ const PostingsList = () => {
     contentType: "",
     spiciness: 0,
     upvotes: 0,
-  }];
+  };
 
-  const [postingsDataArray, setPostingsDataArray] = useState([emptyPostArray]);
-  const [currPostIndex, setCurrPostIndex] = useState(0); 
-  const [searchTitle, setSearchTitle] = useState("");
-  const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [showMainModal, setShowMainModal] = useState(false);
+  const [postingsDataArray, setPostingsDataArray] = useState([emptyPost]);
+  const [currPostIndex, setCurrPostIndex] = useState(0); 
+  const [postBuffer, setPostBuffer] = useState(emptyPost);   // Really want this as an object, not an array
   const [showDates, setShowDates] = useState(false);
   const [voteCount, setVoteCount] = useState(0);
+  const [searchTitle, setSearchTitle] = useState("");
+
 
   console.log("PostingsList.js begins.");
 
   useEffect(() => {
-    retrievePostings(setPostingsDataArray, emptyPostArray);  // This function should now never allow postingsDataArray to be null
+    retrievePostings(setPostingsDataArray, emptyPost);  // This function should now never allow postingsDataArray to be null
   }, []);                                               // C: '[]' means useEffect will only run THE FIRST time the page renders
 
 
@@ -58,7 +60,7 @@ const PostingsList = () => {
             className="mx-4 hover:text-blue-400"
             onClick={() => {
               setShowDates(false);
-              appendEmptyPost(setPostingsDataArray, emptyPostArray);
+              setPostBuffer(emptyPost);
               setCurrPostIndex( () => {
                 const newCurrPostIndex = postingsDataArray.length-1;
                 console.log("PostingsList.js CreatePost onClick: newCurrPostIndex=",newCurrPostIndex);
@@ -90,26 +92,31 @@ const PostingsList = () => {
         postingsDataArray = {postingsDataArray}
         setCurrPostIndex = {setCurrPostIndex}
         setShowMainModal = {setShowMainModal}
+        setPostBuffer = {setPostBuffer}
         setShowDates = {setShowDates}
         // setCreatingNewPst = {setCreatingNewPost}
       />
 
       <MainModal
-        emptyPostArray = {emptyPostArray}
         showMainModal = {showMainModal}
         setShowMainModal = {setShowMainModal}
         postingsDataArray = {postingsDataArray}
         setPostingsDataArray = {setPostingsDataArray}
         currPostIndex = {currPostIndex}   //C: currPostIndex points to the element in the postings array that we're interested in
+        setCurrPostIndex = {setCurrPostIndex}
+        postBuffer = {postBuffer}
+        setPostBuffer = {setPostBuffer}
         showDates = {showDates}
         voteCount = {voteCount}
         setVoteCount = {setVoteCount}
+        emptyPost = {emptyPost}
+
         // creatingNewPst = {creatingNewPost}
       />
 
       <Button variant="outline-danger" onClick={() => {
         removeAllPostings;
-        setPostingsDataArray(emptyPostArray);
+        setPostingsDataArray([emptyPost]);
       }
       }>
         {/* Refreshes postingsDataArray */}

@@ -1,6 +1,6 @@
 import PostingAxios from "../services/PostingAxios";
 
-const retrievePostings = (setPostingsDataArray, emptyPostArray) => {
+const retrievePostings = (setPostingsDataArray, emptyPost) => {
   console.log("Running retrievePostings.js")
 
   PostingAxios.getAll()
@@ -8,13 +8,14 @@ const retrievePostings = (setPostingsDataArray, emptyPostArray) => {
       console.log('retrievePostings.js response.data=', response.data);
 
       setPostingsDataArray( () => {
-        let newPostingsDataArr = emptyPostArray;
+        let newPostingsDataArr = [emptyPost];
 
         if (response.data?.length>0) {
           newPostingsDataArr = response.data;
           console.log("retrievePostings.js response.data.length>0 so using setPostingsDataArray (response.data)");
         } else {
-          console.log("retrievePostings.js response.data.length<=0 so using setPostingsDataArray (emptyPostArray)");
+          // else leave newPostingsDataArr = [emptyPost]
+          console.log("retrievePostings.js response.data.length<=0 so using setPostingsDataArray ([emptyPost])");
         }
         return newPostingsDataArr;
       });
