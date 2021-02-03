@@ -1,8 +1,8 @@
-const appendEmptyPost = (setPostingsDataArr, emptyPst) => {
+const appendEmptyPost = (setPostingsDataArray, emptyPostArray) => {
 
-  setPostingsDataArr( (oldPostingsDataArr) => {   
+  setPostingsDataArray( (oldPostingsDataArr) => {   
     const newPostingsDataArr = [...oldPostingsDataArr];
-    newPostingsDataArr.push(emptyPst);
+    newPostingsDataArr.push(...emptyPostArray);
     console.log("appendEmptyPost.js newPostingsDataArr=", newPostingsDataArr)
     return newPostingsDataArr
   })

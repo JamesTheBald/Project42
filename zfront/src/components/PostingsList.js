@@ -11,10 +11,9 @@ import appendEmptyPost from "../functions/appendEmptyPost";
 
 
 const PostingsList = () => {
-  const emptyPost = [{
-    _id: 0, //J: _id was null
+  const emptyPostArray = [{
     title: "",
-    contributors: "",
+    contributors: "Click to edit post",
     description: "",
     tags: "",
     contentType: "",
@@ -22,36 +21,19 @@ const PostingsList = () => {
     upvotes: 0,
   }];
 
-  const [postingsDataArray, setPostingsDataArray] = useState([emptyPost]);
+  const [postingsDataArray, setPostingsDataArray] = useState([emptyPostArray]);
   const [currPostIndex, setCurrPostIndex] = useState(0); 
-  // currPostIndex doesn't need to be a state var as it doesn't change once MainModal is invoked.
   const [searchTitle, setSearchTitle] = useState("");
   const [showMainModal, setShowMainModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const [creatingNewPost, setCreatingNewPost] = useState(false);     //J: use useRef & .current instead of useState to avoid unnec re-renders
-                                                                     // See part 4 of https://dmitripavlutin.com/react-hooks-mistakes-to-avoid/
+  const [showDates, setShowDates] = useState(false);
   const [voteCount, setVoteCount] = useState(0);
-  // const [creatingNewPost, setCreatingNewPost] = useState(false);   
-   // creatingNewPost needs to be a state var as it controls display of 'Create Post' title and of creation date & modified date. 
 
+  console.log("PostingsList.js begins.");
 
-  console.log("PostingsList.js begins. postingsDataArray=",postingsDataArray);    // Should be emptyPost
-
-  currPostIndex = 0;
-  const assignCurrPostIndex = (indx) => {     //J: This creates a callback function to pass to RenderStub.js. 
-    currPostIndex = indx;                     //   See Tony's suggestion in React channel of Discord server
-  }
-
-  let createCaseHeading = "";
   useEffect(() => {
-    createCaseHeading = "";
-    retrievePostings(setPostingsDataArray, emptyPost);  // This function should now never allow postingsDataArray to be null
+    retrievePostings(setPostingsDataArray, emptyPostArray);  // This function should now never allow postingsDataArray to be null
   }, []);                                               // C: '[]' means useEffect will only run THE FIRST time the page renders
-
-
-  // useEffect(() => {
-  //   setCreatingNewPost(false);    // Reset the creatingNewPost flag every timt it changes
-  // }, [creatingNewPost]); 
 
 
   const onChangeSearchTitle = (evnt) => {
@@ -71,12 +53,17 @@ const PostingsList = () => {
           </div>
           <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} animation={false} />
 
-          {/* Create Post link */}
+          {/* 'CreatePost' link */}
           <div
             className="mx-4 hover:text-blue-400"
             onClick={() => {
-              createCaseHeading = '<div className="text-2xl">Create Post</div>';
-              appendEmptyPost(setPostingsDataArray, emptyPost);
+              setShowDates(false);
+              appendEmptyPost(setPostingsDataArray, emptyPostArray);
+              setCurrPostIndex( () => {
+                const newCurrPostIndex = postingsDataArray.length-1;
+                console.log("PostingsList.js CreatePost onClick: newCurrPostIndex=",newCurrPostIndex);
+                return newCurrPostIndex
+              });
               setShowMainModal(true);
             }}>
             Create Post
@@ -100,31 +87,31 @@ const PostingsList = () => {
       </nav>
 
       <RenderStubs
-        postingsDataArr = {postingsDataArray}
-        assignCurrPostIndex = {assignCurrPostIndex}
-        setShowMainModl = {setShowMainModal}
+        postingsDataArray = {postingsDataArray}
+        setCurrPostIndex = {setCurrPostIndex}
+        setShowMainModal = {setShowMainModal}
+        setShowDates = {setShowDates}
         // setCreatingNewPst = {setCreatingNewPost}
       />
 
       <MainModal
-        emptyPst = {emptyPost}
-        showMainModl = {showMainModal}
-        setShowMainModl = {setShowMainModal}
-        postingsDataArr = {postingsDataArray}
-        setPostingsDataArr = {setPostingsDataArray}
-        currPostIndex = {currPostIndex}
-        setCurrPostIndex = {setCurrPostIndex}
-        creatingNewPst = {creatingNewPost}          //J: Thinking this shouldn't be a state var
-        setCreatingNewPst = {setCreatingNewPost}
-        setShowMainModl = {setShowMainModal}
-        currPostIndx = {currPostIndex}   //C: currPostIndex points to the element in the postings array that we're interested in
-        createCaseHeadng = {createCaseHeading}
+        emptyPostArray = {emptyPostArray}
+        showMainModal = {showMainModal}
+        setShowMainModal = {setShowMainModal}
+        postingsDataArray = {postingsDataArray}
+        setPostingsDataArray = {setPostingsDataArray}
+        currPostIndex = {currPostIndex}   //C: currPostIndex points to the element in the postings array that we're interested in
+        showDates = {showDates}
         voteCount = {voteCount}
         setVoteCount = {setVoteCount}
         // creatingNewPst = {creatingNewPost}
       />
 
-      <Button variant="outline-danger" onClick={() => removeAllPostings(setPostingsDataArray)}>
+      <Button variant="outline-danger" onClick={() => {
+        removeAllPostings;
+        setPostingsDataArray(emptyPostArray);
+      }
+      }>
         {/* Refreshes postingsDataArray */}
         [Dev Only] Remove All
       </Button>

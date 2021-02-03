@@ -28,6 +28,7 @@ exports.create = (req, res) => {
       res.send(data);
     })
     .catch(err => {
+      console.log("postingController.js .create err=",err)
       res.status(500).send({
         message:
           err.message || "Drat - An error occurred creating the posting."
@@ -47,6 +48,7 @@ exports.findAll = (req, res) => {
       res.send(data);
     })
     .catch(err => {
+      console.log("postingController.js .findAll .find err=",err)
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving postings."
@@ -66,6 +68,7 @@ exports.findOne = (req, res) => {
       else res.send(data);
     })
     .catch(err => {
+      console.log("postingController.js .findOne err=",err)
       res
         .status(500)
         .send({ message: "Error retrieving Posting with ID=" + id });
@@ -92,6 +95,7 @@ exports.update = (req, res) => {
       } else res.send({ message: "Posting was updated successfully." });
     })
     .catch(err => {
+      console.log("postingController.js .update err=",err)
       res.status(500).send({
         message: "Error updating Posting with id=" + id
       });
@@ -116,6 +120,7 @@ exports.delete = (req, res) => {
       }
     })
     .catch(err => {
+      console.log("postingController.js .delete err=",err)
       res.status(500).send({
         message: "Could not delete Posting with ID=" + id
       });
@@ -132,6 +137,7 @@ exports.deleteAll = (req, res) => {
       });
     })
     .catch(err => {
+      console.log("postingController.js .deleteAll err=",err)
       res.status(500).send({
         message:
           err.message || "Some error occurred while removing all postings."
