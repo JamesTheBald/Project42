@@ -18,18 +18,15 @@ const convertISODate = (ISODate) => {
   //   }
   // };
 
-  if (ISODate) {
-    const formattedDate = 
-    date.getDate()
-    + " "
-    + monthNames[date.getMonth()] // getMonth() returns INDEX of month, not value
-    + " "
-    + date.getFullYear();
+  const formattedDate = 
+  date.getDate()
+  // + dayOrdinal(date.getDate())
+  + " "
+  + monthNames[date.getMonth()] // getMonth() returns INDEX of month, not value
+  + " "
+  + date.getFullYear();
 
-  return (formattedDate);
-  } else {
-    return ('unknown');
-  }
+return (formattedDate);
 };
 
 export default convertISODate;
