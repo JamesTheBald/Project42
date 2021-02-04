@@ -3,32 +3,36 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
-import retrievePostings from "../functions/retrievePostings";
-import deletePost from "../functions/deletePost";
+// import retrievePostings from "../functions/retrievePostings";
 import updatePostOnDB from "../functions/updatePostOnDB";
-import createPostOnDB from "../functions/createPostOnDB";
+// import createPostOnDB from "../functions/createPostOnDB";
 import updatePostOnDataArray from "../functions/updatePostOnDataArray";
-import createPostOnDataArray from "../functions/createPostOnDataArray";
+import deletePostFromDB from "../functions/deletePostFromDB";
+import deletePostFromDataArray from "../functions/deletePostFromDataArray";
+// import createPostOnDataArray from "../functions/createPostOnDataArray";
 
 
 const MainModal = (props) => {
 
-  const emptyPost = props.emptyPost;
+  // const emptyPost = props.emptyPost;
   let showMainModal = props.showMainModal;
   let currPostIndex = props.currPostIndex;
-  const setCurrPostIndex = props.setCurrPostIndex;
-  const setShowMainModal = props.setShowMainModal;
+  // const setCurrPostIndex = props.setCurrPostIndex;
+  // const setShowMainModal = props.setShowMainModal;
   const setPostingsDataArray = props.setPostingsDataArray;
   let postingsDataArray = props.postingsDataArray;
   let postBuffer = props.postBuffer;
   const setPostBuffer = props.setPostBuffer;
-  let showDates = props.showDates;
+  // let showDates = props.showDates;
+  let creatingPostFlag = props.creatingPostFlag;
+  const cleanUpAfterMainModal = props.cleanUpAfterMainModal;
 
 
   console.log("MainModal.js Begins.");
   console.log("MainModal.js postBuffer=", postBuffer);
   console.log("MainModal.js postingsDataArray=", postingsDataArray);
-  console.log("MainModal.js currPostIndex=", currPostIndex);
+  console.log("MainModal.js creatingPostFlag=", creatingPostFlag);
+  // console.log("MainModal.js currPostIndex=", currPostIndex);
 
 
   // if (!(postBuffer?.title)) {   //BAD! Can't use setPostBuffer here (child). Consider putting it in a callback called from parent
@@ -40,15 +44,14 @@ const MainModal = (props) => {
 
   const handleInputChange = (evnt) => {       //J: This could be called updatePostBuffer()
     const { name, value } = evnt.target;
-    console.log("MainModal.js: handleInputChange: value =", value);
-    console.log("MainModal.js: handleInputChange: name =", name);
-    console.log("MainModal.js: handleInputChange: old postBuffer=", postBuffer);
+    // console.log("MainModal.js: handleInputChange: value =", value);
+    // console.log("MainModal.js: handleInputChange: name =", name);
+    // console.log("MainModal.js: handleInputChange: old postBuffer=", postBuffer);
 
     setPostBuffer((currBuffer) => {
-      // let newPostBuffer = {...currBuffer};
       const newPostBuffer = { ...currBuffer, [name]: value };
       // Brackets [] around 'name' are so the VALUE of name is used for the key and not just the string 'name'.
-      console.log("MainModal.js: handleInputChange: newPostBuffer =", newPostBuffer);
+      console.log("MainModal.js: handleInputChange: setting postBuffer to", newPostBuffer);
       return newPostBuffer;
    });
   };
@@ -56,7 +59,11 @@ const MainModal = (props) => {
 
   return (
     <>
-      <Modal size="lg" centered show={showMainModal} animation={false} onHide={() => setShowMainModal(false)}>
+      <Modal size="lg" centered show={showMainModal} animation={false} onHide={() => { 
+        cleanUpAfterMainModal();
+        // setShowMainModal(false);
+
+      }}>
 
         <Modal.Body>
           <>
@@ -84,7 +91,7 @@ const MainModal = (props) => {
             />
           </div>
 
-          {(showDates) ? (
+          {/* {(!creatingPostFlag.current) ? ( */}
             <div className="flex flex-row p-1 mt-2">   {/* Dates are read-only, and only shown for existing posts */}
 
               <div className="flex flex-row">
@@ -97,9 +104,9 @@ const MainModal = (props) => {
                 <div className="ml-2 font-400">{convertISODate(postBuffer.updatedAt)}</div>
               </div>
             </div>
-          ) : (
+          {/* ) : (
             <></>
-          )}
+          )} */}
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Tags:</div>
@@ -168,11 +175,9 @@ const MainModal = (props) => {
         <Modal.Footer>
           <Button
             variant="warning"
-            onClick={ () => {
-            retrievePostings(setPostingsDataArray, emptyPost);
-               // The above line will refresh postingsDataArray, undoing the changes to postingsDataArray[currPostIndex]
-            setCurrPostIndex(0);
-            setShowMainModal(false);
+            onClick={ () => { 
+              console.log("MainModal.js Clicked Abandon Changes")
+              cleanUpAfterMainModal()
             }}
           >
             Abandon Changes
@@ -180,10 +185,13 @@ const MainModal = (props) => {
 
           <Button
             variant="danger"
-            onClick={() => {
-              deletePost(postingsDataArray, setPostingsDataArray, currPostIndex);  // This deletes from DB & postingsDataArray
-              setCurrPostIndex(0);
-              setShowMainModal(false);
+            onClick={() => {      // Only delete if editing an existing post
+              console.log("MainModal.js Clicked Delete Post")
+              if (!creatingPostFlag.current && (currPostIndex < postingsDataArray.length) && (currPostIndex >=0)) {
+                deletePostFromDB(postingsDataArray, currPostIndex);
+                deletePostFromDataArray(postingsDataArray, setPostingsDataArray, currPostIndex);
+              }
+              cleanUpAfterMainModal();
             }}
           >
             Delete Post       {/* Add an icon? */}
@@ -193,15 +201,12 @@ const MainModal = (props) => {
             color="green"
             type="submit"
             onClick={ () => {
-              if (currPostIndex) {
-                updatePostOnDB(postBuffer, currPostIndex)
-                updatePostOnDataArray(setPostingsDataArray, postBuffer, currPostIndex)
-              } else {
-                createPostOnDB(postBuffer)
-                createPostOnDataArray(setPostingsDataArray, postBuffer)
-              }
-              setCurrPostIndex(0);
-              setShowMainModal(false); 
+              console.log("MainModal.js Clicked Save Post")
+              updatePostOnDB(postBuffer, currPostIndex)
+              updatePostOnDataArray(setPostingsDataArray, postBuffer, currPostIndex)
+              cleanUpAfterMainModal();
+              // setCurrPostIndex(0);
+              // setShowMainModal(false);
             }}>
             Save Post         {/* Add an icon? */}
           </Button>

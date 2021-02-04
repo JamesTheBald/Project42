@@ -4,11 +4,11 @@ const mongooseModel = db.postings;           //J: dbModel was called Posting. I 
 
 // Create and Save a new Posting
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body.title) { 
-      res.status(400).send({ message: "Validation Error - Title Cannot Be Empty" });
-    return;
-  }
+  // // Validate request
+  // if (!req.body.title) { 
+  //     res.status(400).send({ message: "Validation Error - Title Cannot Be Empty" });
+  //   return;
+  // }
 
   // Create a Posting
   const posting = new mongooseModel({
