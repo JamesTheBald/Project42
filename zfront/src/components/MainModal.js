@@ -45,6 +45,9 @@ const MainModal = (props) => {
 
 
   const handleInputChange = (evnt) => {       //J: This could be called updatePostBuffer()
+    if (!evnt?.target) {
+      return;
+    }
     const { name, value } = evnt.target;
     console.log("MainModal.js: handleInputChange: value =", value);
     console.log("MainModal.js: handleInputChange: name =", name);
