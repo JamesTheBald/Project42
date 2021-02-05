@@ -43,10 +43,10 @@ const MainModal = (props) => {
    });
   };
 
-  const handleSpicinessChange = (value) => {       //J: This could be called updatePostDraft()
+  const handleSpicinessChange = (passedSpiciness) => {       //J: This could be called updatePostDraft()
 
     setPostDraft((currDraft) => {
-      const newPostDraft = { ...currDraft, spiciness: value };
+      const newPostDraft = { ...currDraft, spiciness: passedSpiciness };
       // There are no brackets around "spiciness" because here we want to use just the string value
       console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
       return newPostDraft;
@@ -162,47 +162,89 @@ const MainModal = (props) => {
             }}
           >
             <div className="font-500">Spiciness:</div>
-            <FontAwesomeIcon
-              value="mild" //Not used, just for reference
-              icon={faPepperHot}
-              // className={props.spiciness == "mild" ? "opacity-1" : "opacity-50"} -- working on changing color on click
+            <div
+              name="pepper-box"
               style={{
-                color:'green',
-                opacity: '0.5', // this will need to be commented out once the above comment works
-                cursor:"pointer"
-              }}
-              onClick={() => {
-                handleSpicinessChange("mild")
+                display:"flex",
+                flexDirection:"column",
+                alignItems:"flex-end",
+                overflow:'hidden'
               }}
             >
-            </FontAwesomeIcon>
-            <FontAwesomeIcon
-              value="medium" //Not used, just for reference
-              icon={faPepperHot}
-              style={{
-                  color:'orange',
-                  opacity:"0.5",
-                  cursor:"pointer"
-              }}
-              onClick={() => {
-                handleSpicinessChange("medium")
-              }}
-            >
-            </FontAwesomeIcon>
-            <FontAwesomeIcon
-              value="spicy" //Not used, just for reference
-              icon={faPepperHot}
-              style={{
-                  color:'red',
-                  opacity:"0.5",
-                  cursor:"pointer"
-              }}
-              onClick={() => {
-                handleSpicinessChange("spicy")
-              }}
-            >
-            </FontAwesomeIcon>
+              <div
+                name="mild-pepper-group"
+                className={postDraft.spiciness == "mild" ? "opacity-1" : "opacity-50"}
+                onClick={() => {
+                  handleSpicinessChange("mild")
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faPepperHot}
+                  style={{
+                    color:'green',
+                    cursor:"pointer"
+                  }}
+                >
+                </FontAwesomeIcon>
+              </div>
+              <div
+                name="medium-peppers-group"
+                className={postDraft.spiciness == "medium" ? "opacity-1" : "opacity-50"}
+                onClick={() => {
+                  handleSpicinessChange("medium")
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faPepperHot}
+                  style={{
+                      color:'orange',
+                      cursor:"pointer"
+                  }}
+                >
+                </FontAwesomeIcon>
+                <FontAwesomeIcon
+                  icon={faPepperHot}
+                  style={{
+                      color:'orange',
+                      cursor:"pointer"
+                  }}
+                >
+                </FontAwesomeIcon>
+              </div>
+              <div
+                name="spicy-peppers-group"
+                className={postDraft.spiciness == "spicy" ? "opacity-1" : "opacity-50"}
 
+                onClick={() => {
+                  handleSpicinessChange("spicy")
+                }}
+              >
+                <FontAwesomeIcon
+                  icon={faPepperHot}
+                  style={{
+                      color:'red',
+                      cursor:"pointer"
+                  }}
+                >
+                </FontAwesomeIcon>
+                <FontAwesomeIcon
+                  icon={faPepperHot}
+                  style={{
+                      color:'red',
+                      cursor:"pointer"
+                  }}
+                >
+                </FontAwesomeIcon>
+                <FontAwesomeIcon
+                  icon={faPepperHot}
+                  style={{
+                      color:'red',
+                      cursor:"pointer"
+                  }}
+                >
+                </FontAwesomeIcon>
+              </div>
+            </div>
           </div>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
