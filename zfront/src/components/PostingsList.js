@@ -19,7 +19,7 @@ const emptyPost = {
   description: "",
   tags: "",
   contentType: "",
-  spiciness: "Spiciness",
+  spiciness: "",
   upvotes: 0,
 };
 

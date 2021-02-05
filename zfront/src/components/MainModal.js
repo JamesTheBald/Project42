@@ -13,7 +13,7 @@ import createPostOnDataArray from "../functions/createPostOnDataArray";
 import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faPepperHot} from '@fortawesome/free-solid-svg-icons';
+import { faPepperHot } from '@fortawesome/free-solid-svg-icons';
 
 
 const MainModal = (props) => {
@@ -43,12 +43,28 @@ const MainModal = (props) => {
    });
   };
 
+  const handleSpicinessChange = (value) => {       //J: This could be called updatePostDraft()
+
+    setPostDraft((currDraft) => {
+      const newPostDraft = { ...currDraft, spiciness: value };
+      // There are no brackets around "spiciness" because here we want to use just the string value
+      console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
+      return newPostDraft;
+   });
+  };
+
 
   return (
     <>
-      <Modal size="lg" centered show={showMainModal} animation={false} onHide={() => { 
-        setShowMainModal(false);
-      }}>
+      <Modal
+        size="lg"
+        centered
+        show={showMainModal}
+        animation={false}
+        onHide={() => { 
+          setShowMainModal(false);
+        }}
+      >
 
         <Modal.Body>
           <>
@@ -110,7 +126,7 @@ const MainModal = (props) => {
 
 
           {/* TO DO LATER: Make a function that only renders the SunEditor onClick */}
-
+          {/*  SunEditor will crash in this version.. we need to better capture output to save to db */}
           <SunEditor
             name="description"                              //J: I'd like to change this to 'content' 
             type="text"
@@ -138,43 +154,52 @@ const MainModal = (props) => {
 
           <div
             className="flex flex-row items-baseline p-1 mt-2"
-            style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'30%'}}
+            style={{
+              display:'flex',
+              justifyContent:'space-between',
+              alignItems:'center',
+              width:'30%'
+            }}
           >
             <div className="font-500">Spiciness:</div>
             <FontAwesomeIcon
-              name="mild-spiciness"
-              value={postBuffer.spiciness}
+              value="mild" //Not used, just for reference
               icon={faPepperHot}
+              // className={props.spiciness == "mild" ? "opacity-1" : "opacity-50"} -- working on changing color on click
               style={{
-                  color:'green',
-                  opacity:"0.5",
-                  cursor:"pointer"
-                }}
-              onClick={handleInputChange}
+                color:'green',
+                opacity: '0.5', // this will need to be commented out once the above comment works
+                cursor:"pointer"
+              }}
+              onClick={() => {
+                handleSpicinessChange("mild")
+              }}
             >
             </FontAwesomeIcon>
             <FontAwesomeIcon
-              name="medium-spiciness"
-              value={postBuffer.spiciness}
+              value="medium" //Not used, just for reference
               icon={faPepperHot}
               style={{
                   color:'orange',
                   opacity:"0.5",
                   cursor:"pointer"
-                }}
-              onClick={handleInputChange}
+              }}
+              onClick={() => {
+                handleSpicinessChange("medium")
+              }}
             >
             </FontAwesomeIcon>
             <FontAwesomeIcon
-              name="spicy-spiciness"
-              value={postBuffer.spiciness}
+              value="spicy" //Not used, just for reference
               icon={faPepperHot}
               style={{
                   color:'red',
                   opacity:"0.5",
                   cursor:"pointer"
-                }}
-              onClick={handleInputChange}
+              }}
+              onClick={() => {
+                handleSpicinessChange("spicy")
+              }}
             >
             </FontAwesomeIcon>
 
@@ -192,7 +217,8 @@ const MainModal = (props) => {
             onClick={ () => { 
               console.log("MainModal.js Clicked Abandon Changes")
               setShowMainModal(false);
-          }}>
+            }}
+          >
             Abandon Changes
           </Button>
 
@@ -216,7 +242,8 @@ const MainModal = (props) => {
               }
 
               setShowMainModal(false);
-            }}>
+            }}
+          >
             Delete Post       {/* Add an icon? */}
           </Button>
 
@@ -256,7 +283,8 @@ const MainModal = (props) => {
                 }
               }
               setShowMainModal(false);
-            }}>
+            }}
+          >
             Save Post         {/* Add an icon? */}
           </Button>
 
