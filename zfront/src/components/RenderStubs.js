@@ -5,17 +5,13 @@ const RenderStubs = (props) => {
   let postingsDataArray = props.postingsDataArray;
   const setCurrPostIndex= props.setCurrPostIndex;
   const setShowMainModal = props.setShowMainModal;
-  const setPostBuffer = props.setPostBuffer;
-  // const setShowDates = props.setShowDates;
-  let creatingPostFlag = props.creatingPostFlag;
+  const setPostDraft = props.setPostDraft;
+  let setCreatingPostFlag = props.setCreatingPostFlag;
 
 
   console.log("RenderStubs.js postingsDataArray=", postingsDataArray);
-  // console.log("RenderStubs.js setCreatingNewPst=", setCreatingNewPst);
 
-
-  if (postingsDataArray?.length>0) {    //J: was postingsDataArray[0]._id   
-    // J: Does this constitute conditional calling of the set-state functions below? They'll only run later, upon click 
+  if (postingsDataArray?.length>0) {
     return (
       <>
         {postingsDataArray.map((pst, indx) => {
@@ -26,15 +22,19 @@ const RenderStubs = (props) => {
               key={indx}
               className="w-64 p-2 my-2 border border-gray-700 rounded-lg"
               onClick={() => {
-                creatingPostFlag.current = false;
+                setCreatingPostFlag(false);
                 setCurrPostIndex(indx);
                 console.log("RenderStubs.js CurrPostIndex=",indx);
-                setPostBuffer(pst)
-                // setShowDates(true);
+                setPostDraft(pst)
                 setShowMainModal(true);
               }}>
-              <div>{pst.title}</div>
+              { pst.title ? 
+                <div>{pst.title}</div>
+                :
+                <div> Click to edit </div>
+              }
               <div className="mt-2">{pst.contributors}</div>
+
             </div>
           );
         })}

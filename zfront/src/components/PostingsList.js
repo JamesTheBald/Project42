@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import MainModal from "./MainModal";
 import WelcomeModal from "./WelcomeModal";
@@ -6,59 +6,42 @@ import RenderStubs from "./RenderStubs";
 import retrievePostings from "../functions/retrievePostings";
 import removeAllPostings from "../functions/removeAllPostings";
 import onClickFindByTitle from "../functions/onClickFindByTitle";
-import createPostOnDB from "../functions/createPostOnDB";
+// import createPostOnDB from "../functions/createPostOnDB";
 // import createPostOnDataArray from "../functions/createPostOnDataArray";
-import deletePostFromDB from "../functions/deletePostFromDB";
+// import deletePostFromDB from "../functions/deletePostFromDB";
+// import createPostOnDataArray from "../functions/createPostOnDataArray";
 // import deletePostFromDataArray from "../functions/deletePostFromDataArray";
 
 
 const emptyPost = {
   title: "",
-  contributors: "Click to edit post",
+  contributors: "",
   description: "",
   tags: "",
   contentType: "",
   spiciness: "Spiciness",
   upvotes: 0,
-  createdAt: 0, // Placeholder value!!
-  updatedAt: 0 // Placeholder value!!
 };
 
 const PostingsList = () => {
 
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [showMainModal, setShowMainModal] = useState(false);
   const [postingsDataArray, setPostingsDataArray] = useState();
   const [currPostIndex, setCurrPostIndex] = useState(0); 
-  const [postBuffer, setPostBuffer] = useState(emptyPost);   // Really want this as an object, not an array
-  // const [showDates, setShowDates] = useState(false);
+  const [postDraft, setPostDraft] = useState(emptyPost);
   const [searchTitle, setSearchTitle] = useState("");
+  const [creatingPostFlag, setCreatingPostFlag] = useState(false);
   const [voteCount, setVoteCount] = useState(0);
-  let creatingPostFlag = useRef(false);
 
 
-  console.log("PostingsList.js begins.");
   console.log("PostingsList.js begins: creatingPostFlag=", creatingPostFlag);
 
-  // useEffect(() => {
-    if (!postingsDataArray) {
-      console.log("postingsDataArray is falsy so retrieving the data from the DB. And in the interim setting it to [emptyPost]")
-      setPostingsDataArray([emptyPost]);
-      retrievePostings(setPostingsDataArray, emptyPost);  // This function should now never allow postingsDataArray to be null
-    }
-  // }, [postingsDataArray]);       // C: '[]' means useEffect will only run THE FIRST time the page renders
-
-
-  const cleanUpAfterMainModal = () => {
-    console.log("PostingsList.js cleanUpAfterMainModal: creatingPostFlag=",creatingPostFlag)
-
-    if ((creatingPostFlag.current) && (currPostIndex < postingsDataArray.length) && (currPostIndex >=0)) {
-      deletePostFromDB(postingsDataArray, currPostIndex);  // This deletes from DB & postingsDataArray
-    }
-    // retrievePostings(setPostingsDataArray, emptyPost);
-        // The above line will refresh postingsDataArray, undoing the changes to postingsDataArray[currPostIndex]
-    setCurrPostIndex(0);
-    setShowMainModal(false);
+  // Retrive the data from DB into postingsDataArray, so postingsDataArray is never null
+  if (!postingsDataArray) {
+    console.log("postingsDataArray is falsy so retrieving the data from the DB. And in the interim setting it to [emptyPost]")
+    setPostingsDataArray([emptyPost]);
+    retrievePostings(setPostingsDataArray, emptyPost); 
   }
 
 
@@ -87,20 +70,15 @@ const PostingsList = () => {
 
               // Add an empty post to the DB and postingsDataArray now, so its _id and dates are valid 
               // (so it can be edited or deleted from DB)
-              console.log("PostingsList.js 'Create Post' Clicked");
-              creatingPostFlag.current = true;
-              setPostBuffer(emptyPost);
-              createPostOnDB(postBuffer);
-              // createPostOnDataArray(setPostingsDataArray, postBuffer);  // keeps postingsDataArray up to date in period
-                                                                        // before retrievePostings promise is fulfilled.
-              // retrievePostings(setPostingsDataArray, emptyPost);    // async function, will return later
+              console.log("PostingsList.js 'Create Post' Clicked. So creatingPostFlag=true");
+              setCreatingPostFlag(true);
+              setPostDraft(emptyPost);
               setCurrPostIndex( () => {
-                const newCurrPostIndex = postingsDataArray.length-1;
-                console.log("PostingsList.js CreatePost onClick: newCurrPostIndex=",newCurrPostIndex);
+                const newCurrPostIndex = postingsDataArray.length;    // was .length-1
+                console.log("PostingsList.js CreatePost: newCurrPostIndex=",newCurrPostIndex);
                 return newCurrPostIndex
               });
-              console.log("PostingsList.js CreatePost onClick: creatingPostFlag=", creatingPostFlag);
-              // Make function that resets emptyPost values
+              // console.log("PostingsList.js CreatePost: creatingPostFlag=", creatingPostFlag);
               setShowMainModal(true);
             }}>
             Create Post
@@ -127,34 +105,30 @@ const PostingsList = () => {
         postingsDataArray = {postingsDataArray}
         setCurrPostIndex = {setCurrPostIndex}
         setShowMainModal = {setShowMainModal}
-        setPostBuffer = {setPostBuffer}
-        // setShowDates = {setShowDates}
-        creatingPostFlag = {creatingPostFlag}
+        setPostDraft = {setPostDraft}
+        setCreatingPostFlag = {setCreatingPostFlag}
       />
 
-      <MainModal
+
+      <MainModal 
         showMainModal = {showMainModal}
         setShowMainModal = {setShowMainModal}
         postingsDataArray = {postingsDataArray}
         setPostingsDataArray = {setPostingsDataArray}
         currPostIndex = {currPostIndex}   //C: currPostIndex points to the element in the postings array that we're interested in
         setCurrPostIndex = {setCurrPostIndex}
-        postBuffer = {postBuffer}
-        setPostBuffer = {setPostBuffer}
+        postDraft = {postDraft}
+        setPostDraft = {setPostDraft}
+        creatingPostFlag = {creatingPostFlag}
         voteCount = {voteCount}
         setVoteCount = {setVoteCount}
-        // showDates = {showDates}
-        // emptyPost = {emptyPost}
-        creatingPostFlag = {creatingPostFlag}
-        cleanUpAfterMainModal = {cleanUpAfterMainModal}
       />
 
+
       <Button variant="outline-danger" onClick={() => {
-        removeAllPostings;
+        removeAllPostings();
         setPostingsDataArray([emptyPost]);
-      }
-      }>
-        {/* Refreshes postingsDataArray */}
+      }}>
         [Dev Only] Remove All
       </Button>
     </div>

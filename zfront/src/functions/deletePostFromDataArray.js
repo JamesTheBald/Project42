@@ -1,7 +1,6 @@
 const deletePostFromDataArray = (postingsDataArray, setPostingsDataArray, currPostIndex) => {
   
   console.log("deletePostFromDataArray.js - postingsDataArray=",postingsDataArray);
-  console.log("deletePostFromDataArray.js - setPostingsDataArray=",setPostingsDataArray);
   console.log("deletePostFromDataArray.js - currPostIndex=",currPostIndex);
 
   setPostingsDataArray((currDataArr) => {
