@@ -43,10 +43,10 @@ const MainModal = (props) => {
    });
   };
 
-  const handleSpicinessChange = (value) => {       //J: This could be called updatePostDraft()
+  const handleSpicinessChange = (passedSpiciness) => {       //J: This could be called updatePostDraft()
 
     setPostDraft((currDraft) => {
-      const newPostDraft = { ...currDraft, spiciness: value };
+      const newPostDraft = { ...currDraft, spiciness: passedSpiciness };
       // There are no brackets around "spiciness" because here we want to use just the string value
       console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
       return newPostDraft;
