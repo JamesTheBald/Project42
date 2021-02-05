@@ -1,9 +1,9 @@
 import PostingAxios from "../services/PostingAxios";
 
-const createPostOnDB = (postBuffer) => {
-  console.log("createPostOnDB.js: postBuffer=", postBuffer);
+const createPostOnDB = (postDraft) => {
+  console.log("createPostOnDB.js: postDraft=", postDraft);
 
-  PostingAxios.create(postBuffer)
+  return PostingAxios.create(postDraft)
     .then((response) => {
       console.log("createPostOnDB.js: after sending post to DB, response=", response);
     })
