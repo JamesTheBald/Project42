@@ -5,10 +5,9 @@ const convertISODate = (ISODate) => {
   */
 
   const date = new Date(ISODate);
-  // TODO LATER: CHECK IF VALID DATE, RETURN N/A IF INVALID
   const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.",
   "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
-  
+
   // const dayOrdinal = (dayNumber) => {
   //   if (dayNumber > 3 && dayNumber < 21) return 'th';
   //   switch (dayNumber % 10) {
@@ -20,14 +19,14 @@ const convertISODate = (ISODate) => {
   // };
 
   const formattedDate = 
-    date.getDate()
-    // + dayOrdinal(date.getDate())
-    + " "
-    + monthNames[date.getMonth()] // getMonth() returns INDEX of month, not value
-    + " "
-    + date.getFullYear();
+  date.getDate()
+  // + dayOrdinal(date.getDate())
+  + " "
+  + monthNames[date.getMonth()] // getMonth() returns INDEX of month, not value
+  + " "
+  + date.getFullYear();
 
-  return (formattedDate);
+return (formattedDate);
 };
 
 export default convertISODate;

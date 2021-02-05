@@ -17,7 +17,7 @@ exports.create = (req, res) => {
     description: req.body.description,
     tags: req.body.tags,
     contentType: req.body.contentType,
-    spiciness: req.body.spicness,
+    spiciness: req.body.spiciness,
     upvotes: req.body.upvotes,
   });
 

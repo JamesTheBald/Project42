@@ -1,8 +1,10 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
+import VoteCounter from './VoteCounter';
 import retrievePostings from "../functions/retrievePostings";
 import createPostOnDB from "../functions/createPostOnDB";
 import updatePostOnDB from "../functions/updatePostOnDB";
@@ -10,6 +12,8 @@ import deletePostFromDB from "../functions/deletePostFromDB";
 import createPostOnDataArray from "../functions/createPostOnDataArray";
 import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPepperHot } from '@fortawesome/free-solid-svg-icons';
 
 
 const MainModal = (props) => {
@@ -23,7 +27,8 @@ const MainModal = (props) => {
   let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
   let creatingPostFlag = props.creatingPostFlag;
-
+  let voteTotal = props.voteCount;
+  const setVoteCount = props.setVoteCount;
 
   // console.log("MainModal.js Begins.");
 
@@ -38,12 +43,28 @@ const MainModal = (props) => {
    });
   };
 
+  const handleSpicinessChange = (value) => {       //J: This could be called updatePostDraft()
+
+    setPostDraft((currDraft) => {
+      const newPostDraft = { ...currDraft, spiciness: value };
+      // There are no brackets around "spiciness" because here we want to use just the string value
+      console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
+      return newPostDraft;
+   });
+  };
+
 
   return (
     <>
-      <Modal size="lg" centered show={showMainModal} animation={false} onHide={() => { 
-        setShowMainModal(false);
-      }}>
+      <Modal
+        size="lg"
+        centered
+        show={showMainModal}
+        animation={false}
+        onHide={() => { 
+          setShowMainModal(false);
+        }}
+      >
 
         <Modal.Body>
           <>
@@ -103,15 +124,20 @@ const MainModal = (props) => {
             />
           </div>
 
-          <input
-            name="description"                              //J: I'd like to change this to "content" 
+
+          {/* TO DO LATER: Make a function that only renders the SunEditor onClick */}
+          {/*  SunEditor will crash in this version.. we need to better capture output to save to db */}
+          <SunEditor
+            name="description"                              //J: I'd like to change this to 'content' 
             type="text"
             required
             className="modalField"
             placeholder="Enter content of post here"
             value={postDraft.description}                   //J: I'd like to change this to ".content" 
             onChange={handleInputChange}
-          />
+            // onClick={renderSunEditor}
+          >
+          </SunEditor>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Content Type:</div>
@@ -126,31 +152,61 @@ const MainModal = (props) => {
             />
           </div>
 
-          <div className="flex flex-row items-baseline p-1 mt-2">
-            <Dropdown>
-              <Dropdown.Toggle
-                variant="success"
-                id="dropdown-basic"
-                name="spiciness"
-                required
-                className="modalField"
-                value={postDraft.spiciness}
-                defaultValue="Spiciness"
-                onChange={handleInputChange}
-              >
-                Spiciness
-              </Dropdown.Toggle>
+          <div
+            className="flex flex-row items-baseline p-1 mt-2"
+            style={{
+              display:'flex',
+              justifyContent:'space-between',
+              alignItems:'center',
+              width:'30%'
+            }}
+          >
+            <div className="font-500">Spiciness:</div>
+            <FontAwesomeIcon
+              value="mild" //Not used, just for reference
+              icon={faPepperHot}
+              // className={props.spiciness == "mild" ? "opacity-1" : "opacity-50"} -- working on changing color on click
+              style={{
+                color:'green',
+                opacity: '0.5', // this will need to be commented out once the above comment works
+                cursor:"pointer"
+              }}
+              onClick={() => {
+                handleSpicinessChange("mild")
+              }}
+            >
+            </FontAwesomeIcon>
+            <FontAwesomeIcon
+              value="medium" //Not used, just for reference
+              icon={faPepperHot}
+              style={{
+                  color:'orange',
+                  opacity:"0.5",
+                  cursor:"pointer"
+              }}
+              onClick={() => {
+                handleSpicinessChange("medium")
+              }}
+            >
+            </FontAwesomeIcon>
+            <FontAwesomeIcon
+              value="spicy" //Not used, just for reference
+              icon={faPepperHot}
+              style={{
+                  color:'red',
+                  opacity:"0.5",
+                  cursor:"pointer"
+              }}
+              onClick={() => {
+                handleSpicinessChange("spicy")
+              }}
+            >
+            </FontAwesomeIcon>
 
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1" value="1">Mild</Dropdown.Item>
-                <Dropdown.Item href="#/action-2" value="2">Medium</Dropdown.Item>
-                <Dropdown.Item href="#/action-3" value="3">Spicy</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
           </div>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Upvotes:</div>          {/*J: Need to add Collin's counter code here */}
+            <VoteCounter voteCount={voteTotal} setVoteCount={setVoteCount}></VoteCounter>
           </div>
         </Modal.Body>
 
@@ -161,7 +217,8 @@ const MainModal = (props) => {
             onClick={ () => { 
               console.log("MainModal.js Clicked Abandon Changes")
               setShowMainModal(false);
-          }}>
+            }}
+          >
             Abandon Changes
           </Button>
 
@@ -185,7 +242,8 @@ const MainModal = (props) => {
               }
 
               setShowMainModal(false);
-            }}>
+            }}
+          >
             Delete Post       {/* Add an icon? */}
           </Button>
 
@@ -225,7 +283,8 @@ const MainModal = (props) => {
                 }
               }
               setShowMainModal(false);
-            }}>
+            }}
+          >
             Save Post         {/* Add an icon? */}
           </Button>
 

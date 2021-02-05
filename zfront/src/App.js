@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./styles/app.css";
 import PostingsList from "./components/PostingsList";
 
-
 function App() {
   return (
     <div className="font-sans">

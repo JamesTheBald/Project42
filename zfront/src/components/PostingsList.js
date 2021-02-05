@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
-
 import MainModal from "./MainModal";
 import WelcomeModal from "./WelcomeModal";
 import RenderStubs from "./RenderStubs";
@@ -20,7 +19,7 @@ const emptyPost = {
   description: "",
   tags: "",
   contentType: "",
-  spiciness: "Spiciness",
+  spiciness: "",
   upvotes: 0,
 };
 
@@ -33,6 +32,7 @@ const PostingsList = () => {
   const [postDraft, setPostDraft] = useState(emptyPost);
   const [searchTitle, setSearchTitle] = useState("");
   const [creatingPostFlag, setCreatingPostFlag] = useState(false);
+  const [voteCount, setVoteCount] = useState(0);
 
 
   console.log("PostingsList.js begins: creatingPostFlag=", creatingPostFlag);
@@ -120,6 +120,8 @@ const PostingsList = () => {
         postDraft = {postDraft}
         setPostDraft = {setPostDraft}
         creatingPostFlag = {creatingPostFlag}
+        voteCount = {voteCount}
+        setVoteCount = {setVoteCount}
       />
 
 
