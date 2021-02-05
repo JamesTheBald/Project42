@@ -45,7 +45,7 @@ const PostingsList = () => {
   }
 
 
-  const onChangeSearchTitle = (evnt) => {
+  const handleChangeSearchTitle = (evnt) => {
     setSearchTitle(evnt.target.value);
     console.log("onChangeSearchTitle(): setSearchTitle to:", evnt.target.value);
   };
@@ -89,12 +89,12 @@ const PostingsList = () => {
             <input
               type="text"
               className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
-              placeholder=" Search by Title"
+              placeholder="Search by Title"
               value={searchTitle}
-              onChange={onChangeSearchTitle}></input>
+              onChange={handleChangeSearchTitle}></input>
             <button
               className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
-              onClick={onClickFindByTitle}>
+              onClick={ () => onClickFindByTitle(searchTitle, setPostingsDataArray)}>
               Search
             </button>
           </div>
