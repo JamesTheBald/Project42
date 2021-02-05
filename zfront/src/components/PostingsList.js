@@ -18,7 +18,7 @@ const emptyPost = {
   description: "",
   tags: "",
   contentType: "",
-  spiciness: 0,
+  spiciness: "Spiciness",
   upvotes: 0,
   createdAt: 0, // Placeholder value!!
   updatedAt: 0 // Placeholder value!!
@@ -93,14 +93,14 @@ const PostingsList = () => {
               createPostOnDB(postBuffer);
               // createPostOnDataArray(setPostingsDataArray, postBuffer);  // keeps postingsDataArray up to date in period
                                                                         // before retrievePostings promise is fulfilled.
-              retrievePostings(setPostingsDataArray, emptyPost);    // async function, will return later
+              // retrievePostings(setPostingsDataArray, emptyPost);    // async function, will return later
               setCurrPostIndex( () => {
                 const newCurrPostIndex = postingsDataArray.length-1;
                 console.log("PostingsList.js CreatePost onClick: newCurrPostIndex=",newCurrPostIndex);
                 return newCurrPostIndex
               });
               console.log("PostingsList.js CreatePost onClick: creatingPostFlag=", creatingPostFlag);
-
+              // Make function that resets emptyPost values
               setShowMainModal(true);
             }}>
             Create Post

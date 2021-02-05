@@ -1,12 +1,11 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
 // import retrievePostings from "../functions/retrievePostings";
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
-import VoteCounter from './VoteCounter'
+import VoteCounter from './VoteCounter';
 // import DisplayHeadingForCreateCase from "./DisplayHeadingCreateCase";
 import updatePostOnDB from "../functions/updatePostOnDB";
 // import createPostOnDB from "../functions/createPostOnDB";
@@ -14,6 +13,8 @@ import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDB from "../functions/deletePostFromDB";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
 // import createPostOnDataArray from "../functions/createPostOnDataArray";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faPepperHot} from '@fortawesome/free-solid-svg-icons';
 
 
 const MainModal = (props) => {
@@ -158,27 +159,48 @@ const MainModal = (props) => {
             />
           </div>
 
-          <div className="flex flex-row items-baseline p-1 mt-2">
-            <Dropdown>
-              <Dropdown.Toggle
-                variant="success"       //J: How about we change this to checkboxes, so it's easy to select more than 1
-                id="dropdown-basic"
-                name="spiciness"
-                required
-                className="modalField"
-                value={postBuffer.spiciness}
-                defaultValue="0"
-                onChange={handleInputChange}
-              >
-                Spiciness
-              </Dropdown.Toggle>
+          <div
+            className="flex flex-row items-baseline p-1 mt-2"
+            style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'30%'}}
+          >
+            <div className="font-500">Spiciness:</div>
+            <FontAwesomeIcon
+              name="mild-spiciness"
+              value={postBuffer.spiciness}
+              icon={faPepperHot}
+              style={{
+                  color:'green',
+                  opacity:"0.5",
+                  cursor:"pointer"
+                }}
+              onClick={handleInputChange}
+            >
+            </FontAwesomeIcon>
+            <FontAwesomeIcon
+              name="medium-spiciness"
+              value={postBuffer.spiciness}
+              icon={faPepperHot}
+              style={{
+                  color:'orange',
+                  opacity:"0.5",
+                  cursor:"pointer"
+                }}
+              onClick={handleInputChange}
+            >
+            </FontAwesomeIcon>
+            <FontAwesomeIcon
+              name="spicy-spiciness"
+              value={postBuffer.spiciness}
+              icon={faPepperHot}
+              style={{
+                  color:'red',
+                  opacity:"0.5",
+                  cursor:"pointer"
+                }}
+              onClick={handleInputChange}
+            >
+            </FontAwesomeIcon>
 
-              <Dropdown.Menu>
-                <Dropdown.Item value="1">Mild</Dropdown.Item>
-                <Dropdown.Item value="2">Medium</Dropdown.Item>
-                <Dropdown.Item value="3">Spicy</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
           </div>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
