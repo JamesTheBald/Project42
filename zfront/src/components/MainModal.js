@@ -2,8 +2,8 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
+// import SunEditor from 'suneditor-react';
+// import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 import VoteCounter from './VoteCounter';
 import retrievePostings from "../functions/retrievePostings";
 import createPostOnDB from "../functions/createPostOnDB";
@@ -12,8 +12,9 @@ import deletePostFromDB from "../functions/deletePostFromDB";
 import createPostOnDataArray from "../functions/createPostOnDataArray";
 import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPepperHot } from '@fortawesome/free-solid-svg-icons';
+// import { GiChiliPepper } from 'react-icons/gi';
+// import { FaRegUser } from 'react-icons/fa';
+// import { AiOutlineTags } from 'react-icons/ai'
 
 
 const MainModal = (props) => {
@@ -43,15 +44,15 @@ const MainModal = (props) => {
    });
   };
 
-  const handleSpicinessChange = (passedSpiciness) => {       //J: This could be called updatePostDraft()
+  // const handleSpicinessChange = (passedSpiciness) => {       //J: This could be called updatePostDraft()
 
-    setPostDraft((currDraft) => {
-      const newPostDraft = { ...currDraft, spiciness: passedSpiciness };
-      // There are no brackets around "spiciness" because here we want to use just the string value
-      console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
-      return newPostDraft;
-   });
-  };
+  //   setPostDraft((currDraft) => {
+  //     const newPostDraft = { ...currDraft, spiciness: passedSpiciness };
+  //     // There are no brackets around "spiciness" because here we want to use just the string value
+  //     console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
+  //     return newPostDraft;
+  //  });
+  // };
 
 
   return (
@@ -80,13 +81,15 @@ const MainModal = (props) => {
           </>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Contributors:</div>        {/* font-500 is James' Tailwind for bold */}
+            <div className="font-500">
+              {/* <FaRegUser size="24"/> */}
+            </div>        {/* font-500 is James' Tailwind for bold */}
             <input
               name="contributors"
               type="text"
               required
               className="modalField"
-              placeholder="Enter names of contributors here (Firstname, last Initial)"
+              placeholder="(Firstname, last Initial)"
               value={postDraft.contributors}
               onChange={handleInputChange}
             />
@@ -112,13 +115,15 @@ const MainModal = (props) => {
           }
 
           <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Tags:</div>
+            <div className="font-500">
+              {/* <AiOutlineTags size="26"/> */}
+            </div>
             <input
               name="tags"
               type="text"
               required
               className="modalField"
-              placeholder="Enter tags/keywords here"
+              placeholder="What tags are related to your post?"
               value={postDraft.tags}
               onChange={handleInputChange}
             />
@@ -127,17 +132,18 @@ const MainModal = (props) => {
 
           {/* TO DO LATER: Make a function that only renders the SunEditor onClick */}
           {/*  SunEditor will crash in this version.. we need to better capture output to save to db */}
-          <SunEditor
+          {/* <SunEditor
             name="description"                              //J: I'd like to change this to 'content' 
             type="text"
             required
             className="modalField"
-            placeholder="Enter content of post here"
-            value={postDraft.description}                   //J: I'd like to change this to ".content" 
+            placeholder="Don't forget a note with your post!"
+            value={postDraft.description}
             onChange={handleInputChange}
-            // onClick={renderSunEditor}
+            // showToolbar={false}
+            // onFocus={toggle the "showToolbar" value to true}
           >
-          </SunEditor>
+          </SunEditor> */}
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Content Type:</div>
@@ -146,13 +152,14 @@ const MainModal = (props) => {
               type="text"
               required
               className="modalField"
-              placeholder="Enter type of content (Text, file, etc.)"
+              placeholder="What is the primary content type of your post?"
               value={postDraft.contentType}
               onChange={handleInputChange}
             />
           </div>
 
-          <div
+
+          {/* <div
             className="flex flex-row items-baseline p-1 mt-2"
             style={{
               display:'flex',
@@ -168,7 +175,6 @@ const MainModal = (props) => {
                 display:"flex",
                 flexDirection:"column",
                 alignItems:"flex-end",
-                overflow:'hidden'
               }}
             >
               <div
@@ -178,76 +184,72 @@ const MainModal = (props) => {
                   handleSpicinessChange("mild")
                 }}
               >
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                <GiChiliPepper
+                  size="24"
                   style={{
                     color:'green',
                     cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
+                />
               </div>
               <div
                 name="medium-peppers-group"
                 className={postDraft.spiciness == "medium" ? "opacity-1" : "opacity-50"}
+                style={{display:"flex"}}
                 onClick={() => {
                   handleSpicinessChange("medium")
                 }}
               >
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                <GiChiliPepper
+                  size="24"
                   style={{
-                      color:'orange',
-                      cursor:"pointer"
+                    color:'orange',
+                    cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                />
+                <GiChiliPepper
+                  size="24"
                   style={{
-                      color:'orange',
-                      cursor:"pointer"
+                    color:'orange',
+                    cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
+                />
               </div>
               <div
                 name="spicy-peppers-group"
                 className={postDraft.spiciness == "spicy" ? "opacity-1" : "opacity-50"}
-
+                style={{display:"flex"}}
                 onClick={() => {
                   handleSpicinessChange("spicy")
                 }}
               >
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                <GiChiliPepper
+                  size="24"
                   style={{
-                      color:'red',
-                      cursor:"pointer"
+                    color:'red',
+                    cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                />
+                <GiChiliPepper
+                  size="24"
                   style={{
-                      color:'red',
-                      cursor:"pointer"
+                    color:'red',
+                    cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                />
+               <GiChiliPepper
+                  size="24"
                   style={{
-                      color:'red',
-                      cursor:"pointer"
+                    color:'red',
+                    cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
+                />
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="flex flex-row items-baseline p-1 mt-2">
+            <div className="font-500">Upvote!</div>
             <VoteCounter voteCount={voteTotal} setVoteCount={setVoteCount}></VoteCounter>
           </div>
         </Modal.Body>
