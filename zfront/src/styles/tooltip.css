@@ -1,0 +1,51 @@
+/* Custom properties */
+:root {
+  /* --tooltip-text-color: rgb(42, 42, 42); */
+  --tooltip-background-color: rgb(227, 227, 227);
+  --tooltip-standoff: 10px;
+  --tooltip-arrow-size: 8px;
+}
+
+/* Wrapper (Item Hovered Over) */
+.tooltipWrapper {
+  position: relative;
+}
+
+
+/* Tooltip (Pops up when hovering) */
+.tooltipPopup {
+  position: absolute;
+
+  top: calc(var(--tooltip-standoff) * -1);  /* Adds the standoff distance to the vertical translation */
+  left: 50%;              /* +50% moves the tooltip to the right by half the width of the Tooltip Wrapper*/
+  transform: translate(-50%,-100%);   /* -50%, -100% moves left by half the width of the tooltip and up by its full height */
+
+  /* color: var(--tooltip-text-color); */
+  background: var(--tooltip-background-color);
+  
+  z-index: 100;
+}
+
+
+/* CSS border triangles */
+.tooltipPopup::before {
+  position: absolute;
+ 
+  top: 100%;    /* locates the tip of the arrow */
+  left: 50%;    /* +50% moves the arrow tip to the right by half the width of the Tooltip Wrapper*/
+  margin-left: calc(var(--tooltip-arrow-size) * -1);
+  
+  content: " ";  /* empty div prefix, just using it for its border */
+  height: 0;     /* just using the top border to make the arrow */
+  width: 0;
+
+  border: solid transparent;
+  border-top-color: var(--tooltip-background-color);
+  border-width: var(--tooltip-arrow-size);
+
+  pointer-events: none;
+  /* margin-left: calc(var(--tooltip-arrow-size) * -1); */
+}
+
+
+
