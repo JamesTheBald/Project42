@@ -12,8 +12,9 @@ import deletePostFromDB from "../functions/deletePostFromDB";
 import createPostOnDataArray from "../functions/createPostOnDataArray";
 import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPepperHot, faUser, faTags } from '@fortawesome/free-solid-svg-icons';
+import { GiChiliPepper } from 'react-icons/gi';
+import { FaRegUser } from 'react-icons/fa';
+import { AiOutlineTags } from 'react-icons/ai'
 
 
 const MainModal = (props) => {
@@ -81,7 +82,7 @@ const MainModal = (props) => {
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">
-              <FontAwesomeIcon icon={faUser}></FontAwesomeIcon>
+              <FaRegUser size="24"/>
             </div>        {/* font-500 is James' Tailwind for bold */}
             <input
               name="contributors"
@@ -115,7 +116,7 @@ const MainModal = (props) => {
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">
-            <FontAwesomeIcon icon={faTags}></FontAwesomeIcon>
+              <AiOutlineTags size="26"/>
             </div>
             <input
               name="tags"
@@ -139,6 +140,7 @@ const MainModal = (props) => {
             placeholder="Don't forget a note with your post!"
             value={postDraft.description}
             onChange={handleInputChange}
+            // showToolbar={false}
             // onFocus={toggle the "showToolbar" value to true}
           >
           </SunEditor>
@@ -172,7 +174,6 @@ const MainModal = (props) => {
                 display:"flex",
                 flexDirection:"column",
                 alignItems:"flex-end",
-                overflow:'hidden'
               }}
             >
               <div
@@ -182,71 +183,66 @@ const MainModal = (props) => {
                   handleSpicinessChange("mild")
                 }}
               >
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                <GiChiliPepper
+                  size="24"
                   style={{
                     color:'green',
                     cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
+                />
               </div>
               <div
                 name="medium-peppers-group"
                 className={postDraft.spiciness == "medium" ? "opacity-1" : "opacity-50"}
+                style={{display:"flex"}}
                 onClick={() => {
                   handleSpicinessChange("medium")
                 }}
               >
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                <GiChiliPepper
+                  size="24"
                   style={{
-                      color:'orange',
-                      cursor:"pointer"
+                    color:'orange',
+                    cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                />
+                <GiChiliPepper
+                  size="24"
                   style={{
-                      color:'orange',
-                      cursor:"pointer"
+                    color:'orange',
+                    cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
+                />
               </div>
               <div
                 name="spicy-peppers-group"
                 className={postDraft.spiciness == "spicy" ? "opacity-1" : "opacity-50"}
-
+                style={{display:"flex"}}
                 onClick={() => {
                   handleSpicinessChange("spicy")
                 }}
               >
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                <GiChiliPepper
+                  size="24"
                   style={{
-                      color:'red',
-                      cursor:"pointer"
+                    color:'red',
+                    cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                />
+                <GiChiliPepper
+                  size="24"
                   style={{
-                      color:'red',
-                      cursor:"pointer"
+                    color:'red',
+                    cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
-                <FontAwesomeIcon
-                  icon={faPepperHot}
+                />
+               <GiChiliPepper
+                  size="24"
                   style={{
-                      color:'red',
-                      cursor:"pointer"
+                    color:'red',
+                    cursor:"pointer"
                   }}
-                >
-                </FontAwesomeIcon>
+                />
               </div>
             </div>
           </div>
