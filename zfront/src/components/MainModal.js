@@ -13,7 +13,7 @@ import createPostOnDataArray from "../functions/createPostOnDataArray";
 import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPepperHot } from '@fortawesome/free-solid-svg-icons';
+import { faPepperHot, faUser, faTags } from '@fortawesome/free-solid-svg-icons';
 
 
 const MainModal = (props) => {
@@ -80,13 +80,15 @@ const MainModal = (props) => {
           </>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Contributors:</div>        {/* font-500 is James' Tailwind for bold */}
+            <div className="font-500">
+              <FontAwesomeIcon icon={faUser}></FontAwesomeIcon>
+            </div>        {/* font-500 is James' Tailwind for bold */}
             <input
               name="contributors"
               type="text"
               required
               className="modalField"
-              placeholder="Enter names of contributors here (Firstname, last Initial)"
+              placeholder="(Firstname, last Initial)"
               value={postDraft.contributors}
               onChange={handleInputChange}
             />
@@ -112,13 +114,15 @@ const MainModal = (props) => {
           }
 
           <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Tags:</div>
+            <div className="font-500">
+            <FontAwesomeIcon icon={faTags}></FontAwesomeIcon>
+            </div>
             <input
               name="tags"
               type="text"
               required
               className="modalField"
-              placeholder="Enter tags/keywords here"
+              placeholder="What tags are related to your post?"
               value={postDraft.tags}
               onChange={handleInputChange}
             />
@@ -132,10 +136,10 @@ const MainModal = (props) => {
             type="text"
             required
             className="modalField"
-            placeholder="Enter content of post here"
-            value={postDraft.description}                   //J: I'd like to change this to ".content" 
+            placeholder="Don't forget a note with your post!"
+            value={postDraft.description}
             onChange={handleInputChange}
-            // onClick={renderSunEditor}
+            // onFocus={toggle the "showToolbar" value to true}
           >
           </SunEditor>
 
@@ -146,7 +150,7 @@ const MainModal = (props) => {
               type="text"
               required
               className="modalField"
-              placeholder="Enter type of content (Text, file, etc.)"
+              placeholder="What is the primary content type of your post?"
               value={postDraft.contentType}
               onChange={handleInputChange}
             />
@@ -248,6 +252,7 @@ const MainModal = (props) => {
           </div>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
+            <div className="font-500">Upvote!</div>
             <VoteCounter voteCount={voteTotal} setVoteCount={setVoteCount}></VoteCounter>
           </div>
         </Modal.Body>

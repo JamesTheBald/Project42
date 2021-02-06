@@ -1,14 +1,19 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretSquareUp } from '@fortawesome/free-regular-svg-icons';
 
 const VoteCounter = ({voteCount, setVoteCount}) => {
   
   return (
     <>
-      <div className="font-500">Upvotes:</div>
       {voteCount}
-      <button onClick={() => setVoteCount((curr) => {return curr + 1})}>
-        Upvote!
-      </button>
+      <FontAwesomeIcon
+        icon={faCaretSquareUp}
+        onClick={() => {
+          setVoteCount((curr) => {return curr + 1})
+        }}
+      >
+      </FontAwesomeIcon>
     </>
   );
 }
