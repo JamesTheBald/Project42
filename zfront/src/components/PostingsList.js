@@ -6,11 +6,8 @@ import RenderStubs from "./RenderStubs";
 import retrievePostings from "../functions/retrievePostings";
 import removeAllPostings from "../functions/removeAllPostings";
 import onClickFindByTitle from "../functions/onClickFindByTitle";
-// import createPostOnDB from "../functions/createPostOnDB";
-// import createPostOnDataArray from "../functions/createPostOnDataArray";
-// import deletePostFromDB from "../functions/deletePostFromDB";
-// import createPostOnDataArray from "../functions/createPostOnDataArray";
-// import deletePostFromDataArray from "../functions/deletePostFromDataArray";
+import onClickFindByTags from "../functions/onClickFindByTag";
+import onClickFindByName from "../functions/onClickFindByName";
 
 
 const emptyPost = {
@@ -31,6 +28,8 @@ const PostingsList = () => {
   const [currPostIndex, setCurrPostIndex] = useState(0); 
   const [postDraft, setPostDraft] = useState(emptyPost);
   const [searchTitle, setSearchTitle] = useState("");
+  const [searchTags, setSearchTags] = useState("");
+  const [searchName, setSearchName] = useState("");
   const [creatingPostFlag, setCreatingPostFlag] = useState(false);
   const [voteCount, setVoteCount] = useState(0);
 
@@ -44,10 +43,19 @@ const PostingsList = () => {
     retrievePostings(setPostingsDataArray, emptyPost); 
   }
 
-
   const handleChangeSearchTitle = (evnt) => {
     setSearchTitle(evnt.target.value);
     console.log("onChangeSearchTitle(): setSearchTitle to:", evnt.target.value);
+  };
+
+  const handleChangeSearchTags = (evnt) => {
+    setSearchTags(evnt.target.value);
+    console.log("onChangeSearchs(): setSearchTags to:", evnt.target.value);
+  };
+
+  const handleChangeSearchName = (evnt) => {
+    setSearchName(evnt.target.value);
+    console.log("onChangeSearchTitle(): setSearchName to:", evnt.target.value);
   };
 
 
@@ -66,38 +74,70 @@ const PostingsList = () => {
           <div
             className="mx-4 hover:text-blue-400"
             onClick={() => {
-              // setShowDates(false);
 
-              // Add an empty post to the DB and postingsDataArray now, so its _id and dates are valid 
-              // (so it can be edited or deleted from DB)
               console.log("PostingsList.js 'Create Post' Clicked. So creatingPostFlag=true");
               setCreatingPostFlag(true);
               setPostDraft(emptyPost);
               setCurrPostIndex( () => {
-                const newCurrPostIndex = postingsDataArray.length;    // was .length-1
+                const newCurrPostIndex = postingsDataArray.length;    // No need for .length-1 cos we just added an element
                 console.log("PostingsList.js CreatePost: newCurrPostIndex=",newCurrPostIndex);
                 return newCurrPostIndex
               });
-              // console.log("PostingsList.js CreatePost: creatingPostFlag=", creatingPostFlag);
               setShowMainModal(true);
             }}>
             Create Post
           </div>
 
-          {/* Search bar */}
+          {/* Search by Title */}
           <div className="flex flex-row mx-4">
             <input
               type="text"
               className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
-              placeholder="Search by Title"
+              placeholder="Enter Title"
               value={searchTitle}
               onChange={handleChangeSearchTitle}></input>
             <button
               className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
               onClick={ () => onClickFindByTitle(searchTitle, setPostingsDataArray)}>
-              Search
+              Search by Title
             </button>
           </div>
+
+
+          {/* Search by Tag */}
+          <div className="flex flex-row mx-4">
+            <input
+              type="text"
+              className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
+              placeholder="Enter Tag"
+              value={searchTags}
+              onChange={handleChangeSearchTags}></input>
+            <button
+              className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
+              onClick={ () => onClickFindByTags(searchTags, setPostingsDataArray)}>
+              Search by Tag
+            </button>
+          </div>
+
+
+          {/* Search by Name */}
+          <div className="flex flex-row mx-4">
+            <input
+              type="text"
+              className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
+              placeholder="Enter Name"
+              value={searchName}
+              onChange={handleChangeSearchName}></input>
+            <button
+              className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
+              onClick={ () => onClickFindByName(searchName, setPostingsDataArray)}>
+              Search by Name
+            </button>
+          </div>
+
+
+
+
         </div>
       </nav>
 

@@ -28,12 +28,12 @@ const findByTitle = (title) => {
   return xios.get(`/postings?title=${title}`);
 };
 
-const findByTag = (tag) => {
-  return xios.get(`/postings?tag=${tag}`);
+const findByTags = (tags) => {
+  return xios.get(`/postings?tags=${tags}`);
 };
 
-const findByContributor = (contributor) => {
-  return xios.get(`/postings?contributor=${contributor}`);
+const findByName = (name) => {
+  return xios.get(`/postings?name=${name}`);
 };
 
 const PostingAxios = {
@@ -44,8 +44,8 @@ const PostingAxios = {
   remove,
   removeAll,
   findByTitle,
-  findByTag,
-  findByContributor
+  findByTags,
+  findByName
 };
 
 export default PostingAxios;
