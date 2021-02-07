@@ -1,11 +1,10 @@
 module.exports = (func) => {
   const postings = require("../controllers/postingController.js");     // J: get all the controller functions
 
-  var router = require("express").Router();   // creates an Express router middleware mini-app. See https://expressjs.com/en/guide/routing.html
-
+  var router = require("express").Router();   // creates an Express router middleware mini-app. 
+                                              // See https://expressjs.com/en/guide/routing.html
   router.post("/", postings.create);          // Create a new Posting
   router.get("/", postings.findAll);          // Retrieve all Postings
-  // router.get("/published", postings.findAllPublished);   // Retrieve all published Postings
   router.get("/:id", postings.findOne);       // Retrieve a single Posting with id
   router.put("/:id", postings.update);        // Update a Posting with id
   router.delete("/:id", postings.delete);     // Delete a Posting with id
