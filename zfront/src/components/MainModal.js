@@ -13,8 +13,8 @@ import createPostOnDataArray from "../functions/createPostOnDataArray";
 import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
 // import { GiChiliPepper } from 'react-icons/gi';
-// import { FaRegUser } from 'react-icons/fa';
-// import { AiOutlineTags } from 'react-icons/ai'
+import { FaRegUser } from 'react-icons/fa';
+import { AiOutlineTags } from 'react-icons/ai'
 
 
 const MainModal = (props) => {
@@ -82,7 +82,7 @@ const MainModal = (props) => {
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">
-              {/* <FaRegUser size="24"/> */}
+              <FaRegUser size="24"/>
             </div>        {/* font-500 is James' Tailwind for bold */}
             <input
               name="contributors"
@@ -116,7 +116,7 @@ const MainModal = (props) => {
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">
-              {/* <AiOutlineTags size="26"/> */}
+              <AiOutlineTags size="26"/>
             </div>
             <input
               name="tags"
@@ -279,12 +279,8 @@ const MainModal = (props) => {
                 deletePostFromDB(postingsDataArray, currPostIndex);
                 deletePostFromDataArray(postingsDataArray, setPostingsDataArray, currPostIndex);
               } else {
-                console.log("MainModal.js 'Delete Post' clicked but creating a post, or postingsDataArray[currentPostIndex] has bad ._id")
-                // retrievePostings(setPostingsDataArray, emptyPost);  // Time for a hard-update
-                // deletePostFromDB(postingsDataArray, currPostIndex);
-                // deletePostFromDataArray(postingsDataArray, setPostingsDataArray, currPostIndex);
+                console.log("MainModal.js 'Delete Post' clicked but Creating Post or postingsDataArray[currentPostIndex] has bad ._id")
               }
-
               setShowMainModal(false);
             }}
           >
@@ -309,7 +305,6 @@ const MainModal = (props) => {
                     retrievePostings(setPostingsDataArray, emptyPost);   // Time for a hard-update
                 })
               } else {
-                // if (postingsDataArray && postingsDataArray[currPostIndex] && postingsDataArray[currPostIndex]._id) {
                 if (postingsDataArray?.[currPostIndex]?._id) {
                   console.log("MainModal.js NOT creatingPost so running updatePostOnDB and updatePostOnDataArray")
                   updatePostOnDataArray(setPostingsDataArray, postDraft, currPostIndex)
@@ -321,9 +316,6 @@ const MainModal = (props) => {
                   })
                 } else {
                   console.log("MainModal.js 'Save Post' clicked but postingsDataArray[currentPostIndex] has bad ._id!!")
-                  // retrievePostings(setPostingsDataArray, emptyPost);   // Time for a hard-update
-                  // updatePostOnDB(postDraft, currPostIndex)
-                  // updatePostOnDataArray(setPostingsDataArray, postDraft, currPostIndex)
                 }
               }
               setShowMainModal(false);
