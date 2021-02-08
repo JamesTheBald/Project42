@@ -69,7 +69,8 @@ const PostingsList = () => {
                 return newCurrPostIndex
               });
               setShowMainModal(true);
-            }}>
+            }}
+          >
             Create Post
           </div>
 
@@ -86,7 +87,8 @@ const PostingsList = () => {
             </input>
             <button
               className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
-              onClick={ () => onClickFindByTitle(searchTitle, setPostingsDataArray)}>
+              onClick={ () => onClickFindByTitle(searchTitle, setPostingsDataArray)}
+            >
               Search by Title
             </button>
           </div>
@@ -104,7 +106,8 @@ const PostingsList = () => {
             </input>
             <button
               className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
-              onClick={ () => onClickFindByTags(searchTags, setPostingsDataArray)}>
+              onClick={ () => onClickFindByTags(searchTags, setPostingsDataArray)}
+            >
               Search by Tag
             </button>
           </div>
@@ -122,7 +125,8 @@ const PostingsList = () => {
             </input>
             <button
               className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
-              onClick={ () => onClickFindByName(searchName, setPostingsDataArray)}>
+              onClick={ () => onClickFindByName(searchName, setPostingsDataArray)}
+            >
               Search by Name
             </button>
           </div>
@@ -154,10 +158,13 @@ const PostingsList = () => {
       />
 
 
-      <Button variant="outline-danger" onClick={() => {
-        removeAllPostings();
-        setPostingsDataArray([emptyPost]);
-      }}>
+      <Button 
+        variant="outline-danger"
+        onClick={() => {
+          removeAllPostings();
+          setPostingsDataArray([emptyPost]);
+        }}
+      >
         [Dev Only] Remove All
       </Button>
     </div>

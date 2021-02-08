@@ -11,8 +11,10 @@ import createPostOnDataArray from "../functions/createPostOnDataArray";
 import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
 import { GiChiliPepper } from 'react-icons/gi';
-import { FaRegUser } from 'react-icons/fa';
+import { FaRegUser, FaRegTrashAlt } from 'react-icons/fa';
 import { AiOutlineTags } from 'react-icons/ai';
+import { GrSave } from 'react-icons/gr';
+import { BsArrowCounterclockwise } from 'react-icons/bs'
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 
@@ -209,8 +211,6 @@ const MainModal = (props) => {
             />
           </div>
 
-
-          {/* TO DO LATER: Make a function that only renders the SunEditor onClick */}
           <SunEditor
             name="content"
             type="text"
@@ -222,10 +222,10 @@ const MainModal = (props) => {
             autoFocus={false}
             showToolbar={showToolbar}
             onFocus={() => {
-              setShowToolbar(true);
+              setShowToolbar(true)
             }}
             onBlur={() => {
-              setShowToolbar(false);
+              setShowToolbar(false)
             }}
             onChange={handleSunEditorChange}
             setOptions={{
@@ -351,10 +351,32 @@ const MainModal = (props) => {
             </div>
           </div>
 
-          <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">Upvote!</div>
-            <VoteCounter voteCount={voteTotal} setVoteCount={setVoteCount}></VoteCounter>
-          </div>
+
+
+          {/* { (postDraft?.upvotes) ?
+            <> */}
+              <div 
+                className="flex flex-row items-baseline p-1 mt-2"
+                style={{
+                  display:'flex',
+                  justifyContent:'space-between',
+                  alignItems:'center',
+                  width:'40%'
+                }}
+              >
+                <div className="font-500">Upvotes: </div>
+                <VoteCounter 
+                  name="upvotes"
+                  value={postDraft.upvotes}
+                  voteCount={voteTotal}
+                  setVoteCount={setVoteCount}
+                >
+                </VoteCounter>
+              </div>
+            {/* </>
+            : 
+            <></>
+          } */}
         </Modal.Body>
 
 
@@ -366,7 +388,7 @@ const MainModal = (props) => {
               setShowMainModal(false);
             }}
           >
-            Abandon Changes
+            Abandon Changes <BsArrowCounterclockwise></BsArrowCounterclockwise>
           </Button>
 
 
@@ -374,16 +396,15 @@ const MainModal = (props) => {
             variant="danger"
             onClick={() => deletePost() }   // no parameters necessary for deletePost() cos they're all state variables
           >
-            Delete Post       {/* Add an icon? */}
+            Delete <FaRegTrashAlt></FaRegTrashAlt>
           </Button>
 
 
           <Button
-            color="green"
             type="submit"
-            onClick={ () => submitPost()}  // no parameters necessary for submitPost() cos they're all state variables 
+            onClick={() => {submitPost()}}  // no parameters necessary for submitPost() cos they're all state variables 
           >
-            Save Post         {/* Add an icon? */}
+            Save <GrSave></GrSave>
           </Button>
 
         </Modal.Footer>
