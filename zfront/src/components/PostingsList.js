@@ -43,21 +43,6 @@ const PostingsList = () => {
     retrievePostings(setPostingsDataArray, emptyPost); 
   }
 
-  const handleChangeSearchTitle = (evnt) => {
-    setSearchTitle(evnt.target.value);
-    console.log("onChangeSearchTitle(): setSearchTitle to:", evnt.target.value);
-  };
-
-  const handleChangeSearchTags = (evnt) => {
-    setSearchTags(evnt.target.value);
-    console.log("onChangeSearchs(): setSearchTags to:", evnt.target.value);
-  };
-
-  const handleChangeSearchName = (evnt) => {
-    setSearchName(evnt.target.value);
-    console.log("onChangeSearchTitle(): setSearchName to:", evnt.target.value);
-  };
-
 
   return (
     <div>
@@ -70,11 +55,11 @@ const PostingsList = () => {
           </div>
           <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} animation={false} />
 
-          {/* 'CreatePost' link */}
+
+          {/* 'Create Post' link */}
           <div
             className="mx-4 hover:text-blue-400"
             onClick={() => {
-
               console.log("PostingsList.js 'Create Post' Clicked. So creatingPostFlag=true");
               setCreatingPostFlag(true);
               setPostDraft(emptyPost);
@@ -88,6 +73,7 @@ const PostingsList = () => {
             Create Post
           </div>
 
+
           {/* Search by Title */}
           <div className="flex flex-row mx-4">
             <input
@@ -95,7 +81,9 @@ const PostingsList = () => {
               className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
               placeholder="Enter Title"
               value={searchTitle}
-              onChange={handleChangeSearchTitle}></input>
+              onChange={ (event) => setSearchTitle(event.target.value)}
+            >
+            </input>
             <button
               className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
               onClick={ () => onClickFindByTitle(searchTitle, setPostingsDataArray)}>
@@ -111,7 +99,9 @@ const PostingsList = () => {
               className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
               placeholder="Enter Tag"
               value={searchTags}
-              onChange={handleChangeSearchTags}></input>
+              onChange={(event) => setSearchTags(event.target.value)}
+            >
+            </input>
             <button
               className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
               onClick={ () => onClickFindByTags(searchTags, setPostingsDataArray)}>
@@ -127,16 +117,15 @@ const PostingsList = () => {
               className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
               placeholder="Enter Name"
               value={searchName}
-              onChange={handleChangeSearchName}></input>
+              onChange={(event) => setSearchName(event.target.value)}
+            >
+            </input>
             <button
               className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
               onClick={ () => onClickFindByName(searchName, setPostingsDataArray)}>
               Search by Name
             </button>
           </div>
-
-
-
 
         </div>
       </nav>
