@@ -15,7 +15,7 @@ import onClickFindByName from "../functions/onClickFindByName";
 const emptyPost = {
   title: "",
   contributors: "",
-  description: "",
+  content: "",
   tags: "",
   contentType: "",
   spiciness: "",

@@ -14,7 +14,7 @@ exports.create = (req, res) => {
   const posting = new mongooseModel({
     title: req.body.title,
     contributors: req.body.contributors,
-    description: req.body.description,
+    content: req.body.content,
     tags: req.body.tags,
     contentType: req.body.contentType,
     spiciness: req.body.spiciness,

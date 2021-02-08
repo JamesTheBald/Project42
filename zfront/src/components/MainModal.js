@@ -1,9 +1,7 @@
-import React from "react";      // { useEffect }
+import React, { useState } from "react";      // { useEffect }
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
-// import SunEditor from 'suneditor-react';
-// import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 import VoteCounter from './VoteCounter';
 import retrievePostings from "../functions/retrievePostings";
 import createPostOnDB from "../functions/createPostOnDB";
@@ -12,9 +10,11 @@ import deletePostFromDB from "../functions/deletePostFromDB";
 import createPostOnDataArray from "../functions/createPostOnDataArray";
 import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
-// import { GiChiliPepper } from 'react-icons/gi';
+import { GiChiliPepper } from 'react-icons/gi';
 import { FaRegUser } from 'react-icons/fa';
-import { AiOutlineTags } from 'react-icons/ai'
+import { AiOutlineTags } from 'react-icons/ai';
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 
 
 const MainModal = (props) => {
@@ -31,6 +31,7 @@ const MainModal = (props) => {
   let voteTotal = props.voteCount;
   const setVoteCount = props.setVoteCount;
 
+  const [showToolbar, setShowToolbar] = useState(false)
 
   console.log("MainModal.js Begins.");
 
@@ -61,16 +62,25 @@ const MainModal = (props) => {
   };
 
 
-  // const handleSpicinessChange = (passedSpiciness) => {       //J: This could be called updatePostDraft()
+  const handleSpicinessChange = (passedSpiciness) => {       //J: This could be called updatePostDraft()
 
-  //   setPostDraft((currDraft) => {
-  //     const newPostDraft = { ...currDraft, spiciness: passedSpiciness };
-  //     // There are no brackets around "spiciness" because here we want to use just the string value
-  //     console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
-  //     return newPostDraft;
-  //  });
-  // };
+    setPostDraft((currDraft) => {
+      const newPostDraft = { ...currDraft, spiciness: passedSpiciness };
+      // There are no brackets around "spiciness" because here we want to use just the string value
+      console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
+      return newPostDraft;
+   });
+  };
 
+  const handleSunEditorChange = (content) => {       //J: This could be called updatePostDraft()
+
+    setPostDraft((currDraft) => {
+      const newPostDraft = { ...currDraft, content: content };
+      // There are no brackets around "spiciness" because here we want to use just the string value
+      console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
+      return newPostDraft;
+   });
+  };
 
   const submitPost = () => {
     // Uses: setShowMainModal, creatingPostFlag, postDraft, postingsDataArray, setPostingsDataArray, currPostIndex, emptyPost
@@ -123,7 +133,6 @@ const MainModal = (props) => {
     }
     setShowMainModal(false);
   }
-
 
 
   return (
@@ -202,19 +211,42 @@ const MainModal = (props) => {
 
 
           {/* TO DO LATER: Make a function that only renders the SunEditor onClick */}
-          {/*  SunEditor will crash in this version.. we need to better capture output to save to db */}
-          {/* <SunEditor
-            name="description"                              //J: I'd like to change this to 'content' 
+          <SunEditor
+            name="content"
             type="text"
             required
             className="modalField"
             placeholder="Don't forget a note with your post!"
-            value={postDraft.description}
-            onChange={handleInputChange}
-            // showToolbar={false}
-            // onFocus={toggle the "showToolbar" value to true}
+            value={postDraft.content}
+            setContents={postDraft.content}
+            autoFocus={false}
+            showToolbar={showToolbar}
+            onFocus={() => {
+              setShowToolbar(true);
+            }}
+            onBlur={() => {
+              setShowToolbar(false);
+            }}
+            onChange={handleSunEditorChange}
+            setOptions={{
+              height: 200,
+              buttonList: [
+                ["undo", "redo"],
+                ["font", "fontSize", "formatBlock"],
+                ["bold", "underline", "italic", "strike", "subscript", "superscript"],
+                ["removeFormat"],
+                "/",
+                ["fontColor", "hiliteColor"],
+                ["outdent", "indent"],
+                ["align", "horizontalRule", "list", "table"],
+                ["link", "image", "video"],
+                ["fullScreen", "showBlocks", "codeView"],
+                ["preview", "print"],
+                ["save", "template"]
+              ],
+            }}
           >
-          </SunEditor> */}
+          </SunEditor>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Content Type:</div>
@@ -230,7 +262,7 @@ const MainModal = (props) => {
           </div>
 
 
-          {/* <div
+          <div
             className="flex flex-row items-baseline p-1 mt-2"
             style={{
               display:'flex',
@@ -317,7 +349,7 @@ const MainModal = (props) => {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Upvote!</div>

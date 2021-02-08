@@ -4,7 +4,7 @@ module.exports = (mongoose) => {
     {
       title: String,
       contributors: String,
-      description: String,
+      content: String,
       tags: String,
       contentType: String,
       spiciness: String,
