@@ -40,7 +40,24 @@ exports.create = (req, res) => {
 // Retrieve all Postings from the database.
 exports.findAll = (req, res) => {
   const title = req.query.title;
-  var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};     // J: What does this line do?
+  const tags = req.query.tags;
+  const name = req.query.name;
+
+  let condition = {};
+
+  if (title) {
+    condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+  } else if (tags) {
+    condition = tags ? {tags: { $regex: new RegExp(tags), $options: "i" } } : {}; 
+  } else if (name) {
+    condition = name ? { contributors: { $regex: new RegExp(name), $options: "i" } } : {};
+  }
+
+  // console.log("postingController.js findAll title=",title)
+  // console.log("postingController.js findAll tags=",tags)
+  // console.log("postingController.js findAll name=",name)
+  console.log("postingController.js findAll req.query=",req.query)
+  console.log("postingController.js findAll condition=",condition)
 
   mongooseModel.find(condition)
     .then(data => {
@@ -145,17 +162,3 @@ exports.deleteAll = (req, res) => {
     });
 };
 
-
-// // Find all published Postings
-// exports.findAllPublished = (req, res) => {
-//   mongooseModel.find({ published: true })
-//     .then(data => {
-//       res.send(data);
-//     })
-//     .catch(err => {
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while retrieving postings."
-//       });
-//     });
-// };

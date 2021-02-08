@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react";      // { useEffect }
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
@@ -10,7 +10,7 @@ import deletePostFromDB from "../functions/deletePostFromDB";
 import createPostOnDataArray from "../functions/createPostOnDataArray";
 import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
-import { GiChiliPepper } from 'react-icons/gi';
+// import { GiChiliPepper } from 'react-icons/gi';
 import { FaRegUser } from 'react-icons/fa';
 import { AiOutlineTags } from 'react-icons/ai';
 import SunEditor from 'suneditor-react';
@@ -31,9 +31,25 @@ const MainModal = (props) => {
   let voteTotal = props.voteCount;
   const setVoteCount = props.setVoteCount;
 
-  // console.log("MainModal.js Begins.");
+
+  console.log("MainModal.js Begins.");
+
+  // useEffect(() => {
+  //   const listener = event => {
+  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
+  //       console.log("MainModal.js Enter key was pressed.");
+  //       submitPost();
+  //     }
+  //   };
+  //   document.addEventListener("keydown", listener);
+  //   return () => {
+  //     document.removeEventListener("keydown", listener);
+  //   };
+  // }, []);
+
 
   const handleInputChange = (evnt) => {       //J: This could be called updatePostDraft()
+    console.log("MainModal handleInputChange event=", evnt)
     const { name, value } = evnt.target;
 
     setPostDraft((currDraft) => {
@@ -44,15 +60,70 @@ const MainModal = (props) => {
    });
   };
 
-  const handleSpicinessChange = (passedSpiciness) => {       //J: This could be called updatePostDraft()
 
-    setPostDraft((currDraft) => {
-      const newPostDraft = { ...currDraft, spiciness: passedSpiciness };
-      // There are no brackets around "spiciness" because here we want to use just the string value
-      console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
-      return newPostDraft;
-   });
-  };
+  // const handleSpicinessChange = (passedSpiciness) => {       //J: This could be called updatePostDraft()
+
+  //   setPostDraft((currDraft) => {
+  //     const newPostDraft = { ...currDraft, spiciness: passedSpiciness };
+  //     // There are no brackets around "spiciness" because here we want to use just the string value
+  //     console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
+  //     return newPostDraft;
+  //  });
+  // };
+
+
+  const submitPost = () => {
+    // Uses: setShowMainModal, creatingPostFlag, postDraft, postingsDataArray, setPostingsDataArray, currPostIndex, emptyPost
+
+    console.log("MainModal.js Clicked 'Save Post' creatingPostFlag=", creatingPostFlag);
+    console.log("MainModal.js Clicked 'Save Post' postDraft=", postDraft);
+    console.log("MainModal.js Clicked 'Save Post' postingsDataArray=", postingsDataArray);
+
+    if (creatingPostFlag) {
+      console.log("MainModal.js creatingPostFlag=true so running createPostOnDB and createPostOnDataArray")
+      createPostOnDataArray(setPostingsDataArray, postDraft);
+      createPostOnDB(postDraft)
+        .then((response) => {
+          console.log("MainModal.js Clicked 'Save Post' NOT creatingPost createPostOnDB response=",response)
+          retrievePostings(setPostingsDataArray, emptyPost);   // Time for a hard-update
+      })
+    } else {
+      if (postingsDataArray?.[currPostIndex]?._id) {
+        console.log("MainModal.js NOT creatingPost so running updatePostOnDB and updatePostOnDataArray")
+        updatePostOnDataArray(setPostingsDataArray, postDraft, currPostIndex)
+
+        updatePostOnDB(postDraft, currPostIndex)
+          .then((response) => {
+            console.log("MainModal.js Clicked 'Save Post' NOT creatingPost updatePostOnDB response=",response)
+            retrievePostings(setPostingsDataArray, emptyPost);   // Time for a hard-update
+        })
+      } else {
+        console.log("MainModal.js 'Save Post' clicked but postingsDataArray[currentPostIndex] has bad ._id!!")
+      }
+    }
+    setShowMainModal(false);
+  }
+
+
+  const deletePost = () => {
+    // Uses: setShowMainModal, creatingPostFlag, postDraft, postingsDataArray, setPostingsDataArray, currPostIndex
+
+    console.log("MainModal.js Clicked Delete Post")
+    if (!creatingPostFlag && (postingsDataArray?.[currPostIndex]?._id)) {   
+       // Only delete if editing post that exists on the database, ie. has an _id number
+
+      console.log("MainModal.js Clicked Delete Post creatingPostFlag=", creatingPostFlag);
+      console.log("MainModal.js Clicked Delete Post postDraft=", postDraft);
+      console.log("MainModal.js Clicked Delete Post postingsDataArray=", postingsDataArray);
+
+      deletePostFromDB(postingsDataArray, currPostIndex);
+      deletePostFromDataArray(postingsDataArray, setPostingsDataArray, currPostIndex);
+    } else {
+      console.log("MainModal.js 'Delete Post' clicked but Creating Post or postingsDataArray[currentPostIndex] has bad ._id")
+    }
+    setShowMainModal(false);
+  }
+
 
   // Customize SunEditor component below
 //   suneditor.create({
@@ -84,7 +155,7 @@ const MainModal = (props) => {
               className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
               placeholder="Enter title of posting here"
               value={postDraft.title}
-              onChange={handleInputChange}   // Try onBlur? Also, it'd be nice if pressing Enter acted like pressing Tab
+              onChange={handleInputChange}   // Try onBlur?
             />
           </>
 
@@ -140,7 +211,7 @@ const MainModal = (props) => {
 
           {/* TO DO LATER: Make a function that only renders the SunEditor onClick */}
           {/*  SunEditor will crash in this version.. we need to better capture output to save to db */}
-          <SunEditor
+          {/* <SunEditor
             name="description"                              //J: I'd like to change this to 'content' 
             type="text"
             required
@@ -151,7 +222,7 @@ const MainModal = (props) => {
             // showToolbar={false}
             // onFocus={toggle the "showToolbar" value to true}
           >
-          </SunEditor>
+          </SunEditor> */}
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Content Type:</div>
@@ -166,7 +237,8 @@ const MainModal = (props) => {
             />
           </div>
 
-          <div
+
+          {/* <div
             className="flex flex-row items-baseline p-1 mt-2"
             style={{
               display:'flex',
@@ -253,7 +325,7 @@ const MainModal = (props) => {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Upvote!</div>
@@ -276,24 +348,7 @@ const MainModal = (props) => {
 
           <Button
             variant="danger"
-            onClick={() => {      // Only delete if editing an existing post
-              console.log("MainModal.js Clicked Delete Post")
-              if (!creatingPostFlag && (postingsDataArray?.[currPostIndex]?._id)) {
-                console.log("MainModal.js Clicked Delete Post creatingPostFlag=", creatingPostFlag);
-                console.log("MainModal.js Clicked Delete Post postDraft=", postDraft);
-                console.log("MainModal.js Clicked Delete Post postingsDataArray=", postingsDataArray);
-
-                deletePostFromDB(postingsDataArray, currPostIndex);
-                deletePostFromDataArray(postingsDataArray, setPostingsDataArray, currPostIndex);
-              } else {
-                console.log("MainModal.js 'Delete Post' clicked but creating a post, or postingsDataArray[currentPostIndex] has bad ._id")
-                // retrievePostings(setPostingsDataArray, emptyPost);  // Time for a hard-update
-                // deletePostFromDB(postingsDataArray, currPostIndex);
-                // deletePostFromDataArray(postingsDataArray, setPostingsDataArray, currPostIndex);
-              }
-
-              setShowMainModal(false);
-            }}
+            onClick={() => deletePost() }   // no parameters necessary for deletePost() cos they're all state variables
           >
             Delete Post       {/* Add an icon? */}
           </Button>
@@ -302,39 +357,7 @@ const MainModal = (props) => {
           <Button
             color="green"
             type="submit"
-            onClick={ () => {
-              console.log("MainModal.js Clicked 'Save Post' creatingPostFlag=", creatingPostFlag);
-              console.log("MainModal.js Clicked 'Save Post' postDraft=", postDraft);
-              console.log("MainModal.js Clicked 'Save Post' postingsDataArray=", postingsDataArray);
-
-              if (creatingPostFlag) {
-                console.log("MainModal.js creatingPostFlag=true so running createPostOnDB and createPostOnDataArray")
-                createPostOnDataArray(setPostingsDataArray, postDraft);
-                createPostOnDB(postDraft)
-                  .then((response) => {
-                    console.log("MainModal.js Clicked 'Save Post' NOT creatingPost createPostOnDB response=",response)
-                    retrievePostings(setPostingsDataArray, emptyPost);   // Time for a hard-update
-                })
-              } else {
-                // if (postingsDataArray && postingsDataArray[currPostIndex] && postingsDataArray[currPostIndex]._id) {
-                if (postingsDataArray?.[currPostIndex]?._id) {
-                  console.log("MainModal.js NOT creatingPost so running updatePostOnDB and updatePostOnDataArray")
-                  updatePostOnDataArray(setPostingsDataArray, postDraft, currPostIndex)
-
-                  updatePostOnDB(postDraft, currPostIndex)
-                    .then((response) => {
-                      console.log("MainModal.js Clicked 'Save Post' NOT creatingPost updatePostOnDB response=",response)
-                      retrievePostings(setPostingsDataArray, emptyPost);   // Time for a hard-update
-                  })
-                } else {
-                  console.log("MainModal.js 'Save Post' clicked but postingsDataArray[currentPostIndex] has bad ._id!!")
-                  // retrievePostings(setPostingsDataArray, emptyPost);   // Time for a hard-update
-                  // updatePostOnDB(postDraft, currPostIndex)
-                  // updatePostOnDataArray(setPostingsDataArray, postDraft, currPostIndex)
-                }
-              }
-              setShowMainModal(false);
-            }}
+            onClick={ () => submitPost()}  // no parameters necessary for submitPost() cos they're all state variables 
           >
             Save Post         {/* Add an icon? */}
           </Button>
