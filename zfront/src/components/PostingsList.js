@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown'
 import MainModal from "./MainModal";
 import WelcomeModal from "./WelcomeModal";
 import RenderStubs from "./RenderStubs";
@@ -32,6 +34,7 @@ const PostingsList = () => {
   const [searchName, setSearchName] = useState("");
   const [creatingPostFlag, setCreatingPostFlag] = useState(false);
   const [voteCount, setVoteCount] = useState(0);
+  const [searchTerm,setSearchTerm]=useState('Search by Title ');
 
 
   console.log("PostingsList.js begins: creatingPostFlag=", creatingPostFlag);
@@ -41,6 +44,12 @@ const PostingsList = () => {
     console.log("postingsDataArray is falsy so retrieving the data from the DB. And in the interim setting it to [emptyPost]")
     setPostingsDataArray([emptyPost]);
     retrievePostings(setPostingsDataArray, emptyPost); 
+  }
+
+
+  const handleSelect=(event)=>{
+    console.log(event);
+    setSearchTerm(event)
   }
 
 
@@ -72,6 +81,18 @@ const PostingsList = () => {
             }}>
             Create Post
           </div>
+
+
+          <DropdownButton
+            id='dropdown-variants-primary'
+            title={searchTerm}
+            onSelect={handleSelect}
+            
+          >
+          <Dropdown.Item eventKey="Search by Title ">Search by Title</Dropdown.Item>
+            <Dropdown.Item eventKey="Search by Tag ">Search by Tag</Dropdown.Item>
+            <Dropdown.Item eventKey="Search by Name ">Search by Name</Dropdown.Item>
+          </DropdownButton>
 
 
           {/* Search by Title */}
