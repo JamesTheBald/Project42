@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";      // { useEffect }
+import React from "react";      // { useEffect }
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
