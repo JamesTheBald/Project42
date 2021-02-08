@@ -2,8 +2,6 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 import VoteCounter from './VoteCounter';
 import retrievePostings from "../functions/retrievePostings";
 import createPostOnDB from "../functions/createPostOnDB";
@@ -14,7 +12,9 @@ import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
 import { GiChiliPepper } from 'react-icons/gi';
 import { FaRegUser } from 'react-icons/fa';
-import { AiOutlineTags } from 'react-icons/ai'
+import { AiOutlineTags } from 'react-icons/ai';
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 
 
 const MainModal = (props) => {
@@ -53,6 +53,14 @@ const MainModal = (props) => {
       return newPostDraft;
    });
   };
+
+  // Customize SunEditor component below
+//   suneditor.create({
+//     plugins: [audio, video, image, link],
+//     buttonList: [
+//         ['audio', 'video', 'image', 'link']
+//     ],
+// });
 
 
   return (
