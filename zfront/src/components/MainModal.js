@@ -1,8 +1,6 @@
-import React, { useState } from "react";      // { useEffect }
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import convertISODate from "../functions/convertISODate";
-import VoteCounter from './VoteCounter';
 import retrievePostings from "../functions/retrievePostings";
 import createPostOnDB from "../functions/createPostOnDB";
 import updatePostOnDB from "../functions/updatePostOnDB";
@@ -10,13 +8,14 @@ import deletePostFromDB from "../functions/deletePostFromDB";
 import createPostOnDataArray from "../functions/createPostOnDataArray";
 import updatePostOnDataArray from "../functions/updatePostOnDataArray";
 import deletePostFromDataArray from "../functions/deletePostFromDataArray";
-import { GiChiliPepper } from 'react-icons/gi';
+import convertISODate from "../functions/convertISODate";
+import RichTextEditor from './RichTextEditor';
+import SpicinessSelector from "./SpicinessSelector";
+import VoteCounter from './VoteCounter';
 import { FaRegUser, FaRegTrashAlt } from 'react-icons/fa';
 import { AiOutlineTags } from 'react-icons/ai';
 import { GrSave } from 'react-icons/gr';
 import { BsArrowCounterclockwise } from 'react-icons/bs'
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css'; // Import Sun Editor's CSS File
 
 
 const MainModal = (props) => {
@@ -32,8 +31,6 @@ const MainModal = (props) => {
   let creatingPostFlag = props.creatingPostFlag;
   let voteTotal = props.voteCount;
   const setVoteCount = props.setVoteCount;
-
-  const [showToolbar, setShowToolbar] = useState(false)
 
   console.log("MainModal.js Begins.");
 
@@ -59,27 +56,6 @@ const MainModal = (props) => {
       const newPostDraft = { ...currDraft, [name]: value };
       // Brackets [] around 'name' are so the VALUE of name is used for the key and not just the string 'name'.
       console.log("MainModal.js: handleInputChange: setting postDraft to", newPostDraft);
-      return newPostDraft;
-   });
-  };
-
-
-  const handleSpicinessChange = (passedSpiciness) => {       //J: This could be called updatePostDraft()
-
-    setPostDraft((currDraft) => {
-      const newPostDraft = { ...currDraft, spiciness: passedSpiciness };
-      // There are no brackets around "spiciness" because here we want to use just the string value
-      console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
-      return newPostDraft;
-   });
-  };
-
-  const handleSunEditorChange = (content) => {       //J: This could be called updatePostDraft()
-
-    setPostDraft((currDraft) => {
-      const newPostDraft = { ...currDraft, content: content };
-      // There are no brackets around "spiciness" because here we want to use just the string value
-      console.log("MainModal.js: handleSpicinessChange: setting postDraft to", newPostDraft);
       return newPostDraft;
    });
   };
@@ -135,6 +111,7 @@ const MainModal = (props) => {
     }
     setShowMainModal(false);
   }
+
 
 
   return (
@@ -211,42 +188,12 @@ const MainModal = (props) => {
             />
           </div>
 
-          <SunEditor
-            name="content"
-            type="text"
+          <RichTextEditor
+            postDraft={postDraft}
+            setPostDraft={setPostDraft}
             required
-            className="modalField"
-            placeholder="Don't forget a note with your post!"
-            value={postDraft.content}
-            setContents={postDraft.content}
-            autoFocus={false}
-            showToolbar={showToolbar}
-            onFocus={() => {
-              setShowToolbar(true)
-            }}
-            onBlur={() => {
-              setShowToolbar(false)
-            }}
-            onChange={handleSunEditorChange}
-            setOptions={{
-              height: 200,
-              buttonList: [
-                ["undo", "redo"],
-                ["font", "fontSize", "formatBlock"],
-                ["bold", "underline", "italic", "strike", "subscript", "superscript"],
-                ["removeFormat"],
-                "/",
-                ["fontColor", "hiliteColor"],
-                ["outdent", "indent"],
-                ["align", "horizontalRule", "list", "table"],
-                ["link", "image", "video"],
-                ["fullScreen", "showBlocks", "codeView"],
-                ["preview", "print"],
-                ["save", "template"]
-              ],
-            }}
           >
-          </SunEditor>
+          </RichTextEditor>
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Content Type:</div>
@@ -272,111 +219,31 @@ const MainModal = (props) => {
             }}
           >
             <div className="font-500">Spiciness:</div>
-            <div
-              name="pepper-box"
-              style={{
-                display:"flex",
-                flexDirection:"column",
-                alignItems:"flex-end",
-              }}
+            <SpicinessSelector
+              postDraft = {postDraft}
+              setPostDraft = {setPostDraft}
             >
-              <div
-                name="mild-pepper-group"
-                className={postDraft.spiciness == "mild" ? "opacity-1" : "opacity-50"}
-                onClick={() => {
-                  handleSpicinessChange("mild")
-                }}
-              >
-                <GiChiliPepper
-                  size="24"
-                  style={{
-                    color:'green',
-                    cursor:"pointer"
-                  }}
-                />
-              </div>
-              <div
-                name="medium-peppers-group"
-                className={postDraft.spiciness == "medium" ? "opacity-1" : "opacity-50"}
-                style={{display:"flex"}}
-                onClick={() => {
-                  handleSpicinessChange("medium")
-                }}
-              >
-                <GiChiliPepper
-                  size="24"
-                  style={{
-                    color:'orange',
-                    cursor:"pointer"
-                  }}
-                />
-                <GiChiliPepper
-                  size="24"
-                  style={{
-                    color:'orange',
-                    cursor:"pointer"
-                  }}
-                />
-              </div>
-              <div
-                name="spicy-peppers-group"
-                className={postDraft.spiciness == "spicy" ? "opacity-1" : "opacity-50"}
-                style={{display:"flex"}}
-                onClick={() => {
-                  handleSpicinessChange("spicy")
-                }}
-              >
-                <GiChiliPepper
-                  size="24"
-                  style={{
-                    color:'red',
-                    cursor:"pointer"
-                  }}
-                />
-                <GiChiliPepper
-                  size="24"
-                  style={{
-                    color:'red',
-                    cursor:"pointer"
-                  }}
-                />
-               <GiChiliPepper
-                  size="24"
-                  style={{
-                    color:'red',
-                    cursor:"pointer"
-                  }}
-                />
-              </div>
-            </div>
+            </SpicinessSelector>
           </div>
 
-
-
-          {/* { (postDraft?.upvotes) ?
-            <> */}
-              <div 
-                className="flex flex-row items-baseline p-1 mt-2"
-                style={{
-                  display:'flex',
-                  justifyContent:'space-between',
-                  alignItems:'center',
-                  width:'40%'
-                }}
-              >
-                <div className="font-500">Upvotes: </div>
-                <VoteCounter 
-                  name="upvotes"
-                  value={postDraft.upvotes}
-                  voteCount={voteTotal}
-                  setVoteCount={setVoteCount}
-                >
-                </VoteCounter>
-              </div>
-            {/* </>
-            : 
-            <></>
-          } */}
+          <div 
+            className="flex flex-row items-baseline p-1 mt-2"
+            style={{
+              display:'flex',
+              justifyContent:'space-between',
+              alignItems:'center',
+              width:'40%'
+            }}
+          >
+            <div className="font-500">Upvotes: </div>
+            <VoteCounter 
+              name="upvotes"
+              value={postDraft.upvotes}
+              voteCount={voteTotal}
+              setVoteCount={setVoteCount}
+            >
+            </VoteCounter>
+          </div>
         </Modal.Body>
 
 
