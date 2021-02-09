@@ -35,7 +35,7 @@ const PostingsList = () => {
   const [searchTags, setSearchTags] = useState("");
   const [searchName, setSearchName] = useState("");
   const [searchTerm, setSearchTerm]=useState('Search by Title ');
-  const [voteCount, setVoteCount] = useState(0);
+  const [userVoted, setUserVoted] = useState(false);
 
 
   console.log("PostingsList.js begins: creatingPostFlag=", creatingPostFlag);
@@ -196,8 +196,8 @@ const PostingsList = () => {
         postDraft = {postDraft}
         setPostDraft = {setPostDraft}
         creatingPostFlag = {creatingPostFlag}
-        voteCount = {voteCount}
-        setVoteCount = {setVoteCount}
+        userVoted = {userVoted}
+        setUserVoted = {setUserVoted}
       />
 
       {/* <HomeButtonProvider />   */}   {/* Testing DnD coordinate reporting for a small square by react-draggable */}

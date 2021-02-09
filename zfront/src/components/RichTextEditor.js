@@ -14,7 +14,6 @@ const RichTextEditor = (props) => {
 
 
   // Declare functions
-
   const handleSunEditorChange = (content) => {
 
     setPostDraft((currDraft) => {
