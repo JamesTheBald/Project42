@@ -29,9 +29,10 @@ const MainModal = (props) => {
   let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
   let creatingPostFlag = props.creatingPostFlag;
-  let voteTotal = props.voteCount;
-  const setVoteCount = props.setVoteCount;
+  let userVoted = props.userVoted;
+  const setUserVoted = props.setUserVoted;
 
+  
   console.log("MainModal.js Begins.");
 
   // useEffect(() => {
@@ -237,10 +238,10 @@ const MainModal = (props) => {
           >
             <div className="font-500">Upvotes: </div>
             <VoteCounter 
-              name="upvotes"
-              value={postDraft.upvotes}
-              voteCount={voteTotal}
-              setVoteCount={setVoteCount}
+              postDraft = {postDraft}
+              setPostDraft = {setPostDraft}
+              userVoted = {userVoted}
+              setUserVoted = {setUserVoted}
             >
             </VoteCounter>
           </div>

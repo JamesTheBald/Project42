@@ -1,36 +1,43 @@
-import React, { useState }from 'react';
-import Button from 'react-bootstrap/Button'
+import React from 'react';
+import { BiUpArrow } from 'react-icons/bi';
 
-const VoteCounter = ({voteCount, setVoteCount}) => {
-  const [buttonMessage, setButtonMessage] = useState("Like Post");
-  const [buttonColor, setButtonColor] = useState("primary");
 
+
+
+const VoteCounter = (props) => {
+
+  let userVoted = props.userVoted;
+  const setUserVoted = props.setUserVoted;
+
+
+  // Declare variables
+  let postDraft = props.postDraft;
+  const setPostDraft = props.setPostDraft;
+
+
+
+  // Declare functions
+  const handleVoteCountChange = () => {
+    if ( !userVoted ) {
+      setPostDraft( (currDraft) => {
+        const newPostDraft = { ...currDraft, upvotes: currDraft.upvotes + 1 };
+        return newPostDraft;
+      });
+    } else {
+      setPostDraft( (currDraft) => {
+        const newPostDraft = { ...currDraft, upvotes: currDraft.upvotes - 1 };
+        return newPostDraft;
+      });
+    }
+    setUserVoted(curr => !curr);     // toggle the state
+  };
+
+  // Declare what the component returns
   return (
     <>
-      <div
-        style={{
-          display:"flex",
-          justifyContent:"space-around"
-        }}
-      >
-        {voteCount}
-
-        <Button
-          variant={buttonColor}
-          onClick={() => {
-            if (buttonMessage === "Unlike Post") {
-              setVoteCount(curr => curr - 1);
-              setButtonMessage("Like Post");
-              setButtonColor("primary")
-            } else {
-              setVoteCount(curr => curr +1);
-              setButtonMessage("Unlike Post");
-              setButtonColor("secondary")
-            }
-          }}
-        >
-        {buttonMessage}
-        </Button>
+      <div> { postDraft.upvotes } </div>
+      <div onClick = { () => handleVoteCountChange()} className="p-2">
+      <BiUpArrow />
       </div>
     </>
   );
