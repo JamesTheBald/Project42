@@ -5,12 +5,9 @@ import 'suneditor/dist/css/suneditor.min.css';
 
 const RichTextEditor = (props) => {
 
-
-
-  // Declare variables
-    let postDraft = props.postDraft;
-    const setPostDraft = props.setPostDraft;
-    const [showToolbar, setShowToolbar] = useState(false)
+  const [showToolbar, setShowToolbar] = useState(false)
+  let postDraft = props.postDraft;
+  const setPostDraft = props.setPostDraft;
 
 
   // Declare functions
@@ -23,17 +20,13 @@ const RichTextEditor = (props) => {
   };
 
 
-
-
-
-  // Declare what the component renders
   return(
     <>
       <SunEditor
         name="content"
         type="text"
         className="modalField"
-        placeholder="Don't forget a note with your post!"
+        placeholder="Click to edit content"
         value={postDraft.content}
         setContents={postDraft.content}
         autoFocus={false}

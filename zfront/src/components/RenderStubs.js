@@ -36,7 +36,6 @@ const RenderStubs = (props) => {
                       setShowMainModal(true);
                     }}
                   >
-
                     <div>
                       { pst.title ? 
                         <div>{pst.title}</div>

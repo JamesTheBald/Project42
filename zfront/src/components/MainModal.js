@@ -1,13 +1,6 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import retrievePostings from "../functions/retrievePostings";
-import createPostOnDB from "../functions/createPostOnDB";
-import updatePostOnDB from "../functions/updatePostOnDB";
-import deletePostFromDB from "../functions/deletePostFromDB";
-import createPostOnDataArray from "../functions/createPostOnDataArray";
-import updatePostOnDataArray from "../functions/updatePostOnDataArray";
-import deletePostFromDataArray from "../functions/deletePostFromDataArray";
 import convertISODate from "../functions/convertISODate";
 import RichTextEditor from './RichTextEditor';
 import SpicinessSelector from "./SpicinessSelector";
@@ -16,6 +9,8 @@ import { FaRegUser, FaRegTrashAlt } from 'react-icons/fa';
 import { AiOutlineTags } from 'react-icons/ai';
 import { GrSave } from 'react-icons/gr';
 import { BsArrowCounterclockwise } from 'react-icons/bs'
+import submitPost from "../functions/submitPost";
+import deletePost from "../functions/deletePost";
 
 
 const MainModal = (props) => {
@@ -34,12 +29,18 @@ const MainModal = (props) => {
 
   
   console.log("MainModal.js Begins.");
+  console.log("MainModal.js: postDraft=", postDraft);
+
 
   // useEffect(() => {
   //   const listener = event => {
   //     if (event.code === "Enter" || event.code === "NumpadEnter") {
   //       console.log("MainModal.js Enter key was pressed.");
-  //       submitPost();
+  //       console.log("MainModal.js useEffect postDraft=", postDraft);
+  //       console.log("MainModal.js useEffect postingsDataArray=", postingsDataArray);
+  //       console.log("MainModal.js useEffect creatingPostFlag=", creatingPostFlag);
+        
+  //       submitPost(emptyPost, postDraft, postingsDataArray, setPostingsDataArray, currPostIndex, setShowMainModal, creatingPostFlag)
   //     }
   //   };
   //   document.addEventListener("keydown", listener);
@@ -61,58 +62,23 @@ const MainModal = (props) => {
    });
   };
 
-  const submitPost = () => {
-    // Uses: setShowMainModal, creatingPostFlag, postDraft, postingsDataArray, setPostingsDataArray, currPostIndex, emptyPost
 
-    console.log("MainModal.js Clicked 'Save Post' creatingPostFlag=", creatingPostFlag);
-    console.log("MainModal.js Clicked 'Save Post' postDraft=", postDraft);
-    console.log("MainModal.js Clicked 'Save Post' postingsDataArray=", postingsDataArray);
+  // const onKeyPressHandler = evnt => {          //J: This function works
+  //   // evnt.preventDefault();    // This line may not be necessary
+  //   if (evnt.key === 'Enter') {
+  //     console.log("onKeyPressHandler YOU PRESSED ENTER!") 
+  //   }
+  // };
 
-    if (creatingPostFlag) {
-      console.log("MainModal.js creatingPostFlag=true so running createPostOnDB and createPostOnDataArray")
-      createPostOnDataArray(setPostingsDataArray, postDraft);
-      createPostOnDB(postDraft)
-        .then((response) => {
-          console.log("MainModal.js Clicked 'Save Post' NOT creatingPost createPostOnDB response=",response)
-          retrievePostings(setPostingsDataArray, emptyPost);   // Time for a hard-update
-      })
-    } else {
-      if (postingsDataArray?.[currPostIndex]?._id) {
-        console.log("MainModal.js NOT creatingPost so running updatePostOnDB and updatePostOnDataArray")
-        updatePostOnDataArray(setPostingsDataArray, postDraft, currPostIndex)
 
-        updatePostOnDB(postDraft, currPostIndex)
-          .then((response) => {
-            console.log("MainModal.js Clicked 'Save Post' NOT creatingPost updatePostOnDB response=",response)
-            retrievePostings(setPostingsDataArray, emptyPost);   // Time for a hard-update
-        })
-      } else {
-        console.log("MainModal.js 'Save Post' clicked but postingsDataArray[currentPostIndex] has bad ._id!!")
-      }
+  function handleEnter(evnt) {    // From: https://stackoverflow.com/questions/38577224/focus-on-next-field-when-pressing-enter-react-js
+    if (evnt.keyCode === 13) {
+      const form = evnt.target.form;
+      const index = Array.prototype.indexOf.call(form, evnt.target);
+      form.elements[index + 1].focus();
+      evnt.preventDefault();
     }
-    setShowMainModal(false);
   }
-
-
-  const deletePost = () => {
-    // Uses: setShowMainModal, creatingPostFlag, postDraft, postingsDataArray, setPostingsDataArray, currPostIndex
-
-    console.log("MainModal.js Clicked Delete Post")
-    if (!creatingPostFlag && (postingsDataArray?.[currPostIndex]?._id)) {   
-       // Only delete if editing post that exists on the database, ie. has an _id number
-
-      console.log("MainModal.js Clicked Delete Post creatingPostFlag=", creatingPostFlag);
-      console.log("MainModal.js Clicked Delete Post postDraft=", postDraft);
-      console.log("MainModal.js Clicked Delete Post postingsDataArray=", postingsDataArray);
-
-      deletePostFromDB(postingsDataArray, currPostIndex);
-      deletePostFromDataArray(postingsDataArray, setPostingsDataArray, currPostIndex);
-    } else {
-      console.log("MainModal.js 'Delete Post' clicked but Creating Post or postingsDataArray[currentPostIndex] has bad ._id")
-    }
-    setShowMainModal(false);
-  }
-
 
 
   return (
@@ -128,6 +94,8 @@ const MainModal = (props) => {
       >
 
         <Modal.Body>
+        <form>
+
           <>
             <input
               name="title"
@@ -137,6 +105,7 @@ const MainModal = (props) => {
               placeholder="Enter title of posting here"
               value={postDraft.title}
               onChange={handleInputChange}   // Try onBlur?
+              onKeyDown={handleEnter}
             />
           </>
 
@@ -152,6 +121,7 @@ const MainModal = (props) => {
               placeholder="(Firstname, last Initial)"
               value={postDraft.contributors}
               onChange={handleInputChange}
+              onKeyDown={handleEnter}
             />
           </div>
 
@@ -186,6 +156,7 @@ const MainModal = (props) => {
               placeholder="What tags are related to your post?"
               value={postDraft.tags}
               onChange={handleInputChange}
+              onKeyDown={handleEnter}
             />
           </div>
 
@@ -195,6 +166,7 @@ const MainModal = (props) => {
             required
           >
           </RichTextEditor>
+
 
           <div className="flex flex-row items-baseline p-1 mt-2">
             <div className="font-500">Content Type:</div>
@@ -206,6 +178,7 @@ const MainModal = (props) => {
               placeholder="What is the primary content type of your post?"
               value={postDraft.contentType}
               onChange={handleInputChange}
+              onKeyDown={handleEnter}
             />
           </div>
 
@@ -245,6 +218,8 @@ const MainModal = (props) => {
             >
             </VoteCounter>
           </div>
+
+        </form>
         </Modal.Body>
 
 
@@ -262,7 +237,9 @@ const MainModal = (props) => {
 
           <Button
             variant="danger"
-            onClick={() => deletePost() }   // no parameters necessary for deletePost() cos they're all state variables
+            onClick={() => {
+              deletePost(postDraft, postingsDataArray, setPostingsDataArray, currPostIndex, setShowMainModal, creatingPostFlag)
+            }}
           >
             Delete <FaRegTrashAlt></FaRegTrashAlt>
           </Button>
@@ -270,7 +247,9 @@ const MainModal = (props) => {
 
           <Button
             type="submit"
-            onClick={() => {submitPost()}}  // no parameters necessary for submitPost() cos they're all state variables 
+            onClick={() => {
+              submitPost(emptyPost, postDraft, postingsDataArray, setPostingsDataArray, currPostIndex, setShowMainModal, creatingPostFlag)
+            }}
           >
             Save <GrSave></GrSave>
           </Button>

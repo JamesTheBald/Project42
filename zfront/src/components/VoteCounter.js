@@ -2,18 +2,12 @@ import React from 'react';
 import { BiUpArrow } from 'react-icons/bi';
 
 
-
-
 const VoteCounter = (props) => {
 
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
-
-
-  // Declare variables
   let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
-
 
 
   // Declare functions
@@ -32,7 +26,7 @@ const VoteCounter = (props) => {
     setUserVoted(curr => !curr);     // toggle the state
   };
 
-  // Declare what the component returns
+
   return (
     <>
       <div> { postDraft.upvotes } </div>
@@ -42,5 +36,6 @@ const VoteCounter = (props) => {
     </>
   );
 }
+
 
 export default VoteCounter;

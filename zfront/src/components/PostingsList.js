@@ -39,6 +39,9 @@ const PostingsList = () => {
 
 
   console.log("PostingsList.js begins: creatingPostFlag=", creatingPostFlag);
+  console.log("PostingsList.js begins: postDraft=", postDraft);
+  console.log("PostingsList.js begins: postingsDataArray=", postingsDataArray);
+
 
   // Retrive the data from DB into postingsDataArray, so postingsDataArray is never null
   if (!postingsDataArray) {
@@ -185,7 +188,7 @@ const PostingsList = () => {
         setCreatingPostFlag = {setCreatingPostFlag}
       />
 
-
+    {showMainModal ? 
       <MainModal 
         showMainModal = {showMainModal}
         setShowMainModal = {setShowMainModal}
@@ -199,6 +202,10 @@ const PostingsList = () => {
         userVoted = {userVoted}
         setUserVoted = {setUserVoted}
       />
+      : (
+        <></>
+      )}
+
 
       {/* <HomeButtonProvider />   */}   {/* Testing DnD coordinate reporting for a small square by react-draggable */}
 
