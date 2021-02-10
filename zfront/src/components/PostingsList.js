@@ -10,7 +10,7 @@ import removeAllPostings from "../functions/removeAllPostings";
 import onClickFindByTitle from "../functions/onClickFindByTitle";
 import onClickFindByTags from "../functions/onClickFindByTag";
 import onClickFindByName from "../functions/onClickFindByName";
-// import HomeButtonProvider from "./HomeButtonProvider";
+import HomeButtonProvider from "./HomeButtonProvider";
 
 
 const emptyPost = {
@@ -207,7 +207,8 @@ const PostingsList = () => {
       )}
 
 
-      {/* <HomeButtonProvider />   */}   {/* Testing DnD coordinate reporting for a small square by react-draggable */}
+      <HomeButtonProvider />    
+       {/* Testing DnD coordinate reporting for a small square by react-draggable */}
 
       <Button 
         variant="outline-danger"
