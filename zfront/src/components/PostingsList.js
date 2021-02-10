@@ -182,10 +182,15 @@ const PostingsList = () => {
 
       <RenderStubs
         postingsDataArray = {postingsDataArray}
+        currPostIndex = {currPostIndex}
         setCurrPostIndex = {setCurrPostIndex}
+        showMainModal = {showMainModal}
         setShowMainModal = {setShowMainModal}
+        postDraft = {postDraft}
         setPostDraft = {setPostDraft}
         setCreatingPostFlag = {setCreatingPostFlag}
+        userVoted = {userVoted}
+        setUserVoted = {setUserVoted}
       />
 
     {showMainModal ? 

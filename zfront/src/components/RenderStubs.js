@@ -2,19 +2,24 @@ import React, { useRef } from "react";
 // import Tooltip from "./Tooltip";
 // import PopupContent from "./PopupContent";
 import Draggable from "react-draggable"
-
+import VoteCounter from "./VoteCounter";
 
 const RenderStubs = (props) => {
 
   let postingsDataArray = props.postingsDataArray;
+  // let currPostIndex = props.currPostIndex;
   const setCurrPostIndex= props.setCurrPostIndex;
+  // let showMainModal = props.showMainModal;
   const setShowMainModal = props.setShowMainModal;
+  let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
   let setCreatingPostFlag = props.setCreatingPostFlag;
   let oldPosition = useRef( {x:100,y:100} );
 
   // const bounds = { bottom: 0, right: 0 };
 
+  let userVoted = props.userVoted;
+  const setUserVoted = props.userVoted;
 
   const handlerOnStop = (pst, indx) => (event, data) => {    // Currying! So spicy!
 
@@ -42,7 +47,7 @@ const RenderStubs = (props) => {
     
     return (
       <>
-        {postingsDataArray.map((pst, indx) => {
+        {postingsDataArray.map((post, index) => {
           // console.log("RenderStubs .map: indx=", indx, " and pst=", pst);
 
           return (
@@ -53,6 +58,7 @@ const RenderStubs = (props) => {
                 onStop={handlerOnStop(pst, indx)}
               >
                 {/* <Tooltip content={PopupContent(pst)} delay="200" direction="top" css="tooltipPopup rounded-lg">  */}
+              <Tooltip content={PopupContent(post)} delay="200" direction="top" css="tooltipPopup rounded-lg"> 
                    {/* css="tooltipPopup" is required. Edit background color on tooltip.css */}
   
                   <div
@@ -66,17 +72,26 @@ const RenderStubs = (props) => {
                     // }}
                   >
                     <div>
-                      { pst.title ? 
-                        <div>{pst.title}</div>
+                      { post.title ? 
+                        <div>{post.title}</div>
                         :
                         <div> Click to edit </div>
                       }
-                      <div className="mt-2">{pst.contributors}</div>
+                      <div className="mt-2">{post.contributors}</div>
+                      <VoteCounter
+                        postingsDataArray = {postingsDataArray}
+                        // showMainModal = {showMainModal}
+                        index = {index}
+                        postDraft = {postDraft}
+                        setPostDraft = {setPostDraft}
+                        userVoted = {userVoted}
+                        setUserVoted = {setUserVoted}
+                      />
                     </div>
 
                   </div>
 
-                {/* </Tooltip> */}
+                </Tooltip>
               </Draggable>
             </div>
           );
