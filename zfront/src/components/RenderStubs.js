@@ -7,13 +7,13 @@ import Draggable from "react-draggable"
 const RenderStubs = (props) => {
 
   let postingsDataArray = props.postingsDataArray;
-  // const setCurrPostIndex= props.setCurrPostIndex;
-  // const setShowMainModal = props.setShowMainModal;
-  // const setPostDraft = props.setPostDraft;
-  // let setCreatingPostFlag = props.setCreatingPostFlag;
+  const setCurrPostIndex= props.setCurrPostIndex;
+  const setShowMainModal = props.setShowMainModal;
+  const setPostDraft = props.setPostDraft;
+  let setCreatingPostFlag = props.setCreatingPostFlag;
   let oldPosition = useRef( {x:100,y:100} );
 
-  const bounds = { bottom: 0, right: 0 };
+  // const bounds = { bottom: 0, right: 0 };
 
 
   const handlerOnStop = (pst, indx) => (event, data) => {    // Currying! So spicy!
@@ -25,7 +25,13 @@ const RenderStubs = (props) => {
     console.log("oldPosition.current.x = ", oldPosition.current.x, "oldPosition.current.y = ", oldPosition.current.y )
     
     if (data.x === oldPosition.current.x && data.y === oldPosition.current.y) {
-      console.log("You just clicked! Put call to open MainModal here");
+      console.log("You just clicked! Opening MainModal");
+
+      setCreatingPostFlag(false);
+      setCurrPostIndex(indx);
+      console.log("RenderStubs.js CurrPostIndex=",indx);
+      setPostDraft(pst)
+      setShowMainModal(true);
     }
     oldPosition.current = {x:data.x, y:data.y};
   }
@@ -43,7 +49,7 @@ const RenderStubs = (props) => {
             <div key={indx} className="w-64 my-2">
 
               <Draggable
-                bounds={bounds}
+                // bounds={bounds}
                 onStop={handlerOnStop(pst, indx)}
               >
                 {/* <Tooltip content={PopupContent(pst)} delay="200" direction="top" css="tooltipPopup rounded-lg">  */}
