@@ -160,12 +160,12 @@ const MainModal = (props) => {
             />
           </div>
 
+
           <RichTextEditor
             postDraft={postDraft}
             setPostDraft={setPostDraft}
             required
-          >
-          </RichTextEditor>
+          />
 
 
           <div className="flex flex-row items-baseline p-1 mt-2">
@@ -183,41 +183,28 @@ const MainModal = (props) => {
           </div>
 
 
-          <div
-            className="flex flex-row items-baseline p-1 mt-2"
-            style={{
-              display:'flex',
-              justifyContent:'space-between',
-              alignItems:'center',
-              width:'30%'
-            }}
-          >
+          <div className="flex flex-row justify-between items-center w-2/5 p-1 mt-2">
             <div className="font-500">Spiciness:</div>
             <SpicinessSelector
               postDraft = {postDraft}
               setPostDraft = {setPostDraft}
-            >
-            </SpicinessSelector>
+            />
           </div>
 
-          <div 
-            className="flex flex-row items-baseline p-1 mt-2"
-            style={{
-              display:'flex',
-              justifyContent:'space-between',
-              alignItems:'center',
-              width:'40%'
-            }}
-          >
+
+          <div className="flex flex-row items-center w-2/5 p-1 mt-2">
             <div className="font-500">Upvotes: </div>
             <VoteCounter 
+              postingsDataArray = {postingsDataArray}
+              // showMainModal = {showMainModal}
+              index = {-1}
               postDraft = {postDraft}
               setPostDraft = {setPostDraft}
               userVoted = {userVoted}
               setUserVoted = {setUserVoted}
-            >
-            </VoteCounter>
+            />
           </div>
+
 
         </form>
         </Modal.Body>
