@@ -164,7 +164,7 @@ const MainModal = (props) => {
           />
 
 
-          <div className="flex flex-row items-baseline p-1 mt-2">
+          <div className="flex flex-row items-center p-1 mt-2">
             <div className="font-500">Content Type:</div>
             <input
               name="contentType"

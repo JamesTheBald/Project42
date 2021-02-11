@@ -42,17 +42,17 @@ const RichTextEditor = (props) => {
           height: 200,
           buttonList: [
             ["undo", "redo"],
-            ["font", "fontSize", "formatBlock"],
+            ["font", "fontSize", "formatBlock", "textStyle"],
             ["bold", "underline", "italic", "strike", "subscript", "superscript"],
             ["removeFormat"],
+            ["-right", "fullScreen"],
             "/",
             ["fontColor", "hiliteColor"],
             ["outdent", "indent"],
             ["align", "horizontalRule", "list", "table"],
             ["link", "image", "video"],
-            ["fullScreen", "showBlocks", "codeView"],
-            ["preview", "print"],
-            ["save", "template"]
+            ['-right', ':i-More Misc-default.more_vertical', 'showBlocks', 'codeView', 'preview', 'print'],
+
           ],
         }}
       >
