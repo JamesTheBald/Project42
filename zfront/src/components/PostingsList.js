@@ -18,13 +18,8 @@ const emptyPost = {
   contentType: "",
   spiciness: "",
   upvotes: 0,
-<<<<<<< HEAD
-  positionX: 0,
-  positionY:0
-=======
   // positionX: 0,
   // positionY: 0
->>>>>>> 0c12c032f570a19059107cc87b3d5499102105c3
 };
 
 const PostingsList = () => {

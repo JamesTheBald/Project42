@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useRef } from "react";
-=======
 import React, { useRef } from "react";    // , useEffect
->>>>>>> 0c12c032f570a19059107cc87b3d5499102105c3
 import Tooltip from "./Tooltip";
 import PopupContent from "./PopupContent";
 import Draggable from "react-draggable"
@@ -57,11 +53,7 @@ const RenderStubs = (props) => {
     return (
       <>
         {postingsDataArray.map((post, index) => {
-<<<<<<< HEAD
-          console.log("RenderStubs .map: indx=", indx, " and pst=", pst);
-=======
           // console.log("RenderStubs .map: index=", index, " and post=", post);
->>>>>>> 0c12c032f570a19059107cc87b3d5499102105c3
 
           return (
             <div key={index} className="w-64 my-2">
