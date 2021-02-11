@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
-// import Tooltip from "./Tooltip";
-// import PopupContent from "./PopupContent";
+import Tooltip from "./Tooltip";
+import PopupContent from "./PopupContent";
 import Draggable from "react-draggable"
 import VoteCounter from "./VoteCounter";
 
@@ -48,7 +48,7 @@ const RenderStubs = (props) => {
     return (
       <>
         {postingsDataArray.map((post, index) => {
-          // console.log("RenderStubs .map: indx=", indx, " and pst=", pst);
+          console.log("RenderStubs .map: indx=", indx, " and pst=", pst);
 
           return (
             <div key={indx} className="w-64 my-2">

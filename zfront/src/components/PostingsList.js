@@ -21,6 +21,8 @@ const emptyPost = {
   contentType: "",
   spiciness: "",
   upvotes: 0,
+  positionX: 0,
+  positionY:0
 };
 
 const PostingsList = () => {

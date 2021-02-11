@@ -8,7 +8,9 @@ module.exports = (mongoose) => {
       tags: String,
       contentType: String,
       spiciness: String,
-      upvotes: Number
+      upvotes: Number,
+      positionX: Number,
+      positionY: Number
     },
     { timestamps: true }
   );
