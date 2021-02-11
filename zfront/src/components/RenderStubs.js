@@ -52,6 +52,9 @@ const RenderStubs = (props) => {
     
     return (
       <>
+        <div className="backdrop"></div>
+
+
         {postingsDataArray.map((post, index) => {
           // console.log("RenderStubs .map: index=", index, " and post=", post);
 

@@ -80,7 +80,9 @@ const PostingsList = () => {
               maxScale: 15,
               centerContent: false,
               limitToBounds: false,
-            }}>
+            }}
+          >
+
             {/* {({ scale, zoomIn, zoomOut, setTransform }) => {        // Also positionX, positionY
             
               <ZoomControls scale={scale} zoomIn={zoomIn} zoomOut={zoomOut} setTransform={setTransform} /> */}
@@ -88,9 +90,9 @@ const PostingsList = () => {
 
               <TransformComponent>
                 <>
-                  <div className="backdrop"></div>
+                  {/* <div className="backdrop"></div> */}
 
-                  {/* <RenderStubs
+                  <RenderStubs
                     postingsDataArray = {postingsDataArray}
                     currPostIndex = {currPostIndex}
                     setCurrPostIndex = {setCurrPostIndex}
@@ -103,7 +105,7 @@ const PostingsList = () => {
                     setUserVoted = {setUserVoted}
                   />
 
-                  {showMainModal && 
+                  {/* {showMainModal && 
                     <MainModal 
                       showMainModal = {showMainModal}
                       setShowMainModal = {setShowMainModal}
