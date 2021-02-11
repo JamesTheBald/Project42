@@ -3,3 +3,22 @@ div {
   font-weight: 400;
 }
 
+html {
+  font-size:8px;
+}
+
+.backdrop {
+  background-image: url('../images/Italian countryside 8k.jpg');
+  object-fit: scale-down;
+  height: 2160px;   /* Set equal to height of the image */
+  width: 3840px;    /* Set equal to the width of the image */
+}
+
+.controls {
+  font-size: 20px;
+  padding: 10px;
+  margin: 1px;
+  background: #92adba;
+  border-radius: 3px;
+  z-index: 100;
+}
