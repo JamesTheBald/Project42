@@ -109,15 +109,13 @@ const MainModal = (props) => {
             />
           </>
 
-          <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">
-              <FaRegUser size="24"/>
-            </div>        {/* font-500 is James' Tailwind for bold */}
+          <div className="flex flex-row items-center p-1 mt-2">
+            <FaRegUser size="24"/>
             <input
               name="contributors"
               type="text"
               required
-              className="modalField"
+              className="modalField p-2"
               placeholder="(Firstname, last Initial)"
               value={postDraft.contributors}
               onChange={handleInputChange}
@@ -144,10 +142,8 @@ const MainModal = (props) => {
             <></>
           }
 
-          <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">
-              <AiOutlineTags size="26"/>
-            </div>
+          <div className="flex flex-row items-center p-1 mt-2">
+            <AiOutlineTags size="30"/>
             <input
               name="tags"
               type="text"
