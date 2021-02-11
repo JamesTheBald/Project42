@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useRef } from "react";
+=======
+import React, { useRef } from "react";    // , useEffect
+>>>>>>> 0c12c032f570a19059107cc87b3d5499102105c3
 import Tooltip from "./Tooltip";
 import PopupContent from "./PopupContent";
 import Draggable from "react-draggable"
@@ -7,25 +11,26 @@ import VoteCounter from "./VoteCounter";
 const RenderStubs = (props) => {
 
   let postingsDataArray = props.postingsDataArray;
-  // let currPostIndex = props.currPostIndex;
   const setCurrPostIndex= props.setCurrPostIndex;
-  // let showMainModal = props.showMainModal;
   const setShowMainModal = props.setShowMainModal;
   let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
   let setCreatingPostFlag = props.setCreatingPostFlag;
+  let userVoted = props.userVoted;
+  const setUserVoted = props.setUserVoted;
   let oldPosition = useRef( {x:100,y:100} );
 
   // const bounds = { bottom: 0, right: 0 };
 
-  let userVoted = props.userVoted;
-  const setUserVoted = props.userVoted;
+  // let userVoted = props.userVoted;
+  // const setUserVoted = props.userVoted;
 
-  const handlerOnStop = (pst, indx) => (event, data) => {    // Currying! So spicy!
 
-    console.log("pst=",pst);  console.log("index=",indx);  console.log("event=",event);  console.log("data=",data);
+  const handlerOnStop = (post, index) => (event, data) => {    // Currying! Spicy! 
+    // https://www.carlrippon.com/using-currying-to-pass-additional-data-to-react-event-handlers/
+    // console.log("post=",post);  console.log("index=",index);  console.log("event=",event);  console.log("data=",data);
 
-    event.stopPropagation();             //J: I think this is important. Don't want bubbling.?
+    event.stopPropagation();             //J: I think this is important... don't want bubbling?
     console.log("x=",data.x, " y=",data.y);
     console.log("oldPosition.current.x = ", oldPosition.current.x, "oldPosition.current.y = ", oldPosition.current.y )
     
@@ -33,13 +38,17 @@ const RenderStubs = (props) => {
       console.log("You just clicked! Opening MainModal");
 
       setCreatingPostFlag(false);
-      setCurrPostIndex(indx);
-      console.log("RenderStubs.js CurrPostIndex=",indx);
-      setPostDraft(pst)
+      setCurrPostIndex(index);
+      console.log("RenderStubs.js CurrPostIndex=",index);
+      setPostDraft(post)
       setShowMainModal(true);
+    } else {
+      // save the new coordinates (data.x, data.y) to DB, postingsDataArray[index].positionX and .positionY
     }
+
     oldPosition.current = {x:data.x, y:data.y};
   }
+
 
   console.log("RenderStubs.js postingsDataArray=", postingsDataArray);
 
@@ -48,30 +57,28 @@ const RenderStubs = (props) => {
     return (
       <>
         {postingsDataArray.map((post, index) => {
+<<<<<<< HEAD
           console.log("RenderStubs .map: indx=", indx, " and pst=", pst);
+=======
+          // console.log("RenderStubs .map: index=", index, " and post=", post);
+>>>>>>> 0c12c032f570a19059107cc87b3d5499102105c3
 
           return (
-            <div key={indx} className="w-64 my-2">
+            <div key={index} className="w-64 my-2">
 
+            {/* make <Draggable conditional on keypress? */}
               <Draggable
                 // bounds={bounds}
-                onStop={handlerOnStop(pst, indx)}
+                onStop={handlerOnStop(post, index)}
+                allowAnyClick={true}
+                // Specify location of the stub using post.positionX and post.positionY
               >
-                {/* <Tooltip content={PopupContent(pst)} delay="200" direction="top" css="tooltipPopup rounded-lg">  */}
-              <Tooltip content={PopupContent(post)} delay="200" direction="top" css="tooltipPopup rounded-lg"> 
-                   {/* css="tooltipPopup" is required. Edit background color on tooltip.css */}
   
-                  <div
-                    className="border p-2 border-gray-800 rounded-lg"
-                    // onDoubleClick={() => {
-                      // setCreatingPostFlag(false);
-                      // setCurrPostIndex(indx);
-                      // console.log("RenderStubs.js CurrPostIndex=",indx);
-                      // setPostDraft(pst)
-                      // setShowMainModal(true);
-                    // }}
-                  >
-                    <div>
+                  <div className="border p-2 border-gray-800 rounded-lg">
+                    <Tooltip content={PopupContent(post)} delay="200" direction="top" css="tooltipPopup rounded-lg"> 
+                        {/* css="tooltipPopup" is required. Edit background color on tooltip.css */}
+
+
                       { post.title ? 
                         <div>{post.title}</div>
                         :
@@ -80,18 +87,17 @@ const RenderStubs = (props) => {
                       <div className="mt-2">{post.contributors}</div>
                       <VoteCounter
                         postingsDataArray = {postingsDataArray}
-                        // showMainModal = {showMainModal}
-                        index = {index}
-                        postDraft = {postDraft}
-                        setPostDraft = {setPostDraft}
                         userVoted = {userVoted}
                         setUserVoted = {setUserVoted}
+                        postDraft = {postDraft}
+                        setPostDraft = {setPostDraft}
+                        index = {index}
                       />
-                    </div>
 
+                    </Tooltip>
+                    
                   </div>
 
-                </Tooltip>
               </Draggable>
             </div>
           );

@@ -4,13 +4,20 @@ import React, { useState } from "react";
 import "../styles/tooltip.css";
 
 const Tooltip = (props) => {
-  let timeout;
+  
+  const content = props.content
+  const delay = props.delay
+  const children = props.children
+  const css = props.css
+
   const [active, setActive] = useState(false);
+  let timeout;
+
 
   const showTip = () => {
     timeout = setTimeout(() => {
       setActive(true);
-    }, props.delay || 100);
+    }, delay || 100);
   };
 
   const hideTip = () => { 
@@ -24,12 +31,11 @@ const Tooltip = (props) => {
       onMouseEnter={showTip}
       onMouseLeave={hideTip}
     >
-      {/* Wrapping */}
-      {props.children}
+      {children}
       {active && (
-        <div className = {props.css} >  {/* Edit background color on tooltip.css */}
+        <div className = {css} >  {/* Edit background color on tooltip.css */}
           {/* Content */}
-          {props.content}
+          {content}
         </div>
       )}
     </div>
