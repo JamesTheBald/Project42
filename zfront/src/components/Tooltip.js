@@ -7,12 +7,11 @@ const Tooltip = (props) => {
   
   const content = props.content
   const delay = props.delay
-  // const children = props.children
+  const children = props.children
   const css = props.css
 
   const [active, setActive] = useState(false);
   let timeout;
-
 
 
   const showTip = () => {
@@ -32,8 +31,7 @@ const Tooltip = (props) => {
       onMouseEnter={showTip}
       onMouseLeave={hideTip}
     >
-      {/* Wrapping */}
-      {/* {children} */}          {/* J: I'm assuming we don't need this */}
+      {children}
       {active && (
         <div className = {css} >  {/* Edit background color on tooltip.css */}
           {/* Content */}

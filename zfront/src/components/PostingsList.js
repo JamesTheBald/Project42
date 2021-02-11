@@ -104,7 +104,7 @@ const PostingsList = () => {
           >
           <Dropdown.Item eventKey="Search by Title ">Search by Title</Dropdown.Item>
             <Dropdown.Item eventKey="Search by Tag ">Search by Tag</Dropdown.Item>
-            <Dropdown.Item eventKey="Search by Name ">Search by Name</Dropdown.Item>
+            <Dropdown.Item eventKey="Search by Contributor ">Search by Contributor</Dropdown.Item>
           </DropdownButton>
 
 
@@ -147,8 +147,8 @@ const PostingsList = () => {
             </div>
           )}
 
-          {/* Search by Name */}
-          { (searchTerm === "Search by Name ") && (
+          {/* Search by Contributor Name */}
+          { (searchTerm === "Search by Contributor ") && (
             <div className="flex flex-row ml-3">
               <input
                 type="text"

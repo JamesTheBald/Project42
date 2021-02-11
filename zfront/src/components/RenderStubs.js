@@ -2,7 +2,7 @@ import React, { useRef } from "react";    // , useEffect
 import Tooltip from "./Tooltip";
 import PopupContent from "./PopupContent";
 import Draggable from "react-draggable"
-import VoteCounter from "./VoteCounter";
+// import VoteCounter from "./VoteCounter";
 
 const RenderStubs = (props) => {
 
@@ -11,15 +11,16 @@ const RenderStubs = (props) => {
   const setCurrPostIndex= props.setCurrPostIndex;
   // let showMainModal = props.showMainModal;
   const setShowMainModal = props.setShowMainModal;
-  let postDraft = props.postDraft;
+  // let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
   let setCreatingPostFlag = props.setCreatingPostFlag;
   let oldPosition = useRef( {x:100,y:100} );
 
   // const bounds = { bottom: 0, right: 0 };
 
-  let userVoted = props.userVoted;
-  const setUserVoted = props.userVoted;
+  // let userVoted = props.userVoted;
+  // const setUserVoted = props.userVoted;
+
 
   const handlerOnStop = (pst, indx) => (event, data) => {    // Currying! Spicy! 
     // https://www.carlrippon.com/using-currying-to-pass-additional-data-to-react-event-handlers/
@@ -64,10 +65,10 @@ const RenderStubs = (props) => {
                 allowAnyClick={true}
                 // Specify location of the stub using pst.positionX and pst.positionY
               >
-                        {/* css="tooltipPopup" is required. Edit background color on tooltip.css */}
   
                   <div className="border p-2 border-gray-800 rounded-lg">
                     <Tooltip content={PopupContent(pst)} delay="200" direction="top" css="tooltipPopup rounded-lg"> 
+                        {/* css="tooltipPopup" is required. Edit background color on tooltip.css */}
 
 
                       { pst.title ? 
