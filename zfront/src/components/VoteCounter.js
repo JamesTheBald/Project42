@@ -9,7 +9,8 @@ const VoteCounter = (props) => {
   const setUserVoted = props.setUserVoted;
   let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
-  const index = props.index
+  const index = props.index // the context & value of "index" changes whether VoteCounter
+                            // is opened in MainModal.js or RenderStubs.js
 
 
   const handleVoteCountChange = () => {

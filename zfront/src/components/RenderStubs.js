@@ -3,8 +3,12 @@ import Tooltip from "./Tooltip";
 import PopupContent from "./PopupContent";
 import Draggable from "react-draggable"
 import VoteCounter from "./VoteCounter";
+<<<<<<< HEAD
 import updatePositionOnDB from "../functions/updatePositionOnDB";
 
+=======
+import { GiChiliPepper } from "react-icons/gi"
+>>>>>>> 25be113f5b5e325dd00ed4b7afb66a14e3853579
 
 const RenderStubs = (props) => {
 
@@ -20,6 +24,7 @@ const RenderStubs = (props) => {
 
   // const bounds = { bottom: 0, right: 0 };
 
+<<<<<<< HEAD
   // let userVoted = props.userVoted;
   // const setUserVoted = props.userVoted;
 
@@ -29,6 +34,8 @@ const RenderStubs = (props) => {
   //   defaultPosn = {x:100,y:100};
   // }, [])
 
+=======
+>>>>>>> 25be113f5b5e325dd00ed4b7afb66a14e3853579
 
   const handleOnStop = (post, index) => (event, data) => {    // Currying! Spicy! 
     // https://www.carlrippon.com/using-currying-to-pass-additional-data-to-react-event-handlers/
@@ -94,6 +101,34 @@ const RenderStubs = (props) => {
                         <div> Click to edit </div>
                       }
                       <div className="mt-2">{post.contributors}</div>
+
+
+                      <div className="flex justify-end">{
+                        (post.spiciness === "") ?
+                        <></>
+                        :
+                        (post.spiciness === "mild") ?
+                        <>
+                          <GiChiliPepper size="20" className="text-green-600"/>
+                        </>
+                        :
+                        (post.spiciness === "medium") ?
+                        <>
+                          <GiChiliPepper size="20" className="text-yellow-500"/>
+                          <GiChiliPepper size="20" className="text-yellow-500"/>
+                        </>
+                        :
+                        (post.spiciness === "spicy") ?
+                        <>
+                          <GiChiliPepper size="20" className="text-red-500"/>
+                          <GiChiliPepper size="20" className="text-red-500"/>
+                          <GiChiliPepper size="20" className="text-red-500"/>
+                        </>
+                        :
+                        <></>
+                      }
+                      </div>
+                      
                       <VoteCounter
                         postingsDataArray = {postingsDataArray}
                         userVoted = {userVoted}
