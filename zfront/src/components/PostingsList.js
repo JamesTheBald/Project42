@@ -67,7 +67,6 @@ const PostingsList = () => {
         setPostDraft = {setPostDraft}
       />
 
-
       <RenderStubs
         postingsDataArray = {postingsDataArray}
         currPostIndex = {currPostIndex}
@@ -81,7 +80,7 @@ const PostingsList = () => {
         setUserVoted = {setUserVoted}
       />
 
-      {showMainModal ? 
+      {showMainModal && 
         <MainModal 
           showMainModal = {showMainModal}
           setShowMainModal = {setShowMainModal}
@@ -95,9 +94,7 @@ const PostingsList = () => {
           userVoted = {userVoted}
           setUserVoted = {setUserVoted}
         />
-        : ( <></> )
       }
-        {/* <HomeButtonProvider />  */}  {/* For testing DnD coordinate reporting by react-draggable */}
 
         <Button 
           variant="outline-danger"
