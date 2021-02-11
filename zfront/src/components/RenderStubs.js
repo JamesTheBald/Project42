@@ -3,6 +3,7 @@ import Tooltip from "./Tooltip";
 import PopupContent from "./PopupContent";
 import Draggable from "react-draggable"
 import VoteCounter from "./VoteCounter";
+import { GiChiliPepper } from "react-icons/gi"
 
 const RenderStubs = (props) => {
 
@@ -17,9 +18,6 @@ const RenderStubs = (props) => {
   let oldPosition = useRef( {x:100,y:100} );
 
   // const bounds = { bottom: 0, right: 0 };
-
-  // let userVoted = props.userVoted;
-  // const setUserVoted = props.userVoted;
 
 
   const handlerOnStop = (post, index) => (event, data) => {    // Currying! Spicy! 
@@ -77,6 +75,34 @@ const RenderStubs = (props) => {
                         <div> Click to edit </div>
                       }
                       <div className="mt-2">{post.contributors}</div>
+
+
+                      <div className="flex justify-end">{
+                        (post.spiciness === "") ?
+                        <></>
+                        :
+                        (post.spiciness === "mild") ?
+                        <>
+                          <GiChiliPepper size="20" className="text-green-600"/>
+                        </>
+                        :
+                        (post.spiciness === "medium") ?
+                        <>
+                          <GiChiliPepper size="20" className="text-yellow-500"/>
+                          <GiChiliPepper size="20" className="text-yellow-500"/>
+                        </>
+                        :
+                        (post.spiciness === "spicy") ?
+                        <>
+                          <GiChiliPepper size="20" className="text-red-500"/>
+                          <GiChiliPepper size="20" className="text-red-500"/>
+                          <GiChiliPepper size="20" className="text-red-500"/>
+                        </>
+                        :
+                        <></>
+                      }
+                      </div>
+                      
                       <VoteCounter
                         postingsDataArray = {postingsDataArray}
                         userVoted = {userVoted}
