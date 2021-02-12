@@ -8,7 +8,7 @@ const updatePostOnDB = (postDraft, currPostIndex) => {
 
     return PostingAxios.update(postDraft._id, postDraft)
       .then((response) => {
-        console.log("updatePostOnDB.js: after sending post to DB, response=", response);
+        console.log("updatePostOnDB.js: after sending post to DB, response msg=", response.data);
       })
       .catch((err) => {
         console.log("updatePostOnDB error:", err);
