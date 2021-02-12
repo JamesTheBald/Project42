@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 // import { BrowserRouter } from "react-router-dom";   // C: How does this library work?
-import 'semantic-ui-css/semantic.min.css';
 import './styles/tailwind.css';
 import * as serviceWorker from "./services/serviceWorker"; 
 

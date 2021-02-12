@@ -59,7 +59,7 @@ const RenderStubsDraggable = (props) => {
 
           return (
             <div key={index}
-                className="w-64 my-2 absolute"
+                className="w-64 my-2 absolute z-20"
             >
 
               <Draggable

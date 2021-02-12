@@ -60,7 +60,7 @@ const PostingsList = () => {
         setPostDraft={setPostDraft}
       />
 
-      <div className="absolute h-200">
+      <div className=" w-full h-200">
 
         <RenderStubsDraggable
           postingsDataArray={postingsDataArray}
