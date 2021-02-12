@@ -84,7 +84,7 @@ const RenderStubs = (props) => {
                 defaultPosition = {defaultPosn}
               >
   
-                  <div className="border p-2 border-gray-800 rounded-lg">
+                  <div className="p-2 border border-gray-800 rounded-lg bg-gray-200">
                     <Tooltip content={PopupContent(post)} delay="200" direction="top" css="tooltipPopup rounded-lg"> 
                         {/* css="tooltipPopup" is required. Edit background color on tooltip.css */}
 
