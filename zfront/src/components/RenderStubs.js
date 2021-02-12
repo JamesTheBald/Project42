@@ -4,6 +4,7 @@ import PopupContent from "./PopupContent";
 import Draggable from "react-draggable"
 import VoteCounter from "./VoteCounter";
 import updatePositionOnDB from "../functions/updatePositionOnDB";
+import { GiChiliPepper } from "react-icons/gi";
 
 
 const RenderStubs = (props) => {
