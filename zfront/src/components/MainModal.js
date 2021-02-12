@@ -35,12 +35,7 @@ const MainModal = (props) => {
   // useEffect(() => {
   //   const listener = event => {
   //     if (event.code === "Enter" || event.code === "NumpadEnter") {
-  //       console.log("MainModal.js Enter key was pressed.");
-  //       console.log("MainModal.js useEffect postDraft=", postDraft);
-  //       console.log("MainModal.js useEffect postingsDataArray=", postingsDataArray);
-  //       console.log("MainModal.js useEffect creatingPostFlag=", creatingPostFlag);
-        
-  //       submitPost(emptyPost, postDraft, postingsDataArray, setPostingsDataArray, currPostIndex, setShowMainModal, creatingPostFlag)
+  //      set flag
   //     }
   //   };
   //   document.addEventListener("keydown", listener);
@@ -71,6 +66,7 @@ const MainModal = (props) => {
   // };
 
 
+  // Switch focus to next input field when Enter is pressed
   function handleEnter(evnt) {    // From: https://stackoverflow.com/questions/38577224/focus-on-next-field-when-pressing-enter-react-js
     if (evnt.keyCode === 13) {
       const form = evnt.target.form;

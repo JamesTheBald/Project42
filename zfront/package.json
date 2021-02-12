@@ -18,8 +18,6 @@
     "react-icons": "^4.1.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^4.0.1",
-    "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^2.0.2",
     "suneditor-react": "^2.15.2",
     "tailwindcss": "^2.0.2"
   },
