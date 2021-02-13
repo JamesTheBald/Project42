@@ -11,11 +11,12 @@ import removeAllPostings from "../functions/removeAllPostings";
 const emptyPost = {
   title: "",
   contributors: "",
-  content: "",
   tags: "",
   contentType: "",
   spiciness: "",
   upvotes: 0,
+  content: "",
+  purpose: "",
   positionX: 0,
   positionY: 0,
 };

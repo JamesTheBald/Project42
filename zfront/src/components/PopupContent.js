@@ -10,6 +10,7 @@ const PopupContent = (props) => {
           <div> Click to edit </div>
         }
         <div className="mt-2">{props.contributors}</div>
+        <div>{props.purpose}</div>
       </div>
     </>
   )

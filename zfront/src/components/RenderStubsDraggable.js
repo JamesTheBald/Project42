@@ -2,7 +2,9 @@ import React, { useRef } from "react";
 import Draggable from "react-draggable"
 import VoteCounter from "./VoteCounter";
 import updatePositionOnDB from "../functions/updatePositionOnDB";
-import RenderSpiciness from "./RenderSpiciness"
+import RenderSpiciness from "./RenderSpiciness";
+// import Tooltip from "./Tooltip";
+// import PopupContent from "./PopupContent";
 
 
 const RenderStubsDraggable = (props) => {
@@ -68,56 +70,47 @@ const RenderStubsDraggable = (props) => {
                 allowAnyClick = {true}
                 defaultPosition = {defaultPosn}
               >
-  
-                <div 
-                  name="post-stub"
-                  className="flex border-2 border-gray-600 rounded-lg bg-gray-200 shadow-md"
-                >
-                  {/* bg-gray-200 */}
-                  {/* <Tooltip content={PopupContent(post)} delay="200" direction="top" css="tooltipPopup rounded-lg">  */}
-                      {/* css="tooltipPopup" is required. Edit background color on tooltip.css */}
-
-
-
-                  <div
-                    name="title-contributor-container"
-                    className="w-3/4 p-2 flex flex-col justify-between border-r-2 border-gray-600"
+                {/* <Tooltip content={PopupContent(post)} delay="200" direction="top" css="tooltipPopup rounded-lg"> */}
+                  <div 
+                    name="post-stub"
+                    className="flex border-2 border-gray-600 rounded-lg bg-gray-200 shadow-md"
                   >
-                    { post.title ? 
-                      <div className="font-medium text-sm line-clamp-2">{post.title}</div>
-                      :
-                      <div>Click to edit</div>
-                    }
-                    <div className="mt-2 text-gray-500 text-xs">{post.contributors}</div>
-                  </div>
 
 
-
-                  <div
-                    name="stub-attribute-container"
-                    className="w-1/4 flex flex-col items-center justify-center"
-                  >
                     
-                    <div className="text-gray-500 text-xs p-2">{post.contentType}</div>
+                    <div
+                      name="title-contributor-container"
+                      className="w-3/4 p-2 flex flex-col justify-between border-r-2 border-gray-600"
+                    >
+                      { post.title ? 
+                        <div className="font-medium text-sm line-clamp-2">{post.title}</div>
+                        :
+                        <div>Click to edit</div>
+                      }
+                      <div className="mt-2 text-gray-500 text-xs">{post.contributors}</div>
+                    </div>
 
-                    <RenderSpiciness spiciness = {post.spiciness}/>
 
-                    <div className="p-2">
-                      <VoteCounter
-                        postingsDataArray = {postingsDataArray}
-                        userVoted = {userVoted}
-                        setUserVoted = {setUserVoted}
-                        postDraft = {postDraft}
-                        setPostDraft = {setPostDraft}
-                        index = {index}
-                      />
+
+                    <div
+                      name="stub-attribute-container"
+                      className="w-1/4 flex flex-col items-center justify-center"
+                    >
+                      <div className="text-gray-500 text-xs p-2">{post.contentType}</div>
+                      <RenderSpiciness spiciness = {post.spiciness}/>
+                      <div className="p-2">
+                        <VoteCounter
+                          postingsDataArray = {postingsDataArray}
+                          userVoted = {userVoted}
+                          setUserVoted = {setUserVoted}
+                          postDraft = {postDraft}
+                          setPostDraft = {setPostDraft}
+                          index = {index}
+                        />
+                      </div>
                     </div>
                   </div>
-
-                  {/* </Tooltip> */}
-                  
-                </div>
-
+                {/* </Tooltip> */}
               </Draggable>
             </div>
           );

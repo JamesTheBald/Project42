@@ -152,14 +152,7 @@ const MainModal = (props) => {
             />
           </div>
 
-
-          <RichTextEditor
-            postDraft={postDraft}
-            setPostDraft={setPostDraft}
-            required
-          />
-
-
+          
           <div className="flex flex-row items-center p-1 mt-2">
             <div className="font-500">Content Type:</div>
             <input
@@ -194,6 +187,26 @@ const MainModal = (props) => {
               setPostDraft = {setPostDraft}
               userVoted = {userVoted}
               setUserVoted = {setUserVoted}
+            />
+          </div>
+
+
+          <RichTextEditor
+            postDraft={postDraft}
+            setPostDraft={setPostDraft}
+            required
+          />
+
+          <div className="flex flex-col w-full p-1 mt-2">
+            <div className="font-500">Purpose:</div>
+            <textarea
+              name="purpose"
+              type="text"
+              required
+              className="w-full p-2"
+              value={postDraft.purpose}
+              placeholder="What does your post help its readers accomplish?"
+              onChange={handleInputChange}
             />
           </div>
 
