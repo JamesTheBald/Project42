@@ -2,7 +2,7 @@ import React, { useState, useEffect, Component } from "react";
 import Button from "react-bootstrap/Button";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-import Navbar from "./Navbar";
+import NavBar from "./NavBar";
 import MainModal from "./MainModal";
 import RenderStubsDraggable from "./RenderStubsDraggable";
 import RenderStubsNonDraggable from "./RenderStubsNonDraggable";
@@ -78,7 +78,7 @@ const PostingsList = () => {
   return (
     <>
 
-      <Navbar
+      <NavBar
         emptyPost={emptyPost}
         showWelcomeModal={showWelcomeModal}
         setShowWelcomeModal={setShowWelcomeModal}

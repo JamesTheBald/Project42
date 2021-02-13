@@ -9,7 +9,7 @@ import onClickFindByTags from "../functions/onClickFindByTag";
 import onClickFindByName from "../functions/onClickFindByName";
 
 
-const Navbar = (props) => {
+const NavBar = (props) => {
 
   const [searchTitle, setSearchTitle] = useState("");
   const [searchTags, setSearchTags] = useState("");
@@ -159,5 +159,5 @@ const Navbar = (props) => {
   )
 }
 
-export default Navbar;
+export default NavBar;
 
