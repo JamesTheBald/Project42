@@ -1,6 +1,9 @@
 // Built by following video at https://tailwindcss.com/course/setting-up-tailwind-and-postcss
 
 module.exports = {
+  
+  important: true,
+
    future: {
       // removeDeprecatedGapUtilities: true,
       // purgeLayersByDefault: true,

@@ -35,12 +35,7 @@ const MainModal = (props) => {
   // useEffect(() => {
   //   const listener = event => {
   //     if (event.code === "Enter" || event.code === "NumpadEnter") {
-  //       console.log("MainModal.js Enter key was pressed.");
-  //       console.log("MainModal.js useEffect postDraft=", postDraft);
-  //       console.log("MainModal.js useEffect postingsDataArray=", postingsDataArray);
-  //       console.log("MainModal.js useEffect creatingPostFlag=", creatingPostFlag);
-        
-  //       submitPost(emptyPost, postDraft, postingsDataArray, setPostingsDataArray, currPostIndex, setShowMainModal, creatingPostFlag)
+  //      set flag
   //     }
   //   };
   //   document.addEventListener("keydown", listener);
@@ -71,6 +66,7 @@ const MainModal = (props) => {
   // };
 
 
+  // Switch focus to next input field when Enter is pressed
   function handleEnter(evnt) {    // From: https://stackoverflow.com/questions/38577224/focus-on-next-field-when-pressing-enter-react-js
     if (evnt.keyCode === 13) {
       const form = evnt.target.form;
@@ -109,15 +105,13 @@ const MainModal = (props) => {
             />
           </>
 
-          <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">
-              <FaRegUser size="24"/>
-            </div>        {/* font-500 is James' Tailwind for bold */}
+          <div className="flex flex-row items-center p-1 mt-2">
+            <FaRegUser size="24"/>
             <input
               name="contributors"
               type="text"
               required
-              className="modalField"
+              className="modalField p-2"
               placeholder="(Firstname, last Initial)"
               value={postDraft.contributors}
               onChange={handleInputChange}
@@ -144,10 +138,8 @@ const MainModal = (props) => {
             <></>
           }
 
-          <div className="flex flex-row items-baseline p-1 mt-2">
-            <div className="font-500">
-              <AiOutlineTags size="26"/>
-            </div>
+          <div className="flex flex-row items-center p-1 mt-2">
+            <AiOutlineTags size="30"/>
             <input
               name="tags"
               type="text"
