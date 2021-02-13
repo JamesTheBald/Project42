@@ -30,7 +30,7 @@ const RenderStubsNonDraggable = (props) => {
 
                 <div
                   style={{ top: post.positionY, left: post.positionX}}    // , zIndex: -1 
-                  className="w-64 my-2 absolute p-2 border border-gray-800 rounded-lg bg-red-200 z-10"
+                  className="flex border-2 border-gray-600 rounded-lg bg-red-200 shadow-md w-64 my-2 absolute z-10"
                   onClick={ () => {
                     setCreatingPostFlag(false);
                     setCurrPostIndex(index);
@@ -38,19 +38,43 @@ const RenderStubsNonDraggable = (props) => {
                     setShowMainModal(true);
                 }}>
 
-                  {post.title ? <div>{post.title}</div> : <div> Click to edit </div>}
-                  <div className="mt-2">{post.contributors}</div>
 
-                  <RenderSpiciness spiciness={post.spiciness} />
+                  <div
+                    name="title-contributor-container"
+                    className="w-3/4 p-2 flex flex-col justify-between border-r-2 border-gray-600"
+                  >
+                    {post.title ? 
+                    <div className="font-medium text-sm line-clamp-2">{post.title}</div>
+                    :
+                    <div> Click to edit </div>
+                    }
+                    <div className="mt-2 text-gray-500 text-xs">{post.contributors}</div>
+                  </div>
 
-                  <VoteCounter
-                    postingsDataArray={postingsDataArray}
-                    userVoted={userVoted}
-                    setUserVoted={setUserVoted}
-                    postDraft={postDraft}
-                    setPostDraft={setPostDraft}
-                    index={index}
-                  />
+
+
+                  <div
+                    name="stub-attribute-container"
+                    className="w-1/4 flex flex-col items-center justify-center"
+                  >
+                    <div className="text-gray-500 text-xs p-2">{post.contentType}</div>
+
+                    <RenderSpiciness spiciness={post.spiciness} />
+
+                    <div className="p-2">
+                      <VoteCounter
+                        postingsDataArray = {postingsDataArray}
+                        userVoted = {userVoted}
+                        setUserVoted = {setUserVoted}
+                        postDraft = {postDraft}
+                        setPostDraft = {setPostDraft}
+                        index = {index}
+                      />
+                    </div>
+                  </div>
+
+
+
                 </div>
               </Tooltip>
             </div>

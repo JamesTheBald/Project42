@@ -32,15 +32,18 @@ const VoteCounter = (props) => {
 
   return (
     <>
-      <div name="upvote-container" className="flex items-center justify-end">
+      <div
+        name="upvote-container"
+        className={(index > -1) ? "flex items-center justify-center text-gray-500 text-xs" : "flex items-center justify-center text-gray-500"}
+      >
         {   // using the .map index from line 27 of RenderStubs.js as our flag (and as an index)
           (index === -1) ?                    // index should = -1 when VoteCounter is invoked from MainModal.js
             <div> { postDraft.upvotes } </div>
           :
             <div> { postingsDataArray[index].upvotes } </div>
         }
-        <div onClick = { () => handleVoteCountChange()} className="p-2">
-          <BiUpArrow />
+        <div onClick = { () => handleVoteCountChange()}>
+          <BiUpArrow/>
         </div>
       </div>
     </>
@@ -49,3 +52,6 @@ const VoteCounter = (props) => {
 
 
 export default VoteCounter;
+
+
+
