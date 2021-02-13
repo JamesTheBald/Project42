@@ -62,6 +62,7 @@ module.exports = {
          mono: ['Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'],
       },
 
+
       extend: {
    
          colors: {
@@ -130,5 +131,5 @@ module.exports = {
       }
    },
    variants: {},
-   plugins: [],
+   plugins: [require("@tailwindcss/line-clamp")],
 }
