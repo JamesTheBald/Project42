@@ -3,8 +3,8 @@ import Button from "react-bootstrap/Button";
 
 import Navbar from "./Navbar";
 import MainModal from "./MainModal";
-import RenderStubsDraggable from "./RenderStubsDraggable"; 
-import RenderStubsNonDraggable from "./RenderStubsNonDraggable"; 
+import RenderStubsDraggable from "./RenderStubsDraggable";
+import RenderStubsNonDraggable from "./RenderStubsNonDraggable";
 import retrievePostings from "../functions/retrievePostings";
 import removeAllPostings from "../functions/removeAllPostings";
 
@@ -28,14 +28,20 @@ const PostingsList = () => {
   const [postDraft, setPostDraft] = useState(emptyPost);
   const [creatingPostFlag, setCreatingPostFlag] = useState(false);
   const [userVoted, setUserVoted] = useState(false);
-
-  useEffect(() => {
-    window.addEventListener("contextmenu", (evnt) => evnt.preventDefault(), false);
-    return () => window.removeEventListener("contextmenu", (evnt) => evnt.preventDefault(), false);
-  }, []);
+  const [dragMode, setDragMode] = useState(false);
 
   // console.log("PostingsList.js begins: creatingPostFlag=", creatingPostFlag);
   console.log("PostingsList.js begins: postDraft=", postDraft);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
+    };
+  });
 
   // Retrive the data from DB into postingsDataArray, so postingsDataArray is never null
   if (!postingsDataArray) {
@@ -45,6 +51,19 @@ const PostingsList = () => {
     setPostingsDataArray([emptyPost]);
     retrievePostings(setPostingsDataArray, emptyPost);
   }
+
+  const handleKeyDown = (event) => {
+    console.log("handleKeyDown event.key=", event.key);
+    if (event.key === "Control") {
+      setDragMode(true);
+    }
+  };
+
+  const handleKeyUp = (event) => {
+    if (event.key === "Control") {
+      setDragMode(false);
+    }
+  };
 
   return (
     <>
@@ -61,7 +80,6 @@ const PostingsList = () => {
       />
 
       <div className=" w-full h-200">
-
         <RenderStubsDraggable
           postingsDataArray={postingsDataArray}
           currPostIndex={currPostIndex}
@@ -104,6 +122,12 @@ const PostingsList = () => {
           />
         )}
       </div>
+
+      { dragMode ?
+        <div>DRAG TIME!</div>
+        :
+        <div>Zoom around</div>
+      }
 
       <Button
         variant="outline-danger"
