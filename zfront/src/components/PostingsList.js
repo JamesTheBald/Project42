@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react"; //, Component
+import React, { useState, useEffect, useRef } from "react"; //, Component
 import Button from "react-bootstrap/Button";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 import NavBar from "./NavBar";
 import MainModal from "./MainModal";
 import RenderStubsDraggable from "./RenderStubsDraggable";
-import RenderStubsNonDraggable from "./RenderStubsNonDraggable";
 import retrievePostings from "../functions/retrievePostings";
 import removeAllPostings from "../functions/removeAllPostings";
-import ZoomControls from "./ZoomControls";
+// import ZoomControls from "./ZoomControls";
+import DragModeZoomPanStubs from "./DragModeZoomPanStubs";
 
 
 const emptyPost = {
@@ -23,13 +22,6 @@ const emptyPost = {
   positionY: 0,
 };
 
-// const stubArray = [
-//   { title: "Git Merge tutorial", contributors: "Collin A, James M, Yemi O", fromTop: "78.5%", fromLeft: "19%" },
-//   { title: "Git Introduction", contributors: "Granger, H", fromTop: "80%", fromLeft: "20%" },
-//   { title: "Git is Sh*t", contributors: "Just Sayin", fromTop: "82%", fromLeft: "18%" },
-//   { title: "VS Code Git Tools", contributors: "Smith, J", fromTop: "77%", fromLeft: "20.5%" },
-//   { title: "Useful VS Code Extensions", contributors: "Murphy, J", fromTop: "73%", fromLeft: "22%" },
-// ];
 
 const PostingsList = () => {
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
@@ -40,9 +32,37 @@ const PostingsList = () => {
   const [creatingPostFlag, setCreatingPostFlag] = useState(false);
   const [userVoted, setUserVoted] = useState(false);
   const [dragMode, setDragMode] = useState(false);
+  const [zoomScale, setZoomScale] = useState(0.5);
+  const [positionX, setPositionX] = useState(0);
+  const [positionY, setPositionY] = useState(0);
+
+  const ref = useRef(null);
+
+  function updateZoomPan(stats) {
+    console.log("PostingsList.js updateZoomPan() stats=", stats);
+    setZoomScale(stats.scale);
+    setPositionX(stats.positionX);
+    setPositionY(stats.positionY);
+  }
 
   // console.log("PostingsList.js begins: creatingPostFlag=", creatingPostFlag);
   console.log("PostingsList.js begins: postDraft=", postDraft);
+  // console.log("PostingsList.js begins: zoomScale=", zoomScale);
+
+  // useEffect(() => {
+  //   console.log("PostingsList.js useEffect zoomScale=", zoomScale);
+  //   console.log("PostingsList.js useEffect ref.current.style=", ref.current.style);
+  //   ref.current.style.transform = `scale(${zoomScale})`;
+  // }, [zoomScale]);
+
+  useEffect(() => {
+    console.log("PostingsList.js useEffect zoomScale=", zoomScale);
+    console.log("PostingsList.js useEffect ref.current =", ref.current);
+
+    ref.current.style.transform = `scale(${zoomScale}) translate(${positionX}px, ${positionY}px)`;
+  }, [zoomScale, positionX, positionY]);
+
+
 
   useEffect(() => {
     // from: https://stackoverflow.com/questions/59546928/keydown-up-events-with-react-hooks-not-working-properly
@@ -52,75 +72,28 @@ const PostingsList = () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
     };
-  });
-
-  // Suppress context menu from opening
-  useEffect(() => {
-    window.addEventListener("contextmenu", (evnt) => evnt.preventDefault(), false);
-    return () => window.removeEventListener("contextmenu", (evnt) => evnt.preventDefault(), false);
   }, []);
+
+  const handleKeyDown = (event) => {
+    console.log("handleKeyDown event.key=", event.key);
+    if (event.key === "Shift") {
+      setDragMode(true);
+    }
+  };
+  const handleKeyUp = (event) => {
+    if (event.key === "Shift") setDragMode(false);
+    console.log("PostingsList.js handleKeyUp() zoomScale=", zoomScale);
+  };
 
   // Retrive the data from DB into postingsDataArray, so postingsDataArray is never null
   if (!postingsDataArray) {
-    console.log(
-      "postingsDataArray is falsy so retrieving the data from the DB. And in the interim setting it to [emptyPost]"
-    );
+    console.log("postingsDataArray is falsy so retrieving it from the DB. In the interim setting it to [emptyPost]");
     setPostingsDataArray([emptyPost]);
     retrievePostings(setPostingsDataArray, emptyPost);
   }
 
-  const handleKeyDown = (event) => {
-    console.log("handleKeyDown event.key=", event.key);
-    if (event.key === "Control") {
-      setDragMode(true);
-    }
-  };
 
-  const handleKeyUp = (event) => {
-    if (event.key === "Control") {
-      setDragMode(false);
-    }
-  };
-
-  const StubsNonDraggableZoomPan = (props) => {
-    let positionX = props.positionX;
-    let positionY = props.positionY;
-    let scale = props.scale;
-    const zoomIn = props.zoomIn;
-    const zoomOut = props.zoomOut;
-    const setTransform = props.setTransform;
-
-    return (
-      <>
-        <ZoomControls
-          scale={scale}
-          zoomIn={zoomIn}
-          zoomOut={zoomOut}
-          setTransform={setTransform}
-          positionX={positionX}
-          positionY={positionY}
-        />
-
-        <TransformComponent>
-          <div className="backdrop">
-            <RenderStubsNonDraggable
-              postingsDataArray={postingsDataArray}
-              currPostIndex={currPostIndex}
-              setCurrPostIndex={setCurrPostIndex}
-              showMainModal={showMainModal}
-              setShowMainModal={setShowMainModal}
-              postDraft={postDraft}
-              setPostDraft={setPostDraft}
-              setCreatingPostFlag={setCreatingPostFlag}
-              userVoted={userVoted}
-              setUserVoted={setUserVoted}
-            />
-          </div>
-        </TransformComponent>
-      </>
-    );
-  };
-
+  // MAIN PostingsList RETURN
   return (
     <>
       <NavBar
@@ -135,43 +108,51 @@ const PostingsList = () => {
         setPostDraft={setPostDraft}
       />
 
+      {/* <div className="flex flex-row">
+        <div> Scale = {zoomScale}</div>
+        <div> positionX = {positionX}</div>
+        <div> positionY = {positionY}</div>
+      </div> */}
+
       {/* Draggable mode */}
-      {dragMode && (
-        <RenderStubsDraggable
-          postingsDataArray={postingsDataArray}
-          currPostIndex={currPostIndex}
-          setCurrPostIndex={setCurrPostIndex}
-          showMainModal={showMainModal}
-          setShowMainModal={setShowMainModal}
-          postDraft={postDraft}
-          setPostDraft={setPostDraft}
-          setCreatingPostFlag={setCreatingPostFlag}
-          userVoted={userVoted}
-          setUserVoted={setUserVoted}
-        />
-      )}
+
+        <div ref={ref} className="backdrop absolute opacity-50" style={{ zIndex: -10 }}>
+
+          {dragMode && (
+            <RenderStubsDraggable
+              postingsDataArray={postingsDataArray}
+              setCurrPostIndex={setCurrPostIndex}
+              setShowMainModal={setShowMainModal}
+              postDraft={postDraft}
+              setPostDraft={setPostDraft}
+              setCreatingPostFlag={setCreatingPostFlag}
+              userVoted={userVoted}
+              setUserVoted={setUserVoted}
+            />
+          )}
+        </div>
 
       {/* ZoomPan mode */}
       {!dragMode && (
-        <TransformWrapper
-          defaultScale={0.5}
-          defaultPositionX={0}
-          defaultPositionY={0}
-          enablePadding={false}
-          wheel={{
-            step: 160,
-          }}
-          options={{
-            // See "Options prop elements" on https://www.npmjs.com/package/react-draggable
-            minScale: 0.25,
-            maxScale: 15,
-            centerContent: false,
-            limitToBounds: false,
-          }}>
-          {(props) => <StubsNonDraggableZoomPan {...props} />}
-        </TransformWrapper>
+        <DragModeZoomPanStubs
+          updateZoomPan = { updateZoomPan }
+          zoomScale = { zoomScale }
+          positionX = { positionX }
+          positionY = { positionY }
+          postingsDataArray = { postingsDataArray }
+          currPostIndex = { currPostIndex }
+          setCurrPostIndex = { setCurrPostIndex }
+          showMainModal = { showMainModal }
+          setShowMainModal = { setShowMainModal }
+          postDraft = { postDraft }
+          setPostDraft = { setPostDraft }
+          setCreatingPostFlag = { setCreatingPostFlag }
+          userVoted = { userVoted }
+          setUserVoted = { setUserVoted }
+        />
       )}
 
+      {/* Both modes, but often hidden */}
       {showMainModal && (
         <MainModal
           showMainModal={showMainModal}
