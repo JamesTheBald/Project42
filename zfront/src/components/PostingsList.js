@@ -37,6 +37,8 @@ const PostingsList = () => {
   const [positionY, setPositionY] = useState(0);
 
   const ref = useRef(null);
+  const imageWidth = 3840;
+  const imageHeight = 2160;
 
   function updateZoomPan(stats) {
     console.log("PostingsList.js updateZoomPan() stats=", stats);
@@ -49,17 +51,14 @@ const PostingsList = () => {
   console.log("PostingsList.js begins: postDraft=", postDraft);
   // console.log("PostingsList.js begins: zoomScale=", zoomScale);
 
-  // useEffect(() => {
-  //   console.log("PostingsList.js useEffect zoomScale=", zoomScale);
-  //   console.log("PostingsList.js useEffect ref.current.style=", ref.current.style);
-  //   ref.current.style.transform = `scale(${zoomScale})`;
-  // }, [zoomScale]);
 
   useEffect(() => {
     console.log("PostingsList.js useEffect zoomScale=", zoomScale);
     console.log("PostingsList.js useEffect ref.current =", ref.current);
-
-    ref.current.style.transform = `scale(${zoomScale}) translate(${positionX}px, ${positionY}px)`;
+    let adjustedPositionX = imageWidth/2 - imageWidth/(2*zoomScale) + positionX/zoomScale;
+    let adjustedPositionY = imageHeight/2 - imageHeight/(2*zoomScale) + positionY/zoomScale;
+    
+    ref.current.style.transform = `scale(${zoomScale}) translate(${adjustedPositionX}px, ${adjustedPositionY}px)`;
   }, [zoomScale, positionX, positionY]);
 
 
