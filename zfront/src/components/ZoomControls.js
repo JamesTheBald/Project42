@@ -1,8 +1,8 @@
 import React from "react";
 
 const ZoomControls = (props) => {
-    // let positionX = props.positionX;
-  // let positionY = props.positionY;
+  let positionX = props.positionX;
+  let positionY = props.positionY;
   let scale = props.scale;
   const zoomIn = props.zoomIn;
   const zoomOut = props.zoomOut;
@@ -11,19 +11,24 @@ const ZoomControls = (props) => {
   return (
     <div>
       <nav className="flex flex-row">
-        {/* <div className="controls"> x: {positionX}, y: {positionY} </div> */}
         <div className="controls">Scale: {scale} </div>
-        <button className="controls" onClick={zoomIn}>
-          {" "}
-          {/* zoomIn is a callback fn passed down from TransformWrapper */}+
+
+        <div className="controls">x: {positionX}, y: {positionY} </div>
+
+        {/* zoomIn is a callback fn passed down from TransformWrapper */}
+        <button onClick={zoomIn} className="controls">
+          +
         </button>
-        <button className="controls" onClick={zoomOut}>
+
+        <button onClick={zoomOut} className="controls">
           -
         </button>
-        <button className="controls" onClick={() => setTransform(0, 0, 0.5, 200, "easeOut")}>
+
+        <button onClick={() => setTransform(0, 0, 0.5, 200, "easeOut")} className="controls">
           Reset
         </button>{" "}
         {/* setTransform arguments: (positionX, positionY, scale, animationTime, animationType) */}
+        
       </nav>
     </div>
   );

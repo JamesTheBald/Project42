@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect } from "react"; //, Component
 import Button from "react-bootstrap/Button";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
@@ -8,6 +8,8 @@ import RenderStubsDraggable from "./RenderStubsDraggable";
 import RenderStubsNonDraggable from "./RenderStubsNonDraggable";
 import retrievePostings from "../functions/retrievePostings";
 import removeAllPostings from "../functions/removeAllPostings";
+import ZoomControls from "./ZoomControls";
+
 
 const emptyPost = {
   title: "",
@@ -29,7 +31,6 @@ const emptyPost = {
 //   { title: "Useful VS Code Extensions", contributors: "Murphy, J", fromTop: "73%", fromLeft: "22%" },
 // ];
 
-
 const PostingsList = () => {
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [showMainModal, setShowMainModal] = useState(false);
@@ -44,14 +45,20 @@ const PostingsList = () => {
   console.log("PostingsList.js begins: postDraft=", postDraft);
 
   useEffect(() => {
+    // from: https://stackoverflow.com/questions/59546928/keydown-up-events-with-react-hooks-not-working-properly
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
-
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
     };
   });
+
+  // Suppress context menu from opening
+  useEffect(() => {
+    window.addEventListener("contextmenu", (evnt) => evnt.preventDefault(), false);
+    return () => window.removeEventListener("contextmenu", (evnt) => evnt.preventDefault(), false);
+  }, []);
 
   // Retrive the data from DB into postingsDataArray, so postingsDataArray is never null
   if (!postingsDataArray) {
@@ -75,9 +82,47 @@ const PostingsList = () => {
     }
   };
 
+  const StubsNonDraggableZoomPan = (props) => {
+    let positionX = props.positionX;
+    let positionY = props.positionY;
+    let scale = props.scale;
+    const zoomIn = props.zoomIn;
+    const zoomOut = props.zoomOut;
+    const setTransform = props.setTransform;
+
+    return (
+      <>
+        <ZoomControls
+          scale={scale}
+          zoomIn={zoomIn}
+          zoomOut={zoomOut}
+          setTransform={setTransform}
+          positionX={positionX}
+          positionY={positionY}
+        />
+
+        <TransformComponent>
+          <div className="backdrop">
+            <RenderStubsNonDraggable
+              postingsDataArray={postingsDataArray}
+              currPostIndex={currPostIndex}
+              setCurrPostIndex={setCurrPostIndex}
+              showMainModal={showMainModal}
+              setShowMainModal={setShowMainModal}
+              postDraft={postDraft}
+              setPostDraft={setPostDraft}
+              setCreatingPostFlag={setCreatingPostFlag}
+              userVoted={userVoted}
+              setUserVoted={setUserVoted}
+            />
+          </div>
+        </TransformComponent>
+      </>
+    );
+  };
+
   return (
     <>
-
       <NavBar
         emptyPost={emptyPost}
         showWelcomeModal={showWelcomeModal}
@@ -90,7 +135,8 @@ const PostingsList = () => {
         setPostDraft={setPostDraft}
       />
 
-      <div className=" w-full h-200">
+      {/* Draggable mode */}
+      {dragMode && (
         <RenderStubsDraggable
           postingsDataArray={postingsDataArray}
           currPostIndex={currPostIndex}
@@ -103,42 +149,46 @@ const PostingsList = () => {
           userVoted={userVoted}
           setUserVoted={setUserVoted}
         />
+      )}
 
-        <RenderStubsNonDraggable
-          postingsDataArray={postingsDataArray}
-          currPostIndex={currPostIndex}
-          setCurrPostIndex={setCurrPostIndex}
+      {/* ZoomPan mode */}
+      {!dragMode && (
+        <TransformWrapper
+          defaultScale={0.5}
+          defaultPositionX={0}
+          defaultPositionY={0}
+          enablePadding={false}
+          wheel={{
+            step: 160,
+          }}
+          options={{
+            // See "Options prop elements" on https://www.npmjs.com/package/react-draggable
+            minScale: 0.25,
+            maxScale: 15,
+            centerContent: false,
+            limitToBounds: false,
+          }}>
+          {(props) => <StubsNonDraggableZoomPan {...props} />}
+        </TransformWrapper>
+      )}
+
+      {showMainModal && (
+        <MainModal
           showMainModal={showMainModal}
           setShowMainModal={setShowMainModal}
+          postingsDataArray={postingsDataArray}
+          setPostingsDataArray={setPostingsDataArray}
+          currPostIndex={currPostIndex} //C: currPostIndex points to the element in the postings array that we're interested in
+          setCurrPostIndex={setCurrPostIndex}
           postDraft={postDraft}
           setPostDraft={setPostDraft}
-          setCreatingPostFlag={setCreatingPostFlag}
+          creatingPostFlag={creatingPostFlag}
           userVoted={userVoted}
           setUserVoted={setUserVoted}
         />
+      )}
 
-        {showMainModal && (
-          <MainModal
-            showMainModal={showMainModal}
-            setShowMainModal={setShowMainModal}
-            postingsDataArray={postingsDataArray}
-            setPostingsDataArray={setPostingsDataArray}
-            currPostIndex={currPostIndex} //C: currPostIndex points to the element in the postings array that we're interested in
-            setCurrPostIndex={setCurrPostIndex}
-            postDraft={postDraft}
-            setPostDraft={setPostDraft}
-            creatingPostFlag={creatingPostFlag}
-            userVoted={userVoted}
-            setUserVoted={setUserVoted}
-          />
-        )}
-      </div>
-
-      { dragMode ?
-        <div>DRAG TIME!</div>
-        :
-        <div>Zoom around</div>
-      }
+      {dragMode ? <div>DRAG TIME!</div> : <div>Zoom around</div>}
 
       <Button
         variant="outline-danger"
