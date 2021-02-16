@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";    // , { useRef }
 import Draggable from "react-draggable";
 import PopupContent from "./PopupContent";
 import VoteCounter from "./VoteCounter";
@@ -15,24 +15,20 @@ const RenderStubsDraggable = (props) => {
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
   let stubDragged = props.stubDragged;
-  let oldPosition = useRef([]);
-
-  let initialPosn = {};
+ 
+  let oldX = [];
+  let oldY = [];
   stubDragged.current = false;
 
   
   //Open MainModal when stub is clicked without dragging
   const handleOnStop = (post, index) => (event, data) => {
-    // Currying! see https://www.carlrippon.com/using-currying-to-pass-additional-data-to-react-event-handlers/
-    // console.log("post=",post);  console.log("index=",index);  console.log("event=",event);  console.log("data=",data);
+    // Above line uses 'currying'. See https://www.carlrippon.com/using-currying-to-pass-additional-data-to-react-event-handlers/
     event.stopPropagation(); //J: I think this is important... don't want bubbling?
-
-    // Need to retrieve oldX and oldY for this post. Save it in an array referenced by index (in parallel to postingsDataArray)
-
     console.log("RenderStubsDraggable.js handleOnStop  x=", data.x, " y=", data.y);
-    console.log("RenderStubsDraggable.js old-x = ", oldPosition.current.x,"old-y = ",oldPosition.current.y);
+    console.log("RenderStubsDraggable.js oldX[",index,"] = ", oldX[index],", oldY[",index,"] = ",oldY[index]);
 
-    if (data.x === oldPosition.current.x && data.y === oldPosition.current.y) {
+    if (data.x === oldX[index] && data.y === oldY[index]) {
       console.log("RenderStubsDraggable.js handleOnStop: You just clicked (without dragging) - Opening MainModal");
       setCreatingPostFlag(false);
       setCurrPostIndex(index);
@@ -42,12 +38,12 @@ const RenderStubsDraggable = (props) => {
       post.positionX = data.x;
       post.positionY = data.y;
       updatePositionOnDB(post, index);
-      initialPosn = { x: post.positionX, y: post.positionY };
     }
-    oldPosition.current = { x: data.x, y: data.y };
+    oldX[index] = data.x;
+    oldY[index] = data.y;
+
     stubDragged.current = true;
   };
-
 
 
   console.log("RenderStubsDraggable.js before .map  postingsDataArray=", postingsDataArray);
@@ -56,16 +52,13 @@ const RenderStubsDraggable = (props) => {
     return (
       <>
         {postingsDataArray.map((post, index) => {
-          // console.log("RenderStubsDraggable .map: index=", index, " and post=", post);
-
-          
-
-          initialPosn = { x: post.positionX, y: post.positionY };
-          // console.log("RenderStub.js .map loop  index=", index, "defaultPosn=", defaultPosn)
+          // console.log("RenderStubsDraggable.js starting .map: post=",post, " and index=",index);
+          oldX[index] = post.positionX;
+          oldY[index] = post.positionY;
 
           return (
             <div key={index}>
-              <Draggable onStop={handleOnStop(post, index)} allowAnyClick={true} defaultPosition={initialPosn}>
+              <Draggable onStop={handleOnStop(post, index)} allowAnyClick={true} defaultPosition={{x: oldX[index], y: oldY[index]}}>
 
                 <div className="flex flex-col items-center absolute text-gray-800">
 
