@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
 import RichTextEditor from "./RichTextEditor";
+import ContentTypeSelector from "./ContentTypeSelector";
 import SpicinessSelector from "./SpicinessSelector";
 import VoteCounter from "./VoteCounter";
 import WarningModal from "./WarningModal";
@@ -25,6 +26,7 @@ const MainModal = (props) => {
   let creatingPostFlag = props.creatingPostFlag;
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
+
 
   const [showWarningModal, setShowWarningModal] = useState(false);
   let madeEdits = useRef();
@@ -158,8 +160,10 @@ const MainModal = (props) => {
               />
             </div>
 
+            <ContentTypeSelector postDraft={postDraft} setPostDraft={setPostDraft}></ContentTypeSelector>
+
           
-            <div className="flex flex-row items-center p-1 mt-2">
+            {/* <div className="flex flex-row items-center p-1 mt-2">
               <div className="font-500">Content Type:</div>
               <input
                 name="contentType"
@@ -171,7 +175,7 @@ const MainModal = (props) => {
                 onChange={handleInputChange}
                 onKeyDown={handleEnter}
               />
-            </div>
+            </div> */}
 
 
             <div className="flex flex-row justify-between items-center w-2/5 p-1 mt-2">
