@@ -1,5 +1,4 @@
-import React from "react";
-import Tooltip from "./Tooltip";
+import React, { useState, useEffect } from "react";
 import PopupContent from "./PopupContent";
 import VoteCounter from "./VoteCounter";
 import RenderSpiciness from "./RenderSpiciness";
@@ -14,7 +13,46 @@ const RenderStubsNonDraggable = (props) => {
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
 
-  console.log("RenderStubsNonDraggable.js postingsDataArray=", postingsDataArray);
+  const [vizArray, setVizArray] = useState([]);
+  let timeout;
+  const delay = 300;
+
+  // console.log("RenderStubsNonDraggable.js useEffect postingsDataArray=", postingsDataArray);
+
+
+  useEffect(() => {
+    if (postingsDataArray && postingsDataArray[0]._id) {
+      postingsDataArray.map((post, index) => {
+        setVizArray((currVizArray) => {
+          let newVizArray = [...currVizArray];
+          newVizArray[index] = "invisible";
+          return newVizArray;
+        });
+      });
+    }
+  }, [postingsDataArray]);
+
+  const showToolTip = (index) => {
+    timeout = setTimeout(() => {
+      setVizArray((currVizArray) => {
+        let newVizArray = [...currVizArray];
+        newVizArray[index] = "visible";
+        // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
+        return newVizArray;
+      });
+    }, delay || 200);
+  };
+
+  const hideToolTip = (index) => {
+    setVizArray((currVizArray) => {
+      let newVizArray = [...currVizArray];
+      newVizArray[index] = "invisible";
+      // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
+      return newVizArray;
+    });
+    clearInterval(timeout);
+  };
+
 
   if (postingsDataArray && postingsDataArray[0]._id) {
     return (
@@ -23,60 +61,57 @@ const RenderStubsNonDraggable = (props) => {
           // console.log("RenderStubs .map: index=", index, " and post=", post);
 
           return (
-            <div key={index}>
-          
-              <Tooltip content={PopupContent(post)} delay="200" direction="top" css="tooltipPopup rounded-lg">
-                {/* css="tooltipPopup" is required. Edit background color on tooltip.css */}
+            <div
+              key={index}
+              className="flex flex-col items-center absolute text-gray-800"
+              style={{ top: post.positionY, left: post.positionX }} // , zIndex: -1
+            >
+              {/* Tooltip divs - content and formatting must match RenderStubsDraggable's! */}
+              <div className={`${vizArray[index]} w-80 p-2  bg-gray-200 border border-gray-600 rounded-lg z-10`}>
+                <PopupContent post={post} />
+              </div>
+              <div className={`${vizArray[index]}`}>Down Arrow Here</div>
+              {/* J: I'm thinking React Icon "IoMdArrowDropdown" */}
+
+              {/* Stub */}
+              <div
+                className="flex w-56 mt-4 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
+                onMouseEnter={() => showToolTip(index)}
+                onMouseLeave={() => hideToolTip(index)}
+                onClick={() => {
+                  setCreatingPostFlag(false);
+                  setCurrPostIndex(index);
+                  setPostDraft(post);
+                  setShowMainModal(true);
+                }}
+              >
 
                 <div
-                  style={{ top: post.positionY, left: post.positionX}}    // , zIndex: -1 
-                  className="flex border-2 border-gray-600 rounded-lg bg-red-200 shadow-md w-64 my-2 absolute z-10"
-                  onClick={ () => {
-                    setCreatingPostFlag(false);
-                    setCurrPostIndex(index);
-                    setPostDraft(post);
-                    setShowMainModal(true);
-                }}>
-
-
-                  <div
-                    name="title-contributor-container"
-                    className="w-3/4 p-2 flex flex-col justify-between border-r-2 border-gray-600"
-                  >
-                    {post.title ? 
-                    <div className="font-medium text-sm line-clamp-2">{post.title}</div>
-                    :
-                    <div> Click to edit </div>
-                    }
-                    <div className="mt-2 text-gray-500 text-xs">{post.contributors}</div>
-                  </div>
-
-
-
-                  <div
-                    name="stub-attribute-container"
-                    className="w-1/4 flex flex-col items-center justify-center"
-                  >
-                    <div className="text-gray-500 text-xs p-2">{post.contentType}</div>
-
-                    <RenderSpiciness spiciness={post.spiciness} />
-
-                    <div className="p-2">
-                      <VoteCounter
-                        postingsDataArray = {postingsDataArray}
-                        userVoted = {userVoted}
-                        setUserVoted = {setUserVoted}
-                        postDraft = {postDraft}
-                        setPostDraft = {setPostDraft}
-                        index = {index}
-                      />
-                    </div>
-                  </div>
-
-
-
+                  name="title-contributor-container"
+                  className="flex flex-col justfy-around items-start w-3/4 p-2 border-r border-gray-900"
+                >
+                  {post.title ? <div className="text-xs">{post.title}</div> : <div> Click to edit </div>}
+                  <div className="mt-2 text-gray-500 text-xs">{post.contributors}</div>
                 </div>
-              </Tooltip>
+
+                <div
+                  name="stub-attribute-container"
+                  className="flex flex-col justify-between items-center w-1/4 p-2 rounded-r-lg"
+                >
+                  <div className="text-gray-500 text-xs"> {post.contentType} </div>
+                  <div className="my-1.5">
+                  <RenderSpiciness spiciness={post.spiciness} />
+                  </div>
+                  <VoteCounter
+                    postingsDataArray={postingsDataArray}
+                    userVoted={userVoted}
+                    setUserVoted={setUserVoted}
+                    postDraft={postDraft}
+                    setPostDraft={setPostDraft}
+                    index={index}
+                  />
+                </div>
+              </div>
             </div>
           );
         })}

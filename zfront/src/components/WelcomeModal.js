@@ -14,7 +14,7 @@ function WelcomeModal(props) {
         <div className="text-2xl">Pan Galactic Gargle Blasters&apos; &quot;Project 42&quot;</div>
       </Modal.Header>
       <Modal.Body>
-      <div className="text-lg text-center">
+        <div className="text-lg text-center">
           <div className="mt-10 text-xl italic">&quot;The answer to the great question of life the universe and everything is… 42!&quot;</div>
           <div className="mt-2 ml-10">- Supercomputer Deep Thought</div>
           <div className="mt-10 text-blue-800">Click on any posting to view or edit its details</div>
