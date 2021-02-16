@@ -1,16 +1,18 @@
 import React from "react";
 
 const PopupContent = (props) => {
+
+  const title = props.post.title;
+  const contributors = props.post.contributors;
+
   return (
     <>
-      <div className="w-48 p-2 text-gray-800">  
-        { props.title ? 
-          <div>{props.title}</div>
-          :
-          <div> Click to edit </div>
-        }
-        <div className="mt-2">{props.contributors}</div>
-      </div>
+      {title ? 
+        <div>{title}</div>
+      :
+        <div>Click to edit</div>
+      }
+      <div className="mt-2">{contributors}</div>
     </>
   )
 }

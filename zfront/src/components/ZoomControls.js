@@ -1,8 +1,8 @@
 import React from "react";
 
 const ZoomControls = (props) => {
-  let positionX = props.positionX;
-  let positionY = props.positionY;
+  let panX = props.panX;
+  let panY = props.panY;
   let scale = props.scale;
   const zoomIn = props.zoomIn;
   const zoomOut = props.zoomOut;
@@ -16,7 +16,7 @@ const ZoomControls = (props) => {
       <nav className="flex flex-row">
         <div className="controls">Scale: {scale} </div>
         <div className="controls">
-          x: {positionX}, y: {positionY}{" "}
+          x: {panX}, y: {panY}
         </div>
         {/* zoomIn is a callback fn passed down from TransformWrapper */}
         <button onClick={zoomIn} className="controls">

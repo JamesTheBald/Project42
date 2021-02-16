@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import RenderStubsNonDraggable from "./RenderStubsNonDraggable";
-import ZoomControls from "./ZoomControls";
+// import ZoomControls from "./ZoomControls";
 
-class DragModeZoomPanStubs extends Component {
+class ZoomPanNonDraggableStubs extends Component {
   render() {
     const updateZoomPan = this.props.updateZoomPan;
     let zoomScale = this.props.zoomScale;
-    let positionX = this.props.positionX;
-    let positionY = this.props.positionY;
+    let panX = this.props.panX;
+    let panY = this.props.panY;
     let postingsDataArray = this.props.postingsDataArray;
     let currPostIndex = this.props.currPostIndex;
     const setCurrPostIndex = this.props.setCurrPostIndex;
@@ -20,12 +20,14 @@ class DragModeZoomPanStubs extends Component {
     let userVoted = this.props.userVoted;
     const setUserVoted = this.props.setUserVoted;
 
+
     return (
-      <>
+      <div>
+        {/* className="relative" */}
         <TransformWrapper
           scale={zoomScale}
-          positionX={positionX}
-          positionY={positionY}
+          positionX={panX}
+          positionY={panY}
           onZoomChange={updateZoomPan}
           onPanning={updateZoomPan}
           onPanningStop={updateZoomPan}
@@ -35,16 +37,14 @@ class DragModeZoomPanStubs extends Component {
           }}
           options={{
             // See "Options prop elements" on https://www.npmjs.com/package/react-draggable
-            minScale: 0.25,
+            minScale: 0.5,
             maxScale: 15,
             centerContent: false,
             limitToBounds: false,
           }}>
-          {({ zoomIn, zoomOut, setTransform }) => (
-            // <StubsNonDraggableZoomPan zoomScale={zoomScale} zoomIn={zoomIn} zoomOut={zoomOut}
-            // setTransform={setTransform} {...props} />
+          {() => (      // { zoomIn, zoomOut, setTransform }
             <>
-               <TransformComponent>
+              <TransformComponent>
                 <div className="backdrop">
                   <RenderStubsNonDraggable
                     postingsDataArray={postingsDataArray}
@@ -61,20 +61,22 @@ class DragModeZoomPanStubs extends Component {
                 </div>
               </TransformComponent>
 
-              <ZoomControls
-                scale={zoomScale}
-                zoomIn={zoomIn}
-                zoomOut={zoomOut}
-                setTransform={setTransform}
-                positionX={positionX}
-                positionY={positionY}
-              />
+              {/* <div className="absolute top-0 left-360">
+                <ZoomControls
+                  scale={zoomScale}
+                  zoomIn={zoomIn}
+                  zoomOut={zoomOut}
+                  setTransform={setTransform}
+                  panX={panX}
+                  panY={panY}
+                />
+              </div> */}
             </>
           )}
         </TransformWrapper>
-      </>
+      </div>
     );
   }
 }
 
-export default DragModeZoomPanStubs;
+export default ZoomPanNonDraggableStubs;

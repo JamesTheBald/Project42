@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useRef } from "react"; //, Component
-import Button from "react-bootstrap/Button";
+import React, { useState, useEffect, useRef } from "react";
 
 import NavBar from "./NavBar";
 import MainModal from "./MainModal";
 import RenderStubsDraggable from "./RenderStubsDraggable";
 import retrievePostings from "../functions/retrievePostings";
-import removeAllPostings from "../functions/removeAllPostings";
-// import ZoomControls from "./ZoomControls";
-import DragModeZoomPanStubs from "./DragModeZoomPanStubs";
-
+// import removeAllPostings from "../functions/removeAllPostings";
+import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 
 const emptyPost = {
   title: "",
@@ -18,10 +15,9 @@ const emptyPost = {
   contentType: "",
   spiciness: "",
   upvotes: 0,
-  positionX: 0,
+  positionX: 0, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 0,
 };
-
 
 const PostingsList = () => {
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
@@ -33,35 +29,38 @@ const PostingsList = () => {
   const [userVoted, setUserVoted] = useState(false);
   const [dragMode, setDragMode] = useState(false);
   const [zoomScale, setZoomScale] = useState(0.5);
-  const [positionX, setPositionX] = useState(0);
-  const [positionY, setPositionY] = useState(0);
+  const [panX, setPanX] = useState(0);
+  const [panY, setPanY] = useState(0);
 
-  const ref = useRef(null);
-  const imageWidth = 3840;
+  const stubsDraggable = useRef(null);
+  const stubDragged = useRef(false);
+  const zoomedOrPanned = useRef(false);
+  const imageWidth = 3840; // Set these to equal image dimensions
   const imageHeight = 2160;
 
+  zoomedOrPanned.current = false;
+
+
   function updateZoomPan(stats) {
-    console.log("PostingsList.js updateZoomPan() stats=", stats);
+    // console.log("PostingsList.js updateZoomPan() stats=", stats);
+    console.log("PostingsList.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
     setZoomScale(stats.scale);
-    setPositionX(stats.positionX);
-    setPositionY(stats.positionY);
+    setPanX(stats.positionX);
+    setPanY(stats.positionY);
+    // zoomedOrPanned.current = true;
   }
 
   // console.log("PostingsList.js begins: creatingPostFlag=", creatingPostFlag);
   console.log("PostingsList.js begins: postDraft=", postDraft);
-  // console.log("PostingsList.js begins: zoomScale=", zoomScale);
-
 
   useEffect(() => {
-    console.log("PostingsList.js useEffect zoomScale=", zoomScale);
-    console.log("PostingsList.js useEffect ref.current =", ref.current);
-    let adjustedPositionX = imageWidth/2 - imageWidth/(2*zoomScale) + positionX/zoomScale;
-    let adjustedPositionY = imageHeight/2 - imageHeight/(2*zoomScale) + positionY/zoomScale;
-    
-    ref.current.style.transform = `scale(${zoomScale}) translate(${adjustedPositionX}px, ${adjustedPositionY}px)`;
-  }, [zoomScale, positionX, positionY]);
+    // console.log("PostingsList.js useEffect zoomScale=", zoomScale);
+    // console.log("PostingsList.js useEffect ref.current =", ref.current);
+    let adjustedPanX = imageWidth / 2 - imageWidth / (2 * zoomScale) + panX / zoomScale;
+    let adjustedPanY = imageHeight / 2 - imageHeight / (2 * zoomScale) + panY / zoomScale;
 
-
+    stubsDraggable.current.style.transform = `scale(${zoomScale}) translate(${adjustedPanX}px, ${adjustedPanY}px)`;
+  }, [zoomScale, panX, panY]);
 
   useEffect(() => {
     // from: https://stackoverflow.com/questions/59546928/keydown-up-events-with-react-hooks-not-working-properly
@@ -74,14 +73,15 @@ const PostingsList = () => {
   }, []);
 
   const handleKeyDown = (event) => {
-    console.log("handleKeyDown event.key=", event.key);
+    // console.log("handleKeyDown event.key=", event.key);
     if (event.key === "Shift") {
       setDragMode(true);
     }
   };
+
   const handleKeyUp = (event) => {
     if (event.key === "Shift") setDragMode(false);
-    console.log("PostingsList.js handleKeyUp() zoomScale=", zoomScale);
+    // console.log("PostingsList.js handleKeyUp() zoomScale=", zoomScale);
   };
 
   // Retrive the data from DB into postingsDataArray, so postingsDataArray is never null
@@ -91,10 +91,41 @@ const PostingsList = () => {
     retrievePostings(setPostingsDataArray, emptyPost);
   }
 
+  // const screenSize = {maxWidth: `${imageWidth/2}`, maxHeight: `${imageHeight/2}`};
+
+  const createPostAtMouseClick = (event) => {
+    // let currentTargetRect = evnt.currentTarget.getBoundingClientRect();
+    // Do we want this relative to the bounding rectange?
+    console.log("createPostAtMouseClick stubDragged.current=", stubDragged.current);
+
+    if (!stubDragged.current) {
+      const offsetX = event.pageX - window.pageXOffset; // - currentTargetRect.left;
+      const offsetY = event.pageY - window.pageYOffset; // - currentTargetRect.top;
+      console.log("createPostAtMouseClick event.pageX=", event.pageX, "  window.pageXOffset=",window.pageXOffset);
+      console.log("createPostAtMouseClick event.pageY=", event.pageY, "  window.pageYOffset=",window.pageYOffset);
+
+      console.log("PostingsList.js createPostAtMouseClick: creatingPostFlag=true");
+      setCreatingPostFlag(true);
+  
+      const emptyPostWithCoords = { ...emptyPost, positionX: offsetX, positionY: offsetY };
+      setPostDraft(emptyPostWithCoords);
+      console.log("PostingsList.js createPostAtMouseClick: setting postDraft to", emptyPostWithCoords);
+  
+      setCurrPostIndex(() => {
+        const newCurrPostIndex = postingsDataArray.length; // No need for .length-1 cos we just added an element
+        console.log("PostingsList.js createPostAtMouseClick: newCurrPostIndex=", newCurrPostIndex);
+        return newCurrPostIndex;
+      });
+      setShowMainModal(true);
+      stubDragged.current = false;
+    }
+  };
+
 
   // MAIN PostingsList RETURN
   return (
-    <>
+    <div>
+      
       <NavBar
         emptyPost={emptyPost}
         showWelcomeModal={showWelcomeModal}
@@ -107,47 +138,46 @@ const PostingsList = () => {
         setPostDraft={setPostDraft}
       />
 
-      {/* <div className="flex flex-row">
-        <div> Scale = {zoomScale}</div>
-        <div> positionX = {positionX}</div>
-        <div> positionY = {positionY}</div>
-      </div> */}
+      {/* Draggable Mode */}
+      <div
+        ref={stubsDraggable}
+        onClick={(event) => createPostAtMouseClick(event)}  // 
+        className="backdrop absolute"
+        style={{ zIndex: -10 }}
+      >
+        {dragMode && (
+          <RenderStubsDraggable
+            postingsDataArray={postingsDataArray}
+            setCurrPostIndex={setCurrPostIndex}
+            setShowMainModal={setShowMainModal}
+            postDraft={postDraft}
+            setPostDraft={setPostDraft}
+            setCreatingPostFlag={setCreatingPostFlag}
+            userVoted={userVoted}
+            setUserVoted={setUserVoted}
+            stubDragged={stubDragged}
+          />
+        )}
+      </div>
 
-      {/* Draggable mode */}
-
-        <div ref={ref} className="backdrop absolute opacity-50" style={{ zIndex: -10 }}>
-
-          {dragMode && (
-            <RenderStubsDraggable
-              postingsDataArray={postingsDataArray}
-              setCurrPostIndex={setCurrPostIndex}
-              setShowMainModal={setShowMainModal}
-              postDraft={postDraft}
-              setPostDraft={setPostDraft}
-              setCreatingPostFlag={setCreatingPostFlag}
-              userVoted={userVoted}
-              setUserVoted={setUserVoted}
-            />
-          )}
-        </div>
 
       {/* ZoomPan mode */}
       {!dragMode && (
-        <DragModeZoomPanStubs
-          updateZoomPan = { updateZoomPan }
-          zoomScale = { zoomScale }
-          positionX = { positionX }
-          positionY = { positionY }
-          postingsDataArray = { postingsDataArray }
-          currPostIndex = { currPostIndex }
-          setCurrPostIndex = { setCurrPostIndex }
-          showMainModal = { showMainModal }
-          setShowMainModal = { setShowMainModal }
-          postDraft = { postDraft }
-          setPostDraft = { setPostDraft }
-          setCreatingPostFlag = { setCreatingPostFlag }
-          userVoted = { userVoted }
-          setUserVoted = { setUserVoted }
+        <ZoomPanNonDraggableStubs
+          updateZoomPan={updateZoomPan}
+          zoomScale={zoomScale}
+          panX={panX}
+          panY={panY}
+          postingsDataArray={postingsDataArray}
+          currPostIndex={currPostIndex}
+          setCurrPostIndex={setCurrPostIndex}
+          showMainModal={showMainModal}
+          setShowMainModal={setShowMainModal}
+          postDraft={postDraft}
+          setPostDraft={setPostDraft}
+          setCreatingPostFlag={setCreatingPostFlag}
+          userVoted={userVoted}
+          setUserVoted={setUserVoted}
         />
       )}
 
@@ -168,17 +198,8 @@ const PostingsList = () => {
         />
       )}
 
-      {dragMode ? <div>DRAG TIME!</div> : <div>Zoom around</div>}
-
-      <Button
-        variant="outline-danger"
-        onClick={() => {
-          removeAllPostings();
-          setPostingsDataArray([emptyPost]);
-        }}>
-        [Dev Only] Remove All
-      </Button>
-    </>
+      {dragMode && <div>DRAG TIME!</div>}
+    </div>
   );
 };
 
