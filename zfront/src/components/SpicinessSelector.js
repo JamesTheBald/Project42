@@ -13,7 +13,7 @@ const SpicinessSelector = (props) => {
 
 
   // Don't move this function! It needs to be placed BEFORE its call on line 28
-  const conditional = () => {
+  const conditionalDltBtnState = () => {
     if (postDraft.spiciness === "") {
       return true;
     } else if (postDraft.spiciness === "mild") {
@@ -30,7 +30,7 @@ const SpicinessSelector = (props) => {
   const [hideMildPepper, setHideMildPepper] = useState(false);
   const [hideMediumPeppers, setHideMediumPeppers] = useState(false);
   const [hideSpicyPeppers, setHideSpicyPeppers] = useState(false);
-  const [hideDeleteButton, setHideDeleteButton] = useState(conditional());
+  const [hideDeleteButton, setHideDeleteButton] = useState(conditionalDltBtnState());
 
   const handleSpicinessChange = (passedSpiciness) => {
     setPostDraft((currDraft) => {

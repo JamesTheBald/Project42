@@ -88,7 +88,7 @@ const RenderStubsNonDraggable = (props) => {
 
                 <div
                   name="title-contributor-container"
-                  className="flex flex-col justfy-around items-start w-3/4 p-2 border-r border-gray-900"
+                  className="flex flex-col justfy-between items-start w-3/4 p-2 border-r border-gray-900"
                 >
                   {post.title ? <div className="text-xs">{post.title}</div> : <div> Click to edit </div>}
                   <div className="mt-2 text-gray-500 text-xs">{post.contributors}</div>
