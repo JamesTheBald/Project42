@@ -9,6 +9,7 @@ module.exports = (mongoose) => {
       contentType: String,
       spiciness: String,
       upvotes: Number,
+      purpose: String,
       positionX: Number,
       positionY: Number
     },

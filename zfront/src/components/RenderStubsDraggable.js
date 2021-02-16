@@ -77,20 +77,35 @@ const RenderStubsDraggable = (props) => {
                   {/* J: I'm thinking React Icon "IoMdArrowDropdown" */}
 
                   {/* Stub */}
-                  <div className="w-56 mt-4 mb-2 p-2 border border-gray-800 rounded-lg bg-gray-200">
-                    {post.title ? <div>{post.title}</div> : <div>Click to edit</div>}
-                    <div className="mt-2">{post.contributors}</div>
+                  <div
+                    className="flex w-56 mt-4 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
+                  >
 
-                    <RenderSpiciness spiciness={post.spiciness} />
+                    <div
+                      name="title-contributor-container"
+                      className="flex flex-col justfy-around items-start w-3/4 p-2 border-r border-gray-900"
+                    >
+                      {post.title ? <div className="text-xs">{post.title}</div> : <div> Click to edit </div>}
+                      <div className="mt-2 text-gray-500 text-xs">{post.contributors}</div>
+                    </div>
 
-                    <VoteCounter
-                      postingsDataArray={postingsDataArray}
-                      userVoted={userVoted}
-                      setUserVoted={setUserVoted}
-                      postDraft={postDraft}
-                      setPostDraft={setPostDraft}
-                      index={index}
-                    />
+                    <div
+                      name="stub-attribute-container"
+                      className="flex flex-col justify-between items-center w-1/4 p-2 rounded-r-lg"
+                    >
+                      <div className="text-gray-500 text-xs"> {post.contentType} </div>
+                      <div className="my-1.5">
+                      <RenderSpiciness spiciness={post.spiciness} />
+                      </div>
+                      <VoteCounter
+                        postingsDataArray={postingsDataArray}
+                        userVoted={userVoted}
+                        setUserVoted={setUserVoted}
+                        postDraft={postDraft}
+                        setPostDraft={setPostDraft}
+                        index={index}
+                      />
+                    </div>
                   </div>
                 </div>
               </Draggable>

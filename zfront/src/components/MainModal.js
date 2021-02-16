@@ -125,7 +125,7 @@ const MainModal = (props) => {
               />
             </div>
 
-            {postDraft?.createdAt && postDraft.updatedAt ? ( // If there aren't any dates, just skip this
+            {postDraft?.createdAt && postDraft.updatedAt ? // If there aren't any dates, just skip this
               <>
                 <div className="flex flex-row p-1 mt-2">
                   {" "}
@@ -140,12 +140,12 @@ const MainModal = (props) => {
                   </div>
                 </div>
               </>
-            ) : (
+              : 
               <></>
-            )}
+            }
 
             <div className="flex flex-row items-center p-1 mt-2">
-              <AiOutlineTags size="30" />
+              <AiOutlineTags size="30"/>
               <input
                 name="tags"
                 type="text"
@@ -158,9 +158,8 @@ const MainModal = (props) => {
               />
             </div>
 
-            <RichTextEditor postDraft={postDraft} setPostDraft={setPostDraft} required />
-
-            <div className="flex flex-row items-baseline p-1 mt-2">
+          
+            <div className="flex flex-row items-center p-1 mt-2">
               <div className="font-500">Content Type:</div>
               <input
                 name="contentType"
@@ -174,23 +173,50 @@ const MainModal = (props) => {
               />
             </div>
 
+
             <div className="flex flex-row justify-between items-center w-2/5 p-1 mt-2">
               <div className="font-500">Spiciness:</div>
-              <SpicinessSelector postDraft={postDraft} setPostDraft={setPostDraft} />
+              <SpicinessSelector
+                postDraft = {postDraft}
+                setPostDraft = {setPostDraft}
+              />
             </div>
+
 
             <div className="flex flex-row items-center w-2/5 p-1 mt-2">
               <div className="font-500">Upvotes: </div>
-              <VoteCounter
-                postingsDataArray={postingsDataArray}
+              <VoteCounter 
+                postingsDataArray = {postingsDataArray}
                 // showMainModal = {showMainModal}
-                index={-1}
-                postDraft={postDraft}
-                setPostDraft={setPostDraft}
-                userVoted={userVoted}
-                setUserVoted={setUserVoted}
+                index = {-1}
+                postDraft = {postDraft}
+                setPostDraft = {setPostDraft}
+                userVoted = {userVoted}
+                setUserVoted = {setUserVoted}
               />
             </div>
+
+
+            <RichTextEditor
+              postDraft={postDraft}
+              setPostDraft={setPostDraft}
+              required
+            />
+
+            <div className="flex flex-col w-full p-1 mt-2">
+              <div className="font-500">Purpose:</div>
+              <textarea
+                name="purpose"
+                type="text"
+                required
+                className="w-full p-2"
+                value={postDraft.purpose}
+                placeholder="What does your post help its readers accomplish?"
+                onChange={handleInputChange}
+              />
+            </div>
+
+
           </form>
         </Modal.Body>
 

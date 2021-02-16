@@ -1,8 +1,7 @@
 // Built by following video at https://tailwindcss.com/course/setting-up-tailwind-and-postcss
 
-module.exports = {
-  
-  important: true,
+module.exports = {  
+   important: true,
 
    future: {
       // removeDeprecatedGapUtilities: true,
@@ -62,6 +61,7 @@ module.exports = {
          serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
          mono: ['Menlo', 'Monaco', 'Consolas', '"Liberation Mono"', '"Courier New"', 'monospace'],
       },
+
 
       extend: {
    
@@ -131,5 +131,5 @@ module.exports = {
       }
    },
    variants: {},
-   plugins: [],
+   plugins: [require("@tailwindcss/line-clamp")],
 }

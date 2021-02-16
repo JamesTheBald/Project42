@@ -11,20 +11,20 @@ const RenderSpiciness = ({spiciness}) => {
         :
         (spiciness === "mild") ?
         <>
-          <GiChiliPepper size="20" className="text-green-600"/>
+          <GiChiliPepper size="14" className="text-gray-500"/>
         </>
         :
         (spiciness === "medium") ?
         <>
-          <GiChiliPepper size="20" className="text-yellow-500"/>
-          <GiChiliPepper size="20" className="text-yellow-500"/>
+          <GiChiliPepper size="14" className="text-gray-500"/>
+          <GiChiliPepper size="14" className="text-gray-500"/>
         </>
         :
         (spiciness === "spicy") ?
         <>
-          <GiChiliPepper size="20" className="text-red-500"/>
-          <GiChiliPepper size="20" className="text-red-500"/>
-          <GiChiliPepper size="20" className="text-red-500"/>
+          <GiChiliPepper size="14" className="text-gray-500"/>
+          <GiChiliPepper size="14" className="text-gray-500"/>
+          <GiChiliPepper size="14" className="text-gray-500"/>
         </>
         :
         <></>

@@ -10,7 +10,6 @@ import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 const emptyPost = {
   title: "",
   contributors: "",
-  content: "",
   tags: "",
   contentType: "",
   spiciness: "",

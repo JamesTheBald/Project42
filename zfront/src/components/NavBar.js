@@ -76,7 +76,9 @@ const NavBar = (props) => {
                 className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
                 placeholder="Enter Title"
                 value={searchTitle}
-                onChange={(event) => setSearchTitle(event.target.value)}></input>
+                onChange={(event) => setSearchTitle(event.target.value)}
+              >
+              </input>
               <button
                 className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
                 onClick={() => onClickFindByTitle(searchTitle, setPostingsDataArray)}>
@@ -93,7 +95,9 @@ const NavBar = (props) => {
                 className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
                 placeholder="Enter Tag"
                 value={searchTags}
-                onChange={(event) => setSearchTags(event.target.value)}></input>
+                onChange={(event) => setSearchTags(event.target.value)}
+              >
+              </input>
               <button
                 className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
                 onClick={() => onClickFindByTags(searchTags, setPostingsDataArray)}>
@@ -110,7 +114,9 @@ const NavBar = (props) => {
                 className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
                 placeholder="Enter Name"
                 value={searchName}
-                onChange={(event) => setSearchName(event.target.value)}></input>
+                onChange={(event) => setSearchName(event.target.value)}
+              >
+              </input>
               <button
                 className="ml-3 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
                 onClick={() => onClickFindByName(searchName, setPostingsDataArray)}>
