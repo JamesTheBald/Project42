@@ -1,8 +1,8 @@
-import React from "react";    // , { useRef }
+import React from "react";
 import Draggable from "react-draggable";
 import PopupContent from "./PopupContent";
 import VoteCounter from "./VoteCounter";
-import updatePositionOnDB from "../functions/updatePositionOnDB";
+import updatePostOnDB from "../functions/updatePostOnDB";
 import RenderSpiciness from "./RenderSpiciness";
 
 const RenderStubsDraggable = (props) => {
@@ -15,7 +15,7 @@ const RenderStubsDraggable = (props) => {
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
   let stubDragged = props.stubDragged;
- 
+
   let oldX = [];
   let oldY = [];
   stubDragged.current = false;
@@ -37,7 +37,7 @@ const RenderStubsDraggable = (props) => {
     } else {    // if dragged, update positionX&Y in post and on the database
       post.positionX = data.x;
       post.positionY = data.y;
-      updatePositionOnDB(post, index);
+      updatePostOnDB(post, index);
     }
     oldX[index] = data.x;
     oldY[index] = data.y;
