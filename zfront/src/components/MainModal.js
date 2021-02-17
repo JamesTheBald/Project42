@@ -105,6 +105,7 @@ const MainModal = (props) => {
                 name="title"
                 type="text"
                 required
+                maxLength="60"
                 className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
                 placeholder="Enter title of posting here"
                 value={postDraft.title}
@@ -160,22 +161,8 @@ const MainModal = (props) => {
               />
             </div>
 
-            <ContentTypeSelector postDraft={postDraft} setPostDraft={setPostDraft}></ContentTypeSelector>
 
-          
-            {/* <div className="flex flex-row items-center p-1 mt-2">
-              <div className="font-500">Content Type:</div>
-              <input
-                name="contentType"
-                type="text"
-                required
-                className="modalField"
-                placeholder="What is the primary content type of your post?"
-                value={postDraft.contentType}
-                onChange={handleInputChange}
-                onKeyDown={handleEnter}
-              />
-            </div> */}
+            <ContentTypeSelector postDraft={postDraft} setPostDraft={setPostDraft}></ContentTypeSelector>
 
 
             <div className="flex flex-row justify-between items-center w-2/5 p-1 mt-2">
@@ -188,7 +175,7 @@ const MainModal = (props) => {
 
 
             <div className="flex flex-row items-center w-2/5 p-1 mt-2">
-              <div className="font-500">Upvotes: </div>
+              <div className="font-500 w-1/2">Upvotes:</div>
               <VoteCounter 
                 postingsDataArray = {postingsDataArray}
                 // showMainModal = {showMainModal}
@@ -200,12 +187,6 @@ const MainModal = (props) => {
               />
             </div>
 
-
-            <RichTextEditor
-              postDraft={postDraft}
-              setPostDraft={setPostDraft}
-              required
-            />
 
             <div className="flex flex-col w-full p-1 mt-2">
               <div className="font-500">Purpose:</div>
@@ -219,6 +200,13 @@ const MainModal = (props) => {
                 onChange={handleInputChange}
               />
             </div>
+
+
+            <RichTextEditor
+              postDraft={postDraft}
+              setPostDraft={setPostDraft}
+              required
+            />
 
 
           </form>
