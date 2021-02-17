@@ -39,7 +39,6 @@ exports.create = (req, res) => {
     });
 };
 
-
 // Retrieve all Postings from the database.
 exports.findAll = (req, res) => {
   const title = req.query.title;
