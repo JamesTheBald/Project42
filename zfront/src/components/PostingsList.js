@@ -14,6 +14,7 @@ const emptyPost = {
   contentType: "",
   spiciness: "",
   upvotes: 0,
+  purpose: "",
   positionX: 0, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 0,
 };

@@ -67,8 +67,8 @@ const RenderStubsNonDraggable = (props) => {
               style={{ top: post.positionY, left: post.positionX }} // , zIndex: -1
             >
               {/* Tooltip divs - content and formatting must match RenderStubsDraggable's! */}
-              <div className={`${vizArray[index]} w-80 p-2  bg-gray-200 border border-gray-600 rounded-lg z-10`}>
-                <PopupContent post={post} />
+              <div className={`${vizArray[index]} w-96 p-2  bg-gray-200 rounded-lg  opacity-80 z-10`}>
+                <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft}/>
               </div>
               <div className={`${vizArray[index]}`}>Down Arrow Here</div>
               {/* J: I'm thinking React Icon "IoMdArrowDropdown" */}
@@ -77,7 +77,7 @@ const RenderStubsNonDraggable = (props) => {
               <div
                 className="flex w-56 mt-4 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
                 onMouseEnter={() => showToolTip(index)}
-                onMouseLeave={() => hideToolTip(index)}
+                // onMouseLeave={() => hideToolTip(index)}
                 onClick={() => {
                   setCreatingPostFlag(false);
                   setCurrPostIndex(index);
