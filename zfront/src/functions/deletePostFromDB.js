@@ -1,4 +1,4 @@
-import PostingAxios from "../services/PostingAxios";
+import PostingsAxios from "../services/PostingsAxios";
 
 const deletePostFromDB = (postingsDataArray, currPostIndex) => {
   console.log("deletePostFromDB.js- postingsDataArray=",postingsDataArray);
@@ -7,7 +7,7 @@ const deletePostFromDB = (postingsDataArray, currPostIndex) => {
   let fnReturn
 
   if (postingsDataArray?.length>0) {
-    PostingAxios.remove(postingsDataArray[currPostIndex]._id)
+    PostingsAxios.remove(postingsDataArray[currPostIndex]._id)
     .then((response) => {
       fnReturn = response;
       console.log("deletePost.js- response=", response);

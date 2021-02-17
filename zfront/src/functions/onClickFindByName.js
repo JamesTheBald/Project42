@@ -1,9 +1,9 @@
-import PostingAxios from "../services/PostingAxios";
+import PostingsAxios from "../services/PostingsAxios";
 
 const onClickFindByName = (searchName, setPostingsDataArray) => {
   console.log("onClickFindByName.js searchName=",searchName)
 
-  PostingAxios.findByName(searchName)
+  PostingsAxios.findByName(searchName)
     .then((response) => {
       setPostingsDataArray(response.data);
       console.log("onClickFindByName.js response.data=", response.data);

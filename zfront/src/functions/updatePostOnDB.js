@@ -1,4 +1,4 @@
-import PostingAxios from "../services/PostingAxios";
+import PostingsAxios from "../services/PostingsAxios";
 
 const updatePostOnDB = (postDraft, currPostIndex) => {
   console.log("updatePostOnDB.js: postDraft=", postDraft);
@@ -6,7 +6,7 @@ const updatePostOnDB = (postDraft, currPostIndex) => {
 
   if (postDraft) {
 
-    return PostingAxios.update(postDraft._id, postDraft)
+    return PostingsAxios.update(postDraft._id, postDraft)
       .then((response) => {
         console.log("updatePostOnDB.js: after sending post to DB, response msg=", response.data);
       })
