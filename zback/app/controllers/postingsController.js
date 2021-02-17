@@ -1,5 +1,5 @@
 const db = require("../models/dbSetup.js");   //db is the object with all the mongoose settings for the database
-const mongooseModel = db.postings;           //J: dbModel was called Posting. I changed it to be clearer and less specific to postings
+const postingsModel = db.postings; 
 
 
 // Create and Save a new Posting
@@ -11,7 +11,7 @@ exports.create = (req, res) => {
   // }
 
   // Create a Posting
-  const posting = new mongooseModel({
+  const posting = new postingsModel({
     title: req.body.title,
     contributors: req.body.contributors,
     tags: req.body.tags,
@@ -60,7 +60,7 @@ exports.findAll = (req, res) => {
   // console.log("postingController.js findAll name=",name)
   console.log("postingController.js findAll req.query=",req.query)
   console.log("postingController.js findAll condition=",condition)
-
+psti
   mongooseModel.find(condition)
     .then(data => {
       console.log ("data=",data)
@@ -79,7 +79,7 @@ exports.findAll = (req, res) => {
 // Find a single Posting with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
-
+psti
   mongooseModel.findById(id)
     .then(data => {
       if (!data)
@@ -104,7 +104,7 @@ exports.update = (req, res) => {
   }
 
   const id = req.params.id;
-
+psti
   mongooseModel.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
       if (!data) {
@@ -125,7 +125,7 @@ exports.update = (req, res) => {
 // Delete a Posting with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-
+psti
   mongooseModel.findByIdAndRemove(id, { useFindAndModify: false })
     .then(data => {
       if (!data) {
@@ -148,7 +148,7 @@ exports.delete = (req, res) => {
 
 
 // Delete all Postings from the database.
-exports.deleteAll = (req, res) => {
+expostirtdleteAll = (req, res) => {
   mongooseModel.deleteMany({})
     .then(data => {
       res.send({

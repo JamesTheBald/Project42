@@ -1,5 +1,5 @@
 module.exports = (func) => {
-  const postings = require("../controllers/postingController.js");     // J: get all the controller functions
+  const postings = require("../controllers/postingsController.js");     // J: get all the controller functions
 
   var router = require("express").Router();   // creates an Express router middleware mini-app. 
                                               // See https://expressjs.com/en/guide/routing.html
