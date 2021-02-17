@@ -1,4 +1,4 @@
-import TopicAxios from "../services/TopicAxios";
+import TopicsAxios from "../services/TopicsAxios";
 
 const updateTopicOnDB = (topicDraft, currTopicIndex) => {
   console.log("updateTopicOnDB.js: topicDraft=", topicDraft);
@@ -6,7 +6,7 @@ const updateTopicOnDB = (topicDraft, currTopicIndex) => {
 
   if (topicDraft) {
 
-    return TopicAxios.update(topicDraft._id, topicDraft)
+    return TopicsAxios.update(topicDraft._id, topicDraft)
       .then((response) => {
         console.log("updateTopicOnDB.js: after sending topic to DB, response msg=", response.data);
       })

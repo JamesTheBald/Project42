@@ -42,7 +42,7 @@ const RenderTopicsDraggable = (props) => {
 
   console.log("RenderTopicsDraggable.js before .map  topicsDataArray=", topicsDataArray);
 
-  if (topicsDataArray && topicsDataArray[0]._id) {
+  if (topicsDataArray?.[0]?._id) {
     return (
       <>
         {topicsDataArray.map((topic, index) => {
@@ -54,8 +54,9 @@ const RenderTopicsDraggable = (props) => {
             <div key={index}>
               <Draggable onStop={handleOnStop(topic, index)} allowAnyClick={true} defaultPosition={{x: oldX[index], y: oldY[index]}}>
 
-                {topic.title ? <div className="text-4xl z-10">{topic.title}</div> : <div> Click to edit </div>}
-
+                <div className="w-100 h-24 bg-yellow-200 rounded-lg">
+                  {topic.topic ? <div className="text-4xl z-10">{topic.topic}</div> : <div> Click to edit </div>}
+                </div>
               </Draggable>
             </div>
           );

@@ -20,7 +20,7 @@ const RenderStubsDraggable = (props) => {
   let oldY = [];
   stubDragged.current = false;
 
-  
+   
   //Open MainModal when stub is clicked without dragging
   const handleOnStop = (post, index) => (event, data) => {
     // Above line uses 'currying'. See https://www.carlrippon.com/using-currying-to-pass-additional-data-to-react-event-handlers/
@@ -48,7 +48,7 @@ const RenderStubsDraggable = (props) => {
 
   console.log("RenderStubsDraggable.js before .map  postingsDataArray=", postingsDataArray);
 
-  if (postingsDataArray && postingsDataArray[0]._id) {
+  if (postingsDataArray?.[0]?._id) {
     return (
       <>
         {postingsDataArray.map((post, index) => {
@@ -63,17 +63,25 @@ const RenderStubsDraggable = (props) => {
                 <div className="flex flex-col items-center absolute text-gray-800">
 
                   {/* Tooltip divs - content and formatting must match RenderStubsNonDraggable's! */}
-                  <div className={"invisible w-80 p-2  bg-gray-200 border border-gray-600 rounded-lg z-10"}>
+
+                  <div className="invisible w-80 p-2  bg-gray-200 border border-gray-600 rounded-lg z-10">
                     <PopupContent post={post} />
                   </div>
-                  <div className={"invisible"}>Down Arrow Here</div>
+                  <div className="invisible">Down Arrow Here</div>
+
+
                   {/* J: I'm thinking React Icon "IoMdArrowDropdown" */}
 
                   {/* Stub */}
                   <div
                     className="flex w-56 mt-4 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
+                    onClick={() => {
+                      setCreatingPostFlag(false);
+                      setCurrPostIndex(index);
+                      setPostDraft(post);
+                      setShowMainModal(true);
+                    }}
                   >
-
                     <div
                       name="title-contributor-container"
                       className="flex flex-col justfy-around items-start w-3/4 p-2 border-r border-gray-900"
