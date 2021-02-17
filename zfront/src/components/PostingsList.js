@@ -3,8 +3,8 @@ import React, { useState, useEffect, useRef } from "react";
 import NavBar from "./NavBar";
 import MainModal from "./MainModal";
 import RenderStubsDraggable from "./RenderStubsDraggable";
+// import RenderTopicsDraggable from "./RenderTopicsDraggable";
 import retrievePostings from "../functions/retrievePostings";
-// import removeAllPostings from "../functions/removeAllPostings";
 import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 
 const emptyPost = {
@@ -20,8 +20,8 @@ const emptyPost = {
 
 const PostingsList = () => {
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
-  const [showMainModal, setShowMainModal] = useState(false);
   const [postingsDataArray, setPostingsDataArray] = useState();
+  const [showMainModal, setShowMainModal] = useState(false);
   const [currPostIndex, setCurrPostIndex] = useState(0);
   const [postDraft, setPostDraft] = useState(emptyPost);
   const [creatingPostFlag, setCreatingPostFlag] = useState(false);
@@ -31,8 +31,15 @@ const PostingsList = () => {
   const [panX, setPanX] = useState(0);
   const [panY, setPanY] = useState(0);
 
+  // const [topicsDataArray, setTopicsDataArray] = useState();
+  // const [showTopicModal, setShowTopicModal] = useState(false);
+  // const [currTopicIndex, setCurrTopicIndex] = useState(0);
+  // const [topicDraft, setTopicDraft] = useState(emptyPost);
+  // const [creatingTopicFlag, setCreatingTopicFlag] = useState(false);
+
   const stubsDraggable = useRef(null);
   const stubDragged = useRef(false);
+  // const topicDragged = useRef(false);
   const zoomedOrPanned = useRef(false);
   const imageWidth = 3840; // Set these to equal image dimensions
   const imageHeight = 2160;
@@ -41,12 +48,11 @@ const PostingsList = () => {
 
 
   function updateZoomPan(stats) {
-    // console.log("PostingsList.js updateZoomPan() stats=", stats);
     console.log("PostingsList.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
     setZoomScale(stats.scale);
     setPanX(stats.positionX);
     setPanY(stats.positionY);
-    // zoomedOrPanned.current = true;
+    // zoomedOrPanned.current = true;   // (use as flag so MainModal doesn't open after panning)
   }
 
   // console.log("PostingsList.js begins: creatingPostFlag=", creatingPostFlag);
@@ -90,9 +96,8 @@ const PostingsList = () => {
     retrievePostings(setPostingsDataArray, emptyPost);
   }
 
-  // const screenSize = {maxWidth: `${imageWidth/2}`, maxHeight: `${imageHeight/2}`};
-
   const createPostAtMouseClick = (event) => {
+    // Uses: event, stubDragged, setCreatingPostFlag, emptyPost, setPostDraft, setCurrPostIndex, postingsDataArray, setShowMainModal
     // let currentTargetRect = evnt.currentTarget.getBoundingClientRect();
     // Do we want this relative to the bounding rectange?
     console.log("createPostAtMouseClick stubDragged.current=", stubDragged.current);
@@ -135,6 +140,8 @@ const PostingsList = () => {
         setCurrPostIndex={setCurrPostIndex}
         setCreatingPostFlag={setCreatingPostFlag}
         setPostDraft={setPostDraft}
+
+        // Add a 'Create Topic' link?
       />
 
       {/* Draggable Mode */}
@@ -145,56 +152,78 @@ const PostingsList = () => {
         style={{ zIndex: -10 }}
       >
         {dragMode && (
-          <RenderStubsDraggable
-            postingsDataArray={postingsDataArray}
-            setCurrPostIndex={setCurrPostIndex}
-            setShowMainModal={setShowMainModal}
-            postDraft={postDraft}
-            setPostDraft={setPostDraft}
-            setCreatingPostFlag={setCreatingPostFlag}
-            userVoted={userVoted}
-            setUserVoted={setUserVoted}
-            stubDragged={stubDragged}
-          />
+          <>
+            <RenderStubsDraggable
+              postingsDataArray={postingsDataArray}
+              setCurrPostIndex={setCurrPostIndex}
+              setShowMainModal={setShowMainModal}
+              postDraft={postDraft}
+              setPostDraft={setPostDraft}
+              setCreatingPostFlag={setCreatingPostFlag}
+              userVoted={userVoted}
+              setUserVoted={setUserVoted}
+              stubDragged={stubDragged}
+            />
+            {/* <RenderTopicsDraggable
+              topicsDataArray={topicsDataArray}
+              setCurrTopicIndex={setCurrTopicIndex}
+              setShowTopicModal={setShowTopicModal}
+              setTopicDraft={setTopicDraft}
+              setCreatingTopicFlag={setCreatingTopicFlag}
+              topicDragged={topicDragged}
+            /> */}
+          </>
         )}
       </div>
 
 
       {/* ZoomPan mode */}
       {!dragMode && (
-        <ZoomPanNonDraggableStubs
-          updateZoomPan={updateZoomPan}
-          zoomScale={zoomScale}
-          panX={panX}
-          panY={panY}
-          postingsDataArray={postingsDataArray}
-          currPostIndex={currPostIndex}
-          setCurrPostIndex={setCurrPostIndex}
-          showMainModal={showMainModal}
-          setShowMainModal={setShowMainModal}
-          postDraft={postDraft}
-          setPostDraft={setPostDraft}
-          setCreatingPostFlag={setCreatingPostFlag}
-          userVoted={userVoted}
-          setUserVoted={setUserVoted}
-        />
+        <>
+          <ZoomPanNonDraggableStubs
+            updateZoomPan={updateZoomPan}
+            zoomScale={zoomScale}
+            panX={panX}
+            panY={panY}
+            postingsDataArray={postingsDataArray}
+            currPostIndex={currPostIndex}
+            setCurrPostIndex={setCurrPostIndex}
+            showMainModal={showMainModal}
+            setShowMainModal={setShowMainModal}
+            postDraft={postDraft}
+            setPostDraft={setPostDraft}
+            setCreatingPostFlag={setCreatingPostFlag}
+            userVoted={userVoted}
+            setUserVoted={setUserVoted}
+
+            // topicsDataArray={topicsDataArray}
+            // setCurrTopicIndex={setCurrTopicIndex}
+            // setShowTopicModal={setShowTopicModal}
+            // setTopicDraft={setTopicDraft}
+            // setCreatingTopicFlag={setCreatingTopicFlag}
+
+          />
+        </>
       )}
 
       {/* Both modes, but often hidden */}
       {showMainModal && (
-        <MainModal
-          showMainModal={showMainModal}
-          setShowMainModal={setShowMainModal}
-          postingsDataArray={postingsDataArray}
-          setPostingsDataArray={setPostingsDataArray}
-          currPostIndex={currPostIndex} //C: currPostIndex points to the element in the postings array that we're interested in
-          setCurrPostIndex={setCurrPostIndex}
-          postDraft={postDraft}
-          setPostDraft={setPostDraft}
-          creatingPostFlag={creatingPostFlag}
-          userVoted={userVoted}
-          setUserVoted={setUserVoted}
-        />
+        <>
+          <MainModal
+            showMainModal={showMainModal}
+            setShowMainModal={setShowMainModal}
+            postingsDataArray={postingsDataArray}
+            setPostingsDataArray={setPostingsDataArray}
+            currPostIndex={currPostIndex} //C: currPostIndex points to the element in the postings array that we're interested in
+            setCurrPostIndex={setCurrPostIndex}
+            postDraft={postDraft}
+            setPostDraft={setPostDraft}
+            creatingPostFlag={creatingPostFlag}
+            userVoted={userVoted}
+            setUserVoted={setUserVoted}
+          />
+          {/* Put TopicsModal here */}
+        </>
       )}
 
       {dragMode && <div>DRAG TIME!</div>}
