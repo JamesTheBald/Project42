@@ -20,6 +20,12 @@ class ZoomPanNonDraggableStubs extends Component {
     let userVoted = this.props.userVoted;
     const setUserVoted = this.props.setUserVoted;
 
+    // let topicsDataArray = props.topicsDataArray
+    // const setCurrTopicIndex = props.setCurrTopicIndex
+    // const setShowTopicModal = props.setShowTopicModal
+    // const setTopicDraft = props.setTopicDraft
+    // const setCreatingTopicFlag = props.setCreatingTopicFlag
+
 
     return (
       <div>
@@ -58,6 +64,14 @@ class ZoomPanNonDraggableStubs extends Component {
                     userVoted={userVoted}
                     setUserVoted={setUserVoted}
                   />
+                {/* <RenderTopicsNonDraggable
+                    topicsDataArray={topicsDataArray}
+                    setCurrTopicIndex={setCurrTopicIndex}
+                    setShowTopicModal={setShowTopicModal}
+                    setTopicDraft={setTopicDraft}
+                    setCreatingTopicFlag={setCreatingTopicFlag}
+                  /> */}
+
                 </div>
               </TransformComponent>
 

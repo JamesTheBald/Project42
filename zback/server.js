@@ -2,7 +2,8 @@ const express = require("express");              // J: Methinks Express is basic
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const db = require("./app/models/dbSetup.js");
-const postingRoutes = require("./app/routes/postingRoutes.js");
+const postingsRoutes = require("./app/routes/postingsRoutes.js");
+const topicsRoutes = require("./app/routes/topicsRoutes.js");
 
 const PORT = process.env.PORT || 8082;
 
@@ -32,10 +33,11 @@ db.mongoose
 
 
 // simple route (not actually called by the frontend)
-exprs.get("/", (req, res) => {res.json({ message: "Welcome to Helpful Postings Server" })});
+exprs.get("/", (req, res) => {res.json({ message: "Welcome to the EvolveU Learnings Tips and Resources hub" })});
 
 
-postingRoutes(exprs);   //J: run the postingRoutes functions (from "/routes/postingRoutes.js"), passing to them the express package
+postingsRoutes(exprs);   //J: run the postingRoutes functions (from "/routes/postingRoutes.js"), passing to them the express package
+topicsRoutes(exprs);   //J: run the postingRoutes functions (from "/routes/postingRoutes.js"), passing to them the express package
 
 
 // set port, listen for requests

@@ -36,7 +36,7 @@ const findByName = (name) => {
   return xios.get(`/postings?name=${name}`);
 };
 
-const PostingAxios = {
+const PostingsAxios = {
   getAll,
   get,
   create,
@@ -48,4 +48,4 @@ const PostingAxios = {
   findByName
 };
 
-export default PostingAxios;
+export default PostingsAxios;

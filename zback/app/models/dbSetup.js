@@ -6,8 +6,8 @@ mongoose.Promise = global.Promise;   // J: This is legacy code from older exampl
 const db = {
   mongoose: mongoose,
   url: dbConfig.url,
-  postings: require("./mongooseModel.js")(mongoose)   // This sets the value of db.postings to be the function defined in
-                       // mongooseModel.js, to which it passes the standard Mongoose package 
+  postings: require("./postingsModel.js")(mongoose),   // This sets the value of db.postings to be the function defined in
+  topics: require("./topicsModel.js")(mongoose)                     // postingsModel.js, to which it passes the standard Mongoose package 
 };
 
 module.exports = db;

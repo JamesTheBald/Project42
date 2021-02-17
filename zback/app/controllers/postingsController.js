@@ -1,5 +1,5 @@
 const db = require("../models/dbSetup.js");   //db is the object with all the mongoose settings for the database
-const mongooseModel = db.postings;           //J: dbModel was called Posting. I changed it to be clearer and less specific to postings
+const postingsModel = db.postings; 
 
 
 // Create and Save a new Posting
@@ -11,7 +11,7 @@ exports.create = (req, res) => {
   // }
 
   // Create a Posting
-  const posting = new mongooseModel({
+  const posting = new postingsModel({
     title: req.body.title,
     contributors: req.body.contributors,
     tags: req.body.tags,
@@ -39,7 +39,6 @@ exports.create = (req, res) => {
     });
 };
 
-
 // Retrieve all Postings from the database.
 exports.findAll = (req, res) => {
   const title = req.query.title;
@@ -62,7 +61,7 @@ exports.findAll = (req, res) => {
   console.log("postingController.js findAll req.query=",req.query)
   console.log("postingController.js findAll condition=",condition)
 
-  mongooseModel.find(condition)
+  postingsModel.find(condition)
     .then(data => {
       console.log ("data=",data)
       res.send(data);
@@ -81,7 +80,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  mongooseModel.findById(id)
+  postingsModel.findById(id)
     .then(data => {
       if (!data)
         res.status(404).send({ message: "Not found Posting with ID " + id });
@@ -106,7 +105,7 @@ exports.update = (req, res) => {
 
   const id = req.params.id;
 
-  mongooseModel.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+  postingsModel.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -127,7 +126,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  mongooseModel.findByIdAndRemove(id, { useFindAndModify: false })
+  postingsModel.findByIdAndRemove(id, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -150,7 +149,7 @@ exports.delete = (req, res) => {
 
 // Delete all Postings from the database.
 exports.deleteAll = (req, res) => {
-  mongooseModel.deleteMany({})
+  postingsModel.deleteMany({})
     .then(data => {
       res.send({
         message: `${data.deletedCount} Postings were deleted successfully!`
