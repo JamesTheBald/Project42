@@ -21,7 +21,7 @@ const RenderStubsNonDraggable = (props) => {
 
 
   useEffect(() => {
-    if (postingsDataArray && postingsDataArray[0]._id) {
+    if (postingsDataArray?.[0]?._id) {
       postingsDataArray.map((post, index) => {
         setVizArray((currVizArray) => {
           let newVizArray = [...currVizArray];
@@ -54,7 +54,7 @@ const RenderStubsNonDraggable = (props) => {
   };
 
 
-  if (postingsDataArray && postingsDataArray[0]._id) {
+  if (postingsDataArray?.[0]?._id) {
     return (
       <>
         {postingsDataArray.map((post, index) => {

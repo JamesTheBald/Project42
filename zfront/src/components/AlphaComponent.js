@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 
 import NavBar from "./NavBar";
 import MainModal from "./MainModal";
+import TopicModal from "./TopicModal";
 import RenderStubsDraggable from "./RenderStubsDraggable";
-// import RenderTopicsDraggable from "./RenderTopicsDraggable";
-import retrievePostings from "../functions/retrievePostings";
+import RenderTopicsDraggable from "./RenderTopicsDraggable";
+import retrievePosts from "../functions/retrievePosts";
+import retrieveTopics from "../functions/retrieveTopics";
 import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 
 const emptyPost = {
@@ -14,12 +16,19 @@ const emptyPost = {
   contentType: "",
   spiciness: "",
   upvotes: 0,
-  purpose: "",
-  positionX: 0, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
-  positionY: 0,
+  positionX: 200, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
+  positionY: 200,
 };
 
-const PostingsList = () => {
+const emptyTopic = {
+  topic: "",
+  topicLevel: 0,
+  positionX: 200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
+  positionY: 200,
+};
+
+
+const AlphaComponent = () => {
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [postingsDataArray, setPostingsDataArray] = useState();
   const [showMainModal, setShowMainModal] = useState(false);
@@ -32,15 +41,15 @@ const PostingsList = () => {
   const [panX, setPanX] = useState(0);
   const [panY, setPanY] = useState(0);
 
-  // const [topicsDataArray, setTopicsDataArray] = useState();
-  // const [showTopicModal, setShowTopicModal] = useState(false);
-  // const [currTopicIndex, setCurrTopicIndex] = useState(0);
-  // const [topicDraft, setTopicDraft] = useState(emptyPost);
-  // const [creatingTopicFlag, setCreatingTopicFlag] = useState(false);
+  const [topicsDataArray, setTopicsDataArray] = useState();
+  const [showTopicModal, setShowTopicModal] = useState(false);
+  const [currTopicIndex, setCurrTopicIndex] = useState(0);
+  const [topicDraft, setTopicDraft] = useState(emptyTopic);
+  const [creatingTopicFlag, setCreatingTopicFlag] = useState(false);
 
   const stubsDraggable = useRef(null);
   const stubDragged = useRef(false);
-  // const topicDragged = useRef(false);
+  const topicDragged = useRef(false);
   const zoomedOrPanned = useRef(false);
   const imageWidth = 3840; // Set these to equal image dimensions
   const imageHeight = 2160;
@@ -49,19 +58,18 @@ const PostingsList = () => {
 
 
   function updateZoomPan(stats) {
-    console.log("PostingsList.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
+    console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
     setZoomScale(stats.scale);
     setPanX(stats.positionX);
     setPanY(stats.positionY);
-    // zoomedOrPanned.current = true;   // (use as flag so MainModal doesn't open after panning)
   }
 
-  // console.log("PostingsList.js begins: creatingPostFlag=", creatingPostFlag);
-  console.log("PostingsList.js begins: postDraft=", postDraft);
+  console.log("AlphaComponent.js begins: postDraft=", postDraft);
+  console.log("AlphaComponent.js begins: topicDraft=", topicDraft);
 
   useEffect(() => {
-    // console.log("PostingsList.js useEffect zoomScale=", zoomScale);
-    // console.log("PostingsList.js useEffect ref.current =", ref.current);
+    // console.log("AlphaComponent.js useEffect zoomScale=", zoomScale);
+    // console.log("AlphaComponent.js useEffect ref.current =", ref.current);
     let adjustedPanX = imageWidth / 2 - imageWidth / (2 * zoomScale) + panX / zoomScale;
     let adjustedPanY = imageHeight / 2 - imageHeight / (2 * zoomScale) + panY / zoomScale;
 
@@ -87,38 +95,46 @@ const PostingsList = () => {
 
   const handleKeyUp = (event) => {
     if (event.key === "Shift") setDragMode(false);
-    // console.log("PostingsList.js handleKeyUp() zoomScale=", zoomScale);
+    // console.log("AlphaComponent.js handleKeyUp() zoomScale=", zoomScale);
   };
 
-  // Retrive the data from DB into postingsDataArray, so postingsDataArray is never null
+  // Retrive tfrom DB into postingsDataArray, so postingsDataArray is never null
   if (!postingsDataArray) {
     console.log("postingsDataArray is falsy so retrieving it from the DB. In the interim setting it to [emptyPost]");
     setPostingsDataArray([emptyPost]);
-    retrievePostings(setPostingsDataArray, emptyPost);
+    retrievePosts(setPostingsDataArray, emptyPost);
   }
+
+// Retrive from DB into topicsDataArray, so topicsDataArray is never null
+if (!topicsDataArray) {
+  console.log("topicsDataArray is falsy so retrieving it from the DB. In the interim setting it to [emptyTopic]");
+  setTopicsDataArray([emptyTopic]);
+  retrieveTopics(setTopicsDataArray, emptyTopic);
+}
+
 
   const createPostAtMouseClick = (event) => {
     // Uses: event, stubDragged, setCreatingPostFlag, emptyPost, setPostDraft, setCurrPostIndex, postingsDataArray, setShowMainModal
+    // This function needs the event object, so may need currying to move to external file.
     // let currentTargetRect = evnt.currentTarget.getBoundingClientRect();
     // Do we want this relative to the bounding rectange?
-    console.log("createPostAtMouseClick stubDragged.current=", stubDragged.current);
 
-    if (!stubDragged.current) {
+    if (!stubDragged.current && !dragMode) {
       const offsetX = event.pageX - window.pageXOffset; // - currentTargetRect.left;
       const offsetY = event.pageY - window.pageYOffset; // - currentTargetRect.top;
       console.log("createPostAtMouseClick event.pageX=", event.pageX, "  window.pageXOffset=",window.pageXOffset);
       console.log("createPostAtMouseClick event.pageY=", event.pageY, "  window.pageYOffset=",window.pageYOffset);
 
-      console.log("PostingsList.js createPostAtMouseClick: creatingPostFlag=true");
+      console.log("AlphaComponent.js createPostAtMouseClick: creatingPostFlag=true");
       setCreatingPostFlag(true);
   
       const emptyPostWithCoords = { ...emptyPost, positionX: offsetX, positionY: offsetY };
       setPostDraft(emptyPostWithCoords);
-      console.log("PostingsList.js createPostAtMouseClick: setting postDraft to", emptyPostWithCoords);
+      console.log("AlphaComponent.js createPostAtMouseClick: setting postDraft to", emptyPostWithCoords);
   
       setCurrPostIndex(() => {
         const newCurrPostIndex = postingsDataArray.length; // No need for .length-1 cos we just added an element
-        console.log("PostingsList.js createPostAtMouseClick: newCurrPostIndex=", newCurrPostIndex);
+        console.log("AlphaComponent.js createPostAtMouseClick: newCurrPostIndex=", newCurrPostIndex);
         return newCurrPostIndex;
       });
       setShowMainModal(true);
@@ -127,7 +143,7 @@ const PostingsList = () => {
   };
 
 
-  // MAIN PostingsList RETURN
+  // MAIN AlphaComponent RETURN
   return (
     <div>
       
@@ -142,8 +158,15 @@ const PostingsList = () => {
         setCreatingPostFlag={setCreatingPostFlag}
         setPostDraft={setPostDraft}
 
-        // Add a 'Create Topic' link?
+        emptyTopic ={emptyTopic}
+        setShowTopicModal ={setShowTopicModal}
+        topicsDataArray ={topicsDataArray}
+        setTopicsDataArray ={setTopicsDataArray}
+        setCurrTopicIndex={setCurrTopicIndex}
+        setCreatingTopicFlag={setCreatingTopicFlag}
+        setTopicDraft={setTopicDraft}
       />
+
 
       {/* Draggable Mode */}
       <div
@@ -165,14 +188,14 @@ const PostingsList = () => {
               setUserVoted={setUserVoted}
               stubDragged={stubDragged}
             />
-            {/* <RenderTopicsDraggable
+            <RenderTopicsDraggable
               topicsDataArray={topicsDataArray}
               setCurrTopicIndex={setCurrTopicIndex}
               setShowTopicModal={setShowTopicModal}
               setTopicDraft={setTopicDraft}
               setCreatingTopicFlag={setCreatingTopicFlag}
               topicDragged={topicDragged}
-            /> */}
+            />
           </>
         )}
       </div>
@@ -197,11 +220,12 @@ const PostingsList = () => {
             userVoted={userVoted}
             setUserVoted={setUserVoted}
 
-            // topicsDataArray={topicsDataArray}
-            // setCurrTopicIndex={setCurrTopicIndex}
-            // setShowTopicModal={setShowTopicModal}
-            // setTopicDraft={setTopicDraft}
-            // setCreatingTopicFlag={setCreatingTopicFlag}
+            emptyTopic={emptyTopic}
+            setShowTopicModal={setShowTopicModal}
+            topicsDataArray={topicsDataArray}
+            setCurrTopicIndex={setCurrTopicIndex}
+            setCreatingTopicFlag={setCreatingTopicFlag}
+            setTopicDraft={setTopicDraft}
 
           />
         </>
@@ -209,27 +233,38 @@ const PostingsList = () => {
 
       {/* Both modes, but often hidden */}
       {showMainModal && (
-        <>
-          <MainModal
-            showMainModal={showMainModal}
-            setShowMainModal={setShowMainModal}
-            postingsDataArray={postingsDataArray}
-            setPostingsDataArray={setPostingsDataArray}
-            currPostIndex={currPostIndex} //C: currPostIndex points to the element in the postings array that we're interested in
-            setCurrPostIndex={setCurrPostIndex}
-            postDraft={postDraft}
-            setPostDraft={setPostDraft}
-            creatingPostFlag={creatingPostFlag}
-            userVoted={userVoted}
-            setUserVoted={setUserVoted}
-          />
-          {/* Put TopicsModal here */}
-        </>
+        <MainModal
+          showMainModal={showMainModal}
+          setShowMainModal={setShowMainModal}
+          postingsDataArray={postingsDataArray}
+          setPostingsDataArray={setPostingsDataArray}
+          currPostIndex={currPostIndex} //C: currPostIndex points to the element in the postings array that we're interested in
+          setCurrPostIndex={setCurrPostIndex}
+          postDraft={postDraft}
+          setPostDraft={setPostDraft}
+          creatingPostFlag={creatingPostFlag}
+          userVoted={userVoted}
+          setUserVoted={setUserVoted}
+        />
       )}
 
-      {dragMode && <div>DRAG TIME!</div>}
+      {showTopicModal && (
+        <TopicModal
+          showTopicModal={showTopicModal}
+          setShowTopicModal={setShowTopicModal}
+          topicsDataArray={topicsDataArray}
+          setTopicsDataArray={setTopicsDataArray}
+          currTopicIndex={currTopicIndex} //C: currTopicIndex points to the element in the topics array that we're interested in
+          setCurrTopicIndex={setCurrTopicIndex}
+          topicDraft={topicDraft}
+          setTopicDraft={setTopicDraft}
+          creatingTopicFlag={creatingTopicFlag}
+        />
+      )}
+
+      {dragMode && <div>Drag items to desired positions</div>}
     </div>
   );
 };
 
-export default PostingsList;
+export default AlphaComponent;

@@ -3,13 +3,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./styles/app.css";
 import './styles/tailwind_built.css';
 
-import PostingsList from "./components/PostingsList";
+import AlphaComponent from "./components/AlphaComponent";
 
 function App() {
   return (
     <div className="font-sans">
 
-      <PostingsList />
+      <AlphaComponent />
 
     </div>
   );

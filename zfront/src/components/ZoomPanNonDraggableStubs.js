@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import RenderStubsNonDraggable from "./RenderStubsNonDraggable";
+import RenderTopicsNonDraggable from "./RenderTopicsNonDraggable";
 // import ZoomControls from "./ZoomControls";
 
 class ZoomPanNonDraggableStubs extends Component {
@@ -20,11 +21,11 @@ class ZoomPanNonDraggableStubs extends Component {
     let userVoted = this.props.userVoted;
     const setUserVoted = this.props.setUserVoted;
 
-    // let topicsDataArray = props.topicsDataArray
-    // const setCurrTopicIndex = props.setCurrTopicIndex
-    // const setShowTopicModal = props.setShowTopicModal
-    // const setTopicDraft = props.setTopicDraft
-    // const setCreatingTopicFlag = props.setCreatingTopicFlag
+    let topicsDataArray = this.props.topicsDataArray
+    const setCurrTopicIndex = this.props.setCurrTopicIndex
+    const setShowTopicModal = this.props.setShowTopicModal
+    const setTopicDraft = this.props.setTopicDraft
+    const setCreatingTopicFlag = this.props.setCreatingTopicFlag
 
 
     return (
@@ -64,13 +65,13 @@ class ZoomPanNonDraggableStubs extends Component {
                     userVoted={userVoted}
                     setUserVoted={setUserVoted}
                   />
-                {/* <RenderTopicsNonDraggable
+                <RenderTopicsNonDraggable
                     topicsDataArray={topicsDataArray}
                     setCurrTopicIndex={setCurrTopicIndex}
                     setShowTopicModal={setShowTopicModal}
                     setTopicDraft={setTopicDraft}
                     setCreatingTopicFlag={setCreatingTopicFlag}
-                  /> */}
+                  />
 
                 </div>
               </TransformComponent>

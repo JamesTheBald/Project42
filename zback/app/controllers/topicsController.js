@@ -5,7 +5,9 @@ const topicsModel = db.topics;
 exports.create = (req, res) => {
     const topic = new topicsModel({
     topic: req.body.topic,
-    subTopic: req.body.subTopic,
+    topicLevel: req.body.topicLevel,
+    positionX: req.body.positionX,
+    positionY: req.body.positionY
   });
 
   // Save Topic to the database
@@ -25,20 +27,8 @@ exports.create = (req, res) => {
 
 // Retrieve all topics from the database.
 exports.findAll = (req, res) => {
-  const topic = req.query.topic;
-  const subTopic = req.query.subTopic;
-   let condition = {};
 
-  if (topic) {
-    condition = topic ? { topic: { $regex: new RegExp(topic), $options: "i" } } : {};
-  } else if (subTopic) {
-    condition = subTopic ? {subTopic: { $regex: new RegExp(subTopic), $options: "i" } } : {}; 
-  }
-
-  console.log("topicsController.js findAll req.query=",req.query)
-  console.log("topicsController.js findAll condition=",condition)
-
-  topicsModel.find(condition)
+  topicsModel.find({})
     .then(data => {
       console.log ("data=",data)
       res.send(data);

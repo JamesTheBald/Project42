@@ -20,7 +20,7 @@ const RenderStubsDraggable = (props) => {
   let oldY = [];
   stubDragged.current = false;
 
-  
+   
   //Open MainModal when stub is clicked without dragging
   const handleOnStop = (post, index) => (event, data) => {
     // Above line uses 'currying'. See https://www.carlrippon.com/using-currying-to-pass-additional-data-to-react-event-handlers/
@@ -48,7 +48,7 @@ const RenderStubsDraggable = (props) => {
 
   console.log("RenderStubsDraggable.js before .map  postingsDataArray=", postingsDataArray);
 
-  if (postingsDataArray && postingsDataArray[0]._id) {
+  if (postingsDataArray?.[0]?._id) {
     return (
       <>
         {postingsDataArray.map((post, index) => {
@@ -66,14 +66,21 @@ const RenderStubsDraggable = (props) => {
                   <div className={"invisible w-96 p-2  bg-gray-200 rounded-lg  opacity-80 z-10"}>
                     <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
                   </div>
-                  <div className={"invisible"}>Down Arrow Here</div>
+                  <div className="invisible">Down Arrow Here</div>
+
+
                   {/* J: I'm thinking React Icon "IoMdArrowDropdown" */}
 
                   {/* Stub */}
                   <div
                     className="flex w-56 mt-4 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
+                    onClick={() => {
+                      setCreatingPostFlag(false);
+                      setCurrPostIndex(index);
+                      setPostDraft(post);
+                      setShowMainModal(true);
+                    }}
                   >
-
                     <div
                       name="title-contributor-container"
                       className="flex flex-col justfy-between relative items-start w-3/4 p-2 border-r border-gray-900"

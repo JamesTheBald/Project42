@@ -3,7 +3,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import Button from "react-bootstrap/Button";
 
-import removeAllPostings from "../functions/removeAllPostings";
+import removeAllPosts from "../functions/removeAllPosts";
+import removeAllTopics from "../functions/removeAllTopics";
 import WelcomeModal from "./WelcomeModal";
 import onClickFindByTitle from "../functions/onClickFindByTitle";
 import onClickFindByTags from "../functions/onClickFindByTag";
@@ -25,6 +26,15 @@ const NavBar = (props) => {
   const setCreatingPostFlag = props.setCreatingPostFlag;
   const setPostDraft = props.setPostDraft;
 
+  const emptyTopic = props.emptyTopic;
+  const setShowTopicModal = props.setShowTopicModal;
+  let topicsDataArray = props.topicsDataArray;
+  const setTopicsDataArray = props.setTopicsDataArray;
+  const setCurrTopicIndex= props.setCurrTopicIndex;
+  const setCreatingTopicFlag= props.setCreatingTopicFlag;
+  const setTopicDraft= props.setTopicDraft;
+  
+
   const handleSelect = (event) => {
     console.log(event);
     setSearchTerm(event);
@@ -35,8 +45,8 @@ const NavBar = (props) => {
     <>
       <nav className="w-full h-20 flex items-center text-blue-200 bg-blue-900 fixed z-40">
         <div className="flex flex-row items-baseline">
-          <div className="p-2 text-2xl mx-4  hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
-            Helpful Postings
+          <div className="p-2 text-xl mx-4  hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
+            EvolveU Tips and Resources
           </div>
           <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} animation={false} />
 
@@ -44,19 +54,37 @@ const NavBar = (props) => {
           <div
             className="ml-4 mr-8 hover:text-blue-400"
             onClick={() => {
-              console.log("PostingsList.js 'Create Post' Clicked. So creatingPostFlag=true");
-              // saveMouseClickCoords();
+              console.log("NavBar.js 'Create Post' Clicked. So creatingPostFlag=true");
               setCreatingPostFlag(true);
               setPostDraft(emptyPost);
               setCurrPostIndex(() => {
                 const newCurrPostIndex = postingsDataArray.length; // No need for .length-1 cos we just added an element
-                console.log("PostingsList.js CreatePost: newCurrPostIndex=", newCurrPostIndex);
+                console.log("NavBar.js CreatePost: newCurrPostIndex=", newCurrPostIndex);
                 return newCurrPostIndex;
               });
               setShowMainModal(true);
             }}>
             Create Post
           </div>
+
+
+          {/* 'Create Topic' link */}
+          <div
+            className="ml-4 mr-8 hover:text-blue-400"
+            onClick={() => {
+              console.log("NavBar.js 'Create Topic' Clicked. So creatingTopicFlag=true");
+              setCreatingTopicFlag(true);
+              setTopicDraft(emptyTopic);
+              setCurrTopicIndex(() => {
+                const newCurrTopicIndex = topicsDataArray.length; // No need for .length-1 cos we just added an element
+                console.log("NavBar.js CreateTopic: newCurrTopicIndex=", newCurrTopicIndex);
+                return newCurrTopicIndex;
+              });
+              setShowTopicModal(true);
+            }}>
+            Create Topic
+          </div>
+
 
           <DropdownButton
             id="dropdown-variants-outline-primary" // Make this dropdown smaller. See Sizing:
@@ -142,11 +170,22 @@ const NavBar = (props) => {
             <Button
               variant="outline-danger"
               onClick={() => {
-                removeAllPostings();
+                removeAllPosts();
                 setPostingsDataArray([emptyPost]);
               }}>
-              Remove All
+              Remove All Posts
             </Button>
+
+            <Button
+              variant="outline-danger"
+              onClick={() => {
+                removeAllTopics();
+                setTopicsDataArray([emptyTopic]);
+              }}>
+              Remove All Topics
+            </Button>
+
+
           </div>
         </div>
       </nav>

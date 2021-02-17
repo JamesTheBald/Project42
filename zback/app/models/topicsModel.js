@@ -2,7 +2,9 @@ module.exports = (mongoose) => {
   var topicSchema = mongoose.Schema(
     {
       topic: String,
-      subTopic: String,
+      topicLevel: Number,
+      positionX: Number,
+      positionY: Number
     }
   );
 
