@@ -97,15 +97,31 @@ const MainModal = (props) => {
         animation={false}
         onHide={() => {
           safeModalHide(madeEdits);
-        }}>
-        <Modal.Body>
-          <form>
+        }}
+      >
+        <form
+          onSubmit={() => {
+            // if (postDraft.contentType === "") {
+            //   return (alert("You must select a Primary Content Type"));
+            // }
+            submitPost(
+              emptyPost,
+              postDraft,
+              postingsDataArray,
+              setPostingsDataArray,
+              currPostIndex,
+              setShowMainModal,
+              creatingPostFlag
+            );
+          }}
+        >
+          <Modal.Body>
             <>
               <input
                 name="title"
                 type="text"
                 required
-                maxLength="60"
+                maxLength="75"
                 className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
                 placeholder="Enter title of posting here"
                 value={postDraft.title}
@@ -121,7 +137,7 @@ const MainModal = (props) => {
                 type="text"
                 required
                 className="modalField p-2"
-                placeholder="(Firstname, last Initial)"
+                placeholder="Firstname last-initial"
                 value={postDraft.contributors}
                 onChange={handleInputChange}
                 onKeyDown={handleEnter}
@@ -152,7 +168,6 @@ const MainModal = (props) => {
               <input
                 name="tags"
                 type="text"
-                required
                 className="modalField"
                 placeholder="What tags are related to your post?"
                 value={postDraft.tags}
@@ -161,8 +176,9 @@ const MainModal = (props) => {
               />
             </div>
 
-
-            <ContentTypeSelector postDraft={postDraft} setPostDraft={setPostDraft}></ContentTypeSelector>
+            <div className="mt-2">
+              <ContentTypeSelector postDraft={postDraft} setPostDraft={setPostDraft}></ContentTypeSelector>
+            </div>
 
 
             <div className="flex flex-row justify-between items-center w-2/5 p-1 mt-2">
@@ -193,10 +209,9 @@ const MainModal = (props) => {
               <textarea
                 name="purpose"
                 type="text"
-                required
                 className="w-full p-2"
                 value={postDraft.purpose}
-                placeholder="What does your post help its readers accomplish?"
+                placeholder="What does your post help readers accomplish?"
                 onChange={handleInputChange}
               />
             </div>
@@ -207,53 +222,38 @@ const MainModal = (props) => {
               setPostDraft={setPostDraft}
               required
             />
+          </Modal.Body>
 
+          <Modal.Footer>
+            <Button
+              variant="warning"
+              onClick={() => {
+                console.log("MainModal.js Clicked Abandon Changes");
+                setShowMainModal(false);
+              }}>
+              Abandon Changes <BsArrowCounterclockwise/>
+            </Button>
 
-          </form>
-        </Modal.Body>
+            <Button
+              variant="danger"
+              onClick={() => {
+                deletePost(
+                  postDraft,
+                  postingsDataArray,
+                  setPostingsDataArray,
+                  currPostIndex,
+                  setShowMainModal,
+                  creatingPostFlag
+                );
+              }}>
+              Delete Post<FaRegTrashAlt/>
+            </Button>
 
-        <Modal.Footer>
-          <Button
-            variant="warning"
-            onClick={() => {
-              console.log("MainModal.js Clicked Abandon Changes");
-              setShowMainModal(false);
-            }}>
-            Abandon Changes <BsArrowCounterclockwise></BsArrowCounterclockwise>
-          </Button>
-
-          <Button
-            variant="danger"
-            onClick={() => {
-              deletePost(
-                postDraft,
-                postingsDataArray,
-                setPostingsDataArray,
-                currPostIndex,
-                setShowMainModal,
-                creatingPostFlag
-              );
-            }}>
-            Delete Post<FaRegTrashAlt></FaRegTrashAlt>
-          </Button>
-
-          <Button
-            type="submit"
-            onClick={() => {
-              submitPost(
-                emptyPost,
-                postDraft,
-                postingsDataArray,
-                setPostingsDataArray,
-                currPostIndex,
-                setShowMainModal,
-                creatingPostFlag
-              );
-            }}>
-            Save Changes<GrSave></GrSave>
-          </Button>
-        </Modal.Footer>
-
+            <Button type="submit">
+              Save Changes<GrSave/>
+            </Button>
+          </Modal.Footer>
+        </form>
         <WarningModal showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />
       </Modal>
     </>
