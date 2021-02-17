@@ -77,7 +77,7 @@ const RenderStubsNonDraggable = (props) => {
               <div
                 className="flex w-56 mt-4 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
                 onMouseEnter={() => showToolTip(index)}
-                // onMouseLeave={() => hideToolTip(index)}
+                onMouseLeave={() => hideToolTip(index)}
                 onClick={() => {
                   setCreatingPostFlag(false);
                   setCurrPostIndex(index);
@@ -88,20 +88,40 @@ const RenderStubsNonDraggable = (props) => {
 
                 <div
                   name="title-contributor-container"
-                  className="flex flex-col justfy-between items-start w-3/4 p-2 border-r border-gray-900"
+                  className="flex flex-col justfy-between relative items-start w-3/4 p-2 border-r border-gray-900"
                 >
-                  {post.title ? <div className="text-xs">{post.title}</div> : <div> Click to edit </div>}
-                  <div className="mt-2 text-gray-500 text-xs">{post.contributors}</div>
+                  {post.title ? 
+                    <div>
+                      <div className="max-h-6 leading-3 overflow-hidden">
+                        <p className="text-xs font-500">{post.title}</p>
+                      </div>
+                      {(post.title.length > 60) ?
+                        <div name="fade-out-title-container" className="mt-2 absolute top-3 right-0 w-full h-3 bg-gradient-to-l from-gray-200"></div>
+                      :
+                        <></>
+                      }
+                    </div>
+                    
+                  :
+                    <div> Click to edit </div>
+                  }
+                  <div>
+                    <div className="m-2 text-gray-500 text-xs absolute bottom-0 left-0 truncate w-4/5">{post.contributors}</div>
+                  </div>
                 </div>
+
+
 
                 <div
                   name="stub-attribute-container"
                   className="flex flex-col justify-between items-center w-1/4 p-2 rounded-r-lg"
                 >
                   <div className="text-gray-500 text-xs"> {post.contentType} </div>
+
                   <div className="my-1.5">
-                  <RenderSpiciness spiciness={post.spiciness} />
+                    <RenderSpiciness spiciness={post.spiciness} />
                   </div>
+
                   <VoteCounter
                     postingsDataArray={postingsDataArray}
                     userVoted={userVoted}
