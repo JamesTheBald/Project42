@@ -1,9 +1,9 @@
-import PostingAxios from "../services/PostingAxios";
+import PostingsAxios from "../services/PostingsAxios";
 
 const removeAllPostings = () => {
   console.log("removeAllPostings.js invoked");
 
-  PostingAxios.removeAll()
+  PostingsAxios.removeAll()
     .then((response) => {
       console.log("removeAllPostings() response.data=", response.data);
     })

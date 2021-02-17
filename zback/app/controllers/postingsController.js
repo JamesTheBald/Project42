@@ -60,8 +60,8 @@ exports.findAll = (req, res) => {
   // console.log("postingController.js findAll name=",name)
   console.log("postingController.js findAll req.query=",req.query)
   console.log("postingController.js findAll condition=",condition)
-psti
-  mongooseModel.find(condition)
+
+  postingsModel.find(condition)
     .then(data => {
       console.log ("data=",data)
       res.send(data);
@@ -79,8 +79,8 @@ psti
 // Find a single Posting with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
-psti
-  mongooseModel.findById(id)
+
+  postingsModel.findById(id)
     .then(data => {
       if (!data)
         res.status(404).send({ message: "Not found Posting with ID " + id });
@@ -104,8 +104,8 @@ exports.update = (req, res) => {
   }
 
   const id = req.params.id;
-psti
-  mongooseModel.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+
+  postingsModel.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -125,8 +125,8 @@ psti
 // Delete a Posting with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-psti
-  mongooseModel.findByIdAndRemove(id, { useFindAndModify: false })
+
+  postingsModel.findByIdAndRemove(id, { useFindAndModify: false })
     .then(data => {
       if (!data) {
         res.status(404).send({
@@ -148,8 +148,8 @@ psti
 
 
 // Delete all Postings from the database.
-expostirtdleteAll = (req, res) => {
-  mongooseModel.deleteMany({})
+exports.deleteAll = (req, res) => {
+  postingsModel.deleteMany({})
     .then(data => {
       res.send({
         message: `${data.deletedCount} Postings were deleted successfully!`
