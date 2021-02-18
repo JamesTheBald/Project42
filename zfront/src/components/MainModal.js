@@ -85,7 +85,8 @@ const MainModal = (props) => {
         animation={false}
         onHide={() => {
           safeModalHide(madeEdits);
-        }}>
+        }}
+      >
         <form
           onSubmit={() => {
             // if (postDraft.contentType === "") {
@@ -100,16 +101,15 @@ const MainModal = (props) => {
               setShowMainModal,
               creatingPostFlag
             );
-          }}>
-        </form>
+          }}
+        >
 
-        {creatingPostFlag && (
-          <Modal.Header>
-            <div className="text-2xl">Create New Post</div>
-          </Modal.Header>
-        )}
+          {creatingPostFlag && (
+            <Modal.Header>
+              <div className="text-2xl">Create New Post</div>
+            </Modal.Header>
+          )}
 
-        <form>
           <Modal.Body>
             <>
               <input
@@ -203,7 +203,7 @@ const MainModal = (props) => {
               />
             </div>
 
-            <RichTextEditor postDraft={postDraft} setPostDraft={setPostDraft} required />
+            <RichTextEditor postDraft={postDraft} setPostDraft={setPostDraft} />
           </Modal.Body>
 
           <Modal.Footer>
