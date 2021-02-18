@@ -127,7 +127,7 @@ if (!topicsDataArray) {
     // Do we want this relative to the bounding rectange?
     console.log("createPostAtMouseClick stubDragged.current=", stubDragged.current, " and dragMode=",dragMode);
     
-    if (!stubDragged.current && dragMode) {
+    if (dragMode && !stubDragged.current && !topicDragged.current) {
       const offsetX = event.pageX - window.pageXOffset; // - currentTargetRect.left;
       const offsetY = event.pageY - window.pageYOffset; // - currentTargetRect.top;
       posnLog && console.log("createPostAtMouseClick event.pageX=", event.pageX, "  window.pageXOffset=",window.pageXOffset);

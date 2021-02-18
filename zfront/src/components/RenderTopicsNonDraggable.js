@@ -6,7 +6,7 @@ import React from "react";
   const setShowTopicModal = props.setShowTopicModal;
   const setTopicDraft = props.setTopicDraft;
   const setCreatingTopicFlag = props.setCreatingTopicFlag;
-  // const posnLog = props.posnLog
+  const posnLog = props.posnLog
 
   // console.log("RenderTopicsNonDraggable.js begins. topicsDataArray=", topicsDataArray);
 
@@ -16,7 +16,7 @@ import React from "react";
       <>
         {topicsDataArray.map((topic, index) => {
           // console.log("RenderTopicsNonDraggable .map: index=", index, " and topic=", topic);
-          // posnLog && console.log('RenderTopicsNonDraggable topic.positionX=',topic.positionX,', topic.positionY=',topic.positionY)
+          posnLog && console.log('RenderTopicsNonDraggable topic.positionX=',topic.positionX,', topic.positionY=',topic.positionY)
 
           return (
             <div
@@ -26,7 +26,7 @@ import React from "react";
             >
               {/* Topic Stub */}
               <div
-                className="z-10"
+                // className="z-10"
                 onClick={() => {
                   setCreatingTopicFlag(false);
                   setCurrTopicIndex(index);
@@ -34,7 +34,7 @@ import React from "react";
                   setShowTopicModal(true);
                 }}>
 
-                <div className="w-100 h-24 bg-yellow-200 rounded-lg">
+                <div className="bg-yellow-200 rounded-lg">
                   {topic.topic ? <div className="text-4xl z-10">{topic.topic}</div> : <div> Click to edit </div>}
                 </div>
 
