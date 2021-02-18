@@ -50,6 +50,7 @@ const RenderTopicsDraggable = (props) => {
           oldX[index] = topic.positionX;
           oldY[index] = topic.positionY;
 
+          console.log('RenderTopicsDraggable oldX=',oldX,', oldY=',oldY)
           return (
             <div key={index}>
               <Draggable onStop={handleOnStop(topic, index)} allowAnyClick={true} defaultPosition={{x: oldX[index], y: oldY[index]}}>

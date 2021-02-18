@@ -42,6 +42,7 @@ const VoteCounter = (props) => {
           :
             <div> { postingsDataArray[index].upvotes } </div>
         }
+        <div className="w-3" />
         <div onClick = { () => handleVoteCountChange()}>
           <BiUpArrow/>
         </div>

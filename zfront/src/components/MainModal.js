@@ -98,6 +98,10 @@ const MainModal = (props) => {
         onHide={() => {
           safeModalHide(madeEdits);
         }}>
+        <Modal.Header>
+          {creatingPostFlag && <div className="text-2xl">Create New Post</div>}
+        </Modal.Header>
+
         <Modal.Body>
           <form>
             <>
@@ -106,9 +110,9 @@ const MainModal = (props) => {
                 type="text"
                 required
                 className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
-                placeholder="Enter title of posting here"
+                placeholder="Click to enter title of post here"
                 value={postDraft.title}
-                onChange={handleInputChange} // Try onBlur?
+                onChange={handleInputChange}
                 onKeyDown={handleEnter}
               />
             </>
@@ -120,7 +124,7 @@ const MainModal = (props) => {
                 type="text"
                 required
                 className="modalField p-2"
-                placeholder="(Firstname, last Initial)"
+                placeholder="Enter firstname and last initial. e.g. Margo P."
                 value={postDraft.contributors}
                 onChange={handleInputChange}
                 onKeyDown={handleEnter}
@@ -162,21 +166,6 @@ const MainModal = (props) => {
 
             <ContentTypeSelector postDraft={postDraft} setPostDraft={setPostDraft}></ContentTypeSelector>
 
-          
-            {/* <div className="flex flex-row items-center p-1 mt-2">
-              <div className="font-500">Content Type:</div>
-              <input
-                name="contentType"
-                type="text"
-                required
-                className="modalField"
-                placeholder="What is the primary content type of your post?"
-                value={postDraft.contentType}
-                onChange={handleInputChange}
-                onKeyDown={handleEnter}
-              />
-            </div> */}
-
 
             <div className="flex flex-row justify-between items-center w-2/5 p-1 mt-2">
               <div className="font-500">Spiciness:</div>
@@ -189,9 +178,9 @@ const MainModal = (props) => {
 
             <div className="flex flex-row items-center w-2/5 p-1 mt-2">
               <div className="font-500">Upvotes: </div>
+              <div className="w-4" />
               <VoteCounter 
                 postingsDataArray = {postingsDataArray}
-                // showMainModal = {showMainModal}
                 index = {-1}
                 postDraft = {postDraft}
                 setPostDraft = {setPostDraft}

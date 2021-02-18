@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
-import Button from "react-bootstrap/Button";
 
-import removeAllPosts from "../functions/removeAllPosts";
-import removeAllTopics from "../functions/removeAllTopics";
 import WelcomeModal from "./WelcomeModal";
 import onClickFindByTitle from "../functions/onClickFindByTitle";
 import onClickFindByTags from "../functions/onClickFindByTag";
@@ -29,7 +26,6 @@ const NavBar = (props) => {
   const emptyTopic = props.emptyTopic;
   const setShowTopicModal = props.setShowTopicModal;
   let topicsDataArray = props.topicsDataArray;
-  const setTopicsDataArray = props.setTopicsDataArray;
   const setCurrTopicIndex= props.setCurrTopicIndex;
   const setCreatingTopicFlag= props.setCreatingTopicFlag;
   const setTopicDraft= props.setTopicDraft;
@@ -45,14 +41,14 @@ const NavBar = (props) => {
     <>
       <nav className="w-full h-20 flex items-center text-blue-200 bg-blue-900 fixed z-40">
         <div className="flex flex-row items-baseline">
-          <div className="p-2 text-xl mx-4  hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
+          <div className="p-2 text-2xl mx-4  hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
             EvolveU Tips and Resources
           </div>
           <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} animation={false} />
 
           {/* 'Create Post' link */}
           <div
-            className="ml-4 mr-8 hover:text-blue-400"
+            className="ml-8 p-2 hover:text-blue-400"
             onClick={() => {
               console.log("NavBar.js 'Create Post' Clicked. So creatingPostFlag=true");
               setCreatingPostFlag(true);
@@ -70,7 +66,7 @@ const NavBar = (props) => {
 
           {/* 'Create Topic' link */}
           <div
-            className="ml-4 mr-8 hover:text-blue-400"
+            className="ml-4 p-2 hover:text-blue-400"
             onClick={() => {
               console.log("NavBar.js 'Create Topic' Clicked. So creatingTopicFlag=true");
               setCreatingTopicFlag(true);
@@ -90,25 +86,27 @@ const NavBar = (props) => {
             id="dropdown-variants-outline-primary" // Make this dropdown smaller. See Sizing:
             // https://react-bootstrap.netlify.app/components/dropdowns/#sizing
             title={searchTerm}
-            onSelect={handleSelect}>
+            onSelect={handleSelect}
+            className="ml-12 mb-1"
+          >
             <Dropdown.Item eventKey="Search by Title ">Search by Title</Dropdown.Item>
             <Dropdown.Item eventKey="Search by Tag ">Search by Tag</Dropdown.Item>
             <Dropdown.Item eventKey="Search by Contributor ">Search by Contributor</Dropdown.Item>
           </DropdownButton>
 
           {/* Search by Title */}
-          {searchTerm === "Search by Title " && ( // string must exactly match eventKey above
+          {searchTerm === "Search by Title " && (   // string must exactly match eventKey above
             <div className="mx-4  flex flex-row">
               <input
                 type="text"
-                className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
+                className="w-48 p-1 text-gray-800 bg-gray-100 rounded-lg"
                 placeholder="Enter Title"
                 value={searchTitle}
                 onChange={(event) => setSearchTitle(event.target.value)}
               >
               </input>
               <button
-                className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
+                className="ml-3 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
                 onClick={() => onClickFindByTitle(searchTitle, setPostingsDataArray)}>
                 Search
               </button>
@@ -120,14 +118,14 @@ const NavBar = (props) => {
             <div className="flex flex-row mx-4">
               <input
                 type="text"
-                className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
+                className="w-48 p-1 text-gray-800 bg-gray-100 rounded-lg"
                 placeholder="Enter Tag"
                 value={searchTags}
                 onChange={(event) => setSearchTags(event.target.value)}
               >
               </input>
               <button
-                className="ml-2 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
+                className="ml-3 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
                 onClick={() => onClickFindByTags(searchTags, setPostingsDataArray)}>
                 Search
               </button>
@@ -139,7 +137,7 @@ const NavBar = (props) => {
             <div className="flex flex-row ml-3">
               <input
                 type="text"
-                className="w-100 p-1 text-gray-800 bg-gray-100 rounded-lg"
+                className="w-48 p-1 text-gray-800 bg-gray-100 rounded-lg"
                 placeholder="Enter Name"
                 value={searchName}
                 onChange={(event) => setSearchName(event.target.value)}
@@ -154,7 +152,7 @@ const NavBar = (props) => {
           )}
 
           <button
-            className="ml-3 px-2 py-1 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
+            className="px-2 py-1 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
             onClick={() => {
               setSearchTitle("");
               onClickFindByTitle(searchTitle, setPostingsDataArray);
@@ -166,27 +164,7 @@ const NavBar = (props) => {
             Clear Search
           </button>
 
-          <div className="ml-20">
-            <Button
-              variant="outline-danger"
-              onClick={() => {
-                removeAllPosts();
-                setPostingsDataArray([emptyPost]);
-              }}>
-              Remove All Posts
-            </Button>
 
-            <Button
-              variant="outline-danger"
-              onClick={() => {
-                removeAllTopics();
-                setTopicsDataArray([emptyTopic]);
-              }}>
-              Remove All Topics
-            </Button>
-
-
-          </div>
         </div>
       </nav>
     </>
