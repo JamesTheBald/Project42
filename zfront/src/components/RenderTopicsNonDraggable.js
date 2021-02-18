@@ -1,17 +1,22 @@
 import React from "react";
 
-const RenderTopicsNonDraggable = (props) => {
+  const RenderTopicsNonDraggable = (props) => {
   let topicsDataArray = props.topicsDataArray;
   const setCurrTopicIndex = props.setCurrTopicIndex;
   const setShowTopicModal = props.setShowTopicModal;
   const setTopicDraft = props.setTopicDraft;
   const setCreatingTopicFlag = props.setCreatingTopicFlag;
+  // const posnLog = props.posnLog
+
+  // console.log("RenderTopicsNonDraggable.js begins. topicsDataArray=", topicsDataArray);
+
 
   if (topicsDataArray?.[0]?._id) {
     return (
       <>
         {topicsDataArray.map((topic, index) => {
           // console.log("RenderTopicsNonDraggable .map: index=", index, " and topic=", topic);
+          // posnLog && console.log('RenderTopicsNonDraggable topic.positionX=',topic.positionX,', topic.positionY=',topic.positionY)
 
           return (
             <div
@@ -30,7 +35,7 @@ const RenderTopicsNonDraggable = (props) => {
                 }}>
 
                 <div className="w-100 h-24 bg-yellow-200 rounded-lg">
-                {topic.topic ? <div className="text-4xl z-10">{topic.topic}</div> : <div> Click to edit </div>}
+                  {topic.topic ? <div className="text-4xl z-10">{topic.topic}</div> : <div> Click to edit </div>}
                 </div>
 
               </div>

@@ -27,7 +27,6 @@ const MainModal = (props) => {
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
 
-
   const [showWarningModal, setShowWarningModal] = useState(false);
   let madeEdits = useRef();
 
@@ -97,8 +96,7 @@ const MainModal = (props) => {
         animation={false}
         onHide={() => {
           safeModalHide(madeEdits);
-        }}
-      >
+        }}>
         <form
           onSubmit={() => {
             // if (postDraft.contentType === "") {
@@ -113,8 +111,11 @@ const MainModal = (props) => {
               setShowMainModal,
               creatingPostFlag
             );
-          }}
-        >
+          }}></form>
+
+        <Modal.Header>{creatingPostFlag && <div className="text-2xl">Create New Post</div>}</Modal.Header>
+
+        <form>
           <Modal.Body>
             <>
               <input
@@ -123,9 +124,9 @@ const MainModal = (props) => {
                 required
                 maxLength="75"
                 className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
-                placeholder="Enter title of posting here"
+                placeholder="Click to enter title of post here"
                 value={postDraft.title}
-                onChange={handleInputChange} // Try onBlur?
+                onChange={handleInputChange}
                 onKeyDown={handleEnter}
               />
             </>
@@ -137,14 +138,14 @@ const MainModal = (props) => {
                 type="text"
                 required
                 className="modalField p-2"
-                placeholder="Firstname last-initial"
+                placeholder="Enter firstname and last initial. e.g. Margo P."
                 value={postDraft.contributors}
                 onChange={handleInputChange}
                 onKeyDown={handleEnter}
               />
             </div>
 
-            {postDraft?.createdAt && postDraft.updatedAt ? // If there aren't any dates, just skip this
+            {postDraft?.createdAt && postDraft.updatedAt ? ( // If there aren't any dates, just skip this
               <>
                 <div className="flex flex-row p-1 mt-2">
                   {" "}
@@ -159,12 +160,12 @@ const MainModal = (props) => {
                   </div>
                 </div>
               </>
-              : 
+            ) : (
               <></>
-            }
+            )}
 
             <div className="flex flex-row items-center p-1 mt-2">
-              <AiOutlineTags size="30"/>
+              <AiOutlineTags size="30" />
               <input
                 name="tags"
                 type="text"
@@ -176,33 +177,25 @@ const MainModal = (props) => {
               />
             </div>
 
-            <div className="mt-2">
-              <ContentTypeSelector postDraft={postDraft} setPostDraft={setPostDraft}></ContentTypeSelector>
-            </div>
-
+            <ContentTypeSelector postDraft={postDraft} setPostDraft={setPostDraft}></ContentTypeSelector>
 
             <div className="flex flex-row justify-between items-center w-2/5 p-1 mt-2">
               <div className="font-500">Spiciness:</div>
-              <SpicinessSelector
-                postDraft = {postDraft}
-                setPostDraft = {setPostDraft}
-              />
+              <SpicinessSelector postDraft={postDraft} setPostDraft={setPostDraft} />
             </div>
-
 
             <div className="flex flex-row items-center w-2/5 p-1 mt-2">
-              <div className="font-500 w-1/2">Upvotes:</div>
-              <VoteCounter 
-                postingsDataArray = {postingsDataArray}
-                // showMainModal = {showMainModal}
-                index = {-1}
-                postDraft = {postDraft}
-                setPostDraft = {setPostDraft}
-                userVoted = {userVoted}
-                setUserVoted = {setUserVoted}
+              <div className="font-500">Upvotes: </div>
+              <div className="w-4" />
+              <VoteCounter
+                postingsDataArray={postingsDataArray}
+                index={-1}
+                postDraft={postDraft}
+                setPostDraft={setPostDraft}
+                userVoted={userVoted}
+                setUserVoted={setUserVoted}
               />
             </div>
-
 
             <div className="flex flex-col w-full p-1 mt-2">
               <div className="font-500">Purpose:</div>
@@ -216,12 +209,7 @@ const MainModal = (props) => {
               />
             </div>
 
-
-            <RichTextEditor
-              postDraft={postDraft}
-              setPostDraft={setPostDraft}
-              required
-            />
+            <RichTextEditor postDraft={postDraft} setPostDraft={setPostDraft} required />
           </Modal.Body>
 
           <Modal.Footer>
@@ -231,7 +219,7 @@ const MainModal = (props) => {
                 console.log("MainModal.js Clicked Abandon Changes");
                 setShowMainModal(false);
               }}>
-              Abandon Changes <BsArrowCounterclockwise/>
+              Abandon Changes <BsArrowCounterclockwise />
             </Button>
 
             <Button
@@ -246,11 +234,13 @@ const MainModal = (props) => {
                   creatingPostFlag
                 );
               }}>
-              Delete Post<FaRegTrashAlt/>
+              Delete Post
+              <FaRegTrashAlt />
             </Button>
 
             <Button type="submit">
-              Save Changes<GrSave/>
+              Save Changes
+              <GrSave />
             </Button>
           </Modal.Footer>
         </form>
