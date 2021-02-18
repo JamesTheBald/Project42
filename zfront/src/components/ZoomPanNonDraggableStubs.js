@@ -10,6 +10,7 @@ class ZoomPanNonDraggableStubs extends Component {
     let zoomScale = this.props.zoomScale;
     let panX = this.props.panX;
     let panY = this.props.panY;
+    const posnLog = this.props.posnLog;
     let postingsDataArray = this.props.postingsDataArray;
     let currPostIndex = this.props.currPostIndex;
     const setCurrPostIndex = this.props.setCurrPostIndex;
@@ -48,10 +49,12 @@ class ZoomPanNonDraggableStubs extends Component {
             maxScale: 15,
             centerContent: false,
             limitToBounds: false,
-          }}>
+          }}
+          >
           {() => (      // { zoomIn, zoomOut, setTransform }
             <>
               <TransformComponent>
+                
                 <div className="backdrop">
                   <RenderStubsNonDraggable
                     postingsDataArray={postingsDataArray}
@@ -64,16 +67,18 @@ class ZoomPanNonDraggableStubs extends Component {
                     setCreatingPostFlag={setCreatingPostFlag}
                     userVoted={userVoted}
                     setUserVoted={setUserVoted}
+                    posnLog={posnLog}
                   />
-                <RenderTopicsNonDraggable
+                  <RenderTopicsNonDraggable
                     topicsDataArray={topicsDataArray}
                     setCurrTopicIndex={setCurrTopicIndex}
                     setShowTopicModal={setShowTopicModal}
                     setTopicDraft={setTopicDraft}
                     setCreatingTopicFlag={setCreatingTopicFlag}
+                    posnLog={posnLog}
                   />
-
                 </div>
+
               </TransformComponent>
 
               {/* <div className="absolute top-0 left-360">

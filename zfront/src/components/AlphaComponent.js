@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+import Button from "react-bootstrap/Button";
 
+import removeAllPosts from "../functions/removeAllPosts";
+import removeAllTopics from "../functions/removeAllTopics";
 import NavBar from "./NavBar";
 import MainModal from "./MainModal";
 import TopicModal from "./TopicModal";
@@ -8,6 +11,7 @@ import RenderTopicsDraggable from "./RenderTopicsDraggable";
 import retrievePosts from "../functions/retrievePosts";
 import retrieveTopics from "../functions/retrieveTopics";
 import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
+
 
 const emptyPost = {
   title: "",
@@ -27,6 +31,8 @@ const emptyTopic = {
   positionY: 200,
 };
 
+const posnLog = false;  // Set true if you want to see console logs with Zoompan positions panX and panY
+
 
 const AlphaComponent = () => {
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
@@ -39,7 +45,7 @@ const AlphaComponent = () => {
   const [dragMode, setDragMode] = useState(false);
   const [zoomScale, setZoomScale] = useState(0.5);
   const [panX, setPanX] = useState(0);
-  const [panY, setPanY] = useState(0);
+  const [panY, setPanY] = useState(80);
 
   const [topicsDataArray, setTopicsDataArray] = useState();
   const [showTopicModal, setShowTopicModal] = useState(false);
@@ -51,21 +57,21 @@ const AlphaComponent = () => {
   const stubDragged = useRef(false);
   const topicDragged = useRef(false);
   const zoomedOrPanned = useRef(false);
-  const imageWidth = 3840; // Set these to equal image dimensions
+  const imageWidth = 3840; // Set these to equal background image dimensions
   const imageHeight = 2160;
 
   zoomedOrPanned.current = false;
 
 
+  console.log("AlphaComponent.js begins: postDraft=", postDraft);
+  console.log("AlphaComponent.js begins: topicDraft=", topicDraft);
+
   function updateZoomPan(stats) {
-    console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
+    posnLog && console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
     setZoomScale(stats.scale);
     setPanX(stats.positionX);
     setPanY(stats.positionY);
   }
-
-  console.log("AlphaComponent.js begins: postDraft=", postDraft);
-  console.log("AlphaComponent.js begins: topicDraft=", topicDraft);
 
   useEffect(() => {
     // console.log("AlphaComponent.js useEffect zoomScale=", zoomScale);
@@ -77,6 +83,7 @@ const AlphaComponent = () => {
   }, [zoomScale, panX, panY]);
 
   useEffect(() => {
+    console.log("useEffect for adding EventListener 'keyup' & keydown' runs..")
     // from: https://stackoverflow.com/questions/59546928/keydown-up-events-with-react-hooks-not-working-properly
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
@@ -118,12 +125,13 @@ if (!topicsDataArray) {
     // This function needs the event object, so may need currying to move to external file.
     // let currentTargetRect = evnt.currentTarget.getBoundingClientRect();
     // Do we want this relative to the bounding rectange?
-
-    if (!stubDragged.current && !dragMode) {
+    console.log("createPostAtMouseClick stubDragged.current=", stubDragged.current, " and dragMode=",dragMode);
+    
+    if (dragMode && !stubDragged.current && !topicDragged.current) {
       const offsetX = event.pageX - window.pageXOffset; // - currentTargetRect.left;
       const offsetY = event.pageY - window.pageYOffset; // - currentTargetRect.top;
-      console.log("createPostAtMouseClick event.pageX=", event.pageX, "  window.pageXOffset=",window.pageXOffset);
-      console.log("createPostAtMouseClick event.pageY=", event.pageY, "  window.pageYOffset=",window.pageYOffset);
+      posnLog && console.log("createPostAtMouseClick event.pageX=", event.pageX, "  window.pageXOffset=",window.pageXOffset);
+      posnLog && console.log("createPostAtMouseClick event.pageY=", event.pageY, "  window.pageYOffset=",window.pageYOffset);
 
       console.log("AlphaComponent.js createPostAtMouseClick: creatingPostFlag=true");
       setCreatingPostFlag(true);
@@ -147,7 +155,7 @@ if (!topicsDataArray) {
   return (
     <div>
       
-      <NavBar
+      <NavBar className="absolute"
         emptyPost={emptyPost}
         showWelcomeModal={showWelcomeModal}
         setShowWelcomeModal={setShowWelcomeModal}
@@ -171,7 +179,7 @@ if (!topicsDataArray) {
       {/* Draggable Mode */}
       <div
         ref={stubsDraggable}
-        onClick={(event) => createPostAtMouseClick(event)}  // 
+        onClick={(event) => createPostAtMouseClick(event)}
         className="backdrop absolute"
         style={{ zIndex: -10 }}
       >
@@ -203,35 +211,33 @@ if (!topicsDataArray) {
 
       {/* ZoomPan mode */}
       {!dragMode && (
-        <>
-          <ZoomPanNonDraggableStubs
-            updateZoomPan={updateZoomPan}
-            zoomScale={zoomScale}
-            panX={panX}
-            panY={panY}
-            postingsDataArray={postingsDataArray}
-            currPostIndex={currPostIndex}
-            setCurrPostIndex={setCurrPostIndex}
-            showMainModal={showMainModal}
-            setShowMainModal={setShowMainModal}
-            postDraft={postDraft}
-            setPostDraft={setPostDraft}
-            setCreatingPostFlag={setCreatingPostFlag}
-            userVoted={userVoted}
-            setUserVoted={setUserVoted}
+        <ZoomPanNonDraggableStubs
+          updateZoomPan={updateZoomPan}
+          zoomScale={zoomScale}
+          panX={panX}
+          panY={panY}
+          posnLog={posnLog}
+          postingsDataArray={postingsDataArray}
+          currPostIndex={currPostIndex}
+          setCurrPostIndex={setCurrPostIndex}
+          showMainModal={showMainModal}
+          setShowMainModal={setShowMainModal}
+          postDraft={postDraft}
+          setPostDraft={setPostDraft}
+          setCreatingPostFlag={setCreatingPostFlag}
+          userVoted={userVoted}
+          setUserVoted={setUserVoted}
 
-            emptyTopic={emptyTopic}
-            setShowTopicModal={setShowTopicModal}
-            topicsDataArray={topicsDataArray}
-            setCurrTopicIndex={setCurrTopicIndex}
-            setCreatingTopicFlag={setCreatingTopicFlag}
-            setTopicDraft={setTopicDraft}
-
-          />
-        </>
+          emptyTopic={emptyTopic}
+          setShowTopicModal={setShowTopicModal}
+          topicsDataArray={topicsDataArray}
+          setCurrTopicIndex={setCurrTopicIndex}
+          setCreatingTopicFlag={setCreatingTopicFlag}
+          setTopicDraft={setTopicDraft}
+        />
       )}
 
-      {/* Both modes, but often hidden */}
+      {/* Present for both DragMode and !DragMode, but often hidden */}
       {showMainModal && (
         <MainModal
           showMainModal={showMainModal}
@@ -263,6 +269,27 @@ if (!topicsDataArray) {
       )}
 
       {dragMode && <div>Drag items to desired positions</div>}
+
+      <div className="ml-20">
+        <Button
+          variant="outline-danger"
+          onClick={() => {
+            removeAllPosts();
+            setPostingsDataArray([emptyPost]);
+          }}>
+          Remove All Posts
+        </Button>
+
+        <Button
+          variant="outline-danger"
+          onClick={() => {
+            removeAllTopics();
+            setTopicsDataArray([emptyTopic]);
+          }}>
+          Remove All Topics
+        </Button>
+      </div>
+
     </div>
   );
 };

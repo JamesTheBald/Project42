@@ -63,7 +63,7 @@ const TopicModal = (props) => {
   return (
     <>
       <Modal
-        size="sm"
+        // size="sm"
         centered
         show={showTopicModal}
         animation={false}
