@@ -16,8 +16,8 @@ const RenderStubsDraggable = (props) => {
   const setUserVoted = props.setUserVoted;
   let stubDragged = props.stubDragged;
 
-  let oldX = [];
-  let oldY = [];
+  let posnX = [];
+  let posnY = [];
   stubDragged.current = false;
 
    
@@ -26,9 +26,9 @@ const RenderStubsDraggable = (props) => {
     // Above line uses 'currying'. See https://www.carlrippon.com/using-currying-to-pass-additional-data-to-react-event-handlers/
     event.stopPropagation(); //J: I think this is important... don't want bubbling?
     console.log("RenderStubsDraggable.js handleOnStop  x=", data.x, " y=", data.y);
-    console.log("RenderStubsDraggable.js oldX[",index,"] = ", oldX[index],", oldY[",index,"] = ",oldY[index]);
+    console.log("RenderStubsDraggable.js posnX[",index,"] = ", posnX[index],", posnY[",index,"] = ",posnY[index]);
 
-    if (data.x === oldX[index] && data.y === oldY[index]) {
+    if (data.x === posnX[index] && data.y === posnY[index]) {
       console.log("RenderStubsDraggable.js handleOnStop: You just clicked (without dragging) - Opening MainModal");
       setCreatingPostFlag(false);
       setCurrPostIndex(index);
@@ -39,8 +39,8 @@ const RenderStubsDraggable = (props) => {
       post.positionY = data.y;
       updatePostOnDB(post, index);
     }
-    oldX[index] = data.x;
-    oldY[index] = data.y;
+    posnX[index] = data.x;
+    posnY[index] = data.y;
 
     stubDragged.current = true;
   };
@@ -53,12 +53,12 @@ const RenderStubsDraggable = (props) => {
       <>
         {postingsDataArray.map((post, index) => {
           // console.log("RenderStubsDraggable.js starting .map: post=",post, " and index=",index);
-          oldX[index] = post.positionX;
-          oldY[index] = post.positionY;
+          posnX[index] = post.positionX;
+          posnY[index] = post.positionY;
 
           return (
             <div key={index}>
-              <Draggable onStop={handleOnStop(post, index)} allowAnyClick={true} defaultPosition={{x: oldX[index], y: oldY[index]}}>
+              <Draggable onStop={handleOnStop(post, index)} allowAnyClick={true} defaultPosition={{x: posnX[index], y: posnY[index]}}>
 
                 <div className="flex flex-col items-center absolute text-gray-800">
 

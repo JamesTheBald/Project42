@@ -12,17 +12,19 @@ const RenderStubsNonDraggable = (props) => {
   let setCreatingPostFlag = props.setCreatingPostFlag;
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
+  // const posnLog = props.posnLog
+
 
   const [vizArray, setVizArray] = useState([]);
   let timeout;
   const delay = 300;
 
-  // console.log("RenderStubsNonDraggable.js useEffect postingsDataArray=", postingsDataArray);
-
+  // console.log("RenderStubsNonDraggable.js begins. postingsDataArray=", postingsDataArray);
 
   useEffect(() => {
     if (postingsDataArray?.[0]?._id) {
       postingsDataArray.map((post, index) => {
+        // console.log("RenderStubsNonDraggable useEffect setting VizArray")
         setVizArray((currVizArray) => {
           let newVizArray = [...currVizArray];
           newVizArray[index] = "invisible";
@@ -59,6 +61,7 @@ const RenderStubsNonDraggable = (props) => {
       <>
         {postingsDataArray.map((post, index) => {
           // console.log("RenderStubs .map: index=", index, " and post=", post);
+          // posnLog && console.log('RenderStubsNonDraggable begins. post=',post.positionX,', post.positionY=',post.positionY)
 
           return (
             <div

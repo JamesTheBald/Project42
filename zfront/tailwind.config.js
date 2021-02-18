@@ -23,6 +23,7 @@ module.exports = {
          'md': '800px',
          'lg': '1000px',
          'xl': '1200px',
+         '2xl': '1600px'
       },
 
       fontSize: {
@@ -125,11 +126,15 @@ module.exports = {
             '320': '80rem',
             '360': '90rem',
             '400': '100rem',
+            '600': '150rem',
+            '800': '200rem',
+            '1200': '300rem',
+            '1600': '400rem',
          },
 
 
       }
    },
    variants: {},
-   plugins: [require("@tailwindcss/line-clamp")],
+  //  plugins: [require("@tailwindcss/line-clamp")],
 }
