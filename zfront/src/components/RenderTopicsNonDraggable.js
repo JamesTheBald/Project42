@@ -7,7 +7,7 @@ const RenderTopicsNonDraggable = (props) => {
   const setTopicDraft = props.setTopicDraft;
   const setCreatingTopicFlag = props.setCreatingTopicFlag;
 
-  if (topicsDataArray && topicsDataArray[0]._id) {
+  if (topicsDataArray?.[0]?._id) {
     return (
       <>
         {topicsDataArray.map((topic, index) => {
@@ -28,7 +28,11 @@ const RenderTopicsNonDraggable = (props) => {
                   setTopicDraft(topic);
                   setShowTopicModal(true);
                 }}>
-                {topic.title ? <div className="text-3xl">{topic.title}</div> : <div> Click to edit </div>}
+
+                <div className="w-100 h-24 bg-yellow-200 rounded-lg">
+                {topic.topic ? <div className="text-4xl z-10">{topic.topic}</div> : <div> Click to edit </div>}
+                </div>
+
               </div>
             </div>
           );

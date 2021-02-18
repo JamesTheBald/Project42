@@ -20,7 +20,7 @@ const ContentTypeSelector = (props) => {
       <Dropdown>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
           {(postDraft.contentType === "") ?
-            <>Content type</>
+            <> Primary Content type</>
             :
             <>{postDraft.contentType}</>
           }

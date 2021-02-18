@@ -1,5 +1,5 @@
 html {
-  font: size 16px;
+  /* font-size:14px; */
 }
 
 div {
@@ -11,7 +11,7 @@ div {
   background-image: url('../images/tuscany-italy-landscape.jpg');
   object-fit: contain;
   /* scale-down */
-  height: 2160px;   /* Set equal to height of the image. Also set on PostingsList.js */
+  height: 2160px;   /* Set equal to height of the image. Also set on AlphaComponent.js ~line 53 */
   width: 3840px;    /* Set equal to the width of the image */
 }
 
