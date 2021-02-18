@@ -179,7 +179,7 @@ const MainModal = (props) => {
             </div>
 
             <div className="flex flex-row items-center w-2/5 p-1 mt-2">
-              <div className="font-500">Upvotes: </div>
+              <div className="font-500 w-1/2">Upvotes: </div>
               <div className="w-4" />
               <VoteCounter
                 postingsDataArray={postingsDataArray}
