@@ -37,18 +37,7 @@ const MainModal = (props) => {
   console.log("MainModal.js Begins.");
   // console.log("MainModal.js: postDraft=", postDraft);
 
-  // useEffect(() => {
-  //   const listener = event => {
-  //     if (event.code === "Enter" || event.code === "NumpadEnter") {
-  //      set flag
-  //     }
-  //   };
-  //   document.addEventListener("keydown", listener);
-  //   return () => {
-  //     document.removeEventListener("keydown", listener);
-  //   };
-  // }, []);
-
+  
   const handleInputChange = (evnt) => {
     //J: This could be called updatePostDraft()
     madeEdits.current = true;
@@ -111,9 +100,14 @@ const MainModal = (props) => {
               setShowMainModal,
               creatingPostFlag
             );
-          }}></form>
+          }}>
+        </form>
 
-        <Modal.Header>{creatingPostFlag && <div className="text-2xl">Create New Post</div>}</Modal.Header>
+        {creatingPostFlag && (
+          <Modal.Header>
+            <div className="text-2xl">Create New Post</div>
+          </Modal.Header>
+        )}
 
         <form>
           <Modal.Body>

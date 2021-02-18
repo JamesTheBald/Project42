@@ -31,7 +31,7 @@ const emptyTopic = {
   positionY: 200,
 };
 
-const posnLog = true;  // Set true if you want to see console logs with Zoompan positions panX and panY
+const posnLog = false;  // Set true if you want to see console logs with Zoompan positions panX and panY
 
 
 const AlphaComponent = () => {
@@ -63,15 +63,15 @@ const AlphaComponent = () => {
   zoomedOrPanned.current = false;
 
 
+  console.log("AlphaComponent.js begins: postDraft=", postDraft);
+  console.log("AlphaComponent.js begins: topicDraft=", topicDraft);
+
   function updateZoomPan(stats) {
     posnLog && console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
     setZoomScale(stats.scale);
     setPanX(stats.positionX);
     setPanY(stats.positionY);
   }
-
-  console.log("AlphaComponent.js begins: postDraft=", postDraft);
-  console.log("AlphaComponent.js begins: topicDraft=", topicDraft);
 
   useEffect(() => {
     // console.log("AlphaComponent.js useEffect zoomScale=", zoomScale);
