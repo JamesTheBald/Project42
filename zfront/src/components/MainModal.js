@@ -26,6 +26,7 @@ const MainModal = (props) => {
   let creatingPostFlag = props.creatingPostFlag;
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
+  const recdLog=props.recdLog;
 
   const [showWarningModal, setShowWarningModal] = useState(false);
   let madeEdits = useRef();
@@ -98,7 +99,8 @@ const MainModal = (props) => {
               setPostingsDataArray,
               currPostIndex,
               setShowMainModal,
-              creatingPostFlag
+              creatingPostFlag,
+              recdLog
             );
           }}>
         </form>

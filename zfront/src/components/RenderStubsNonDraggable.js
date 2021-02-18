@@ -85,6 +85,9 @@ const RenderStubsNonDraggable = (props) => {
                   setCreatingPostFlag(false);
                   setCurrPostIndex(index);
                   setPostDraft(post);
+
+                  // Put postLock here 
+
                   setShowMainModal(true);
                 }}
               >

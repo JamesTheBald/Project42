@@ -22,6 +22,7 @@ const emptyPost = {
   upvotes: 0,
   positionX: 200, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 200,
+  locked: false
 };
 
 const emptyTopic = {
@@ -32,7 +33,7 @@ const emptyTopic = {
 };
 
 const posnLog = false;  // Set true if you want to see console logs with Zoompan positions panX and panY
-
+const recdLog = false;  // Set true if you want to see postingsDataArray, postDraft, topicsDataArray, etc 
 
 const AlphaComponent = () => {
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
@@ -173,6 +174,7 @@ if (!topicsDataArray) {
         setCurrTopicIndex={setCurrTopicIndex}
         setCreatingTopicFlag={setCreatingTopicFlag}
         setTopicDraft={setTopicDraft}
+        recdLog={recdLog}
       />
 
 
@@ -251,6 +253,7 @@ if (!topicsDataArray) {
           creatingPostFlag={creatingPostFlag}
           userVoted={userVoted}
           setUserVoted={setUserVoted}
+          recdLog={recdLog}
         />
       )}
 
@@ -265,6 +268,7 @@ if (!topicsDataArray) {
           topicDraft={topicDraft}
           setTopicDraft={setTopicDraft}
           creatingTopicFlag={creatingTopicFlag}
+          recdLog={recdLog}
         />
       )}
 

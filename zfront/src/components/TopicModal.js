@@ -20,6 +20,7 @@ const TopicModal = (props) => {
   let topicDraft = props.topicDraft;
   const setTopicDraft = props.setTopicDraft;
   let creatingTopicFlag = props.creatingTopicFlag;
+  const recdLog=props.recdLog;
 
 
   const [showWarningModal, setShowWarningModal] = useState(false);

@@ -11,11 +11,12 @@ const submitPost = (
   setPostingsDataArray,
   currPostIndex,
   setShowMainModal,
-  creatingPostFlag
+  creatingPostFlag,
+  recdLog
 ) => {
   console.log("submitPost.js Clicked 'Save Post' creatingPostFlag=", creatingPostFlag);
-  console.log("submitPost.js Clicked 'Save Post' postDraft=", postDraft);
-  console.log("submitPost.js Clicked 'Save Post' postingsDataArray=", postingsDataArray);
+  recdLog && console.log("submitPost.js Clicked 'Save Post' postDraft=", postDraft);
+  recdLog && console.log("submitPost.js Clicked 'Save Post' postingsDataArray=", postingsDataArray);
 
   if (creatingPostFlag) {
     console.log("submitPost.js creatingPostFlag=true so running createPostOnDB and createPostOnDataArray");
