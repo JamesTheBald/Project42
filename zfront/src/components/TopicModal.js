@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 import WarningModal from "./WarningModal";
@@ -72,7 +71,7 @@ const TopicModal = (props) => {
   return (
     <>
       <Modal
-        size="lg"  // Large is size of MainModal. Leave this out for size Medium
+        size="md"  // Large is size of MainModal. Leave this out for size Medium
         centered
         show={showTopicModal}
         animation={false}
@@ -84,13 +83,12 @@ const TopicModal = (props) => {
           <div>
 
             <Dropdown>
-              <Dropdown.Toggle variant="primary" id="dropdown-basic">
-              {(topicDraft.topicLevel === "") ?
-                <>Topic Hierarchy Level</>
-              :
-                <>{topicDraft.topicLevel}</>
-              }
-                
+              <Dropdown.Toggle id="dropdown-basic" className="px-3 py-2 mx-2 my-2 text-lg text-gray-800 bg-gray-200 border border-gray-700 rounded-lg shadow-sm">
+                {(topicDraft.topicLevel === "") ?
+                  <>Topic Hierarchy Level</>
+                :
+                  <>{topicDraft.topicLevel}</>
+                }
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
@@ -103,7 +101,7 @@ const TopicModal = (props) => {
             <input
               name="topic"
               type="text"
-              className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
+              className="text-lg w-full mx-2 mt-3 p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
               placeholder="Click to enter title here"
               value={topicDraft.topic}
               onChange={handleInputChange}
@@ -112,20 +110,20 @@ const TopicModal = (props) => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button
-            variant="warning"
+          <button
+            className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
             onClick={() => {
               console.log("TopicModal.js Clicked Abandon Changes");
               setShowTopicModal(false);
             }}>
-            <div className="flex flex-row items-baseline">
-              <BsArrowCounterclockwise/>
+            <div className="flex flex-row items-center">
+              <BsArrowCounterclockwise className="text-lg"/>
               <div className="pl-2 py-1">Abandon Changes</div>
             </div>
-          </Button>
+          </button>
 
-          <Button
-            variant="danger"
+          <button
+            className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
             onClick={() => {
               deleteTopic(
                 topicDraft,
@@ -136,14 +134,14 @@ const TopicModal = (props) => {
                 creatingTopicFlag
               );
             }}>
-            <div className="flex flex-row items-baseline">
+            <div className="flex flex-row items-center">
               <FaRegTrashAlt/>
               <div className="pl-2 py-1">Delete Topic</div>
             </div>
-          </Button>
+          </button>
 
-          <Button
-            type="submit"
+          <button
+            className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
             onClick={() => {
               submitTopic(
                 emptyTopic,
@@ -156,11 +154,11 @@ const TopicModal = (props) => {
                 recdLog
               );
             }}>
-            <div className="flex flex-row items-baseline">
+            <div className="flex flex-row items-center">
               <GrSave/>
               <div className="pl-2 py-1">Save Changes</div>
             </div>
-          </Button>
+          </button>
         </Modal.Footer>
 
         <WarningModal showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />

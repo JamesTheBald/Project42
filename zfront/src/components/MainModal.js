@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
 import RichTextEditor from "./RichTextEditor";
@@ -210,17 +209,21 @@ const MainModal = (props) => {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button
-              variant="warning"
+            <button
+              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
+
               onClick={() => {
                 console.log("MainModal.js Clicked Abandon Changes");
                 setShowMainModal(false);
               }}>
-              Abandon Changes <BsArrowCounterclockwise />
-            </Button>
+              <div className="flex flex-row items-center">
+                <BsArrowCounterclockwise className="text-lg"/>
+                <div className="pl-2 py-1">Abandon Changes</div>
+              </div>
+            </button>
 
-            <Button
-              variant="danger"
+            <button
+              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
               onClick={() => {
                 deletePost(
                   postDraft,
@@ -231,11 +234,14 @@ const MainModal = (props) => {
                   creatingPostFlag
                 );
               }}>
-              Delete Post
-              <FaRegTrashAlt />
-            </Button>
+              <div className="flex flex-row items-center">
+                <FaRegTrashAlt className="text-lg"/>
+                <div className="pl-2 py-1">Delete Post</div>
+              </div>
+            </button>
 
-            <Button 
+            <button 
+              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
               onClick={() => {
                 submitPost(
                   emptyPost,
@@ -247,11 +253,12 @@ const MainModal = (props) => {
                   creatingPostFlag,
                   recdLog
                 );
-              }}
-            >
-              Save Changes
-              <GrSave />
-            </Button>
+              }}>
+              <div className="flex flex-row items-center">
+                <GrSave className="text-lg"/>
+                <div className="pl-2 py-1">Save Changes</div>
+              </div>
+            </button>
           </Modal.Footer>
         </form>
         <WarningModal showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />

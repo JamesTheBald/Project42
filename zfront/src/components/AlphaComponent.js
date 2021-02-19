@@ -14,6 +14,10 @@ import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 import unlockAll from "../functions/unlockAll";
 
 
+const posnLog = false;  // Set true if you want to see console logs with Zoompan positions panX and panY
+const recdLog = true;  // Set true if you want to see postingsDataArray, postDraft, topicsDataArray, etc 
+const actnLog = true;  // Set true if you want to see postingsDataArray, postDraft, topicsDataArray, etc 
+
 const emptyPost = {
   title: "",
   contributors: "",
@@ -32,11 +36,6 @@ const emptyTopic = {
   positionX: 200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 200,
 };
-
-const posnLog = false;  // Set true if you want to see console logs with Zoompan positions panX and panY
-const recdLog = false;  // Set true if you want to see postingsDataArray, postDraft, topicsDataArray, etc 
-const actnLog = true;  // Set true if you want to see postingsDataArray, postDraft, topicsDataArray, etc 
-
 
 const AlphaComponent = () => {
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
@@ -68,7 +67,9 @@ const AlphaComponent = () => {
 
 
   console.log("AlphaComponent.js begins");
+  recdLog && console.log("AlphaComponent.js postingsDataArray=", postingsDataArray);
   recdLog && console.log("AlphaComponent.js postDraft=", postDraft);
+  recdLog && console.log("AlphaComponent.js topicsDataArray=", topicsDataArray);
   recdLog && console.log("AlphaComponent.js topicDraft=", topicDraft);
 
   function updateZoomPan(stats) {
