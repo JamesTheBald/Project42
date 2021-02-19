@@ -28,7 +28,7 @@ const emptyPost = {
 
 const emptyTopic = {
   topic: "",
-  topicLevel: 0,
+  topicLevel: "",
   positionX: 200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 200,
 };

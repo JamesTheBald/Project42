@@ -88,15 +88,31 @@ const MainModal = (props) => {
         animation={false}
         onHide={() => {
           safeModalHide(madeEdits);
-        }}>
+        }}
+      >
+        <form
+          onSubmit={() => {
+            // if (postDraft.contentType === "") {
+            //   return (alert("You must select a Primary Content Type"));
+            // }
+            submitPost(
+              emptyPost,
+              postDraft,
+              postingsDataArray,
+              setPostingsDataArray,
+              currPostIndex,
+              setShowMainModal,
+              creatingPostFlag
+            );
+          }}
+        >
 
-        {creatingPostFlag && (
-          <Modal.Header>
-            <div className="text-2xl">Create New Post</div>
-          </Modal.Header>
-        )}
+          {creatingPostFlag && (
+            <Modal.Header>
+              <div className="text-2xl">Create New Post</div>
+            </Modal.Header>
+          )}
 
-        <form>
           <Modal.Body>
             <>
               <input
@@ -166,7 +182,7 @@ const MainModal = (props) => {
             </div>
 
             <div className="flex flex-row items-center w-2/5 p-1 mt-2">
-              <div className="font-500">Upvotes: </div>
+              <div className="font-500 w-1/2">Upvotes: </div>
               <div className="w-4" />
               <VoteCounter
                 postingsDataArray={postingsDataArray}
@@ -190,7 +206,7 @@ const MainModal = (props) => {
               />
             </div>
 
-            <RichTextEditor postDraft={postDraft} setPostDraft={setPostDraft} required />
+            <RichTextEditor postDraft={postDraft} setPostDraft={setPostDraft} />
           </Modal.Body>
 
           <Modal.Footer>

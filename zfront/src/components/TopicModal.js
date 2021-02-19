@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-// import ContentTypeSelector from "./ContentTypeSelector";
+import Dropdown from "react-bootstrap/Dropdown";
 import WarningModal from "./WarningModal";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { GrSave } from "react-icons/gr";
@@ -61,6 +61,14 @@ const TopicModal = (props) => {
     }
   };
 
+  const changeContentType = (passedContentType) => {
+    setTopicDraft((currDraft) => {
+      const newTopicDraft = { ...currDraft, topicLevel: passedContentType };
+      return newTopicDraft;
+   });
+  };
+
+
   return (
     <>
       <Modal
@@ -74,11 +82,29 @@ const TopicModal = (props) => {
       >
         <Modal.Body>
           <div>
+
+            <Dropdown>
+              <Dropdown.Toggle variant="primary" id="dropdown-basic">
+              {(topicDraft.topicLevel === "") ?
+                <>Topic Hierarchy Level</>
+              :
+                <>{topicDraft.topicLevel}</>
+              }
+                
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => {changeContentType("Main Topic")}}>Main Topic</Dropdown.Item>
+                <Dropdown.Item onClick={() => {changeContentType("Sub-Topic")}}>Sub-Topic</Dropdown.Item>
+                <Dropdown.Item onClick={() => {changeContentType("Sub-Sub-Topic")}}>Sub-Sub-Topic</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
             <input
               name="topic"
               type="text"
               className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
-              placeholder="Enter topic name here"
+              placeholder="Click to enter title here"
               value={topicDraft.topic}
               onChange={handleInputChange}
             />
