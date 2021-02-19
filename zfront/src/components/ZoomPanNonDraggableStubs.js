@@ -10,7 +10,9 @@ class ZoomPanNonDraggableStubs extends Component {
     let zoomScale = this.props.zoomScale;
     let panX = this.props.panX;
     let panY = this.props.panY;
+    const zoomedOrPanned = this.props.zoomedOrPanned
     const posnLog = this.props.posnLog;
+    const recdLog = this.props.recdLog
     let postingsDataArray = this.props.postingsDataArray;
     let currPostIndex = this.props.currPostIndex;
     const setCurrPostIndex = this.props.setCurrPostIndex;
@@ -40,9 +42,8 @@ class ZoomPanNonDraggableStubs extends Component {
           onPanning={updateZoomPan}
           onPanningStop={updateZoomPan}
           enablePadding={false}
-          wheel={{
-            step: 200,
-          }}
+          doubleClick={{disabled: true}}
+          wheel={{step: 200}}
           options={{
             // See "Options prop elements" on https://www.npmjs.com/package/react-draggable
             minScale: 0.5,
@@ -67,7 +68,9 @@ class ZoomPanNonDraggableStubs extends Component {
                     setCreatingPostFlag={setCreatingPostFlag}
                     userVoted={userVoted}
                     setUserVoted={setUserVoted}
+                    zoomedOrPanned={zoomedOrPanned}
                     posnLog={posnLog}
+                    recdLog={recdLog}
                   />
                   <RenderTopicsNonDraggable
                     topicsDataArray={topicsDataArray}
@@ -75,7 +78,9 @@ class ZoomPanNonDraggableStubs extends Component {
                     setShowTopicModal={setShowTopicModal}
                     setTopicDraft={setTopicDraft}
                     setCreatingTopicFlag={setCreatingTopicFlag}
+                    zoomedOrPanned={zoomedOrPanned}
                     posnLog={posnLog}
+                    recdLog={recdLog}
                   />
                 </div>
 
