@@ -26,12 +26,13 @@ const emptyPost = {
 
 const emptyTopic = {
   topic: "",
-  topicLevel: 0,
+  topicLevel: "",
   positionX: 200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 200,
 };
 
 const posnLog = false;  // Set true if you want to see console logs with Zoompan positions panX and panY
+const recdLog = false;  // Set true if you want to see console logs of the data records 
 
 
 const AlphaComponent = () => {
@@ -63,8 +64,9 @@ const AlphaComponent = () => {
   zoomedOrPanned.current = false;
 
 
-  console.log("AlphaComponent.js begins: postDraft=", postDraft);
+  recdLog && console.log("AlphaComponent.js begins: postDraft=", postDraft);
   console.log("AlphaComponent.js begins: topicDraft=", topicDraft);
+  console.log("AlphaComponent.js begins: topicsDataArray=", topicsDataArray);
 
   function updateZoomPan(stats) {
     posnLog && console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
