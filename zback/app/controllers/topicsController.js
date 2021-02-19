@@ -1,3 +1,4 @@
+const { topics } = require("../models/dbSetup.js");
 const db = require("../models/dbSetup.js");   //db is the object with all the mongoose settings for the database
 const topicsModel = db.topics;
 
@@ -7,7 +8,8 @@ exports.create = (req, res) => {
     topic: req.body.topic,
     topicLevel: req.body.topicLevel,
     positionX: req.body.positionX,
-    positionY: req.body.positionY
+    positionY: req.body.positionY,
+    locked: req.body.locked
   });
 
   // Save Topic to the database
@@ -25,10 +27,13 @@ exports.create = (req, res) => {
     });
 };
 
-// Retrieve all topics from the database.
+
+// Retrieve all Topics from the database.
 exports.findAll = (req, res) => {
 
-  topicsModel.find({})
+  console.log("topicsController.js findAll req.query=",req.query)
+
+  topicsModel.find()
     .then(data => {
       console.log ("data=",data)
       res.send(data);
@@ -41,6 +46,8 @@ exports.findAll = (req, res) => {
       });
     });
 };
+
+
 
 
 // Find a single topic with an id

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
 import RichTextEditor from "./RichTextEditor";
@@ -13,6 +12,7 @@ import { GrSave } from "react-icons/gr";
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import submitPost from "../functions/submitPost";
 import deletePost from "../functions/deletePost";
+import unlockPost from "../functions/unlockPost";
 
 const MainModal = (props) => {
   const emptyPost = props.emptyPost;
@@ -26,6 +26,7 @@ const MainModal = (props) => {
   let creatingPostFlag = props.creatingPostFlag;
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
+  const recdLog=props.recdLog;
 
   const [showWarningModal, setShowWarningModal] = useState(false);
   let madeEdits = useRef();
@@ -74,6 +75,7 @@ const MainModal = (props) => {
     } else {
       setShowMainModal(false);
     }
+    unlockPost(postDraft, currPostIndex);
   };
 
   return (
@@ -207,17 +209,21 @@ const MainModal = (props) => {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button
-              variant="warning"
+            <button
+              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
+
               onClick={() => {
                 console.log("MainModal.js Clicked Abandon Changes");
                 setShowMainModal(false);
               }}>
-              Abandon Changes <BsArrowCounterclockwise />
-            </Button>
+              <div className="flex flex-row items-center">
+                <BsArrowCounterclockwise className="text-lg"/>
+                <div className="pl-2 py-1">Abandon Changes</div>
+              </div>
+            </button>
 
-            <Button
-              variant="danger"
+            <button
+              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
               onClick={() => {
                 deletePost(
                   postDraft,
@@ -228,14 +234,31 @@ const MainModal = (props) => {
                   creatingPostFlag
                 );
               }}>
-              Delete Post
-              <FaRegTrashAlt />
-            </Button>
+              <div className="flex flex-row items-center">
+                <FaRegTrashAlt className="text-lg"/>
+                <div className="pl-2 py-1">Delete Post</div>
+              </div>
+            </button>
 
-            <Button type="submit">
-              Save Changes
-              <GrSave />
-            </Button>
+            <button 
+              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
+              onClick={() => {
+                submitPost(
+                  emptyPost,
+                  postDraft,
+                  postingsDataArray,
+                  setPostingsDataArray,
+                  currPostIndex,
+                  setShowMainModal,
+                  creatingPostFlag,
+                  recdLog
+                );
+              }}>
+              <div className="flex flex-row items-center">
+                <GrSave className="text-lg"/>
+                <div className="pl-2 py-1">Save Changes</div>
+              </div>
+            </button>
           </Modal.Footer>
         </form>
         <WarningModal showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />

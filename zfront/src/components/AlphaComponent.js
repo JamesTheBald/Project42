@@ -11,7 +11,12 @@ import RenderTopicsDraggable from "./RenderTopicsDraggable";
 import retrievePosts from "../functions/retrievePosts";
 import retrieveTopics from "../functions/retrieveTopics";
 import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
+import unlockAll from "../functions/unlockAll";
 
+
+const posnLog = false;  // Set true if you want to see console logs with Zoompan positions panX and panY
+const recdLog = true;  // Set true if you want to see postingsDataArray, postDraft, topicsDataArray, etc 
+const actnLog = true;  // Set true if you want to see postingsDataArray, postDraft, topicsDataArray, etc 
 
 const emptyPost = {
   title: "",
@@ -22,17 +27,15 @@ const emptyPost = {
   upvotes: 0,
   positionX: 200, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 200,
+  locked: false
 };
 
 const emptyTopic = {
   topic: "",
-  topicLevel: 0,
+  topicLevel: "",
   positionX: 200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 200,
 };
-
-const posnLog = false;  // Set true if you want to see console logs with Zoompan positions panX and panY
-
 
 const AlphaComponent = () => {
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
@@ -63,14 +66,19 @@ const AlphaComponent = () => {
   zoomedOrPanned.current = false;
 
 
-  console.log("AlphaComponent.js begins: postDraft=", postDraft);
-  console.log("AlphaComponent.js begins: topicDraft=", topicDraft);
+  console.log("AlphaComponent.js begins...");
+  recdLog && console.log("postingsDataArray=", postingsDataArray);
+  recdLog && console.log("postDraft=", postDraft);
+  recdLog && console.log("topicsDataArray=", topicsDataArray);
+  recdLog && console.log("topicDraft=", topicDraft);
 
   function updateZoomPan(stats) {
     posnLog && console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
     setZoomScale(stats.scale);
     setPanX(stats.positionX);
     setPanY(stats.positionY);
+    // zoomedOrPanned.current = true;
+    // recdLog && console.log("updateZoomPan() zoomedOrPanned.current=", zoomedOrPanned.current);
   }
 
   useEffect(() => {
@@ -83,7 +91,7 @@ const AlphaComponent = () => {
   }, [zoomScale, panX, panY]);
 
   useEffect(() => {
-    console.log("useEffect for adding EventListener 'keyup' & keydown' runs..")
+    console.log("AlphaComponent - useEffect EventListeners 'keyup' & keydown' added")
     // from: https://stackoverflow.com/questions/59546928/keydown-up-events-with-react-hooks-not-working-properly
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
@@ -94,15 +102,17 @@ const AlphaComponent = () => {
   }, []);
 
   const handleKeyDown = (event) => {
-    // console.log("handleKeyDown event.key=", event.key);
     if (event.key === "Shift") {
       setDragMode(true);
+      actnLog && console.log("AlphaComponent.js handleKeyDown() Shift key pressed");
     }
   };
 
   const handleKeyUp = (event) => {
-    if (event.key === "Shift") setDragMode(false);
-    // console.log("AlphaComponent.js handleKeyUp() zoomScale=", zoomScale);
+    if (event.key === "Shift") {
+      setDragMode(false);
+      actnLog && console.log("AlphaComponent.js handleKeyUp() Shift key released");
+    }
   };
 
   // Retrive tfrom DB into postingsDataArray, so postingsDataArray is never null
@@ -112,19 +122,16 @@ const AlphaComponent = () => {
     retrievePosts(setPostingsDataArray, emptyPost);
   }
 
-// Retrive from DB into topicsDataArray, so topicsDataArray is never null
-if (!topicsDataArray) {
-  console.log("topicsDataArray is falsy so retrieving it from the DB. In the interim setting it to [emptyTopic]");
-  setTopicsDataArray([emptyTopic]);
-  retrieveTopics(setTopicsDataArray, emptyTopic);
-}
+  // Retrive from DB into topicsDataArray, so topicsDataArray is never null
+  if (!topicsDataArray) {
+    console.log("topicsDataArray is falsy so retrieving it from the DB. In the interim setting it to [emptyTopic]");
+    setTopicsDataArray([emptyTopic]);
+    retrieveTopics(setTopicsDataArray, emptyTopic);
+  }
 
 
   const createPostAtMouseClick = (event) => {
-    // Uses: event, stubDragged, setCreatingPostFlag, emptyPost, setPostDraft, setCurrPostIndex, postingsDataArray, setShowMainModal
     // This function needs the event object, so may need currying to move to external file.
-    // let currentTargetRect = evnt.currentTarget.getBoundingClientRect();
-    // Do we want this relative to the bounding rectange?
     console.log("createPostAtMouseClick stubDragged.current=", stubDragged.current, " and dragMode=",dragMode);
     
     if (dragMode && !stubDragged.current && !topicDragged.current) {
@@ -146,7 +153,6 @@ if (!topicsDataArray) {
         return newCurrPostIndex;
       });
       setShowMainModal(true);
-      stubDragged.current = false;
     }
   };
 
@@ -173,6 +179,7 @@ if (!topicsDataArray) {
         setCurrTopicIndex={setCurrTopicIndex}
         setCreatingTopicFlag={setCreatingTopicFlag}
         setTopicDraft={setTopicDraft}
+        // recdLog={recdLog}
       />
 
 
@@ -195,6 +202,8 @@ if (!topicsDataArray) {
               userVoted={userVoted}
               setUserVoted={setUserVoted}
               stubDragged={stubDragged}
+              recdLog={recdLog}
+              posnLog={posnLog}
             />
             <RenderTopicsDraggable
               topicsDataArray={topicsDataArray}
@@ -216,7 +225,8 @@ if (!topicsDataArray) {
           zoomScale={zoomScale}
           panX={panX}
           panY={panY}
-          posnLog={posnLog}
+          zoomedOrPanned={zoomedOrPanned}
+
           postingsDataArray={postingsDataArray}
           currPostIndex={currPostIndex}
           setCurrPostIndex={setCurrPostIndex}
@@ -234,6 +244,9 @@ if (!topicsDataArray) {
           setCurrTopicIndex={setCurrTopicIndex}
           setCreatingTopicFlag={setCreatingTopicFlag}
           setTopicDraft={setTopicDraft}
+
+          posnLog={posnLog}
+          recdLog={recdLog}
         />
       )}
 
@@ -251,6 +264,7 @@ if (!topicsDataArray) {
           creatingPostFlag={creatingPostFlag}
           userVoted={userVoted}
           setUserVoted={setUserVoted}
+          recdLog={recdLog}
         />
       )}
 
@@ -265,12 +279,13 @@ if (!topicsDataArray) {
           topicDraft={topicDraft}
           setTopicDraft={setTopicDraft}
           creatingTopicFlag={creatingTopicFlag}
+          recdLog={recdLog}
         />
       )}
 
       {dragMode && <div>Drag items to desired positions</div>}
 
-      <div className="ml-20">
+      <div>
         <Button
           variant="outline-danger"
           onClick={() => {
@@ -288,8 +303,18 @@ if (!topicsDataArray) {
           }}>
           Remove All Topics
         </Button>
-      </div>
 
+        <Button
+          variant="outline-danger"
+          onClick={() => {
+            unlockAll(postingsDataArray, topicsDataArray);
+            retrievePosts(setPostingsDataArray, emptyTopic); // Time for a hard-update
+            retrieveTopics(setTopicsDataArray, emptyTopic); // Time for a hard-update
+          }}>
+          Unlock All
+        </Button>
+
+      </div>
     </div>
   );
 };

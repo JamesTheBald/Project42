@@ -1,8 +1,7 @@
 import TopicsAxios from "../services/TopicsAxios";
 
 const updateTopicOnDB = (topicDraft, currTopicIndex) => {
-  console.log("updateTopicOnDB.js: topicDraft=", topicDraft);
-  console.log("updateTopicOnDB.js: currTopicIndex=", currTopicIndex);
+  console.log("updateTopicOnDB.js: writing topicDraft=", topicDraft, "to currTopicIndex=", currTopicIndex);
 
   if (topicDraft) {
 
