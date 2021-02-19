@@ -7,7 +7,8 @@ exports.create = (req, res) => {
     topic: req.body.topic,
     topicLevel: req.body.topicLevel,
     positionX: req.body.positionX,
-    positionY: req.body.positionY
+    positionY: req.body.positionY,
+    locked: req.body.locked
   });
 
   // Save Topic to the database

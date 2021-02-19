@@ -11,6 +11,7 @@ import RenderTopicsDraggable from "./RenderTopicsDraggable";
 import retrievePosts from "../functions/retrievePosts";
 import retrieveTopics from "../functions/retrieveTopics";
 import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
+import unlockAll from "../functions/unlockAll";
 
 
 const emptyPost = {
@@ -34,6 +35,8 @@ const emptyTopic = {
 
 const posnLog = false;  // Set true if you want to see console logs with Zoompan positions panX and panY
 const recdLog = false;  // Set true if you want to see postingsDataArray, postDraft, topicsDataArray, etc 
+const actnLog = true;  // Set true if you want to see postingsDataArray, postDraft, topicsDataArray, etc 
+
 
 const AlphaComponent = () => {
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
@@ -64,8 +67,9 @@ const AlphaComponent = () => {
   zoomedOrPanned.current = false;
 
 
-  console.log("AlphaComponent.js begins: postDraft=", postDraft);
-  console.log("AlphaComponent.js begins: topicDraft=", topicDraft);
+  console.log("AlphaComponent.js begins");
+  recdLog && console.log("AlphaComponent.js postDraft=", postDraft);
+  recdLog && console.log("AlphaComponent.js topicDraft=", topicDraft);
 
   function updateZoomPan(stats) {
     posnLog && console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
@@ -84,7 +88,7 @@ const AlphaComponent = () => {
   }, [zoomScale, panX, panY]);
 
   useEffect(() => {
-    console.log("useEffect for adding EventListener 'keyup' & keydown' runs..")
+    console.log("AlphaComponent - useEffect EventListeners 'keyup' & keydown' added")
     // from: https://stackoverflow.com/questions/59546928/keydown-up-events-with-react-hooks-not-working-properly
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
@@ -98,12 +102,15 @@ const AlphaComponent = () => {
     // console.log("handleKeyDown event.key=", event.key);
     if (event.key === "Shift") {
       setDragMode(true);
+      actnLog && console.log("AlphaComponent.js handleKeyDown() Shift key pressed");
     }
   };
 
   const handleKeyUp = (event) => {
-    if (event.key === "Shift") setDragMode(false);
-    // console.log("AlphaComponent.js handleKeyUp() zoomScale=", zoomScale);
+    if (event.key === "Shift") {
+      setDragMode(false);
+      actnLog && console.log("AlphaComponent.js handleKeyUp() Shift key released");
+    }
   };
 
   // Retrive tfrom DB into postingsDataArray, so postingsDataArray is never null
@@ -174,7 +181,7 @@ if (!topicsDataArray) {
         setCurrTopicIndex={setCurrTopicIndex}
         setCreatingTopicFlag={setCreatingTopicFlag}
         setTopicDraft={setTopicDraft}
-        recdLog={recdLog}
+        // recdLog={recdLog}
       />
 
 
@@ -197,6 +204,8 @@ if (!topicsDataArray) {
               userVoted={userVoted}
               setUserVoted={setUserVoted}
               stubDragged={stubDragged}
+              recdLog={recdLog}
+              posnLog={posnLog}
             />
             <RenderTopicsDraggable
               topicsDataArray={topicsDataArray}
@@ -274,7 +283,7 @@ if (!topicsDataArray) {
 
       {dragMode && <div>Drag items to desired positions</div>}
 
-      <div className="ml-20">
+      <div>
         <Button
           variant="outline-danger"
           onClick={() => {
@@ -292,8 +301,16 @@ if (!topicsDataArray) {
           }}>
           Remove All Topics
         </Button>
-      </div>
 
+        <Button
+          variant="outline-danger"
+          onClick={() => {
+            unlockAll(postingsDataArray, topicsDataArray);
+          }}>
+          Unlock All
+        </Button>
+
+      </div>
     </div>
   );
 };

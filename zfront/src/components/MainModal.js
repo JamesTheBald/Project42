@@ -13,6 +13,7 @@ import { GrSave } from "react-icons/gr";
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import submitPost from "../functions/submitPost";
 import deletePost from "../functions/deletePost";
+import unlockPost from "../functions/unlockPost";
 
 const MainModal = (props) => {
   const emptyPost = props.emptyPost;
@@ -75,6 +76,7 @@ const MainModal = (props) => {
     } else {
       setShowMainModal(false);
     }
+    unlockPost(postDraft, currPostIndex);
   };
 
   return (
@@ -87,23 +89,6 @@ const MainModal = (props) => {
         onHide={() => {
           safeModalHide(madeEdits);
         }}>
-        <form
-          onSubmit={() => {
-            // if (postDraft.contentType === "") {
-            //   return (alert("You must select a Primary Content Type"));
-            // }
-            submitPost(
-              emptyPost,
-              postDraft,
-              postingsDataArray,
-              setPostingsDataArray,
-              currPostIndex,
-              setShowMainModal,
-              creatingPostFlag,
-              recdLog
-            );
-          }}>
-        </form>
 
         {creatingPostFlag && (
           <Modal.Header>
@@ -234,7 +219,20 @@ const MainModal = (props) => {
               <FaRegTrashAlt />
             </Button>
 
-            <Button type="submit">
+            <Button 
+              onClick={() => {
+                submitPost(
+                  emptyPost,
+                  postDraft,
+                  postingsDataArray,
+                  setPostingsDataArray,
+                  currPostIndex,
+                  setShowMainModal,
+                  creatingPostFlag,
+                  recdLog
+                );
+              }}
+            >
               Save Changes
               <GrSave />
             </Button>

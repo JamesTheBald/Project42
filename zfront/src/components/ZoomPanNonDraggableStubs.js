@@ -41,7 +41,7 @@ class ZoomPanNonDraggableStubs extends Component {
           onPanningStop={updateZoomPan}
           enablePadding={false}
           wheel={{
-            step: 160,
+            step: 200,
           }}
           options={{
             // See "Options prop elements" on https://www.npmjs.com/package/react-draggable

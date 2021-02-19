@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Draggable from "react-draggable";
 import PopupContent from "./PopupContent";
 import VoteCounter from "./VoteCounter";
 import updatePostOnDB from "../functions/updatePostOnDB";
 import RenderSpiciness from "./RenderSpiciness";
+import lockPost from "../functions/lockPost";
+import LockedWarningModal from "./LockedWarningModal";
 
 const RenderStubsDraggable = (props) => {
   let postingsDataArray = props.postingsDataArray;
@@ -15,105 +17,119 @@ const RenderStubsDraggable = (props) => {
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
   let stubDragged = props.stubDragged;
+  const recdLog = props.recdLog;
+  const posnLog = props.posnLog;
+
+  const [showLockedWarningModal, setShowLockedWarningModal] = useState(false);
 
   let posnX = [];
   let posnY = [];
   stubDragged.current = false;
 
-   
   //Open MainModal when stub is clicked without dragging
   const handleOnStop = (post, index) => (event, data) => {
     // Above line uses 'currying'. See https://www.carlrippon.com/using-currying-to-pass-additional-data-to-react-event-handlers/
     event.stopPropagation(); //J: I think this is important... don't want bubbling?
     console.log("RenderStubsDraggable.js handleOnStop  x=", data.x, " y=", data.y);
-    console.log("RenderStubsDraggable.js posnX[",index,"] = ", posnX[index],", posnY[",index,"] = ",posnY[index]);
+    posnLog && console.log("RenderStubsDraggable.js posnX[", index, "] = ", posnX[index], ", posnY[", index, "] = ", posnY[index]);
 
-    if (data.x === posnX[index] && data.y === posnY[index]) {
+    if (post.locked) {
+      console.log("RenderStubsDraggble.js handleOnStop - post is locked");
+      setShowLockedWarningModal(true);
+
+    } else if (data.x === posnX[index] && data.y === posnY[index]) {
       console.log("RenderStubsDraggable.js handleOnStop: You just clicked (without dragging) - Opening MainModal");
       setCreatingPostFlag(false);
       setCurrPostIndex(index);
       setPostDraft(post);
+      lockPost(post, index); // writes lock to DB but doesn't update state vars (postDraft, postingsDataArray)
       setShowMainModal(true);
-    } else {    // if dragged, update positionX&Y in post and on the database
+    } else {
+      // if dragged, update positionX&Y in post and on the database
       post.positionX = data.x;
       post.positionY = data.y;
       updatePostOnDB(post, index);
     }
+
     posnX[index] = data.x;
     posnY[index] = data.y;
-
     stubDragged.current = true;
   };
 
+  // const handleOnClick = (post, index) => (evnt) => {
+  //   console.log("RenderStubsDraggable.js handleOpenMainModal runs");
+  //   evnt.stopPropagation();
 
-  console.log("RenderStubsDraggable.js before .map  postingsDataArray=", postingsDataArray);
+  //   if (!post.locked) {
+  //     setCreatingPostFlag(false);
+  //     setCurrPostIndex(index);
+  //     setPostDraft(post);
+  //     lockPost(post, index); // writes lock to DB but doesn't update state vars (postDraft, postingsDataArray)
+  //     setShowMainModal(true);
+  //   } else {
+  //     console.log("RenderStubsDraggble.js handleOpenMainModal - post is locked"); // ADD A WARNING POPUP
+  //   }
+  // };
+
+  recdLog && console.log("RenderStubsDraggable.js before .map  postingsDataArray=", postingsDataArray);
 
   if (postingsDataArray?.[0]?._id) {
     return (
       <>
         {postingsDataArray.map((post, index) => {
-          // console.log("RenderStubsDraggable.js starting .map: post=",post, " and index=",index);
+          recdLog && console.log("RenderStubsDraggable.js starting .map: post=", post, " and index=", index);
           posnX[index] = post.positionX;
           posnY[index] = post.positionY;
 
           return (
             <div key={index}>
-              <Draggable onStop={handleOnStop(post, index)} allowAnyClick={true} defaultPosition={{x: posnX[index], y: posnY[index]}}>
-
+              <Draggable
+                onStop={handleOnStop(post, index)}
+                allowAnyClick={true}
+                defaultPosition={{ x: posnX[index], y: posnY[index] }}>
                 <div className="flex flex-col items-center absolute text-gray-800">
-
                   {/* Tooltip divs - content and formatting must match RenderStubsNonDraggable's! */}
                   <div className={"invisible w-96 p-2  bg-gray-200 rounded-lg  opacity-80 z-10"}>
                     <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
                   </div>
                   <div className="invisible">Down Arrow Here</div>
-
-
                   {/* J: I'm thinking React Icon "IoMdArrowDropdown" */}
 
                   {/* Stub */}
                   <div
                     className="flex w-56 mt-4 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
-                    onClick={() => {
-                      setCreatingPostFlag(false);
-                      setCurrPostIndex(index);
-                      setPostDraft(post);
-
-                      // Put postLock here 
-                      
-                      setShowMainModal(true);
-                    }}
+                    // onClick={handleOnClick(post, index)}
                   >
                     <div
                       name="title-contributor-container"
-                      className="flex flex-col justfy-between relative items-start w-3/4 p-2 border-r border-gray-900"
-                    >
-                      {post.title ? 
+                      className="flex flex-col justfy-between relative items-start w-3/4 p-2 border-r border-gray-900">
+                      {post.title ? (
                         <div>
                           <div className="max-h-6 leading-3 overflow-hidden">
                             <p className="text-xs font-500">{post.title}</p>
                           </div>
-                          {(post.title.length > 60) ?
-                            <div name="fade-out-title-container" className="mt-2 absolute top-3 right-0 w-full h-3 bg-gradient-to-l from-gray-200"></div>
-                          :
+                          {post.title.length > 60 ? (
+                            <div
+                              name="fade-out-title-container"
+                              className="mt-2 absolute top-3 right-0 w-full h-3 bg-gradient-to-l from-gray-200">
+                            </div>
+                          ) : (
                             <></>
-                          }
+                          )}
                         </div>
-                        
-                      :
+                      ) : (
                         <div> Click to edit </div>
-                      }
+                      )}
                       <div>
-                        <div className="m-2 text-gray-500 text-xs absolute bottom-0 left-0 truncate w-4/5">{post.contributors}</div>
+                        <div className="m-2 text-gray-500 text-xs absolute bottom-0 left-0 truncate w-4/5">
+                          {post.contributors}
+                        </div>
                       </div>
                     </div>
 
-
-
                     <div
                       name="stub-attribute-container"
-                      className="flex flex-col justify-between items-center w-1/4 p-2 rounded-r-lg"
-                    >
+                      className="flex flex-col justify-between items-center w-1/4 p-2 rounded-r-lg">
                       <div className="text-gray-500 text-xs"> {post.contentType} </div>
 
                       <div className="my-1.5">
@@ -132,6 +148,11 @@ const RenderStubsDraggable = (props) => {
                   </div>
                 </div>
               </Draggable>
+
+              <LockedWarningModal
+                showLockedWarningModal={showLockedWarningModal}
+                setShowLockedWarningModal={setShowLockedWarningModal}
+              />
             </div>
           );
         })}

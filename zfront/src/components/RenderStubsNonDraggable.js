@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import PopupContent from "./PopupContent";
 import VoteCounter from "./VoteCounter";
 import RenderSpiciness from "./RenderSpiciness";
+import lockPost from "../functions/lockPost";
+
 
 const RenderStubsNonDraggable = (props) => {
   let postingsDataArray = props.postingsDataArray;
@@ -56,6 +58,21 @@ const RenderStubsNonDraggable = (props) => {
   };
 
 
+  const handleOpenMainModal = (post, index) => (evnt) => {
+    evnt.stopPropagation()
+    
+    if (!post.locked) {
+      setCreatingPostFlag(false);
+      setCurrPostIndex(index);
+      setPostDraft(post);
+      lockPost(post, index);  // writes lock to DB but doesn't update state vars (postDraft, postingsDataArray)
+      setShowMainModal(true);
+    } else {
+      console.log("RenderStubsNonDraggble.js handleOpenMainModal - post is locked")  // ADD A WARNING POPUP
+    }
+  };
+
+
   if (postingsDataArray?.[0]?._id) {
     return (
       <>
@@ -81,15 +98,7 @@ const RenderStubsNonDraggable = (props) => {
                 className="flex w-56 mt-4 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
                 onMouseEnter={() => showToolTip(index)}
                 onMouseLeave={() => hideToolTip(index)}
-                onClick={() => {
-                  setCreatingPostFlag(false);
-                  setCurrPostIndex(index);
-                  setPostDraft(post);
-
-                  // Put postLock here 
-
-                  setShowMainModal(true);
-                }}
+                onClick={handleOpenMainModal(post, index)}
               >
 
                 <div

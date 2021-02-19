@@ -31,7 +31,7 @@ const TopicModal = (props) => {
   }, []);
 
   console.log("TopicModal.js Begins.");
-  // console.log("TopicModal.js: topicDraft=", topicDraft);
+  recdLog && console.log("TopicModal.js: topicDraft=", topicDraft);
 
 
   const handleInputChange = (evnt) => {
@@ -64,13 +64,14 @@ const TopicModal = (props) => {
   return (
     <>
       <Modal
-        // size="sm"
+        size="lg"  // Large is size of MainModal. Leave this out for size Medium
         centered
         show={showTopicModal}
         animation={false}
         onHide={() => {
           safeModalHide(madeEdits);
-        }}>
+        }}
+      >
         <Modal.Body>
           <div>
             <input
@@ -81,9 +82,6 @@ const TopicModal = (props) => {
               value={topicDraft.topic}
               onChange={handleInputChange}
             />
-
-            {/* <ContentTypeSelector topicDraft={topicDraft} setTopicDraft={setTopicDraft}></ContentTypeSelector> */}
-
           </div>
         </Modal.Body>
 
@@ -94,7 +92,10 @@ const TopicModal = (props) => {
               console.log("TopicModal.js Clicked Abandon Changes");
               setShowTopicModal(false);
             }}>
-            Abandon Changes <BsArrowCounterclockwise></BsArrowCounterclockwise>
+            <div className="flex flex-row items-baseline">
+              <BsArrowCounterclockwise/>
+              <div className="pl-2 py-1">Abandon Changes</div>
+            </div>
           </Button>
 
           <Button
@@ -109,7 +110,10 @@ const TopicModal = (props) => {
                 creatingTopicFlag
               );
             }}>
-            Delete Topic<FaRegTrashAlt></FaRegTrashAlt>
+            <div className="flex flex-row items-baseline">
+              <FaRegTrashAlt/>
+              <div className="pl-2 py-1">Delete Topic</div>
+            </div>
           </Button>
 
           <Button
@@ -122,10 +126,14 @@ const TopicModal = (props) => {
                 setTopicsDataArray,
                 currTopicIndex,
                 setShowTopicModal,
-                creatingTopicFlag
+                creatingTopicFlag,
+                recdLog
               );
             }}>
-            Save Changes<GrSave></GrSave>
+            <div className="flex flex-row items-baseline">
+              <GrSave/>
+              <div className="pl-2 py-1">Save Changes</div>
+            </div>
           </Button>
         </Modal.Footer>
 

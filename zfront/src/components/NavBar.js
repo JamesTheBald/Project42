@@ -29,7 +29,7 @@ const NavBar = (props) => {
   const setCurrTopicIndex= props.setCurrTopicIndex;
   const setCreatingTopicFlag= props.setCreatingTopicFlag;
   const setTopicDraft= props.setTopicDraft;
-  const recdLog=props.recdLog;
+  // const recdLog=props.recdLog;
   
 
   const handleSelect = (event) => {
