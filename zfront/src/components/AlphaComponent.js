@@ -308,6 +308,7 @@ const AlphaComponent = () => {
           variant="outline-danger"
           onClick={() => {
             unlockAll(postingsDataArray, topicsDataArray);
+            retrievePosts(setPostingsDataArray, emptyTopic); // Time for a hard-update
             retrieveTopics(setTopicsDataArray, emptyTopic); // Time for a hard-update
           }}>
           Unlock All

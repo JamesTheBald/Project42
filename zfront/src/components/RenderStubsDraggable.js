@@ -37,7 +37,7 @@ const RenderStubsDraggable = (props) => {
       console.log("RenderStubsDraggble.js handleOnStop - post is locked");
       setShowLockedWarningModal(true);
 
-    } else if (data.x === posnX[index] && data.y === posnY[index]) {
+    } else if (data.x === posnX[index] && data.y === posnY[index] && !post.locked) {
       console.log("RenderStubsDraggable.js handleOnStop: You just clicked (without dragging) - Opening MainModal");
       setCreatingPostFlag(false);
       setCurrPostIndex(index);
@@ -46,6 +46,7 @@ const RenderStubsDraggable = (props) => {
       setShowMainModal(true);
     } else {
       // if dragged, update positionX&Y in post and on the database
+      console.log("RenderStubsNonDraggble.js handleOnStop - post was dragged or is locked")  // ADD A WARNING POPUP
       post.positionX = data.x;
       post.positionY = data.y;
       updatePostOnDB(post, index);
@@ -56,20 +57,6 @@ const RenderStubsDraggable = (props) => {
     stubDragged.current = true;
   };
 
-  // const handleOnClick = (post, index) => (evnt) => {
-  //   console.log("RenderStubsDraggable.js handleOpenMainModal runs");
-  //   evnt.stopPropagation();
-
-  //   if (!post.locked) {
-  //     setCreatingPostFlag(false);
-  //     setCurrPostIndex(index);
-  //     setPostDraft(post);
-  //     lockPost(post, index); // writes lock to DB but doesn't update state vars (postDraft, postingsDataArray)
-  //     setShowMainModal(true);
-  //   } else {
-  //     console.log("RenderStubsDraggble.js handleOpenMainModal - post is locked"); // ADD A WARNING POPUP
-  //   }
-  // };
 
   recdLog && console.log("RenderStubsDraggable.js before .map  postingsDataArray=", postingsDataArray);
 

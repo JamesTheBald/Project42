@@ -19,7 +19,6 @@ const unlockAll = (postingsDataArray, topicsDataArray) => {
       console.log("unlockAll.js updateTopicOnDB index=",index,", response=", response);
     });
   })
-
 }
 
 export default unlockAll;

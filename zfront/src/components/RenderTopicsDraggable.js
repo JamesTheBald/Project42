@@ -15,35 +15,27 @@ const RenderTopicsDraggable = (props) => {
   let posnY = [];
   topicDragged.current = false;
 
-  //Open TopicModal when topic stub is clicked without dragging
+  //Open TopicModal when topic stub is clicked without dragging (and isn't locked)
   const handleOnStop = (topic, index) => (event, data) => {
     // uses 'currying'
-
     event.stopPropagation();
     console.log("RenderTopicsDraggable.js handleOnStop  x=", data.x, " y=", data.y);
-    console.log(
-      "RenderTopicsDraggable.js posnX[",
-      index,
-      "] = ",
-      posnX[index],
-      ", posnY[",
-      index,
-      "] = ",
-      posnY[index]
-    );
 
-    if (data.x === posnX[index] && data.y === posnY[index]) {
+    if (data.x === posnX[index] && data.y === posnY[index] && !topic.locked) {
       console.log("RenderTopicsDraggable.js handleOnStop: You just clicked (without dragging) - Opening TopicModal");
       setCreatingTopicFlag(false);
       setCurrTopicIndex(index);
       setTopicDraft(topic);
       setShowTopicModal(true);
+      
     } else {
       // if dragged, update positionX&Y in topic and on the database
+      console.log("RenderTopicsNonDraggble.js handleOnStop - topic was dragged or is locked")  // ADD A WARNING POPUP
       topic.positionX = data.x;
       topic.positionY = data.y;
       updateTopicOnDB(topic, index);
     }
+
     posnX[index] = data.x;
     posnY[index] = data.y;
     topicDragged.current = true;

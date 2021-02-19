@@ -7,6 +7,7 @@ import { GrSave } from "react-icons/gr";
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import submitTopic from "../functions/submitTopic";
 import deleteTopic from "../functions/deleteTopic";
+import unlockTopic from "../functions/unlockTopic";
 
 
 const TopicModal = (props) => {
@@ -58,6 +59,7 @@ const TopicModal = (props) => {
     } else {
       setShowTopicModal(false);
     }
+    unlockTopic(topicDraft, currTopicIndex);
   };
 
   const changeContentType = (passedContentType) => {
@@ -101,7 +103,7 @@ const TopicModal = (props) => {
             <input
               name="topic"
               type="text"
-              className="text-lg w-full mx-2 mt-3 p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
+              className="text-xl w-full mx-2 mt-3 p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
               placeholder="Click to enter title here"
               value={topicDraft.topic}
               onChange={handleInputChange}
