@@ -88,6 +88,12 @@ function WelcomeModal(props) {
           </Button>
 
         </div>
+        <Button
+            onClick={props.onHide}
+            className="float-left"
+          >
+            Dev Bypass
+          </Button>
       </Modal.Footer>
     </Modal>
   );
