@@ -13,6 +13,7 @@ import { GrSave } from "react-icons/gr";
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import submitPost from "../functions/submitPost";
 import deletePost from "../functions/deletePost";
+import WarningDeleteModal from "../components/WarningDeleteModal";
 
 const MainModal = (props) => {
   const emptyPost = props.emptyPost;
@@ -28,7 +29,11 @@ const MainModal = (props) => {
   const setUserVoted = props.setUserVoted;
 
   const [showWarningModal, setShowWarningModal] = useState(false);
+  const [showWarningDeleteModal, setShowWarningDeleteModal] = useState(false);
   let madeEdits = useRef();
+
+  const handleClose = () => setShowWarningModal(false);
+
 
   useEffect(() => {
     madeEdits.current = false;
@@ -37,7 +42,7 @@ const MainModal = (props) => {
   console.log("MainModal.js Begins.");
   // console.log("MainModal.js: postDraft=", postDraft);
 
-  
+
   const handleInputChange = (evnt) => {
     //J: This could be called updatePostDraft()
     madeEdits.current = true;
@@ -155,8 +160,8 @@ const MainModal = (props) => {
                 </div>
               </>
             ) : (
-              <></>
-            )}
+                <></>
+              )}
 
             <div className="flex flex-row items-center p-1 mt-2">
               <AiOutlineTags size="30" />
@@ -218,16 +223,8 @@ const MainModal = (props) => {
 
             <Button
               variant="danger"
-              onClick={() => {
-                deletePost(
-                  postDraft,
-                  postingsDataArray,
-                  setPostingsDataArray,
-                  currPostIndex,
-                  setShowMainModal,
-                  creatingPostFlag
-                );
-              }}>
+              onClick={() => setShowWarningDeleteModal(true)}
+            >
               Delete Post
               <FaRegTrashAlt />
             </Button>
@@ -238,7 +235,19 @@ const MainModal = (props) => {
             </Button>
           </Modal.Footer>
         </form>
+
         <WarningModal showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />
+
+        <WarningDeleteModal 
+          showWarningDeleteModal={showWarningDeleteModal}
+          setShowWarningDeleteModal={setShowWarningDeleteModal}
+          postDraft={postDraft}
+          postingsDataArray={postingsDataArray}
+          setPostingsDataArray={setPostingsDataArray}
+          currPostIndex={currPostIndex}
+          setShowMainModal={setShowMainModal}
+          creatingPostFlag={creatingPostFlag}
+        />
       </Modal>
     </>
   );
