@@ -5,7 +5,7 @@ import RichTextEditor from "./RichTextEditor";
 import ContentTypeSelector from "./ContentTypeSelector";
 import SpicinessSelector from "./SpicinessSelector";
 import VoteCounter from "./VoteCounter";
-import WarningModal from "./WarningModal";
+import WarningModalEdits from "./WarningModalEdits";
 import { FaRegUser, FaRegTrashAlt } from "react-icons/fa";
 import { AiOutlineTags } from "react-icons/ai";
 import { GrSave } from "react-icons/gr";
@@ -70,7 +70,7 @@ const MainModal = (props) => {
     console.log("safeModalHide madeEdits.current =", madeEdits.current);
 
     if (madeEdits.current) {
-      console.log("safeModalHide warning issued, showing WarningModal", madeEdits.current);
+      console.log("safeModalHide warning issued, showing WarningModalEdits", madeEdits.current);
       setShowWarningModal(true);
     } else {
       setShowMainModal(false);
@@ -261,7 +261,7 @@ const MainModal = (props) => {
             </button>
           </Modal.Footer>
         </form>
-        <WarningModal showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />
+        <WarningModalEdits showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />
       </Modal>
     </>
   );

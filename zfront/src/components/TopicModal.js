@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
-import WarningModal from "./WarningModal";
+import WarningModalEdits from "./WarningModalEdits";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { GrSave } from "react-icons/gr";
 import { BsArrowCounterclockwise } from "react-icons/bs";
@@ -54,7 +54,7 @@ const TopicModal = (props) => {
     console.log("safeModalHide madeEdits.current =", madeEdits.current);
 
     if (madeEdits.current) {
-      console.log("safeModalHide warning issued, showing WarningModal", madeEdits.current);
+      console.log("safeModalHide warning issued, showing WarningModalEdits", madeEdits.current);
       setShowWarningModal(true);
     } else {
       setShowTopicModal(false);
@@ -163,7 +163,7 @@ const TopicModal = (props) => {
           </button>
         </Modal.Footer>
 
-        <WarningModal showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />
+        <WarningModalEdits showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />
       </Modal>
     </>
   );

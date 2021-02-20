@@ -1,34 +1,16 @@
 import React from "react";
-import lockTopic from "../functions/lockTopic";
 
+const RenderTopicsNonDraggable = (props) => {
 
-  const RenderTopicsNonDraggable = (props) => {
   let topicsDataArray = props.topicsDataArray;
   const setCurrTopicIndex = props.setCurrTopicIndex;
   const setShowTopicModal = props.setShowTopicModal;
   const setTopicDraft = props.setTopicDraft;
   const setCreatingTopicFlag = props.setCreatingTopicFlag;
-  // const zoomedOrPanned = props.zoomedOrPanned
-  const posnLog = props.posnLog
-  const recdLog = props.recdLog
+  const posnLog = props.posnLog;
+  const recdLog = props.posnLog;
 
-  // console.log("RenderTopicsNonDraggable.js begins. topicsDataArray=", topicsDataArray);
-
-  const handleOnClick = (topic, index) => (evnt) => {
-    evnt.stopPropagation();
-    
-    recdLog && console.log("RenderTopicsNonDraggble.js handleOnClick topic=", topic);
-    if (!topic.locked) {
-      setCreatingTopicFlag(false);
-      setCurrTopicIndex(index);
-      setTopicDraft(topic);
-      lockTopic(topic, index);  // writes lock to DB but does NOT update state vars topicDraft, topicsDataArray
-      setShowTopicModal(true);
-    } else {
-      console.log("RenderTopicsNonDraggble.js handleOnClick - topic is locked")  // ADD A WARNING POPUP
-    }
-  };
-
+  recdLog && console.log("RenderTopicsNonDraggable.js begins. topicsDataArray=", topicsDataArray);
 
   if (topicsDataArray?.[0]?._id) {
     return (
@@ -44,11 +26,27 @@ import lockTopic from "../functions/lockTopic";
               style={{ top: topic.positionY, left: topic.positionX }} // , zIndex: -1
             >
               {/* Topic Stub */}
-              <div onClick={handleOnClick(topic, index)}>
-  
+              <div
+                // className="z-10"
+                onClick={() => {
+                  setCreatingTopicFlag(false);
+                  setCurrTopicIndex(index);
+                  setTopicDraft(topic);
+                  setShowTopicModal(true);
+                }}>
 
-                <div className="bg-yellow-200 rounded-lg">
-                  {topic.topic ? <div className="text-4xl z-10">{topic.topic}</div> : <div> Click to edit </div>}
+                {/* Be sure to use the same formatting on RenderTopicsDraggable.js  */}
+                {/* (This is WET but React-Draggable doesn't seem to work on sub-components.)  */}
+                <div className="text-blue-400 px-3 py-1 bg-gray-800 opacity-90  rounded-xl z-10">
+                  {(topic.topicLevel === "Main Topic") ?
+                    topic.topic ? <div className="text-7xl">{topic.topic}</div> : <div> Click to edit </div>
+
+                  : (topic.topicLevel === "Sub-Topic") ?
+                    topic.topic ? <div className="text-3xl">{topic.topic}</div> : <div> Click to edit </div>
+
+                  : 
+                    topic.topic ? <div className="text-sm">{topic.topic}</div> : <div> Click to edit </div>
+                  }
                 </div>
 
               </div>

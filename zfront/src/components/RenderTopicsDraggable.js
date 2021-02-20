@@ -2,6 +2,7 @@ import React from "react";
 import Draggable from "react-draggable";
 import updateTopicOnDB from "../functions/updateTopicOnDB";
 
+
 const RenderTopicsDraggable = (props) => {
   let topicsDataArray = props.topicsDataArray;
   const setCurrTopicIndex = props.setCurrTopicIndex;
@@ -16,8 +17,7 @@ const RenderTopicsDraggable = (props) => {
   topicDragged.current = false;
 
   //Open TopicModal when topic stub is clicked without dragging (and isn't locked)
-  const handleOnStop = (topic, index) => (event, data) => {
-    // uses 'currying'
+  const handleOnStop = (topic, index) => (event, data) => {     // uses 'currying'
     event.stopPropagation();
     console.log("RenderTopicsDraggable.js handleOnStop  x=", data.x, " y=", data.y);
 
@@ -57,11 +57,23 @@ const RenderTopicsDraggable = (props) => {
               {/* Absolute positioning of above div is necessary for topics below to position properly */}
               <Draggable
                 onStop={handleOnStop(topic, index)}
-                allowAnyClick={true}
-                defaultPosition={{ x: posnX[index], y: posnY[index] }}>
-                <div className="bg-yellow-200 rounded-lg">
-                  {topic.topic ? <div className="text-4xl z-10">{topic.topic}</div> : <div> Click to edit </div>}
-                </div>
+                defaultPosition={{ x: posnX[index], y: posnY[index] }}
+              >
+
+              {/* Be sure to use the same formatting on RenderTopicsNonDraggable.js  */}
+              {/* (This is WET but React-Draggable doesn't seem to work on sub-components.)  */}
+              <div className="text-blue-400 px-3 py-1 bg-gray-800 opacity-90 rounded-xl z-10">
+                {(topic.topicLevel === "Main Topic") ?
+                  topic.topic ? <div className="text-7xl">{topic.topic}</div> : <div> Click to edit </div>
+
+                : (topic.topicLevel === "Sub-Topic") ?
+                  topic.topic ? <div className="text-3xl">{topic.topic}</div> : <div> Click to edit </div>
+
+                : 
+                  topic.topic ? <div className="text-sm">{topic.topic}</div> : <div> Click to edit </div>
+                }
+              </div>
+
               </Draggable>
             </div>
           );
