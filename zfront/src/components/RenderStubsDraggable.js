@@ -24,6 +24,7 @@ const RenderStubsDraggable = (props) => {
   const posnLog = props.posnLog;
 
   const [showLockedWarningModal, setShowLockedWarningModal] = useState(false);
+  const [dragStopped, setDragStopped] = useState(true);
 
   let posnX = [];
   let posnY = [];
@@ -32,7 +33,7 @@ const RenderStubsDraggable = (props) => {
   //Open MainModal when stub is clicked without dragging
   const handleOnStop = (post, index) => (event, data) => {
     // Above line uses 'currying'. See https://www.carlrippon.com/using-currying-to-pass-additional-data-to-react-event-handlers/
-    event.stopPropagation(); //J: I think this is important... don't want bubbling?
+    event.stopPropagation();
     console.log("RenderStubsDraggable.js handleOnStop  x=", data.x, " y=", data.y);
     posnLog && console.log("RenderStubsDraggable.js posnX[", index, "] = ", posnX[index], ", posnY[", index, "] = ", posnY[index]);
 
@@ -78,14 +79,16 @@ const RenderStubsDraggable = (props) => {
                 onStop={handleOnStop(post, index)}
                 allowAnyClick={true}
                 defaultPosition={{ x: posnX[index], y: posnY[index] }}
+                disabled={dragStopped}
+                style={{zIndex: "-9999"}}
                 >
-                <div className="text-xs flex flex-col items-center absolute text-gray-800
-                  border border-blue-200 border-dashed borderOpacity-0 hover:borderOpacity-60">
+                <div className="text-xs flex flex-col items-center absolute text-gray-800">
+                  {/* border border-blue-200 border-dashed borderOpacity-0 hover:borderOpacity-60"> */}
                               {/* absolute positioning in above line is required */}
                   <div className="flex flex-col items-center" style={{transform: `scale(${stubScale})`}}>
 
-                    {/* Tooltip divs - content and formatting must match RenderStubsNonDraggable's! */}
-                    <div className={"invisible w-96 p-2  bg-gray-200 rounded-lg  opacity-90 z-10"}>
+                    {/* Tooltip - content and formatting must match RenderStubsNonDraggable's! */}
+                    <div className={"invisible w-96 p-2  bg-gray-200 rounded-lg  opacity-90"}>
                       <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
                     </div>
                     <div className={`invisible opacity-90`} style={{ transform: "translateY(-8px)"}}>
@@ -94,7 +97,7 @@ const RenderStubsDraggable = (props) => {
 
                     {/* Stub */}
                     <div
-                      className="flex w-56 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
+                      className="flex w-56 mb-2 border border-gray-900 rounded-lg bg-gray-200"
                       // onClick={handleOnClick(post, index)}
                     >
                       <div
@@ -143,6 +146,23 @@ const RenderStubsDraggable = (props) => {
                         />
                       </div>
                     </div>
+
+                    {/*  Dragging Selection Overlay: an invisible area that overlays the stub, releases prevention of stub dragging */}
+                    <div className="w-56 h-24 bg-red-100 opacity-50 transform -translate-y-24"
+                      onMouseEnter={ () => {
+                        setDragStopped(false)
+                        console.log("Moused over Dragging Selection Overlay. dragStopped=",dragStopped)
+                      }}
+                      onMouseMove={ () => {
+                        setDragStopped(false)
+                        console.log("Mouse moved over Dragging Selection Overlay. dragStopped=",dragStopped)
+                      }} 
+                      onMouseLeave={ () => {
+                        setDragStopped(true)
+                        console.log("Mouse Left Dragging Selection Overlay. dragStopped=",dragStopped)
+                      }}
+                      style={{zIndex: "9999"}}
+                    />
 
                   </div>
 

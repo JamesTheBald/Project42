@@ -40,7 +40,7 @@ const NavBar = (props) => {
   
   return (
     <>
-      <nav className="w-full h-20 flex items-center text-blue-200 bg-blue-900 fixed z-40">
+      <nav className="w-full h-20 flex items-center text-blue-200 bg-blue-900 fixed z-50">
         <div className="flex flex-row items-baseline">
           <div className="p-2 text-2xl mx-4  hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
             EvolveU Tips and Resources
