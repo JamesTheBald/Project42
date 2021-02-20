@@ -1,15 +1,16 @@
 import React from "react";
 
-  const RenderTopicsNonDraggable = (props) => {
+const RenderTopicsNonDraggable = (props) => {
+
   let topicsDataArray = props.topicsDataArray;
   const setCurrTopicIndex = props.setCurrTopicIndex;
   const setShowTopicModal = props.setShowTopicModal;
   const setTopicDraft = props.setTopicDraft;
   const setCreatingTopicFlag = props.setCreatingTopicFlag;
-  const posnLog = props.posnLog
+  const posnLog = props.posnLog;
+  const recdLog = props.posnLog;
 
-  // console.log("RenderTopicsNonDraggable.js begins. topicsDataArray=", topicsDataArray);
-
+  recdLog && console.log("RenderTopicsNonDraggable.js begins. topicsDataArray=", topicsDataArray);
 
   if (topicsDataArray?.[0]?._id) {
     return (
@@ -34,8 +35,18 @@ import React from "react";
                   setShowTopicModal(true);
                 }}>
 
-                <div className="bg-yellow-200 rounded-lg">
-                  {topic.topic ? <div className="text-4xl z-10">{topic.topic}</div> : <div> Click to edit </div>}
+                {/* Be sure to use the same formatting on RenderTopicsDraggable.js  */}
+                {/* (This is WET but React-Draggable doesn't seem to work on sub-components.)  */}
+                <div className="text-blue-400 px-3 py-1 bg-gray-800 opacity-90  rounded-xl z-10">
+                  {(topic.topicLevel === "Main Topic") ?
+                    topic.topic ? <div className="text-7xl">{topic.topic}</div> : <div> Click to edit </div>
+
+                  : (topic.topicLevel === "Sub-Topic") ?
+                    topic.topic ? <div className="text-3xl">{topic.topic}</div> : <div> Click to edit </div>
+
+                  : 
+                    topic.topic ? <div className="text-sm">{topic.topic}</div> : <div> Click to edit </div>
+                  }
                 </div>
 
               </div>

@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-const WarningModal = (props) => {
+const WarningModalEdits = (props) => {
   const showWarningModal = props.showWarningModal;
   const setShowWarningModal = props.setShowWarningModal;
   const modalBackgroundColor = "bg-yellow-200";
@@ -33,4 +33,4 @@ const WarningModal = (props) => {
   );
 };
 
-export default WarningModal;
+export default WarningModalEdits;

@@ -1,19 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import convertISODate from "../functions/convertISODate";
 import RichTextEditor from "./RichTextEditor";
 import ContentTypeSelector from "./ContentTypeSelector";
 import SpicinessSelector from "./SpicinessSelector";
 import VoteCounter from "./VoteCounter";
-import WarningModal from "./WarningModal";
+import WarningModalEdits from "./WarningModalEdits";
 import { FaRegUser, FaRegTrashAlt } from "react-icons/fa";
 import { AiOutlineTags } from "react-icons/ai";
 import { GrSave } from "react-icons/gr";
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import submitPost from "../functions/submitPost";
 import deletePost from "../functions/deletePost";
+<<<<<<< HEAD
 import WarningDeleteModal from "../components/WarningDeleteModal";
+=======
+import unlockPost from "../functions/unlockPost";
+>>>>>>> f13cedcc75c3729b9cce3b68ac841df44a01f5f4
 
 const MainModal = (props) => {
   const emptyPost = props.emptyPost;
@@ -27,6 +30,7 @@ const MainModal = (props) => {
   let creatingPostFlag = props.creatingPostFlag;
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
+  const recdLog=props.recdLog;
 
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [showWarningDeleteModal, setShowWarningDeleteModal] = useState(false);
@@ -74,11 +78,12 @@ const MainModal = (props) => {
     console.log("safeModalHide madeEdits.current =", madeEdits.current);
 
     if (madeEdits.current) {
-      console.log("safeModalHide warning issued, showing WarningModal", madeEdits.current);
+      console.log("safeModalHide warning issued, showing WarningModalEdits", madeEdits.current);
       setShowWarningModal(true);
     } else {
       setShowMainModal(false);
     }
+    unlockPost(postDraft, currPostIndex);
   };
 
   return (
@@ -212,15 +217,20 @@ const MainModal = (props) => {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button
-              variant="warning"
+            <button
+              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
+
               onClick={() => {
                 console.log("MainModal.js Clicked Abandon Changes");
                 setShowMainModal(false);
               }}>
-              Abandon Changes <BsArrowCounterclockwise />
-            </Button>
+              <div className="flex flex-row items-center">
+                <BsArrowCounterclockwise className="text-lg"/>
+                <div className="pl-2 py-1">Abandon Changes</div>
+              </div>
+            </button>
 
+<<<<<<< HEAD
             <Button
               variant="danger"
               onClick={() => setShowWarningDeleteModal(true)}
@@ -248,6 +258,48 @@ const MainModal = (props) => {
           setShowMainModal={setShowMainModal}
           creatingPostFlag={creatingPostFlag}
         />
+=======
+            <button
+              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
+              onClick={() => {
+                deletePost(
+                  postDraft,
+                  postingsDataArray,
+                  setPostingsDataArray,
+                  currPostIndex,
+                  setShowMainModal,
+                  creatingPostFlag
+                );
+              }}>
+              <div className="flex flex-row items-center">
+                <FaRegTrashAlt className="text-lg"/>
+                <div className="pl-2 py-1">Delete Post</div>
+              </div>
+            </button>
+
+            <button 
+              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
+              onClick={() => {
+                submitPost(
+                  emptyPost,
+                  postDraft,
+                  postingsDataArray,
+                  setPostingsDataArray,
+                  currPostIndex,
+                  setShowMainModal,
+                  creatingPostFlag,
+                  recdLog
+                );
+              }}>
+              <div className="flex flex-row items-center">
+                <GrSave className="text-lg"/>
+                <div className="pl-2 py-1">Save Changes</div>
+              </div>
+            </button>
+          </Modal.Footer>
+        </form>
+        <WarningModalEdits showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />
+>>>>>>> f13cedcc75c3729b9cce3b68ac841df44a01f5f4
       </Modal>
     </>
   );

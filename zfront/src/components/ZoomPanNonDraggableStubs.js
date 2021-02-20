@@ -10,7 +10,8 @@ class ZoomPanNonDraggableStubs extends Component {
     let zoomScale = this.props.zoomScale;
     let panX = this.props.panX;
     let panY = this.props.panY;
-    const posnLog = this.props.posnLog;
+    const zoomedOrPanned = this.props.zoomedOrPanned;
+  
     let postingsDataArray = this.props.postingsDataArray;
     let currPostIndex = this.props.currPostIndex;
     const setCurrPostIndex = this.props.setCurrPostIndex;
@@ -22,11 +23,13 @@ class ZoomPanNonDraggableStubs extends Component {
     let userVoted = this.props.userVoted;
     const setUserVoted = this.props.setUserVoted;
 
-    let topicsDataArray = this.props.topicsDataArray
-    const setCurrTopicIndex = this.props.setCurrTopicIndex
-    const setShowTopicModal = this.props.setShowTopicModal
-    const setTopicDraft = this.props.setTopicDraft
-    const setCreatingTopicFlag = this.props.setCreatingTopicFlag
+    let topicsDataArray = this.props.topicsDataArray;
+    const setCurrTopicIndex = this.props.setCurrTopicIndex;
+    const setShowTopicModal = this.props.setShowTopicModal;
+    const setTopicDraft = this.props.setTopicDraft;
+    const setCreatingTopicFlag = this.props.setCreatingTopicFlag;
+    const posnLog = this.props.posnLog;
+    const recdLog = this.props.recdLog;
 
 
     return (
@@ -37,12 +40,12 @@ class ZoomPanNonDraggableStubs extends Component {
           positionX={panX}
           positionY={panY}
           onZoomChange={updateZoomPan}
-          onPanning={updateZoomPan}
+          onPanning={updateZoomPan} 
           onPanningStop={updateZoomPan}
+          onPinching={updateZoomPan}    // Guessing here!
           enablePadding={false}
-          wheel={{
-            step: 160,
-          }}
+          doubleClick={{disabled: true}}
+          wheel={{step: 200}}
           options={{
             // See "Options prop elements" on https://www.npmjs.com/package/react-draggable
             minScale: 0.5,
@@ -67,7 +70,9 @@ class ZoomPanNonDraggableStubs extends Component {
                     setCreatingPostFlag={setCreatingPostFlag}
                     userVoted={userVoted}
                     setUserVoted={setUserVoted}
+                    zoomedOrPanned={zoomedOrPanned}
                     posnLog={posnLog}
+                    recdLog={recdLog}
                   />
                   <RenderTopicsNonDraggable
                     topicsDataArray={topicsDataArray}
@@ -75,25 +80,17 @@ class ZoomPanNonDraggableStubs extends Component {
                     setShowTopicModal={setShowTopicModal}
                     setTopicDraft={setTopicDraft}
                     setCreatingTopicFlag={setCreatingTopicFlag}
+                    zoomedOrPanned={zoomedOrPanned}
                     posnLog={posnLog}
+                    recdLog={recdLog}
                   />
                 </div>
 
               </TransformComponent>
-
-              {/* <div className="absolute top-0 left-360">
-                <ZoomControls
-                  scale={zoomScale}
-                  zoomIn={zoomIn}
-                  zoomOut={zoomOut}
-                  setTransform={setTransform}
-                  panX={panX}
-                  panY={panY}
-                />
-              </div> */}
             </>
           )}
         </TransformWrapper>
+
       </div>
     );
   }

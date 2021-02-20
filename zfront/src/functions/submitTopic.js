@@ -11,26 +11,24 @@ const submitTopic = (
   setTopicsDataArray,
   currTopicIndex,
   setShowTopicModal,
-  creatingTopicFlag
+  creatingTopicFlag,
+  recdLog
 ) => {
   console.log("submitTopic.js Clicked 'Save Topic' creatingTopicFlag=", creatingTopicFlag);
-  console.log("submitTopic.js Clicked 'Save Topic' topicDraft=", topicDraft);
-  console.log("submitTopic.js Clicked 'Save Topic' topicsDataArray=", topicsDataArray);
+  recdLog && console.log("submitTopic.js saving to topicsDataArray=", topicsDataArray);
+  recdLog && console.log("submitTopic.js saving topicDraft=", topicDraft);
 
   if (creatingTopicFlag) {
-    console.log("submitTopic.js creatingTopicFlag=true so running createTopicOnDB and createTopicOnDataArray");
+    console.log("submitTopic.js running createTopicOnDB and createTopicOnDataArray");
     createTopicOnDataArray(setTopicsDataArray, topicDraft);
-    createTopicOnDB(topicDraft).then((response) => {
-      console.log("submitTopic.js Clicked 'Save Topic' NOT creatingTopic createTopicOnDB response=", response);
+    createTopicOnDB(topicDraft).then(() => {
       retrieveTopics(setTopicsDataArray, emptyTopic); // Time for a hard-update
     });
   } else {
     if (topicsDataArray?.[currTopicIndex]?._id) {
-      console.log("submitTopic.js NOT creatingTopic so running updateTopicOnDB and updateTopicOnDataArray");
+      console.log("submitTopic.js running updateTopicOnDB and updateTopicOnDataArray");
       updateTopicOnDataArray(setTopicsDataArray, topicDraft, currTopicIndex);
-
-      updateTopicOnDB(topicDraft, currTopicIndex).then((response) => {
-        console.log("submitTopic.js Clicked 'Save Topic' NOT creatingTopic updateTopicOnDB response=", response);
+      updateTopicOnDB(topicDraft, currTopicIndex).then(() => {
         retrieveTopics(setTopicsDataArray, emptyTopic); // Time for a hard-update
       });
     } else {

@@ -21,7 +21,8 @@ exports.create = (req, res) => {
     content: req.body.content,
     purpose: req.body.purpose,
     positionX: req.body.positionX,
-    positionY: req.body.positionY
+    positionY: req.body.positionY,
+    locked: req.body.locked
   });
 
   // Save Posting to the database

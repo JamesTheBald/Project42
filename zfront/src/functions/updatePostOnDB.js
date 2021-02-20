@@ -1,8 +1,7 @@
 import PostingsAxios from "../services/PostingsAxios";
 
 const updatePostOnDB = (postDraft, currPostIndex) => {
-  console.log("updatePostOnDB.js: postDraft=", postDraft);
-  console.log("updatePostOnDB.js: currPostIndex=", currPostIndex);
+  console.log("updatePostOnDB.js: writing postDraft=", postDraft, "to currPostIndex=", currPostIndex);
 
   if (postDraft) {
 

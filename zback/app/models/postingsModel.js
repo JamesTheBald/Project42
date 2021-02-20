@@ -11,7 +11,8 @@ module.exports = (mongoose) => {
       upvotes: Number,
       purpose: String,
       positionX: Number,
-      positionY: Number
+      positionY: Number,
+      locked: Boolean
     },
     { timestamps: true }
   );

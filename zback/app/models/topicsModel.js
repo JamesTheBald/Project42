@@ -2,9 +2,10 @@ module.exports = (mongoose) => {
   var topicSchema = mongoose.Schema(
     {
       topic: String,
-      topicLevelel: Number,
+      topicLevel: String,
       positionX: Number,
-      positionY: Number
+      positionY: Number,
+      locked: Boolean
     }
   );
 
