@@ -23,7 +23,7 @@ const TopicModal = (props) => {
   const recdLog=props.recdLog;
 
 
-  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [showWarningModalEdits, setshowWarningModalEdits] = useState(false);
   let madeEdits = useRef();
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const TopicModal = (props) => {
 
     if (madeEdits.current) {
       console.log("safeModalHide warning issued, showing WarningModalEdits", madeEdits.current);
-      setShowWarningModal(true);
+      setshowWarningModalEdits(true);
     } else {
       setShowTopicModal(false);
     }
@@ -163,7 +163,7 @@ const TopicModal = (props) => {
           </button>
         </Modal.Footer>
 
-        <WarningModalEdits showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />
+        <WarningModalEdits showWarningModalEdits={showWarningModalEdits} setshowWarningModalEdits={setshowWarningModalEdits} />
       </Modal>
     </>
   );

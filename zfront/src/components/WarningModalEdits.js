@@ -3,11 +3,11 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 const WarningModalEdits = (props) => {
-  const showWarningModal = props.showWarningModal;
-  const setShowWarningModal = props.setShowWarningModal;
+  const showWarningModalEdits = props.showWarningModalEdits;
+  const setshowWarningModalEdits = props.setshowWarningModalEdits;
   const modalBackgroundColor = "bg-yellow-200";
 
-  const handleClose = () => setShowWarningModal(false);
+  const handleClose = () => setshowWarningModalEdits(false);
 
   return (
     <div className="bg-orange-200">
@@ -15,7 +15,7 @@ const WarningModalEdits = (props) => {
         size="sm"
         centered
         animation={false}
-        show={showWarningModal}
+        show={showWarningModalEdits}
         onHide={handleClose}
       >
         <Modal.Header closeButton className={modalBackgroundColor}>

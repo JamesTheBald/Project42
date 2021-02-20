@@ -17,10 +17,7 @@ const WarningDeleteModal = (props) => {
 
   const modalBackgroundColor = "bg-yellow-200";
 
-  const handleClose = () => {
-    setShowWarningDeleteModal(false);
-
-  }
+  const handleClose = () => setShowWarningDeleteModal(false)
   
 
   return (

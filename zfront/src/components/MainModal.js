@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button"
 import convertISODate from "../functions/convertISODate";
 import RichTextEditor from "./RichTextEditor";
 import ContentTypeSelector from "./ContentTypeSelector";
@@ -11,7 +12,6 @@ import { AiOutlineTags } from "react-icons/ai";
 import { GrSave } from "react-icons/gr";
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import submitPost from "../functions/submitPost";
-import deletePost from "../functions/deletePost";
 import WarningDeleteModal from "../components/WarningDeleteModal";
 import unlockPost from "../functions/unlockPost";
 
@@ -29,11 +29,9 @@ const MainModal = (props) => {
   const setUserVoted = props.setUserVoted;
   const recdLog=props.recdLog;
 
-  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [showWarningModalEdits, setshowWarningModalEdits] = useState(false);
   const [showWarningDeleteModal, setShowWarningDeleteModal] = useState(false);
   let madeEdits = useRef();
-
-  const handleClose = () => setShowWarningModal(false);
 
 
   useEffect(() => {
@@ -76,7 +74,7 @@ const MainModal = (props) => {
 
     if (madeEdits.current) {
       console.log("safeModalHide warning issued, showing WarningModalEdits", madeEdits.current);
-      setShowWarningModal(true);
+      setshowWarningModalEdits(true);
     } else {
       setShowMainModal(false);
     }
@@ -242,7 +240,7 @@ const MainModal = (props) => {
           </Modal.Footer>
         </form>
 
-        <WarningModal showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />
+        <WarningModalEdits showWarningModalEdits={showWarningModalEdits} setshowWarningModalEdits={setshowWarningModalEdits} />
 
         <WarningDeleteModal 
           showWarningDeleteModal={showWarningDeleteModal}
