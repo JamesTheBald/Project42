@@ -75,7 +75,7 @@ const MainModal = (props) => {
     } else {
       setShowMainModal(false);
     }
-    unlockPost(postDraft, currPostIndex);
+    unlockPost(postDraft, currPostIndex, recdLog);
   };
 
   return (

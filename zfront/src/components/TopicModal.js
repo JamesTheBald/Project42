@@ -59,7 +59,7 @@ const TopicModal = (props) => {
     } else {
       setShowTopicModal(false);
     }
-    unlockTopic(topicDraft, currTopicIndex);
+    unlockTopic(topicDraft, currTopicIndex, recdLog);
   };
 
   const changeContentType = (passedContentType) => {
