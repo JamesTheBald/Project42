@@ -6,7 +6,6 @@ import lockPost from "../functions/lockPost";
 // import { GoTriangleDown } from "react-icons/go";
 import { AiOutlineCaretDown } from "react-icons/ai";
 
-
 const RenderStubsNonDraggable = (props) => {
   let postingsDataArray = props.postingsDataArray;
   const setCurrPostIndex = props.setCurrPostIndex;
@@ -21,10 +20,9 @@ const RenderStubsNonDraggable = (props) => {
   const recdLog = props.recdLog;
   // const posnLog = props.posnLog
 
-
   const [vizArray, setVizArray] = useState([]);
-  let timeout;
-  const delay = 300;
+  // let timeout;
+  // const delay = 300;
 
   // console.log("RenderStubsNonDraggable.js begins. postingsDataArray=", postingsDataArray);
 
@@ -42,14 +40,14 @@ const RenderStubsNonDraggable = (props) => {
   }, [postingsDataArray]);
 
   const showToolTip = (index) => {
-    timeout = setTimeout(() => {
-      setVizArray((currVizArray) => {
-        let newVizArray = [...currVizArray];
-        newVizArray[index] = "visible";
-        // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
-        return newVizArray;
-      });
-    }, delay || 200);
+    // timeout = setTimeout(() => {
+    setVizArray((currVizArray) => {
+      let newVizArray = [...currVizArray];
+      newVizArray[index] = "visible";
+      // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
+      return newVizArray;
+    });
+    // }, delay || 200);
   };
 
   const hideToolTip = (index) => {
@@ -59,25 +57,23 @@ const RenderStubsNonDraggable = (props) => {
       // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
       return newVizArray;
     });
-    clearInterval(timeout);
+    // clearInterval(timeout);
   };
-
 
   const handleOnClick = (post, index) => (evnt) => {
     evnt.stopPropagation();
-    
+
     recdLog && console.log("RenderStubsNonDraggble.js handleOnClick post=", post);
     if (!post.locked) {
       setCreatingPostFlag(false);
       setCurrPostIndex(index);
       setPostDraft(post);
-      lockPost(post, index);  // writes lock to DB but doesn't update state vars (postDraft, postingsDataArray)
+      lockPost(post, index); // writes lock to DB but doesn't update state vars (postDraft, postingsDataArray)
       setShowMainModal(true);
     } else {
-      console.log("RenderStubsNonDraggble.js handleOnClick - post is locked")  // ADD A WARNING POPUP
+      console.log("RenderStubsNonDraggble.js handleOnClick - post is locked"); // ADD A WARNING POPUP
     }
   };
-
 
   if (postingsDataArray?.[0]?._id) {
     return (
@@ -90,52 +86,53 @@ const RenderStubsNonDraggable = (props) => {
             <div
               key={index}
               className="text-xs flex flex-col items-center absolute text-gray-800"
-              style={{ top: post.positionY, left: post.positionX, transform: `scale(${stubScale})`}}
-            >
+              style={{ top: post.positionY, left: post.positionX, transform: `scale(${stubScale})` }}>
               {/* Tooltip divs - content and formatting must match RenderStubsDraggable's! */}
-              <div className={`${vizArray[index]} w-96 p-2  bg-gray-200 rounded-lg  opacity-90 z-10`}>
-                <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft}/>
-              </div>
-              <div className={`${vizArray[index]} opacity-90`} style={{ transform: "translateY(-8px)"}}>
-                <AiOutlineCaretDown className="text-3xl  text-gray-200"/>
+              <div className="flex flex-col items-center" style={{ zIndex: "-9999" }}>
+                <div className={`${vizArray[index]} w-96 p-2  bg-gray-200 rounded-lg  opacity-90`}>
+                  <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
+                </div>
+                <div className={`${vizArray[index]} opacity-90`} style={{ transform: "translateY(-8px)" }}>
+                  <AiOutlineCaretDown className="text-3xl  text-gray-200" />
+                </div>
               </div>
 
               {/* Stub */}
               <div
-                className="flex w-56 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
+                className="flex w-56 mb-2 border border-gray-900 rounded-lg bg-gray-200 relative"
                 onMouseEnter={() => showToolTip(index)}
                 onMouseLeave={() => hideToolTip(index)}
                 onClick={handleOnClick(post, index)}
-              >
-
+                style={{ zIndex: "9999" }}>
                 <div
                   name="title-contributor-container"
-                  className="flex flex-col justfy-between relative items-start w-3/4 p-2 border-r border-gray-900"
-                >
-                  {post.title ? 
+                  className="flex flex-col justfy-between relative items-start w-3/4 p-2 border-r border-gray-900">
+                  {post.title ? (
                     <div>
                       <div className="max-h-6 leading-3 overflow-hidden font-500">{post.title}</div>
 
-                      {(post.title.length > 60) ?
-                        <div name="fade-out-title-container" className="mt-2 absolute top-3 right-0 w-full h-3 bg-gradient-to-l from-gray-200"></div>
-                      :
+                      {post.title.length > 60 ? (
+                        <div
+                          name="fade-out-title-container"
+                          className="mt-2 absolute top-3 right-0 w-full h-3 bg-gradient-to-l from-gray-200"></div>
+                      ) : (
                         <></>
-                      }
+                      )}
                     </div>
-                  :
+                  ) : (
                     <div>Click to edit</div>
-                  }
+                  )}
 
                   <div>
-                    <div className="m-2 text-gray-500  absolute bottom-0 left-0 truncate w-4/5">{post.contributors}</div>
+                    <div className="m-2 text-gray-500  absolute bottom-0 left-0 truncate w-4/5">
+                      {post.contributors}
+                    </div>
                   </div>
-
                 </div>
 
                 <div
                   name="stub-attribute-container"
-                  className="flex flex-col justify-between items-center w-1/4 p-2 rounded-r-lg"
-                >
+                  className="flex flex-col justify-between items-center w-1/4 p-2 rounded-r-lg">
                   <div className="text-gray-500"> {post.contentType} </div>
 
                   <div className="my-1.5">
@@ -152,6 +149,8 @@ const RenderStubsNonDraggable = (props) => {
                   />
                 </div>
               </div>
+
+              <div className="invisible w-56 h-24 transform -translate-y-24" style={{ zIndex: "-9999" }} />
             </div>
           );
         })}
