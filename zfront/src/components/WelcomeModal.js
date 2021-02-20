@@ -40,7 +40,6 @@ function WelcomeModal(props) {
 
 
       <Modal.Body>
-<<<<<<< HEAD
         <div className="text-lg text-center">
           <div className="mt-10 text-blue-800">Click on any post to view or edit its details</div>
           <div className="mt-2 mb-10 text-blue-800">Hover over any field in a post to edit</div>
@@ -48,17 +47,6 @@ function WelcomeModal(props) {
         </div>
       </Modal.Body>
 
-=======
-          <div className="text-xl mb-8">How it works:</div>
-          <div className="ml-6">
-            <div className="mb-2 ml-">Click on any post to view or edit its details</div>
-            <div className="mb-2">Hover over any field in a post to edit</div>
-            <div>Hold Shift to drag any post or topic heading to a new location</div>
-          </div>
-      </Modal.Body>
-
-
->>>>>>> f13cedcc75c3729b9cce3b68ac841df44a01f5f4
       <Modal.Footer>
         <input
           name="passwordField"

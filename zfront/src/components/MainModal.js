@@ -12,11 +12,8 @@ import { GrSave } from "react-icons/gr";
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import submitPost from "../functions/submitPost";
 import deletePost from "../functions/deletePost";
-<<<<<<< HEAD
 import WarningDeleteModal from "../components/WarningDeleteModal";
-=======
 import unlockPost from "../functions/unlockPost";
->>>>>>> f13cedcc75c3729b9cce3b68ac841df44a01f5f4
 
 const MainModal = (props) => {
   const emptyPost = props.emptyPost;
@@ -230,7 +227,6 @@ const MainModal = (props) => {
               </div>
             </button>
 
-<<<<<<< HEAD
             <Button
               variant="danger"
               onClick={() => setShowWarningDeleteModal(true)}
@@ -258,48 +254,6 @@ const MainModal = (props) => {
           setShowMainModal={setShowMainModal}
           creatingPostFlag={creatingPostFlag}
         />
-=======
-            <button
-              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
-              onClick={() => {
-                deletePost(
-                  postDraft,
-                  postingsDataArray,
-                  setPostingsDataArray,
-                  currPostIndex,
-                  setShowMainModal,
-                  creatingPostFlag
-                );
-              }}>
-              <div className="flex flex-row items-center">
-                <FaRegTrashAlt className="text-lg"/>
-                <div className="pl-2 py-1">Delete Post</div>
-              </div>
-            </button>
-
-            <button 
-              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
-              onClick={() => {
-                submitPost(
-                  emptyPost,
-                  postDraft,
-                  postingsDataArray,
-                  setPostingsDataArray,
-                  currPostIndex,
-                  setShowMainModal,
-                  creatingPostFlag,
-                  recdLog
-                );
-              }}>
-              <div className="flex flex-row items-center">
-                <GrSave className="text-lg"/>
-                <div className="pl-2 py-1">Save Changes</div>
-              </div>
-            </button>
-          </Modal.Footer>
-        </form>
-        <WarningModalEdits showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} />
->>>>>>> f13cedcc75c3729b9cce3b68ac841df44a01f5f4
       </Modal>
     </>
   );
