@@ -62,6 +62,7 @@ const AlphaComponent = () => {
   const zoomedOrPanned = useRef(false);
   const imageWidth = 3840; // Set these to equal background image dimensions
   const imageHeight = 2160;
+  const stubScale = 0.5;
 
   zoomedOrPanned.current = false;
 
@@ -202,6 +203,7 @@ const AlphaComponent = () => {
               userVoted={userVoted}
               setUserVoted={setUserVoted}
               stubDragged={stubDragged}
+              stubScale={stubScale}
               recdLog={recdLog}
               posnLog={posnLog}
             />
@@ -212,6 +214,7 @@ const AlphaComponent = () => {
               setTopicDraft={setTopicDraft}
               setCreatingTopicFlag={setCreatingTopicFlag}
               topicDragged={topicDragged}
+              stubScale={stubScale}
             />
           </>
         )}
@@ -244,6 +247,7 @@ const AlphaComponent = () => {
           setCurrTopicIndex={setCurrTopicIndex}
           setCreatingTopicFlag={setCreatingTopicFlag}
           setTopicDraft={setTopicDraft}
+          stubScale={stubScale}
 
           posnLog={posnLog}
           recdLog={recdLog}

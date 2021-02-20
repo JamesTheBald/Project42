@@ -6,6 +6,8 @@ import updatePostOnDB from "../functions/updatePostOnDB";
 import RenderSpiciness from "./RenderSpiciness";
 import lockPost from "../functions/lockPost";
 import LockedWarningModal from "./LockedWarningModal";
+import { AiOutlineCaretDown } from "react-icons/ai";
+
 
 const RenderStubsDraggable = (props) => {
   let postingsDataArray = props.postingsDataArray;
@@ -17,6 +19,7 @@ const RenderStubsDraggable = (props) => {
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
   let stubDragged = props.stubDragged;
+  const stubScale = props.stubScale;
   const recdLog = props.recdLog;
   const posnLog = props.posnLog;
 
@@ -70,69 +73,79 @@ const RenderStubsDraggable = (props) => {
 
           return (
             <div key={index}>
+
               <Draggable
                 onStop={handleOnStop(post, index)}
                 allowAnyClick={true}
-                defaultPosition={{ x: posnX[index], y: posnY[index] }}>
-                <div className="flex flex-col items-center absolute text-gray-800">
-                  {/* Tooltip divs - content and formatting must match RenderStubsNonDraggable's! */}
-                  <div className={"invisible w-96 p-2  bg-gray-200 rounded-lg  opacity-80 z-10"}>
-                    <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
-                  </div>
-                  <div className="invisible">Down Arrow Here</div>
-                  {/* J: I'm thinking React Icon "IoMdArrowDropdown" */}
+                defaultPosition={{ x: posnX[index], y: posnY[index] }}
+                >
+                <div className="text-xs flex flex-col items-center absolute text-gray-800
+                  border border-blue-200 border-dashed borderOpacity-0 hover:borderOpacity-60">
+                              {/* absolute positioning in above line is required */}
+                  <div className="flex flex-col items-center" style={{transform: `scale(${stubScale})`}}>
 
-                  {/* Stub */}
-                  <div
-                    className="flex w-56 mt-4 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
-                    // onClick={handleOnClick(post, index)}
-                  >
+                    {/* Tooltip divs - content and formatting must match RenderStubsNonDraggable's! */}
+                    <div className={"invisible w-96 p-2  bg-gray-200 rounded-lg  opacity-90 z-10"}>
+                      <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
+                    </div>
+                    <div className={`invisible opacity-90`} style={{ transform: "translateY(-8px)"}}>
+                      <AiOutlineCaretDown className="text-3xl  text-gray-200"/>
+                    </div>
+
+                    {/* Stub */}
                     <div
-                      name="title-contributor-container"
-                      className="flex flex-col justfy-between relative items-start w-3/4 p-2 border-r border-gray-900">
-                      {post.title ? (
-                        <div>
-                          <div className="max-h-6 leading-3 overflow-hidden">
-                            <p className="text-xs font-500">{post.title}</p>
-                          </div>
-                          {post.title.length > 60 ? (
-                            <div
-                              name="fade-out-title-container"
-                              className="mt-2 absolute top-3 right-0 w-full h-3 bg-gradient-to-l from-gray-200">
+                      className="flex w-56 mb-2 border border-gray-900 rounded-lg bg-gray-200 z-10"
+                      // onClick={handleOnClick(post, index)}
+                    >
+                      <div
+                        name="title-contributor-container"
+                        className="flex flex-col justfy-between relative items-start w-3/4 p-2 border-r border-gray-900">
+                        {post.title ? (
+                          <div>
+                            <div className="max-h-6 leading-3 overflow-hidden">
+                              <p className="text-xs font-500">{post.title}</p>
                             </div>
-                          ) : (
-                            <></>
-                          )}
+                            {post.title.length > 60 ? (
+                              <div
+                                name="fade-out-title-container"
+                                className="mt-2 absolute top-3 right-0 w-full h-3 bg-gradient-to-l from-gray-200">
+                              </div>
+                            ) : (
+                              <></>
+                            )}
+                          </div>
+                        ) : (
+                          <div> Click to edit </div>
+                        )}
+                        <div>
+                          <div className="m-2 text-gray-500 text-xs absolute bottom-0 left-0 truncate w-4/5">
+                            {post.contributors}
+                          </div>
                         </div>
-                      ) : (
-                        <div> Click to edit </div>
-                      )}
-                      <div>
-                        <div className="m-2 text-gray-500 text-xs absolute bottom-0 left-0 truncate w-4/5">
-                          {post.contributors}
+                      </div>
+
+                      <div
+                        name="stub-attribute-container"
+                        className="flex flex-col justify-between items-center w-1/4 p-2 rounded-r-lg">
+                        <div className="text-gray-500 text-xs"> {post.contentType} </div>
+
+                        <div className="my-1.5">
+                          <RenderSpiciness spiciness={post.spiciness} />
                         </div>
+
+                        <VoteCounter
+                          postingsDataArray={postingsDataArray}
+                          userVoted={userVoted}
+                          setUserVoted={setUserVoted}
+                          postDraft={postDraft}
+                          setPostDraft={setPostDraft}
+                          index={index}
+                        />
                       </div>
                     </div>
 
-                    <div
-                      name="stub-attribute-container"
-                      className="flex flex-col justify-between items-center w-1/4 p-2 rounded-r-lg">
-                      <div className="text-gray-500 text-xs"> {post.contentType} </div>
-
-                      <div className="my-1.5">
-                        <RenderSpiciness spiciness={post.spiciness} />
-                      </div>
-
-                      <VoteCounter
-                        postingsDataArray={postingsDataArray}
-                        userVoted={userVoted}
-                        setUserVoted={setUserVoted}
-                        postDraft={postDraft}
-                        setPostDraft={setPostDraft}
-                        index={index}
-                      />
-                    </div>
                   </div>
+
                 </div>
               </Draggable>
 

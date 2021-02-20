@@ -22,6 +22,7 @@ class ZoomPanNonDraggableStubs extends Component {
     const setCreatingPostFlag = this.props.setCreatingPostFlag;
     let userVoted = this.props.userVoted;
     const setUserVoted = this.props.setUserVoted;
+    const stubScale = this.props.stubScale;
 
     let topicsDataArray = this.props.topicsDataArray;
     const setCurrTopicIndex = this.props.setCurrTopicIndex;
@@ -71,6 +72,7 @@ class ZoomPanNonDraggableStubs extends Component {
                     userVoted={userVoted}
                     setUserVoted={setUserVoted}
                     zoomedOrPanned={zoomedOrPanned}
+                    stubScale={stubScale}
                     posnLog={posnLog}
                     recdLog={recdLog}
                   />

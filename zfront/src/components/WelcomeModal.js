@@ -93,7 +93,7 @@ function WelcomeModal(props) {
             className="float-left"
           >
             Dev Bypass
-          </Button>
+        </Button>
       </Modal.Footer>
     </Modal>
   );
