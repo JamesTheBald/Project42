@@ -83,54 +83,47 @@ const RenderStubsDraggable = (props) => {
                 style={{zIndex: "-9999"}}
                 >
                 <div className="text-xs flex flex-col items-center absolute text-gray-800">
-                  {/* border border-blue-200 border-dashed borderOpacity-0 hover:borderOpacity-60"> */}
                               {/* absolute positioning in above line is required */}
                   <div className="flex flex-col items-center" style={{transform: `scale(${stubScale})`}}>
 
-                    {/* Tooltip - content and formatting must match RenderStubsNonDraggable's! */}
-                    <div className={"invisible w-96 p-2  bg-gray-200 rounded-lg  opacity-90"}>
-                      <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
-                    </div>
-                    <div className={`invisible opacity-90`} style={{ transform: "translateY(-8px)"}}>
-                      <AiOutlineCaretDown className="text-3xl  text-gray-200"/>
-                    </div>
-
                     {/* Stub */}
                     <div
-                      className="flex w-56 mb-2 border border-gray-900 rounded-lg bg-gray-200"
+                      className="tooltipBase flex w-60 bg-gray-200 border border-gray-900 rounded-lg"
+                      // onMouseEnter={() => showToolTip(index)}
+                      // onMouseLeave={() => hideToolTip(index)}
                       // onClick={handleOnClick(post, index)}
+                      // style={{ top: post.positionY, left: post.positionX, zIndex: "9999" }}
                     >
                       <div
                         name="title-contributor-container"
-                        className="flex flex-col justfy-between relative items-start w-3/4 p-2 border-r border-gray-900">
+                        className="flex flex-col items-start w-3/4 p-3 relative   border-r border-gray-900"
+                      >
                         {post.title ? (
                           <div>
-                            <div className="max-h-6 leading-3 overflow-hidden">
-                              <p className="text-xs font-500">{post.title}</p>
+                            <div className="h-8  overflow-hidden font-500 relative">{post.title}
+                            
+                              {post.title.length > 60 && (
+                                <div
+                                  name="fade-out-title-container"
+                                  className="w-1/2 h-4 absolute bottom-0 right-0  bg-gradient-to-l from-gray-200"
+                                />
+                              )}
                             </div>
-                            {post.title.length > 60 ? (
-                              <div
-                                name="fade-out-title-container"
-                                className="mt-2 absolute top-3 right-0 w-full h-3 bg-gradient-to-l from-gray-200">
-                              </div>
-                            ) : (
-                              <></>
-                            )}
+
                           </div>
                         ) : (
-                          <div> Click to edit </div>
+                          <div>Click to edit</div>
                         )}
-                        <div>
-                          <div className="m-2 text-gray-500 text-xs absolute bottom-0 left-0 truncate w-4/5">
-                            {post.contributors}
-                          </div>
+
+                        <div className="mt-3 text-gray-600 w-full truncate overflow-hidden">
+                          {post.contributors}
                         </div>
                       </div>
 
-                      <div
-                        name="stub-attribute-container"
-                        className="flex flex-col justify-between items-center w-1/4 p-2 rounded-r-lg">
-                        <div className="text-gray-500 text-xs"> {post.contentType} </div>
+                      <div name="stub-attribute-container"
+                        className="flex flex-col justify-between items-center w-3/12 p-2 rounded-r-lg"
+                      >
+                        <div className="text-gray-600"> {post.contentType} </div>
 
                         <div className="my-1.5">
                           <RenderSpiciness spiciness={post.spiciness} />
@@ -145,10 +138,10 @@ const RenderStubsDraggable = (props) => {
                           index={index}
                         />
                       </div>
-                    </div>
 
+                    
                     {/*  Dragging Selection Overlay: an invisible area that overlays the stub, releases prevention of stub dragging */}
-                    <div className="w-56 h-24 bg-red-100 opacity-50 transform -translate-y-24"
+                    {/* <div className="w-56 h-24 bg-red-100 opacity-50 transform -translate-y-24"
                       onMouseEnter={ () => {
                         setDragStopped(false)
                         console.log("Moused over Dragging Selection Overlay. dragStopped=",dragStopped)
@@ -162,11 +155,12 @@ const RenderStubsDraggable = (props) => {
                         console.log("Mouse Left Dragging Selection Overlay. dragStopped=",dragStopped)
                       }}
                       style={{zIndex: "9999"}}
-                    />
+                    /> */}
 
+                    </div>
                   </div>
-
                 </div>
+
               </Draggable>
 
               <LockedWarningModal

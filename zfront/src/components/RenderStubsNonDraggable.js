@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
+
 import PopupContent from "./PopupContent";
 import VoteCounter from "./VoteCounter";
 import RenderSpiciness from "./RenderSpiciness";
 import lockPost from "../functions/lockPost";
-// import { GoTriangleDown } from "react-icons/go";
 import { AiOutlineCaretDown } from "react-icons/ai";
+
 
 const RenderStubsNonDraggable = (props) => {
   let postingsDataArray = props.postingsDataArray;
@@ -21,10 +24,9 @@ const RenderStubsNonDraggable = (props) => {
   // const posnLog = props.posnLog
 
   const [vizArray, setVizArray] = useState([]);
-  // let timeout;
-  // const delay = 300;
 
-  // console.log("RenderStubsNonDraggable.js begins. postingsDataArray=", postingsDataArray);
+
+  recdLog && console.log("RenderStubsNonDraggable.js begins. postingsDataArray=", postingsDataArray);
 
   useEffect(() => {
     if (postingsDataArray?.[0]?._id) {
@@ -32,7 +34,7 @@ const RenderStubsNonDraggable = (props) => {
         // console.log("RenderStubsNonDraggable useEffect setting VizArray")
         setVizArray((currVizArray) => {
           let newVizArray = [...currVizArray];
-          newVizArray[index] = "invisible";
+          newVizArray[index] = "hidden";
           return newVizArray;
         });
       });
@@ -43,22 +45,21 @@ const RenderStubsNonDraggable = (props) => {
     // timeout = setTimeout(() => {
     setVizArray((currVizArray) => {
       let newVizArray = [...currVizArray];
-      newVizArray[index] = "visible";
+      newVizArray[index] = "";
       // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
       return newVizArray;
     });
-    // }, delay || 200);
   };
 
   const hideToolTip = (index) => {
     setVizArray((currVizArray) => {
       let newVizArray = [...currVizArray];
-      newVizArray[index] = "invisible";
+      newVizArray[index] = "hidden";
       // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
       return newVizArray;
     });
-    // clearInterval(timeout);
   };
+
 
   const handleOnClick = (post, index) => (evnt) => {
     evnt.stopPropagation();
@@ -86,54 +87,46 @@ const RenderStubsNonDraggable = (props) => {
             <div
               key={index}
               className="text-xs flex flex-col items-center absolute text-gray-800"
-              style={{ top: post.positionY, left: post.positionX, transform: `scale(${stubScale})` }}>
-              {/* Tooltip divs - content and formatting must match RenderStubsDraggable's! */}
-              <div className="flex flex-col items-center" style={{ zIndex: "-9999" }}>
-                <div className={`${vizArray[index]} w-96 p-2  bg-gray-200 rounded-lg  opacity-90`}>
-                  <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
-                </div>
-                <div className={`${vizArray[index]} opacity-90`} style={{ transform: "translateY(-8px)" }}>
-                  <AiOutlineCaretDown className="text-3xl  text-gray-200" />
-                </div>
-              </div>
-
+              style={{  transform: `scale(${stubScale})` }}
+            >
               {/* Stub */}
               <div
-                className="flex w-56 mb-2 border border-gray-900 rounded-lg bg-gray-200 relative"
+                className="tooltipBase flex w-60 bg-gray-200 border border-gray-900 rounded-lg"
                 onMouseEnter={() => showToolTip(index)}
                 onMouseLeave={() => hideToolTip(index)}
                 onClick={handleOnClick(post, index)}
-                style={{ zIndex: "9999" }}>
+                style={{ top: post.positionY, left: post.positionX, zIndex: "9999" }}
+              >
                 <div
                   name="title-contributor-container"
-                  className="flex flex-col justfy-between relative items-start w-3/4 p-2 border-r border-gray-900">
+                  className="flex flex-col items-start w-3/4 p-3 relative   border-r border-gray-900"
+                >
                   {post.title ? (
                     <div>
-                      <div className="max-h-6 leading-3 overflow-hidden font-500">{post.title}</div>
+                      <div className="h-8  overflow-hidden font-500 relative">{post.title}
+                      
+                        {post.title.length > 60 && (
+                          <div
+                            name="fade-out-title-container"
+                            className="w-1/2 h-4 absolute bottom-0 right-0  bg-gradient-to-l from-gray-200"
+                          />
+                        )}
+                      </div>
 
-                      {post.title.length > 60 ? (
-                        <div
-                          name="fade-out-title-container"
-                          className="mt-2 absolute top-3 right-0 w-full h-3 bg-gradient-to-l from-gray-200"></div>
-                      ) : (
-                        <></>
-                      )}
                     </div>
                   ) : (
                     <div>Click to edit</div>
                   )}
 
-                  <div>
-                    <div className="m-2 text-gray-500  absolute bottom-0 left-0 truncate w-4/5">
-                      {post.contributors}
-                    </div>
+                  <div className="mt-3 text-gray-600 w-full truncate overflow-hidden">
+                    {post.contributors}
                   </div>
                 </div>
 
-                <div
-                  name="stub-attribute-container"
-                  className="flex flex-col justify-between items-center w-1/4 p-2 rounded-r-lg">
-                  <div className="text-gray-500"> {post.contentType} </div>
+                <div name="stub-attribute-container"
+                  className="flex flex-col justify-between items-center w-3/12 p-2 rounded-r-lg"
+                >
+                  <div className="text-gray-600"> {post.contentType} </div>
 
                   <div className="my-1.5">
                     <RenderSpiciness spiciness={post.spiciness} />
@@ -148,9 +141,22 @@ const RenderStubsNonDraggable = (props) => {
                     index={index}
                   />
                 </div>
+
+                {/* Tooltip - content and formatting must match RenderStubsDraggable's! */}
+                <span className="tooltipItself  flex flex-col items-center">
+                  <div className={`${vizArray[index]} w-96 p-2  bg-gray-200 rounded-lg  opacity-90`}>
+                    <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
+                  </div>
+                  <div className={`${vizArray[index]} opacity-90`} style={{ transform: "translateY(-8px)" }}>
+                    <AiOutlineCaretDown className="text-3xl  text-gray-200" />
+                  </div>
+                </span>
+
               </div>
 
-              <div className="invisible w-56 h-24 transform -translate-y-24" style={{ zIndex: "-9999" }} />
+              {/* this matches the 'Dragging Selection Overlay' box on RenderStubsDraggable  */}
+              {/* <div className="invisible w-56 h-24 transform -translate-y-24" /> */}
+
             </div>
           );
         })}

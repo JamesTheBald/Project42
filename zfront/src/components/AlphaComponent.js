@@ -14,9 +14,9 @@ import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 import unlockAll from "../functions/unlockAll";
 
 
-const posnLog = false;  // Set true if you want to see console logs with Zoompan positions panX and panY
-const recdLog = true;  // Set true if you want to see postingsDataArray, postDraft, topicsDataArray, etc 
-const actnLog = true;  // Set true if you want to see postingsDataArray, postDraft, topicsDataArray, etc 
+const posnLog = false;  //  true logs Zoompan positions panX and panY
+const recdLog = false;  //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
+const evntLog = true;  //  true logs events, e.g. onClick, onKeyDown
 
 const emptyPost = {
   title: "",
@@ -62,7 +62,7 @@ const AlphaComponent = () => {
   const zoomedOrPanned = useRef(false);
   const imageWidth = 3840; // Set these to equal background image dimensions
   const imageHeight = 2160;
-  const stubScale = 0.5;
+  const stubScale = 1;
 
   zoomedOrPanned.current = false;
 
@@ -105,14 +105,14 @@ const AlphaComponent = () => {
   const handleKeyDown = (event) => {
     if (event.key === "Shift") {
       setDragMode(true);
-      actnLog && console.log("AlphaComponent.js handleKeyDown() Shift key pressed");
+      evntLog && console.log("AlphaComponent.js handleKeyDown() Shift key pressed");
     }
   };
 
   const handleKeyUp = (event) => {
     if (event.key === "Shift") {
       setDragMode(false);
-      actnLog && console.log("AlphaComponent.js handleKeyUp() Shift key released");
+      evntLog && console.log("AlphaComponent.js handleKeyUp() Shift key released");
     }
   };
 
