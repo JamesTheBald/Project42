@@ -80,19 +80,18 @@ const RenderStubsDraggable = (props) => {
                 allowAnyClick={true}
                 defaultPosition={{ x: posnX[index], y: posnY[index] }}
                 disabled={dragStopped}
-                style={{zIndex: "-9999"}}
+                // style={{zIndex: "-9999"}}
                 >
                 <div className="text-xs flex flex-col items-center absolute text-gray-800">
-                              {/* absolute positioning in above line is required */}
+                  {/* Above line's absolute positioning is required. Scaling must be in line below.  */}
                   <div className="flex flex-col items-center" style={{transform: `scale(${stubScale})`}}>
+
 
                     {/* Stub */}
                     <div
-                      className="tooltipBase flex w-60 bg-gray-200 border border-gray-900 rounded-lg"
-                      // onMouseEnter={() => showToolTip(index)}
-                      // onMouseLeave={() => hideToolTip(index)}
+                      className="flex w-60 bg-gray-200 border border-gray-900 rounded-lg relative"
+                      // tooltipBase 
                       // onClick={handleOnClick(post, index)}
-                      // style={{ top: post.positionY, left: post.positionX, zIndex: "9999" }}
                     >
                       <div
                         name="title-contributor-container"
@@ -138,10 +137,16 @@ const RenderStubsDraggable = (props) => {
                           index={index}
                         />
                       </div>
+                    </div>
 
-                    
-                    {/*  Dragging Selection Overlay: an invisible area that overlays the stub, releases prevention of stub dragging */}
-                    {/* <div className="w-56 h-24 bg-red-100 opacity-50 transform -translate-y-24"
+
+                    {/*  Dragging Selection Overlay: an invisible area that overlays the stub, to limit expance of stub dragging selectibility */}
+                    <span className="tooltipItself visible w-60 h-24" // transform -translate-y-24
+                      style={{position: "absolute",
+                        bottom: "0%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        zIndex: "9999"}}
                       onMouseEnter={ () => {
                         setDragStopped(false)
                         console.log("Moused over Dragging Selection Overlay. dragStopped=",dragStopped)
@@ -154,14 +159,12 @@ const RenderStubsDraggable = (props) => {
                         setDragStopped(true)
                         console.log("Mouse Left Dragging Selection Overlay. dragStopped=",dragStopped)
                       }}
-                      style={{zIndex: "9999"}}
-                    /> */}
+                    />
 
-                    </div>
                   </div>
                 </div>
-
               </Draggable>
+
 
               <LockedWarningModal
                 showLockedWarningModal={showLockedWarningModal}

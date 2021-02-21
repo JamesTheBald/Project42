@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
+import React from "react";
+// , { useState, useEffect } from "react";
 
 import PopupContent from "./PopupContent";
 import VoteCounter from "./VoteCounter";
@@ -19,46 +18,45 @@ const RenderStubsNonDraggable = (props) => {
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
   const stubScale = props.stubScale;
-  // const zoomedOrPanned = props.zoomedOrPanned
   const recdLog = props.recdLog;
   // const posnLog = props.posnLog
 
-  const [vizArray, setVizArray] = useState([]);
-
-
   recdLog && console.log("RenderStubsNonDraggable.js begins. postingsDataArray=", postingsDataArray);
 
-  useEffect(() => {
-    if (postingsDataArray?.[0]?._id) {
-      postingsDataArray.map((post, index) => {
-        // console.log("RenderStubsNonDraggable useEffect setting VizArray")
-        setVizArray((currVizArray) => {
-          let newVizArray = [...currVizArray];
-          newVizArray[index] = "hidden";
-          return newVizArray;
-        });
-      });
-    }
-  }, [postingsDataArray]);
 
-  const showToolTip = (index) => {
-    // timeout = setTimeout(() => {
-    setVizArray((currVizArray) => {
-      let newVizArray = [...currVizArray];
-      newVizArray[index] = "";
-      // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
-      return newVizArray;
-    });
-  };
+  // const [vizArray, setVizArray] = useState([]);
 
-  const hideToolTip = (index) => {
-    setVizArray((currVizArray) => {
-      let newVizArray = [...currVizArray];
-      newVizArray[index] = "hidden";
-      // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
-      return newVizArray;
-    });
-  };
+  // useEffect(() => {
+  //   if (postingsDataArray?.[0]?._id) {
+  //     postingsDataArray.map((post, index) => {
+  //       // console.log("RenderStubsNonDraggable useEffect setting VizArray")
+  //       setVizArray((currVizArray) => {
+  //         let newVizArray = [...currVizArray];
+  //         newVizArray[index] = "hidden";
+  //         return newVizArray;
+  //       });
+  //     });
+  //   }
+  // }, [postingsDataArray]);
+
+  // const showToolTip = (index) => {
+  //   // timeout = setTimeout(() => {
+  //   setVizArray((currVizArray) => {
+  //     let newVizArray = [...currVizArray];
+  //     newVizArray[index] = "";
+  //     // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
+  //     return newVizArray;
+  //   });
+  // };
+
+  // const hideToolTip = (index) => {
+  //   setVizArray((currVizArray) => {
+  //     let newVizArray = [...currVizArray];
+  //     newVizArray[index] = "hidden";
+  //     // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
+  //     return newVizArray;
+  //   });
+  // };
 
 
   const handleOnClick = (post, index) => (evnt) => {
@@ -87,15 +85,15 @@ const RenderStubsNonDraggable = (props) => {
             <div
               key={index}
               className="text-xs flex flex-col items-center absolute text-gray-800"
-              style={{  transform: `scale(${stubScale})` }}
+              style={{  transform: `scale(${stubScale})`, top: post.positionY, left: post.positionX, }}
             >
               {/* Stub */}
               <div
                 className="tooltipBase flex w-60 bg-gray-200 border border-gray-900 rounded-lg"
-                onMouseEnter={() => showToolTip(index)}
-                onMouseLeave={() => hideToolTip(index)}
+                // onMouseEnter={() => showToolTip(index)}
+                // onMouseLeave={() => hideToolTip(index)}
                 onClick={handleOnClick(post, index)}
-                style={{ top: post.positionY, left: post.positionX, zIndex: "9999" }}
+                // style={{  zIndex: "9999" }}
               >
                 <div
                   name="title-contributor-container"
@@ -144,12 +142,14 @@ const RenderStubsNonDraggable = (props) => {
 
                 {/* Tooltip - content and formatting must match RenderStubsDraggable's! */}
                 <span className="tooltipItself  flex flex-col items-center">
-                  <div className={`${vizArray[index]} w-96 p-2  bg-gray-200 rounded-lg  opacity-90`}>
+
+                  <div className={`w-96 p-2  bg-gray-200 rounded-lg  opacity-90`}>
                     <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
                   </div>
-                  <div className={`${vizArray[index]} opacity-90`} style={{ transform: "translateY(-8px)" }}>
+                  <div className={`opacity-90`} style={{ transform: "translateY(-8px)" }}>
                     <AiOutlineCaretDown className="text-3xl  text-gray-200" />
                   </div>
+
                 </span>
 
               </div>

@@ -1,6 +1,6 @@
-html {
-  /* font-size:14px; */
-}
+/* html {
+  font-size:14px;
+} */
 
 div {
   font-family: Roboto, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -10,16 +10,34 @@ div {
 .backdrop {
   background-image: url('../images/tuscany-italy-landscape.jpg');
   object-fit: contain;
-  /* scale-down */
   height: 2160px;   /* Set equal to height of the image. Also set on AlphaComponent.js ~line 53 */
   width: 3840px;    /* Set equal to the width of the image */
 }
 
-.controls {
+
+.tooltipBase {
+  position: relative;
+}
+
+.tooltipBase .tooltipItself {
+  visibility: hidden;       
+
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%)
+}
+
+.tooltipBase:hover .tooltipItself {
+  visibility: visible;
+}
+
+
+/* .controls {
   font-size: 20px;
   padding: 10px;
   margin: 1px;
   background: #92adba;
   border-radius: 3px;
   z-index: 20;
-}
+} */

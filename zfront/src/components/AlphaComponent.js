@@ -62,7 +62,7 @@ const AlphaComponent = () => {
   const zoomedOrPanned = useRef(false);
   const imageWidth = 3840; // Set these to equal background image dimensions
   const imageHeight = 2160;
-  const stubScale = 1;
+  const stubScale = 0.2;
 
   zoomedOrPanned.current = false;
 
@@ -189,7 +189,7 @@ const AlphaComponent = () => {
         ref={stubsDraggable}
         onClick={(event) => createPostAtMouseClick(event)}
         className="backdrop absolute"
-        style={{ zIndex: -10 }}
+        // style={{ zIndex: -10 }}
       >
         {dragMode && (
           <>
