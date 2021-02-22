@@ -133,8 +133,16 @@ const TopicModal = (props) => {
 
           <button
             className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
-            onClick={() => setShowWarningDeleteModal(true)}
-            >
+            onClick={() => {
+              deleteTopic(
+                topicDraft,
+                topicsDataArray,
+                setTopicsDataArray,
+                currTopicIndex,
+                setShowTopicModal,
+                creatingTopicFlag
+              );
+            }}>
             <div className="flex flex-row items-center">
               <FaRegTrashAlt/>
               <div className="pl-2 py-1">Delete Topic</div>

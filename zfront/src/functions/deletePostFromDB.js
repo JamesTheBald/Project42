@@ -1,20 +1,11 @@
 import PostingsAxios from "../services/PostingsAxios";
 
-const deletePostOnDB = (postDraft, setPostDraft) => {
+const deletePostOnDB = (postDraft) => {
   
   if (postDraft) {
-    
-    setPostDraft((currDraft) => {
-      console.log("deletePostOnDB.js: Initial postDraft aka currDraft.archived=", currDraft.archived);
-      const newPostDraft = { ...currDraft, archived: true };
-      console.log("deletePostOnDB.js: intended updated newPostDraft.archived=", newPostDraft.archived);
-      return newPostDraft;
-    })
-    
-    console.log("deletePostOnDB.js: Actually updated postDraft.archived=", postDraft.archived);
+    console.log("deletePostFromDB.js: writing postDraft=", { ...postDraft, archived: true });
 
-
-    return PostingsAxios.update(postDraft._id, postDraft)
+    return PostingsAxios.update(postDraft._id, { ...postDraft, archived: true })
       .then((response) => {
         console.log("deletePostOnDB.js: after sending post to DB, response msg=", response.data);
       })
