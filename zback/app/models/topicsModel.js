@@ -5,7 +5,8 @@ module.exports = (mongoose) => {
       topicLevel: String,
       positionX: Number,
       positionY: Number,
-      locked: Boolean
+      locked: Boolean,
+      archived: Boolean
     }
   );
 

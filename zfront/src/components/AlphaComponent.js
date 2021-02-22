@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 
-import removeAllPosts from "../functions/removeAllPosts";
-import removeAllTopics from "../functions/removeAllTopics";
+// import removeAllPosts from "../functions/removeAllPosts";
+// import removeAllTopics from "../functions/removeAllTopics";
 import NavBar from "./NavBar";
 import MainModal from "./MainModal";
 import TopicModal from "./TopicModal";
@@ -27,7 +27,8 @@ const emptyPost = {
   upvotes: 0,
   positionX: 200, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 200,
-  locked: false
+  locked: false,
+  archived: false
 };
 
 const emptyTopic = {
@@ -293,7 +294,7 @@ const AlphaComponent = () => {
         {/* <Button
           variant="outline-danger"
           onClick={() => {
-            removeAllPosts();
+            removeAllPosts();         // Caution: This permanently deletes all posts!
             setPostingsDataArray([emptyPost]);
           }}>
           Remove All Posts
@@ -302,7 +303,7 @@ const AlphaComponent = () => {
         <Button
           variant="outline-danger"
           onClick={() => {
-            removeAllTopics();
+            removeAllTopics();        // Caution: This permanently deletes all topics!
             setTopicsDataArray([emptyTopic]);
           }}>
           Remove All Topics

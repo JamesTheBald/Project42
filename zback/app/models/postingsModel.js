@@ -12,7 +12,8 @@ module.exports = (mongoose) => {
       purpose: String,
       positionX: Number,
       positionY: Number,
-      locked: Boolean
+      locked: Boolean,
+      archived: Boolean
     },
     { timestamps: true }
   );

@@ -22,7 +22,8 @@ exports.create = (req, res) => {
     purpose: req.body.purpose,
     positionX: req.body.positionX,
     positionY: req.body.positionY,
-    locked: req.body.locked
+    locked: req.body.locked,
+    archived: req.body.archived
   });
 
   // Save Posting to the database
@@ -46,21 +47,29 @@ exports.findAll = (req, res) => {
   const tags = req.query.tags;
   const name = req.query.name;
 
-  let condition = {};
+  console.log("postingsController.js findAll req.query=",req.query)
+  console.log("postingsController.js findAll title=",title)
+
+
+  let condition = { archived: false };
+  // let condition = { };
+
+  // condition = title && {...condition, title: { $regex: new RegExp(title), $options: "i" } }
+  // condition = tags && {...condition, tags: { $regex: new RegExp(tags), $options: "i" } }
+  // condition = name && {...condition, contributors: { $regex: new RegExp(name), $options: "i" } }
+  console.log("postingsController.js findAll condition=",condition)
+
 
   if (title) {
-    condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+    condition = title ? { archived: false, title: { $regex: new RegExp(title), $options: "i" } } : {};   // $options: "i" means case insensitive
   } else if (tags) {
-    condition = tags ? {tags: { $regex: new RegExp(tags), $options: "i" } } : {}; 
+    condition = tags ? {archived: false, tags: { $regex: new RegExp(tags), $options: "i" } } : {}; 
   } else if (name) {
-    condition = name ? { contributors: { $regex: new RegExp(name), $options: "i" } } : {};
+    condition = name ? {archived: false, contributors: { $regex: new RegExp(name), $options: "i" } } : {};
   }
 
-  // console.log("postingsController.js findAll title=",title)
-  // console.log("postingsController.js findAll tags=",tags)
-  // console.log("postingsController.js findAll name=",name)
-  console.log("postingsController.js findAll req.query=",req.query)
   console.log("postingsController.js findAll condition=",condition)
+
 
   postingsModel.find(condition)
     .then(data => {
@@ -108,6 +117,9 @@ exports.update = (req, res) => {
 
   postingsModel.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
+console.log("Update post received. id=", id, " and req.body=", req.body)
+console.log("Update post received. data=", data)
+
       if (!data) {
         res.status(404).send({
           message: `Cannot update Posting with id=${id}. Maybe Posting was not found!`

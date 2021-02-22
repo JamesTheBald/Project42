@@ -246,6 +246,7 @@ const MainModal = (props) => {
           showWarningDeleteModal={showWarningDeleteModal}
           setShowWarningDeleteModal={setShowWarningDeleteModal}
           postDraft={postDraft}
+          setPostDraft={setPostDraft}
           postingsDataArray={postingsDataArray}
           setPostingsDataArray={setPostingsDataArray}
           currPostIndex={currPostIndex}
