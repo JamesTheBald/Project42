@@ -32,18 +32,25 @@ function WelcomeModal(props) {
       centered
       backdrop="static"
     >
-      <Modal.Header className="bg-blue-900 text-white">
-        <div>
-          <p className="text-3xl">EvolveU Tips and Resources</p>
+      <Modal.Header className="bg-blue-900">
+        <div className="flex w-full justify-between items-center">
+          <div className="text-3xl text-white ml-2">Project 42</div>
+          <div className="text-sm text-blue-300 mr-2">by James Murphy, Collin Anda &amp; Yemi Obayemi</div>
         </div>
       </Modal.Header>
 
 
       <Modal.Body>
         <div className="text-lg text-center">
-          <div className="mt-10 text-blue-800">Click on any post to view or edit its details</div>
-          <div className="mt-2 text-blue-800">Hover over any field in a post to edit</div>
-          <div className="mt-2 mb-10 text-blue-800">Hold Shift to drag any post or topic heading to a new location</div>
+          <div className="mt-10 text-xl italic">&quot;The answer to the great question of life the universe and everything is… 42!&quot;</div>
+          <div className="mt-4 text-md text-right mr-16">- Supercomputer Deep Thought</div>
+
+          <div className="text-left text-blue-700">
+            <div className="mt-12 text-xl font-500 ml-12 ">Instructions</div>
+            <div className="mt-3 ml-24">Use your mouse scroll wheel to zoom in &amp; out, and click-n-drag to pan.</div>
+            <div className="mt-2 ml-24">Click on a post to view or edit it. Click on a field to edit it.</div>
+            <div className="mt-2 ml-24 mb-10">Hold Shift to drag any post or topic heading to a new location</div>
+          </div>
         </div>
       </Modal.Body>
 

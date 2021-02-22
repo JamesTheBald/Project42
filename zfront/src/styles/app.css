@@ -32,6 +32,9 @@ div {
   visibility: visible;
 }
 
+.test {
+  color: magenta
+}
 
 /* .controls {
   font-size: 20px;

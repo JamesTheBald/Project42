@@ -116,7 +116,7 @@ const NavBar = (props) => {
 
           {/* Search by Tag */}
           {searchTerm === "Search by Tag " && (
-            <div className="flex flex-row mx-4">
+            <div className="mx-4  flex flex-row">
               <input
                 type="text"
                 className="w-48 p-1 text-gray-800 bg-gray-100 rounded-lg"
@@ -135,7 +135,7 @@ const NavBar = (props) => {
 
           {/* Search by Contributor Name */}
           {searchTerm === "Search by Contributor " && (
-            <div className="flex flex-row ml-3">
+            <div className="mx-4  flex flex-row">
               <input
                 type="text"
                 className="w-48 p-1 text-gray-800 bg-gray-100 rounded-lg"

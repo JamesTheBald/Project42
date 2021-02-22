@@ -1,25 +1,27 @@
 import TopicsAxios from "../services/TopicsAxios";
 
-const deleteTopicFromDB = (topicsDataArray, currTopicIndex) => {
-  console.log("deleteTopicFromDB.js- topicsDataArray=",topicsDataArray);
-  console.log("deleteTopicFromDB.js- currTopicIndex=",currTopicIndex);
-
-  let fnReturn
-
-  if (topicsDataArray?.length>0) {
-    TopicsAxios.remove(topicsDataArray[currTopicIndex]._id)
-    .then((response) => {
-      fnReturn = response;
-      console.log("deleteTopic.js- response=", response);
+const deleteTopicFromDB = (topicDraft, setTopicDraft) => {
+  
+  if (topicDraft) {
+    
+    setTopicDraft((currDraft) => {
+      const newTopicDraft = { ...currDraft, archived: true };
+      return newTopicDraft;
     })
-    .catch((err) => {
-      fnReturn = err;
-      console.log(err);
-    });
-  } else {
-    console.log("deleteTopic.js, Error - received null or empty array");
-  }
-  return fnReturn
-};
+    console.log("deleteTopicFromDB.js: writing topicDraft=", topicDraft);
 
-export default deleteTopicFromDB
+    return TopicsAxios.update(topicDraft._id, topicDraft)
+      .then((response) => {
+        console.log("deleteTopicFromDB.js: after sending topic to DB, response msg=", response.data);
+      })
+      .catch((err) => {
+        console.log("deleteTopicFromDB error:", err);
+      });
+
+  } else {
+    console.log("deleteTopicFromDB.js: Error - received falsy topicDraft");
+    return null
+  }
+}
+
+export default deleteTopicFromDB;

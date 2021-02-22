@@ -1,25 +1,31 @@
 import PostingsAxios from "../services/PostingsAxios";
 
-const deletePostFromDB = (postingsDataArray, currPostIndex) => {
-  console.log("deletePostFromDB.js- postingsDataArray=",postingsDataArray);
-  console.log("deletePostFromDB.js- currPostIndex=",currPostIndex);
-
-  let fnReturn
-
-  if (postingsDataArray?.length>0) {
-    PostingsAxios.remove(postingsDataArray[currPostIndex]._id)
-    .then((response) => {
-      fnReturn = response;
-      console.log("deletePost.js- response=", response);
+const deletePostOnDB = (postDraft, setPostDraft) => {
+  
+  if (postDraft) {
+    
+    setPostDraft((currDraft) => {
+      console.log("deletePostOnDB.js: Initial postDraft aka currDraft.archived=", currDraft.archived);
+      const newPostDraft = { ...currDraft, archived: true };
+      console.log("deletePostOnDB.js: intended updated newPostDraft.archived=", newPostDraft.archived);
+      return newPostDraft;
     })
-    .catch((err) => {
-      fnReturn = err;
-      console.log(err);
-    });
-  } else {
-    console.log("deletePost.js, Error - received null or empty array");
-  }
-  return fnReturn
-};
+    
+    console.log("deletePostOnDB.js: Actually updated postDraft.archived=", postDraft.archived);
 
-export default deletePostFromDB
+
+    return PostingsAxios.update(postDraft._id, postDraft)
+      .then((response) => {
+        console.log("deletePostOnDB.js: after sending post to DB, response msg=", response.data);
+      })
+      .catch((err) => {
+        console.log("deletePostOnDB error:", err);
+      });
+
+  } else {
+    console.log("deletePostOnDB.js: Error - received falsy postDraft");
+    return null
+  }
+}
+
+export default deletePostOnDB;
