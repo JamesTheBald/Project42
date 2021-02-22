@@ -9,7 +9,6 @@ const WarningDeleteModal = (props) => {
   const setShowWarningDeleteModal = props.setShowWarningDeleteModal;
   
   const postDraft = props.postDraft;
-  const setPostDraft = props.setPostDraft;
   const postingsDataArray = props.postingsDataArray;
   const setPostingsDataArray = props.setPostingsDataArray;
   const currPostIndex = props.currPostIndex;
@@ -44,7 +43,6 @@ const WarningDeleteModal = (props) => {
             onClick={() => {
               deletePost(
                 postDraft,
-                setPostDraft,
                 postingsDataArray,
                 setPostingsDataArray,
                 currPostIndex,

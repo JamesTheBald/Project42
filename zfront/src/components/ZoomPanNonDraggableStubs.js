@@ -8,9 +8,10 @@ class ZoomPanNonDraggableStubs extends Component {
   render() {
     const updateZoomPan = this.props.updateZoomPan;
     let zoomScale = this.props.zoomScale;
+    const minZoomScale = this.props.minZoomScale;
     let panX = this.props.panX;
     let panY = this.props.panY;
-    const zoomedOrPanned = this.props.zoomedOrPanned;
+    // const zoomedOrPanned = this.props.zoomedOrPanned;
   
     let postingsDataArray = this.props.postingsDataArray;
     let currPostIndex = this.props.currPostIndex;
@@ -35,7 +36,6 @@ class ZoomPanNonDraggableStubs extends Component {
 
     return (
       <div>
-        {/* className="relative" */}
         <TransformWrapper
           scale={zoomScale}
           positionX={panX}
@@ -49,17 +49,18 @@ class ZoomPanNonDraggableStubs extends Component {
           wheel={{step: 200}}
           options={{
             // See "Options prop elements" on https://www.npmjs.com/package/react-draggable
-            minScale: 0.5,
+            minScale: minZoomScale,
             maxScale: 15,
             centerContent: false,
             limitToBounds: false,
+            // limitToWrapper: false,
           }}
           >
           {() => (      // { zoomIn, zoomOut, setTransform }
             <>
               <TransformComponent>
                 
-                <div className="backdrop">
+                <div className="backdrop bg-black">
                   <RenderStubsNonDraggable
                     postingsDataArray={postingsDataArray}
                     currPostIndex={currPostIndex}
@@ -71,7 +72,7 @@ class ZoomPanNonDraggableStubs extends Component {
                     setCreatingPostFlag={setCreatingPostFlag}
                     userVoted={userVoted}
                     setUserVoted={setUserVoted}
-                    zoomedOrPanned={zoomedOrPanned}
+                    // zoomedOrPanned={zoomedOrPanned}
                     stubScale={stubScale}
                     posnLog={posnLog}
                     recdLog={recdLog}
@@ -82,7 +83,7 @@ class ZoomPanNonDraggableStubs extends Component {
                     setShowTopicModal={setShowTopicModal}
                     setTopicDraft={setTopicDraft}
                     setCreatingTopicFlag={setCreatingTopicFlag}
-                    zoomedOrPanned={zoomedOrPanned}
+                    // zoomedOrPanned={zoomedOrPanned}
                     posnLog={posnLog}
                     recdLog={recdLog}
                   />

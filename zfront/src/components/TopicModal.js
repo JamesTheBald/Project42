@@ -134,7 +134,6 @@ const TopicModal = (props) => {
             onClick={() => {
               deleteTopic(
                 topicDraft,
-                setTopicDraft,
                 topicsDataArray,
                 setTopicsDataArray,
                 currTopicIndex,

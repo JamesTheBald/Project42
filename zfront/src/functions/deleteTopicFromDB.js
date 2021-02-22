@@ -1,16 +1,11 @@
 import TopicsAxios from "../services/TopicsAxios";
 
-const deleteTopicFromDB = (topicDraft, setTopicDraft) => {
+const deleteTopicFromDB = (topicDraft) => {
   
   if (topicDraft) {
-    
-    setTopicDraft((currDraft) => {
-      const newTopicDraft = { ...currDraft, archived: true };
-      return newTopicDraft;
-    })
-    console.log("deleteTopicFromDB.js: writing topicDraft=", topicDraft);
+    console.log("deleteTopicFromDB.js: writing topicDraft=", { ...topicDraft, archived: true });
 
-    return TopicsAxios.update(topicDraft._id, topicDraft)
+    return TopicsAxios.update(topicDraft._id, { ...topicDraft, archived: true })
       .then((response) => {
         console.log("deleteTopicFromDB.js: after sending topic to DB, response msg=", response.data);
       })

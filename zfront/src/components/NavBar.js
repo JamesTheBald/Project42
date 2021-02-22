@@ -29,6 +29,8 @@ const NavBar = (props) => {
   const setCurrTopicIndex= props.setCurrTopicIndex;
   const setCreatingTopicFlag= props.setCreatingTopicFlag;
   const setTopicDraft= props.setTopicDraft;
+  const resetZoom= props.resetZoom;
+
   // const recdLog=props.recdLog;
   
 
@@ -43,7 +45,7 @@ const NavBar = (props) => {
       <nav className="w-full h-20 flex items-center text-blue-200 bg-blue-900 fixed z-50">
         <div className="flex flex-row items-baseline">
           <div className="p-2 text-2xl mx-4  hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
-            EvolveU Tips and Resources
+            Project 42
           </div>
           <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} animation={false} />
 
@@ -82,7 +84,6 @@ const NavBar = (props) => {
             Create Topic
           </div>
 
-
           <DropdownButton
             id="dropdown-variants-outline-primary" // Make this dropdown smaller. See Sizing:
             // https://react-bootstrap.netlify.app/components/dropdowns/#sizing
@@ -100,14 +101,14 @@ const NavBar = (props) => {
             <div className="mx-4  flex flex-row">
               <input
                 type="text"
-                className="w-48 p-1 text-gray-800 bg-gray-100 rounded-lg"
+                className="w-48 p-1 text-gray-800 bg-gray-100 rounded"
                 placeholder="Enter Title"
                 value={searchTitle}
                 onChange={(event) => setSearchTitle(event.target.value)}
               >
               </input>
               <button
-                className="ml-3 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
+                className="ml-3 px-3 text-gray-800 bg-gray-300 rounded  hover:text-blue-600"
                 onClick={() => onClickFindByTitle(searchTitle, setPostingsDataArray)}>
                 Search
               </button>
@@ -119,14 +120,14 @@ const NavBar = (props) => {
             <div className="mx-4  flex flex-row">
               <input
                 type="text"
-                className="w-48 p-1 text-gray-800 bg-gray-100 rounded-lg"
+                className="w-48 p-1 text-gray-800 bg-gray-100 rounded"
                 placeholder="Enter Tag"
                 value={searchTags}
                 onChange={(event) => setSearchTags(event.target.value)}
               >
               </input>
               <button
-                className="ml-3 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
+                className="ml-3 px-3 text-gray-800 bg-gray-300 rounded  hover:text-blue-600"
                 onClick={() => onClickFindByTags(searchTags, setPostingsDataArray)}>
                 Search
               </button>
@@ -138,14 +139,14 @@ const NavBar = (props) => {
             <div className="mx-4  flex flex-row">
               <input
                 type="text"
-                className="w-48 p-1 text-gray-800 bg-gray-100 rounded-lg"
+                className="w-48 p-1 text-gray-800 bg-gray-100 rounded"
                 placeholder="Enter Name"
                 value={searchName}
                 onChange={(event) => setSearchName(event.target.value)}
               >
               </input>
               <button
-                className="ml-3 px-3 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
+                className="ml-3 px-3 text-gray-800 bg-gray-300 rounded  hover:text-blue-600"
                 onClick={() => onClickFindByName(searchName, setPostingsDataArray)}>
                 Search
               </button>
@@ -153,7 +154,7 @@ const NavBar = (props) => {
           )}
 
           <button
-            className="px-2 py-1 text-gray-800 bg-gray-300 rounded-lg  hover:text-blue-600"
+            className="px-2 py-1 text-gray-800 bg-gray-300 rounded  hover:text-blue-600"
             onClick={() => {
               setSearchTitle("");
               onClickFindByTitle(searchTitle, setPostingsDataArray);
@@ -164,6 +165,14 @@ const NavBar = (props) => {
             }}>
             Clear Search
           </button>
+
+
+          <button
+            className="ml-16 px-2 py-1 text-gray-800 bg-yellow-200 rounded  hover:text-blue-600 "
+            onClick={() => resetZoom() }>
+            Reset Zoom
+          </button>
+
 
 
         </div>

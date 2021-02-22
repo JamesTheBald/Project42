@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 
-// import removeAllPosts from "../functions/removeAllPosts";
-// import removeAllTopics from "../functions/removeAllTopics";
 import NavBar from "./NavBar";
 import MainModal from "./MainModal";
 import TopicModal from "./TopicModal";
@@ -17,6 +15,13 @@ import unlockAll from "../functions/unlockAll";
 const posnLog = false;  //  true logs Zoompan positions panX and panY
 const recdLog = false;  //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
 const evntLog = true;  //  true logs events, e.g. onClick, onKeyDown
+
+
+const stubScale = 0.2;
+const imageWidth = 3840; // Set these to equal background image dimensions
+const imageHeight = 2160;
+const initialPanX = 0;
+const initialPanY = 80;
 
 const emptyPost = {
   title: "",
@@ -39,6 +44,12 @@ const emptyTopic = {
 };
 
 const AlphaComponent = () => {
+ 
+  const minZoomScale = screen.width/imageWidth;
+  useEffect ( ()=> {
+    console.log ("Screen size = ",screen.width," pixels so setting minZoomScale=",minZoomScale);
+  }, [minZoomScale]);
+
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [postingsDataArray, setPostingsDataArray] = useState();
   const [showMainModal, setShowMainModal] = useState(false);
@@ -47,9 +58,9 @@ const AlphaComponent = () => {
   const [creatingPostFlag, setCreatingPostFlag] = useState(false);
   const [userVoted, setUserVoted] = useState(false);
   const [dragMode, setDragMode] = useState(false);
-  const [zoomScale, setZoomScale] = useState(0.5);
-  const [panX, setPanX] = useState(0);
-  const [panY, setPanY] = useState(80);
+  const [zoomScale, setZoomScale] = useState(minZoomScale);
+  const [panX, setPanX] = useState(initialPanX);
+  const [panY, setPanY] = useState(initialPanY);
 
   const [topicsDataArray, setTopicsDataArray] = useState();
   const [showTopicModal, setShowTopicModal] = useState(false);
@@ -60,12 +71,8 @@ const AlphaComponent = () => {
   const stubsDraggable = useRef(null);
   const stubDragged = useRef(false);
   const topicDragged = useRef(false);
-  const zoomedOrPanned = useRef(false);
-  const imageWidth = 3840; // Set these to equal background image dimensions
-  const imageHeight = 2160;
-  const stubScale = 0.2;
-
-  zoomedOrPanned.current = false;
+  // const zoomedOrPanned = useRef(false);
+  // zoomedOrPanned.current = false;
 
 
   console.log("AlphaComponent.js begins...");
@@ -74,7 +81,7 @@ const AlphaComponent = () => {
   recdLog && console.log("topicsDataArray=", topicsDataArray);
   recdLog && console.log("topicDraft=", topicDraft);
 
-  function updateZoomPan(stats) {
+  const updateZoomPan = (stats) => {
     posnLog && console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
     setZoomScale(stats.scale);
     setPanX(stats.positionX);
@@ -82,6 +89,13 @@ const AlphaComponent = () => {
     // zoomedOrPanned.current = true;
     // recdLog && console.log("updateZoomPan() zoomedOrPanned.current=", zoomedOrPanned.current);
   }
+
+  const resetZoom = () => {
+    setZoomScale(minZoomScale);
+    setPanX(initialPanX);
+    setPanY(initialPanY);
+  }
+
 
   useEffect(() => {
     // console.log("AlphaComponent.js useEffect zoomScale=", zoomScale);
@@ -161,7 +175,7 @@ const AlphaComponent = () => {
 
   // MAIN AlphaComponent RETURN
   return (
-    <div>
+    <div className="w-full h-full bg-black">
       
       <NavBar className="absolute"
         emptyPost={emptyPost}
@@ -181,6 +195,7 @@ const AlphaComponent = () => {
         setCurrTopicIndex={setCurrTopicIndex}
         setCreatingTopicFlag={setCreatingTopicFlag}
         setTopicDraft={setTopicDraft}
+        resetZoom={resetZoom}
         // recdLog={recdLog}
       />
 
@@ -190,7 +205,6 @@ const AlphaComponent = () => {
         ref={stubsDraggable}
         onClick={(event) => createPostAtMouseClick(event)}
         className="backdrop absolute"
-        // style={{ zIndex: -10 }}
       >
         {dragMode && (
           <>
@@ -227,9 +241,10 @@ const AlphaComponent = () => {
         <ZoomPanNonDraggableStubs
           updateZoomPan={updateZoomPan}
           zoomScale={zoomScale}
+          minZoomScale={minZoomScale}
           panX={panX}
           panY={panY}
-          zoomedOrPanned={zoomedOrPanned}
+          // zoomedOrPanned={zoomedOrPanned}
 
           postingsDataArray={postingsDataArray}
           currPostIndex={currPostIndex}

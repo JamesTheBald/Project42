@@ -34,8 +34,8 @@ function WelcomeModal(props) {
     >
       <Modal.Header className="bg-blue-900">
         <div className="flex w-full justify-between items-center">
-          <div className="text-3xl text-white ml-2">Project 42</div>
-          <div className="text-sm text-blue-300 mr-2">by James Murphy, Collin Anda &amp; Yemi Obayemi</div>
+          <div className="text-3xl text-white ml-2">Project 42</div>  {/* Make this a link to the project's GitHub page */}
+          <div className="text-sm text-blue-300 mr-2">by James Murphy, Collin Anda &amp; &apos;Yemi Obayemi</div>
         </div>
       </Modal.Header>
 
