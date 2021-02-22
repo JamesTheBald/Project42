@@ -60,4 +60,4 @@ const TopicWarningDeleteModal = (props) => {
   );
 };
 
-export default TopicWarningDeleteModal;
+export default WarningTopicDeleteModal;
