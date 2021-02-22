@@ -8,6 +8,7 @@ import { BsArrowCounterclockwise } from "react-icons/bs";
 import submitTopic from "../functions/submitTopic";
 import deleteTopic from "../functions/deleteTopic";
 import unlockTopic from "../functions/unlockTopic";
+import TopicWarningDeleteModal from "./TopicWarningDeleteModal";
 
 
 const TopicModal = (props) => {
@@ -24,6 +25,7 @@ const TopicModal = (props) => {
 
 
   const [showWarningModalEdits, setshowWarningModalEdits] = useState(false);
+  const [showWarningDeleteModal, setShowWarningDeleteModal] = useState(false);
   let madeEdits = useRef();
 
   useEffect(() => {
@@ -131,16 +133,8 @@ const TopicModal = (props) => {
 
           <button
             className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
-            onClick={() => {
-              deleteTopic(
-                topicDraft,
-                topicsDataArray,
-                setTopicsDataArray,
-                currTopicIndex,
-                setShowTopicModal,
-                creatingTopicFlag
-              );
-            }}>
+            onClick={() => setShowWarningDeleteModal(true)}
+            >
             <div className="flex flex-row items-center">
               <FaRegTrashAlt/>
               <div className="pl-2 py-1">Delete Topic</div>
@@ -169,6 +163,17 @@ const TopicModal = (props) => {
         </Modal.Footer>
 
         <WarningModalEdits showWarningModalEdits={showWarningModalEdits} setshowWarningModalEdits={setshowWarningModalEdits} />
+
+        <TopicWarningDeleteModal 
+          showWarningDeleteModal={showWarningDeleteModal}
+          setShowWarningDeleteModal={setShowWarningDeleteModal}
+          topicDraft={topicDraft}
+          topicsDataArray={topicsDataArray}
+          setTopicsDataArray={setTopicsDataArray}
+          currTopicIndex={currTopicIndex}
+          setShowTopicModal={setShowTopicModal}
+          creatingTopicFlag={creatingTopicFlag}
+        />
       </Modal>
     </>
   );
