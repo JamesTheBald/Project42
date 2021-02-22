@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Draggable from "react-draggable";
-import PopupContent from "./PopupContent";
+// import PopupContent from "./PopupContent";
 import VoteCounter from "./VoteCounter";
 import updatePostOnDB from "../functions/updatePostOnDB";
 import RenderSpiciness from "./RenderSpiciness";
 import lockPost from "../functions/lockPost";
-import LockedWarningModal from "./LockedWarningModal";
-import { AiOutlineCaretDown } from "react-icons/ai";
+import WarningModalLocked from "./WarningModalLocked";
+// import { AiOutlineCaretDown } from "react-icons/ai";
 
 
 const RenderStubsDraggable = (props) => {
@@ -23,7 +23,7 @@ const RenderStubsDraggable = (props) => {
   const recdLog = props.recdLog;
   const posnLog = props.posnLog;
 
-  const [showLockedWarningModal, setShowLockedWarningModal] = useState(false);
+  const [showWarningModalLocked, setShowWarningModalLocked] = useState(false);
   const [dragStopped, setDragStopped] = useState(true);
 
   let posnX = [];
@@ -39,9 +39,9 @@ const RenderStubsDraggable = (props) => {
 
     if (post.locked) {
       console.log("RenderStubsDraggble.js handleOnStop - post is locked");
-      setShowLockedWarningModal(true);
+      setShowWarningModalLocked(true);
 
-    } else if (data.x === posnX[index] && data.y === posnY[index] && !post.locked) {
+    } else if (data.x === posnX[index] && data.y === posnY[index]) {
       console.log("RenderStubsDraggable.js handleOnStop: You just clicked (without dragging) - Opening MainModal");
       setCreatingPostFlag(false);
       setCurrPostIndex(index);
@@ -50,7 +50,7 @@ const RenderStubsDraggable = (props) => {
       setShowMainModal(true);
     } else {
       // if dragged, update positionX&Y in post and on the database
-      console.log("RenderStubsNonDraggble.js handleOnStop - post was dragged or is locked")  // ADD A WARNING POPUP
+      console.log("RenderStubsNonDraggble.js handleOnStop - post was dragged")  // ADD A WARNING POPUP
       post.positionX = data.x;
       post.positionY = data.y;
       updatePostOnDB(post, index);
@@ -88,14 +88,10 @@ const RenderStubsDraggable = (props) => {
 
 
                     {/* Stub */}
-                    <div
-                      className="flex w-60 bg-gray-200 border border-gray-900 rounded-lg relative"
-                      // tooltipBase 
-                      // onClick={handleOnClick(post, index)}
-                    >
+                    <div className="flex w-60 bg-gray-200 border border-gray-900 rounded-lg relative">
                       <div
                         name="title-contributor-container"
-                        className="flex flex-col items-start w-3/4 p-3 relative   border-r border-gray-900"
+                        className="flex flex-col items-start w-3/4 p-3 relative  border-r border-gray-900"
                       >
                         {post.title ? (
                           <div>
@@ -166,9 +162,9 @@ const RenderStubsDraggable = (props) => {
               </Draggable>
 
 
-              <LockedWarningModal
-                showLockedWarningModal={showLockedWarningModal}
-                setShowLockedWarningModal={setShowLockedWarningModal}
+              <WarningModalLocked
+                showWarningModalLocked={showWarningModalLocked}
+                setShowWarningModalLocked={setShowWarningModalLocked}
               />
             </div>
           );

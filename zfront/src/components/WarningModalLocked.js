@@ -2,12 +2,12 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-const LockedWarningModal = (props) => {
-  const showLockedWarningModal = props.showLockedWarningModal;
-  const setShowLockedWarningModal = props.setShowLockedWarningModal;
+const WarningModalLocked = (props) => {
+  const showWarningModalLocked = props.showWarningModalLocked;
+  const setShowWarningModalLocked = props.setShowWarningModalLocked;
   const modalBackgroundColor = "bg-yellow-200";
 
-  const handleClose = () => setShowLockedWarningModal(false);
+  const handleClose = () => setShowWarningModalLocked(false);
 
   return (
     <div>
@@ -15,8 +15,9 @@ const LockedWarningModal = (props) => {
         size="sm"
         centered
         animation={false}
-        show={showLockedWarningModal}
+        show={showWarningModalLocked}
         onHide={handleClose}
+        backdrop={false}
       >
         <Modal.Header closeButton className={modalBackgroundColor}>
           <Modal.Title>Locked</Modal.Title>
@@ -31,4 +32,4 @@ const LockedWarningModal = (props) => {
   );
 };
 
-export default LockedWarningModal;
+export default WarningModalLocked;

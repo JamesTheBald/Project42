@@ -32,7 +32,7 @@ const emptyPost = {
 
 const emptyTopic = {
   topic: "",
-  topicLevel: "",
+  topicLevel: "Main Topic",
   positionX: 200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 200,
 };
@@ -290,7 +290,7 @@ const AlphaComponent = () => {
       {dragMode && <div>Drag items to desired positions</div>}
 
       <div>
-        <Button
+        {/* <Button
           variant="outline-danger"
           onClick={() => {
             removeAllPosts();
@@ -306,7 +306,7 @@ const AlphaComponent = () => {
             setTopicsDataArray([emptyTopic]);
           }}>
           Remove All Topics
-        </Button>
+        </Button> */}
 
         <Button
           variant="outline-danger"

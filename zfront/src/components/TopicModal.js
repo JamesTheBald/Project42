@@ -84,21 +84,26 @@ const TopicModal = (props) => {
         <Modal.Body>
           <div>
 
-            <Dropdown>
-              <Dropdown.Toggle id="dropdown-basic" className="px-3 py-2 mx-2 my-2 text-lg text-gray-800 bg-gray-200 border border-gray-700 rounded-lg shadow-sm">
-                {(topicDraft.topicLevel === "") ?
-                  <>Topic Hierarchy Level</>
-                :
-                  <>{topicDraft.topicLevel}</>
-                }
-              </Dropdown.Toggle>
+            <div className="flex items-center">
 
-              <Dropdown.Menu>
-                <Dropdown.Item onClick={() => {changeContentType("Main Topic")}}>Main Topic</Dropdown.Item>
-                <Dropdown.Item onClick={() => {changeContentType("Sub-Topic")}}>Sub-Topic</Dropdown.Item>
-                <Dropdown.Item onClick={() => {changeContentType("Sub-Sub-Topic")}}>Sub-Sub-Topic</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+              <div className="text-xl font-500 mx-3">Topic Hierarchy Level:</div>
+
+              <Dropdown>
+                <Dropdown.Toggle id="dropdown-basic" className="px-3 mx-2 my-2 text-lg text-gray-800 bg-gray-200 border border-gray-700 rounded-lg shadow-sm">
+                  {(topicDraft.topicLevel === "") ?
+                    <>Topic Hierarchy Level</>
+                    :
+                    <>{topicDraft.topicLevel}</>
+                  }
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => {changeContentType("Main Topic")}}>Main Topic</Dropdown.Item>
+                  <Dropdown.Item onClick={() => {changeContentType("Sub-Topic")}}>Sub-Topic</Dropdown.Item>
+                  <Dropdown.Item onClick={() => {changeContentType("Sub-Sub-Topic")}}>Sub-Sub-Topic</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
 
             <input
               name="topic"

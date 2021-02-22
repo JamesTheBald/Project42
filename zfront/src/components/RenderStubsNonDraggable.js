@@ -1,11 +1,11 @@
-import React from "react";
-// , { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import PopupContent from "./PopupContent";
 import VoteCounter from "./VoteCounter";
 import RenderSpiciness from "./RenderSpiciness";
 import lockPost from "../functions/lockPost";
 import { AiOutlineCaretDown } from "react-icons/ai";
+import WarningModalLocked from "./WarningModalLocked";
 
 
 const RenderStubsNonDraggable = (props) => {
@@ -19,45 +19,12 @@ const RenderStubsNonDraggable = (props) => {
   const setUserVoted = props.setUserVoted;
   const stubScale = props.stubScale;
   const recdLog = props.recdLog;
-  // const posnLog = props.posnLog
+  const posnLog = props.posnLog
+
+  const [showWarningModalLocked, setShowWarningModalLocked] = useState(false);
+
 
   recdLog && console.log("RenderStubsNonDraggable.js begins. postingsDataArray=", postingsDataArray);
-
-
-  // const [vizArray, setVizArray] = useState([]);
-
-  // useEffect(() => {
-  //   if (postingsDataArray?.[0]?._id) {
-  //     postingsDataArray.map((post, index) => {
-  //       // console.log("RenderStubsNonDraggable useEffect setting VizArray")
-  //       setVizArray((currVizArray) => {
-  //         let newVizArray = [...currVizArray];
-  //         newVizArray[index] = "hidden";
-  //         return newVizArray;
-  //       });
-  //     });
-  //   }
-  // }, [postingsDataArray]);
-
-  // const showToolTip = (index) => {
-  //   // timeout = setTimeout(() => {
-  //   setVizArray((currVizArray) => {
-  //     let newVizArray = [...currVizArray];
-  //     newVizArray[index] = "";
-  //     // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
-  //     return newVizArray;
-  //   });
-  // };
-
-  // const hideToolTip = (index) => {
-  //   setVizArray((currVizArray) => {
-  //     let newVizArray = [...currVizArray];
-  //     newVizArray[index] = "hidden";
-  //     // console.log("RenderStubsNonDraggable.js showToolTip newVizArray=", newVizArray);
-  //     return newVizArray;
-  //   });
-  // };
-
 
   const handleOnClick = (post, index) => (evnt) => {
     evnt.stopPropagation();
@@ -70,7 +37,8 @@ const RenderStubsNonDraggable = (props) => {
       lockPost(post, index); // writes lock to DB but doesn't update state vars (postDraft, postingsDataArray)
       setShowMainModal(true);
     } else {
-      console.log("RenderStubsNonDraggble.js handleOnClick - post is locked"); // ADD A WARNING POPUP
+      console.log("RenderStubsNonDraggble.js handleOnClick - post is locked");
+      setShowWarningModalLocked(true);
     }
   };
 
@@ -78,8 +46,8 @@ const RenderStubsNonDraggable = (props) => {
     return (
       <>
         {postingsDataArray.map((post, index) => {
-          // console.log("RenderStubs .map: index=", index, " and post=", post);
-          // posnLog && console.log('RenderStubsNonDraggable begins. post=',post.positionX,', post.positionY=',post.positionY)
+          recdLog && console.log("RenderStubs .map: index=", index, " and post=", post);
+          posnLog && console.log('RenderStubsNonDraggable begins. post=',post.positionX,', post.positionY=',post.positionY)
 
           return (
             <div
@@ -156,6 +124,13 @@ const RenderStubsNonDraggable = (props) => {
 
               {/* this matches the 'Dragging Selection Overlay' box on RenderStubsDraggable  */}
               {/* <div className="invisible w-56 h-24 transform -translate-y-24" /> */}
+
+
+              <WarningModalLocked
+                showWarningModalLocked={showWarningModalLocked}
+                setShowWarningModalLocked={setShowWarningModalLocked}
+              />
+
 
             </div>
           );
