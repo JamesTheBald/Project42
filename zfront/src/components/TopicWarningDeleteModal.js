@@ -7,8 +7,8 @@ import deleteTopic from "../functions/deleteTopic";
 const TopicWarningDeleteModal = (props) => {
   const showWarningDeleteModal = props.showWarningDeleteModal;
   const setShowWarningDeleteModal = props.setShowWarningDeleteModal;
-  
   const topicDraft = props.topicDraft;
+  const setTopicDraft = props.setTopicDraft
   const topicsDataArray = props.topicsDataArray;
   const setTopicsDataArray = props.setTopicsDataArray;
   const currTopicIndex = props.currTopicIndex;
@@ -43,6 +43,7 @@ const TopicWarningDeleteModal = (props) => {
             onClick={() => {
               deleteTopic(
                 topicDraft,
+                setTopicDraft,
                 topicsDataArray,
                 setTopicsDataArray,
                 currTopicIndex,

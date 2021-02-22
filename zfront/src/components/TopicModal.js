@@ -168,12 +168,14 @@ const TopicModal = (props) => {
           showWarningDeleteModal={showWarningDeleteModal}
           setShowWarningDeleteModal={setShowWarningDeleteModal}
           topicDraft={topicDraft}
+          setTopicDraft={setTopicDraft}
           topicsDataArray={topicsDataArray}
           setTopicsDataArray={setTopicsDataArray}
           currTopicIndex={currTopicIndex}
           setShowTopicModal={setShowTopicModal}
           creatingTopicFlag={creatingTopicFlag}
         />
+
       </Modal>
     </>
   );
