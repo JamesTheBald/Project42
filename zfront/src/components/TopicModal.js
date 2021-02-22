@@ -8,7 +8,7 @@ import { BsArrowCounterclockwise } from "react-icons/bs";
 import submitTopic from "../functions/submitTopic";
 import deleteTopic from "../functions/deleteTopic";
 import unlockTopic from "../functions/unlockTopic";
-import TopicWarningDeleteModal from "./WarningTopicDeleteModal";
+import WarningTopicDeleteModal from "./WarningTopicDeleteModal";
 
 
 const TopicModal = (props) => {
@@ -164,7 +164,7 @@ const TopicModal = (props) => {
 
         <WarningModalEdits showWarningModalEdits={showWarningModalEdits} setshowWarningModalEdits={setshowWarningModalEdits} />
 
-        <TopicWarningDeleteModal 
+        <WarningTopicDeleteModal 
           showWarningDeleteModal={showWarningDeleteModal}
           setShowWarningDeleteModal={setShowWarningDeleteModal}
           topicDraft={topicDraft}

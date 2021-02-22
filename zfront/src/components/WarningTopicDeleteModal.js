@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import deleteTopic from "../functions/deleteTopic";
 
-const TopicWarningDeleteModal = (props) => {
+const WarningTopicDeleteModal = (props) => {
   const showWarningDeleteModal = props.showWarningDeleteModal;
   const setShowWarningDeleteModal = props.setShowWarningDeleteModal;
   const topicDraft = props.topicDraft;
