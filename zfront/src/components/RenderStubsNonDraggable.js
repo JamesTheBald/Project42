@@ -63,12 +63,12 @@ const RenderStubsNonDraggable = (props) => {
           return (
             <div
               key={index}
-              className="text-xs flex flex-col items-center absolute text-gray-800"
+              className="stubWrapper"
               style={{  transform: `scale(${stubScale})`, top: post.positionY, left: post.positionX, }}
             >
               {/* Stub */}
               <div
-                className="tooltipBase flex w-60 bg-gray-200 border border-gray-900 rounded-lg"
+                className="tooltipBase stub"
                 // onMouseEnter={() => showToolTip(index)}
                 // onMouseLeave={() => hideToolTip(index)}
                 onClick={handleOnClick(post, index)}
@@ -76,16 +76,16 @@ const RenderStubsNonDraggable = (props) => {
               >
                 <div
                   name="title-contributor-container"
-                  className="flex flex-col items-start w-3/4 p-3 relative   border-r border-gray-900"
+                  className="titleContainer"
                 >
                   {post.title ? (
                     <div>
-                      <div className="h-8  overflow-hidden font-500 relative">{post.title}
+                      <div className="h-8.5  overflow-hidden font-500 relative">{post.title}
                       
                         {post.title.length > 60 && (
                           <div
                             name="fade-out-title-container"
-                            className="w-1/2 h-4 absolute bottom-0 right-0  bg-gradient-to-l from-gray-200"
+                            className="fadeOutContainer"
                           />
                         )}
                       </div>
@@ -95,15 +95,15 @@ const RenderStubsNonDraggable = (props) => {
                     <div>Click to edit</div>
                   )}
 
-                  <div className="mt-3 text-gray-600 w-full truncate overflow-hidden">
+                  <div className="mt-3 text-gray-700 w-full truncate overflow-hidden">
                     {post.contributors}
                   </div>
                 </div>
 
                 <div name="stub-attribute-container"
-                  className="flex flex-col justify-between items-center w-3/12 p-2 rounded-r-lg"
+                  className="attributeContainer"
                 >
-                  <div className="text-gray-600"> {post.contentType} </div>
+                  <div className="text-gray-700"> {post.contentType} </div>
 
                   <div className="my-1.5">
                     <RenderSpiciness spiciness={post.spiciness} />

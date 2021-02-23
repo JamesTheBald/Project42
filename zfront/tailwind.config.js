@@ -40,7 +40,10 @@ module.exports = {
          '4xl': '2.25rem',   // 36px
          '5xl': '3rem',      // 48px
          '6xl': '3.75rem',   // 60px
-         '7xl': '4.5rem',    // 72px
+         '7xl': '4.75rem',    // 72px
+         '8xl': '6rem',       // 96px
+         '9xl': '7.5rem',     // 120px
+         '10xl': '9rem'       // 144px
       },
 
       fontWeight: {
@@ -108,6 +111,7 @@ module.exports = {
          spacing: {
             '0.5': '0.125rem',
             '7':  '1.75rem',
+            '8.5':  '2.125rem',
             '28': '7rem',
             '36': '9rem',
             '72': '18rem',

@@ -18,13 +18,19 @@ import removeAllTopics from "../functions/removeAllTopics";
 
 const posnLog = false;  //  true logs Zoompan positions panX and panY
 const recdLog = false;  //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
-const evntLog = true;  //  true logs events, e.g. onClick, onKeyDown
+const evntLog = false;  //  true logs events, e.g. onClick, onKeyDown
 
 const stubScale = 0.5;
-const imageWidth = 3840; // Set these to equal background image dimensions
-const imageHeight = 2160;
+
+const imageWidth = 7680; // Set these to equal background image dimensions
+const imageHeight = 4320;
 const initialPanX = 0;
 const initialPanY = 80;
+
+const extraZoomOutFactor = 0.9;
+const minZoomScaleByWidth = (screen.width/imageWidth) * extraZoomOutFactor;
+const minZoomScaleByHeight = (screen.height/imageHeight) * extraZoomOutFactor;
+const minZoomScale = (minZoomScaleByWidth < minZoomScaleByHeight) ? minZoomScaleByWidth : minZoomScaleByHeight;
 
 const emptyPost = {
   title: "",
@@ -48,10 +54,10 @@ const emptyTopic = {
 
 
 const AlphaComponent = () => {
- 
-  const minZoomScale = screen.width/imageWidth;
+
   useEffect ( ()=> {
-    console.log ("Screen size = ",screen.width," pixels so setting minZoomScale=",minZoomScale);
+    console.log ("AlphaComponent.js first run. minZoomScale=",minZoomScale);
+    console.log ("based on screen.width=", screen.width, " and screen.height=", screen.height);
   }, [minZoomScale]);
 
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
@@ -211,7 +217,7 @@ const AlphaComponent = () => {
 
   // MAIN AlphaComponent RETURN
   return (
-    <div style={{width: `${imageWidth}px`, height: `${imageHeight}px`, backgroundColor: "black"}}>
+    <div className="background" style={{width: `${imageWidth}px`, height: `${imageHeight}px`}}>
       
       <NavBar className="absolute"
         emptyPost={emptyPost}
@@ -392,7 +398,7 @@ const AlphaComponent = () => {
             PERMANENTLY DELETE All Topics
           </Button>
           
-          <div>NB: No Warning Given - These Actions Take Immediate Effect</div>
+          <div className="mx-2">NB: No Warning Given - These Actions Take Immediate Effect</div>
 
         </div>
       }

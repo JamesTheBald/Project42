@@ -64,13 +64,13 @@ const RenderTopicsDraggable = (props) => {
               {/* (This is WET but React-Draggable doesn't seem to work on sub-components.)  */}
               <div className="text-blue-400 px-3 py-1 bg-gray-800 opacity-90 rounded-xl z-10">
                 {(topic.topicLevel === "Main Topic") ?
-                  topic.topic ? <div className="text-7xl">{topic.topic}</div> : <div> Click to edit </div>
+                  topic.topic ? <div className="text-9xl">{topic.topic}</div> : <div> Click to edit </div>
 
                 : (topic.topicLevel === "Sub-Topic") ?
-                  topic.topic ? <div className="text-3xl">{topic.topic}</div> : <div> Click to edit </div>
+                  topic.topic ? <div className="text-5xl">{topic.topic}</div> : <div> Click to edit </div>
 
                 : 
-                  topic.topic ? <div className="text-sm">{topic.topic}</div> : <div> Click to edit </div>
+                  topic.topic ? <div className="text-md">{topic.topic}</div> : <div> Click to edit </div>
                 }
               </div>
 
