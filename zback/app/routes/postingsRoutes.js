@@ -7,6 +7,7 @@ module.exports = (func) => {
   router.get("/", postings.findAll);          // Retrieve all Postings
   router.get("/:id", postings.findOne);       // Retrieve a single Posting with id
   router.put("/:id", postings.update);        // Update a Posting with id
+  router.put("/", postings.unarchiveAll);         // Unarchive all Postings
   router.delete("/:id", postings.delete);     // Delete a Posting with id
   router.delete("/", postings.deleteAll);     // Create a new Posting
 

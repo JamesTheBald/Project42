@@ -34,7 +34,9 @@ exports.findAll = (req, res) => {
 
   console.log("topicsController.js findAll req.query=",req.query)
 
-  topicsModel.find()
+  let condition = { archived: false };
+
+  topicsModel.find(condition)
     .then(data => {
       console.log ("data=",data)
       res.send(data);
@@ -77,7 +79,6 @@ exports.update = (req, res) => {
       message: "Data to update cannot be empty!"
     });
   }
-
   const id = req.params.id;
 
   topicsModel.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
@@ -95,6 +96,24 @@ exports.update = (req, res) => {
       });
     });
 };
+
+
+// Unarchive all Topics 
+exports.unarchiveAll = (req, res) => {
+  topicsModel.updateMany({}, {$set: {archived: false}} )
+  .then(data => {
+    res.send({
+      message: `${data.matchedCount} topics were deleted successfully!`
+    });
+  })
+  .catch(err => {
+    console.log("topicsController.js .deleteAll err=",err)
+    res.status(500).send({
+      message:
+        err.message || "Alas, an error occurred while unarchiving all topics."
+    });
+  });
+}
 
 
 // Delete a Topic with the specified id in the request

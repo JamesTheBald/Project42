@@ -16,6 +16,10 @@ const update = (id, data) => {
   return xios.put(`/postings/${id}`, data);
 };
 
+const unarchiveAll = () => {
+  return xios.put(`/postings/`);
+};
+
 const remove = (id) => {
   return xios.delete(`/postings/${id}`);
 };
@@ -41,6 +45,7 @@ const PostingsAxios = {
   get,
   create,
   update,
+  unarchiveAll,
   remove,
   removeAll,
   findByTitle,

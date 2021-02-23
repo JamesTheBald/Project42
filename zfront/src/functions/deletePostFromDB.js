@@ -3,9 +3,11 @@ import PostingsAxios from "../services/PostingsAxios";
 const deletePostOnDB = (postDraft) => {
   
   if (postDraft) {
-    console.log("deletePostFromDB.js: writing postDraft=", { ...postDraft, archived: true });
 
-    return PostingsAxios.update(postDraft._id, { ...postDraft, archived: true })
+    const archivedPost = { ...postDraft, archived: true }
+    console.log("deletePostFromDB.js: writing postDraft=", archivedPost);
+
+    return PostingsAxios.update(archivedPost._id, archivedPost)
       .then((response) => {
         console.log("deletePostOnDB.js: after sending post to DB, response msg=", response.data);
       })

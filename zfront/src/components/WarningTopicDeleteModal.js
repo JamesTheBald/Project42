@@ -5,10 +5,10 @@ import Button from "react-bootstrap/Button";
 import deleteTopic from "../functions/deleteTopic";
 
 const WarningTopicDeleteModal = (props) => {
-  const showWarningDeleteModal = props.showWarningDeleteModal;
-  const setShowWarningDeleteModal = props.setShowWarningDeleteModal;
+  const showWarningTopicDeleteModal = props.showWarningTopicDeleteModal;
+  const setShowWarningTopicDeleteModal = props.setShowWarningTopicDeleteModal;
   const topicDraft = props.topicDraft;
-  const setTopicDraft = props.setTopicDraft
+  // const setTopicDraft = props.setTopicDraft
   const topicsDataArray = props.topicsDataArray;
   const setTopicsDataArray = props.setTopicsDataArray;
   const currTopicIndex = props.currTopicIndex;
@@ -17,7 +17,7 @@ const WarningTopicDeleteModal = (props) => {
 
   const modalBackgroundColor = "bg-yellow-200";
 
-  const handleClose = () => setShowWarningDeleteModal(false)
+  const handleClose = () => setShowWarningTopicDeleteModal(false)
   
 
   return (
@@ -26,11 +26,11 @@ const WarningTopicDeleteModal = (props) => {
         size="sm"
         centered
         animation={false}
-        show={showWarningDeleteModal}
+        show={showWarningTopicDeleteModal}
         onHide={handleClose}
       >
         <Modal.Header closeButton className={modalBackgroundColor}>
-          <Modal.Title>Are you sure you want to delete this topic?</Modal.Title>
+          <Modal.Title>Are you sure you want to archive this topic?</Modal.Title>
         </Modal.Header>
 
         <Modal.Footer className={modalBackgroundColor}>
@@ -43,7 +43,6 @@ const WarningTopicDeleteModal = (props) => {
             onClick={() => {
               deleteTopic(
                 topicDraft,
-                setTopicDraft,
                 topicsDataArray,
                 setTopicsDataArray,
                 currTopicIndex,
@@ -51,7 +50,7 @@ const WarningTopicDeleteModal = (props) => {
                 creatingTopicFlag
               );
             }}>
-            Delete Topic
+            Archive Topic
           </Button>
 
         </Modal.Footer>

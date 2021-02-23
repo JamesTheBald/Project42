@@ -15,8 +15,6 @@ const WarningDeleteModal = (props) => {
   const setShowMainModal = props.setShowMainModal;
   const creatingPostFlag = props.creatingPostFlag;
 
-  // const modalBackgroundColor = "bg-yellow-200";
-
   const handleClose = () => setShowWarningDeleteModal(false)
   
 
@@ -32,7 +30,7 @@ const WarningDeleteModal = (props) => {
         <div className="bg-yellow-200 border-gray-400">
 
           <Modal.Header closeButton>
-            <Modal.Title>Are you sure you want to delete this post?</Modal.Title>
+            <Modal.Title>Are you sure you want to archive this post?</Modal.Title>
           </Modal.Header>
 
           <Modal.Footer>
@@ -52,7 +50,7 @@ const WarningDeleteModal = (props) => {
                   creatingPostFlag
                 );
               }}>
-              Delete Post
+              Archive Post
             </Button>
 
           </Modal.Footer>

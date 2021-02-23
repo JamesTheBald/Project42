@@ -6,7 +6,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { GrSave } from "react-icons/gr";
 import { BsArrowCounterclockwise } from "react-icons/bs";
 import submitTopic from "../functions/submitTopic";
-import deleteTopic from "../functions/deleteTopic";
+// import deleteTopic from "../functions/deleteTopic";
 import unlockTopic from "../functions/unlockTopic";
 import WarningTopicDeleteModal from "./WarningTopicDeleteModal";
 
@@ -23,9 +23,8 @@ const TopicModal = (props) => {
   let creatingTopicFlag = props.creatingTopicFlag;
   const recdLog=props.recdLog;
 
-
   const [showWarningModalEdits, setshowWarningModalEdits] = useState(false);
-  const [showWarningDeleteModal, setShowWarningDeleteModal] = useState(false);
+  const [showWarningTopicDeleteModal, setShowWarningTopicDeleteModal] = useState(false);
   let madeEdits = useRef();
 
   useEffect(() => {
@@ -120,7 +119,7 @@ const TopicModal = (props) => {
 
         <Modal.Footer>
           <button
-            className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
+            className="standardButton"
             onClick={() => {
               console.log("TopicModal.js Clicked Abandon Changes");
               setShowTopicModal(false);
@@ -132,25 +131,17 @@ const TopicModal = (props) => {
           </button>
 
           <button
-            className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
-            onClick={() => {
-              deleteTopic(
-                topicDraft,
-                topicsDataArray,
-                setTopicsDataArray,
-                currTopicIndex,
-                setShowTopicModal,
-                creatingTopicFlag
-              );
-            }}>
+            className="standardButton"
+            onClick={() => setShowWarningTopicDeleteModal(true)}
+          >
             <div className="flex flex-row items-center">
               <FaRegTrashAlt/>
-              <div className="pl-2 py-1">Delete Topic</div>
+              <div className="pl-2 py-1">Archive Topic</div>
             </div>
           </button>
 
           <button
-            className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
+            className="standardButton"
             onClick={() => {
               submitTopic(
                 emptyTopic,
@@ -173,10 +164,10 @@ const TopicModal = (props) => {
         <WarningModalEdits showWarningModalEdits={showWarningModalEdits} setshowWarningModalEdits={setshowWarningModalEdits} />
 
         <WarningTopicDeleteModal 
-          showWarningDeleteModal={showWarningDeleteModal}
-          setShowWarningDeleteModal={setShowWarningDeleteModal}
+          showWarningTopicDeleteModal={showWarningTopicDeleteModal}
+          setShowWarningTopicDeleteModal={setShowWarningTopicDeleteModal}
           topicDraft={topicDraft}
-          setTopicDraft={setTopicDraft}   
+          // setTopicDraft={setTopicDraft}   
           topicsDataArray={topicsDataArray}
           setTopicsDataArray={setTopicsDataArray}
           currTopicIndex={currTopicIndex}

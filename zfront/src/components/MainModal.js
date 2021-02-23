@@ -229,7 +229,7 @@ const MainModal = (props) => {
               variant="danger"
               onClick={() => setShowWarningDeleteModal(true)}
             >
-              Delete Post
+              Archive Post
               <FaRegTrashAlt />
             </Button>
 

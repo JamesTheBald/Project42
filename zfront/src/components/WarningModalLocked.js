@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 
 const WarningModalLocked = (props) => {
   const showWarningModalLocked = props.showWarningModalLocked;
@@ -26,11 +26,11 @@ const WarningModalLocked = (props) => {
 
           <Modal.Body >
             <div>This item is locked, probably because it is being edited by another user.</div>
-            <div className="mt-2">Note: Posts are unlocked after 1 hour from time of last save.</div>
+            <div className="text-sm text-gray-600 mt-2">Posts are locked against modification by other users for 1 hour after being opened.</div>
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>Close</Button>
+            <button className="standardButton" onClick={handleClose}>Close</button>
           </Modal.Footer>
 
         </div>

@@ -7,6 +7,7 @@ module.exports = (func) => {
   router.get("/", topics.findAll);          
   router.get("/:id", topics.findOne);       
   router.put("/:id", topics.update);        
+  router.put("/", topics.unarchiveAll);     // Unarchive all Topics
   router.delete("/:id", topics.delete);     
   router.delete("/", topics.deleteAll);     
 

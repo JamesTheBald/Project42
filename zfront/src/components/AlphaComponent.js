@@ -10,13 +10,17 @@ import retrievePosts from "../functions/retrievePosts";
 import retrieveTopics from "../functions/retrieveTopics";
 import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 import unlockAll from "../functions/unlockAll";
+import unarchiveAllPosts from "../functions/unarchiveAllPosts";
+import unarchiveAllTopics from "../functions/unarchiveAllTopics";
+import removeAllPosts from "../functions/removeAllPosts";
+import removeAllTopics from "../functions/removeAllTopics";
 
 
 const posnLog = false;  //  true logs Zoompan positions panX and panY
 const recdLog = false;  //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
-const evntLog = false;  //  true logs events, e.g. onClick, onKeyDown
+const evntLog = true;  //  true logs events, e.g. onClick, onKeyDown
 
-const stubScale = 0.2;
+const stubScale = 0.5;
 const imageWidth = 3840; // Set these to equal background image dimensions
 const imageHeight = 2160;
 const initialPanX = 0;
@@ -58,6 +62,7 @@ const AlphaComponent = () => {
   const [creatingPostFlag, setCreatingPostFlag] = useState(false);
   const [userVoted, setUserVoted] = useState(false);
   const [dragMode, setDragMode] = useState(false);
+  const [adminMode, setAdminMode] = useState(false);
   const [zoomScale, setZoomScale] = useState(minZoomScale);
   const [panX, setPanX] = useState(initialPanX);
   const [panY, setPanY] = useState(initialPanY);
@@ -144,6 +149,10 @@ const AlphaComponent = () => {
       setDragMode(true);
       evntLog && console.log("AlphaComponent.js handleKeyDown() Shift key pressed");
     }
+    if (event.key === "Alt") {
+      setAdminMode(true);
+      evntLog && console.log("AlphaComponent.js handleKeyDown() Alt key pressed");
+    }
   };
 
   const handleKeyUp = (event) => {
@@ -151,6 +160,11 @@ const AlphaComponent = () => {
       setDragMode(false);
       evntLog && console.log("AlphaComponent.js handleKeyUp() Shift key released");
     }
+    if (event.key === "Alt") {
+      setAdminMode(false);
+      evntLog && console.log("AlphaComponent.js handleKeyUp() Alt key released");
+    }
+
   };
 
   // Retrive from DB into postingsDataArray, so postingsDataArray is never null
@@ -197,7 +211,7 @@ const AlphaComponent = () => {
 
   // MAIN AlphaComponent RETURN
   return (
-    <div className="w-full h-full bg-black">
+    <div style={{width: `${imageWidth}px`, height: `${imageHeight}px`, backgroundColor: "black"}}>
       
       <NavBar className="absolute"
         emptyPost={emptyPost}
@@ -327,36 +341,61 @@ const AlphaComponent = () => {
 
       {dragMode && <div>Drag items to desired positions</div>}
 
-      <div>
-        {/* <Button
-          variant="outline-danger"
-          onClick={() => {
-            removeAllPosts();         // Caution: This permanently deletes all posts!
-            setPostingsDataArray([emptyPost]);
-          }}>
-          Remove All Posts
-        </Button>
+      {adminMode &&
+        <div className="flex flexrow items-center">
+          <div className="text-xl mx-3 text-gray-700">Admin Controls:</div>
 
-        <Button
-          variant="outline-danger"
-          onClick={() => {
-            removeAllTopics();        // Caution: This permanently deletes all topics!
-            setTopicsDataArray([emptyTopic]);
-          }}>
-          Remove All Topics
-        </Button> */}
+          <Button
+            variant="outline-success"
+            className="mx-2"
+            onClick={() => {
+              unlockAll(postingsDataArray, topicsDataArray);
+              retrievePosts(setPostingsDataArray, emptyTopic); // Time for a hard-update
+              retrieveTopics(setTopicsDataArray, emptyTopic); // Time for a hard-update
+            }}>
+            Unlock All
+          </Button>
 
-        <Button
-          variant="outline-danger"
-          onClick={() => {
-            unlockAll(postingsDataArray, topicsDataArray);
-            retrievePosts(setPostingsDataArray, emptyTopic); // Time for a hard-update
-            retrieveTopics(setTopicsDataArray, emptyTopic); // Time for a hard-update
-          }}>
-          Unlock All
-        </Button>
+          <Button
+            variant="outline-secondary"
+            className="mx-2"
+            onClick={() => unarchiveAllPosts(setPostingsDataArray, emptyPost)}
+          >
+            Unarchive All Posts
+          </Button>
 
-      </div>
+          <Button
+            variant="outline-secondary"
+            className="mx-2"
+            onClick={() => unarchiveAllTopics(setTopicsDataArray, emptyTopic)}
+          >
+            Unarchive All Topics
+          </Button>
+        
+          <Button
+            variant="outline-danger"
+            className="mx-2"
+            onClick={() => {
+              removeAllPosts();
+              setPostingsDataArray([emptyPost]);
+            }}>
+            PERMANENTLY DELETE All Posts
+          </Button>
+
+          <Button
+            variant="outline-danger"
+            className="mx-2"
+            onClick={() => {
+              removeAllTopics();
+              setTopicsDataArray([emptyTopic]);
+            }}>
+            PERMANENTLY DELETE All Topics
+          </Button>
+          
+          <div>NB: No Warning Given - These Actions Take Immediate Effect</div>
+
+        </div>
+      }
     </div>
   );
 };

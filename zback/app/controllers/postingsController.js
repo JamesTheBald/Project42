@@ -112,13 +112,12 @@ exports.update = (req, res) => {
       message: "Data to update cannot be empty!"
     });
   }
-
   const id = req.params.id;
 
   postingsModel.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then(data => {
-console.log("Update post received. id=", id, " and req.body=", req.body)
-console.log("Update post received. data=", data)
+      console.log("Update post received. id=", id, " and req.body=", req.body)
+      console.log("Update post received. data=", data)
 
       if (!data) {
         res.status(404).send({
@@ -133,6 +132,24 @@ console.log("Update post received. data=", data)
       });
     });
 };
+
+
+// Unarchive all Postings 
+exports.unarchiveAll = (req, res) => {
+  postingsModel.updateMany({}, {$set: {archived: false}} )
+  .then(data => {
+    res.send({
+      message: `${data.matchedCount} postings were deleted successfully!`
+    });
+  })
+  .catch(err => {
+    console.log("postingsController.js .deleteAll err=",err)
+    res.status(500).send({
+      message:
+        err.message || "Alas, an error occurred while unarchiving all postings."
+    });
+  });
+}
 
 
 // Delete a Posting with the specified id in the request
