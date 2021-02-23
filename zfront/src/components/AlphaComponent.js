@@ -25,13 +25,17 @@ const evntLog = false;  //  true logs events, e.g. onClick, onKeyDown
 
 const stubScale = 0.2;
 
-const imageWidth = 7680; // Set these to equal background image dimensions
-const imageHeight = 4320;
+const imageWidth = 3840; // Set these to equal background image dimensions
+const imageHeight = 2160;
 const initialPanX = 0;
 const initialPanY = 80;
 
-const blurKickInZoomLevel = 1;
-const blurRampUpRate = 4;
+const blurKickInZoomLevel = 0.8;
+const blurStepOnStart = 3;  // in pixels of blur
+const blurRampUpRate = 12;   // as a multiplier of zoomLevel, to give pixels of blur
+// const blurKickInZoomLevel = 0.5;
+// const blurStepOnStart = 15;
+// const blurRampUpRate = 3;
 
 const extraZoomOutFactor = 0.9;
 const minZoomScaleByWidth = (screen.width/imageWidth) * extraZoomOutFactor;
@@ -78,8 +82,10 @@ const AlphaComponent = () => {
   const [dragMode, setDragMode] = useState(false);
   const [adminMode, setAdminMode] = useState(false);
   const [zoomScale, setZoomScale] = useState(minZoomScale);
+  // const [zoomSpeed, setZoomSpeed] = useState(200);
   const [panX, setPanX] = useState(initialPanX);
   const [panY, setPanY] = useState(initialPanY);
+  const [sliderValue, setSliderValue] = useState(200);
 
   const [topicsDataArray, setTopicsDataArray] = useState();
   const [showTopicModal, setShowTopicModal] = useState(false);
@@ -109,7 +115,7 @@ const AlphaComponent = () => {
     setPanX(stats.positionX);
     setPanY(stats.positionY);
 
-    setBlurLevel((zoomScale < blurKickInZoomLevel) ? 1 : (zoomScale*blurRampUpRate - blurKickInZoomLevel * blurRampUpRate -1 +0.5))
+    setBlurLevel((zoomScale < blurKickInZoomLevel) ? 1 : (zoomScale*blurRampUpRate - blurKickInZoomLevel * blurRampUpRate -1 +blurStepOnStart))
 
     // zoomedOrPanned.current = true;
     // recdLog && console.log("updateZoomPan() zoomedOrPanned.current=", zoomedOrPanned.current);
@@ -256,6 +262,9 @@ const AlphaComponent = () => {
         setCreatingTopicFlag={setCreatingTopicFlag}
         setTopicDraft={setTopicDraft}
         resetZoom={resetZoom}
+        zoomScale={zoomScale}
+        sliderValue={sliderValue}
+        setSliderValue={setSliderValue}
         recdLog={recdLog}
       />
 
@@ -313,6 +322,7 @@ const AlphaComponent = () => {
           minZoomScale={minZoomScale}
           panX={panX}
           panY={panY}
+          sliderValue={sliderValue}
           // zoomedOrPanned={zoomedOrPanned}
 
           postingsDataArray={postingsDataArray}

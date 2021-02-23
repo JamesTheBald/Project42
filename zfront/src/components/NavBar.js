@@ -3,6 +3,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 
 import WelcomeModal from "./WelcomeModal";
+import RangeSlider from "./RangeSlider";
 import onClickFindByTitle from "../functions/onClickFindByTitle";
 import onClickFindByTags from "../functions/onClickFindByTag";
 import onClickFindByName from "../functions/onClickFindByName";
@@ -30,7 +31,9 @@ const NavBar = (props) => {
   const setCreatingTopicFlag= props.setCreatingTopicFlag;
   const setTopicDraft= props.setTopicDraft;
   const resetZoom= props.resetZoom;
-
+  let zoomScale = props.zoomScale;
+  let sliderValue = props.sliderValue;
+  const setSliderValue = props.setSliderValue;
   // const recdLog=props.recdLog;
   
 
@@ -39,11 +42,12 @@ const NavBar = (props) => {
     setSearchTerm(event);
   };
 
-  
+
   return (
     <>
       <nav className="w-full h-20 flex items-center text-blue-200 bg-blue-900 fixed z-50">
         <div className="flex flex-row items-baseline">
+
           <div className="p-2 text-2xl mx-4  hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
             Project 42
           </div>
@@ -173,7 +177,16 @@ const NavBar = (props) => {
             Reset Zoom
           </button>
 
+          <div className="flex items-center">
 
+            <div className="ml-10 mr-4">Zoom Speed:</div>
+            <div className="pt-1">
+              <RangeSlider 
+                sliderValue={sliderValue} 
+                setSliderValue={setSliderValue} 
+              />
+            </div>
+          </div>
 
         </div>
       </nav>

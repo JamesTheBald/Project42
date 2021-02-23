@@ -11,7 +11,7 @@ class ZoomPanNonDraggableStubs extends Component {
     const minZoomScale = this.props.minZoomScale;
     let panX = this.props.panX;
     let panY = this.props.panY;
-    // const zoomedOrPanned = this.props.zoomedOrPanned;
+    let sliderValue = this.props.sliderValue;
   
     let postingsDataArray = this.props.postingsDataArray;
     let currPostIndex = this.props.currPostIndex;
@@ -47,7 +47,7 @@ class ZoomPanNonDraggableStubs extends Component {
           onPinching={updateZoomPan}    // Guessing here!
           enablePadding={false}
           doubleClick={{disabled: true}}
-          wheel={{step: 200}}
+          wheel={{step: sliderValue}}
           options={{
             // See "Options prop elements" on https://www.npmjs.com/package/react-draggable
             minScale: minZoomScale,
