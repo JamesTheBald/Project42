@@ -4,7 +4,8 @@ const topicsModel = db.topics;
 
 // Create and Save a Topic and/ or Sub-Topic
 exports.create = (req, res) => {
-    const topic = new topicsModel({
+
+  const topic = new topicsModel({
     topic: req.body.topic,
     topicLevel: req.body.topicLevel,
     positionX: req.body.positionX,
@@ -13,6 +14,9 @@ exports.create = (req, res) => {
     archived: req.body.archived
   });
 
+  console.log("topicsController.js received .create topic request. req.body=", req.body)
+
+  
   // Save Topic to the database
   topic
     .save(topic)

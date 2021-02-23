@@ -1,26 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 
 import NavBar from "./NavBar";
 import MainModal from "./MainModal";
 import TopicModal from "./TopicModal";
 import RenderStubsDraggable from "./RenderStubsDraggable";
 import RenderTopicsDraggable from "./RenderTopicsDraggable";
+import AdminControls from "./AdminControls";
+
 import retrievePosts from "../functions/retrievePosts";
 import retrieveTopics from "../functions/retrieveTopics";
 import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
-import unlockAll from "../functions/unlockAll";
-import unarchiveAllPosts from "../functions/unarchiveAllPosts";
-import unarchiveAllTopics from "../functions/unarchiveAllTopics";
-import removeAllPosts from "../functions/removeAllPosts";
-import removeAllTopics from "../functions/removeAllTopics";
+// import unlockAll from "../functions/unlockAll";
+// import unarchiveAllPosts from "../functions/unarchiveAllPosts";
+// import unarchiveAllTopics from "../functions/unarchiveAllTopics";
+// import removeAllPosts from "../functions/removeAllPosts";
+// import removeAllTopics from "../functions/removeAllTopics";
 
 
 const posnLog = false;  //  true logs Zoompan positions panX and panY
 const recdLog = false;  //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
 const evntLog = false;  //  true logs events, e.g. onClick, onKeyDown
 
-const stubScale = 0.5;
+const stubScale = 0.2;
 
 const imageWidth = 7680; // Set these to equal background image dimensions
 const imageHeight = 4320;
@@ -50,6 +52,8 @@ const emptyTopic = {
   topicLevel: "Main Topic",
   positionX: 200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 200,
+  locked: false,
+  archived: false
 };
 
 
@@ -347,60 +351,18 @@ const AlphaComponent = () => {
 
       {dragMode && <div>Drag items to desired positions</div>}
 
+
       {adminMode &&
-        <div className="flex flexrow items-center">
-          <div className="text-xl mx-3 text-gray-700">Admin Controls:</div>
+    
+        <AdminControls 
+          emptyPost = {emptyPost}
+          emptyTopic = {emptyTopic}
+          postingsDataArray = {postingsDataArray}
+          setPostingsDataArray = {setPostingsDataArray}
+          topicsDataArray = {topicsDataArray}
+          setTopicsDataArray = {setTopicsDataArray}
+        />
 
-          <Button
-            variant="outline-success"
-            className="mx-2"
-            onClick={() => {
-              unlockAll(postingsDataArray, topicsDataArray);
-              retrievePosts(setPostingsDataArray, emptyTopic); // Time for a hard-update
-              retrieveTopics(setTopicsDataArray, emptyTopic); // Time for a hard-update
-            }}>
-            Unlock All
-          </Button>
-
-          <Button
-            variant="outline-secondary"
-            className="mx-2"
-            onClick={() => unarchiveAllPosts(setPostingsDataArray, emptyPost)}
-          >
-            Unarchive All Posts
-          </Button>
-
-          <Button
-            variant="outline-secondary"
-            className="mx-2"
-            onClick={() => unarchiveAllTopics(setTopicsDataArray, emptyTopic)}
-          >
-            Unarchive All Topics
-          </Button>
-        
-          <Button
-            variant="outline-danger"
-            className="mx-2"
-            onClick={() => {
-              removeAllPosts();
-              setPostingsDataArray([emptyPost]);
-            }}>
-            PERMANENTLY DELETE All Posts
-          </Button>
-
-          <Button
-            variant="outline-danger"
-            className="mx-2"
-            onClick={() => {
-              removeAllTopics();
-              setTopicsDataArray([emptyTopic]);
-            }}>
-            PERMANENTLY DELETE All Topics
-          </Button>
-          
-          <div className="mx-2">NB: No Warning Given - These Actions Take Immediate Effect</div>
-
-        </div>
       }
     </div>
   );

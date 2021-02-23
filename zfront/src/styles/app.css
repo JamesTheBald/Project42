@@ -8,7 +8,7 @@ div {
 }
 
 .backdrop {
-  background-image: url('../images/galaxy_over_waters_&_cloud_7680px.jpg');
+  background-image: url('../images/galaxy_over_waters_&_cloud_7680px_smoothed.jpg');
   object-fit: contain;
   height: 4320px;   /* Set equal to height of the image. Also set imageHeight on AlphaComponent.js ~line 24 */
   width: 7680px;    /* Set equal to the width of the image. Also set imageWidth on AlphaComponen.js */
