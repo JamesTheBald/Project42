@@ -15,7 +15,7 @@ const WarningDeleteModal = (props) => {
   const setShowMainModal = props.setShowMainModal;
   const creatingPostFlag = props.creatingPostFlag;
 
-  const modalBackgroundColor = "bg-yellow-200";
+  // const modalBackgroundColor = "bg-yellow-200";
 
   const handleClose = () => setShowWarningDeleteModal(false)
   
@@ -29,31 +29,34 @@ const WarningDeleteModal = (props) => {
         show={showWarningDeleteModal}
         onHide={handleClose}
       >
-        <Modal.Header closeButton className={modalBackgroundColor}>
-          <Modal.Title>Are you sure you want to delete this post?</Modal.Title>
-        </Modal.Header>
+        <div className="bg-yellow-200 border-gray-400">
 
-        <Modal.Footer className={modalBackgroundColor}>
+          <Modal.Header closeButton>
+            <Modal.Title>Are you sure you want to delete this post?</Modal.Title>
+          </Modal.Header>
 
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
+          <Modal.Footer>
 
-          <Button variant="secondary" 
-            onClick={() => {
-              deletePost(
-                postDraft,
-                postingsDataArray,
-                setPostingsDataArray,
-                currPostIndex,
-                setShowMainModal,
-                creatingPostFlag
-              );
-            }}>
-            Delete Post
-          </Button>
+            <Button variant="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
 
-        </Modal.Footer>
+            <Button variant="secondary" 
+              onClick={() => {
+                deletePost(
+                  postDraft,
+                  postingsDataArray,
+                  setPostingsDataArray,
+                  currPostIndex,
+                  setShowMainModal,
+                  creatingPostFlag
+                );
+              }}>
+              Delete Post
+            </Button>
+
+          </Modal.Footer>
+        </div>
       </Modal>
     </div>
   );

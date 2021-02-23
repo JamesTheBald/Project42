@@ -10,7 +10,7 @@ const WarningModalEdits = (props) => {
   const handleClose = () => setshowWarningModalEdits(false);
 
   return (
-    <div className="bg-orange-200">
+    <div className="bg-yellow-200 border-gray-400">
       <Modal
         size="sm"
         centered

@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 const WarningModalLocked = (props) => {
   const showWarningModalLocked = props.showWarningModalLocked;
   const setShowWarningModalLocked = props.setShowWarningModalLocked;
-  const modalCSS = "bg-yellow-200 border-gray-400";
+  // const modalCSS = "bg-yellow-200 border-gray-400";
 
   const handleClose = () => setShowWarningModalLocked(false);
 
@@ -19,15 +19,23 @@ const WarningModalLocked = (props) => {
         onHide={handleClose}
         backdrop={false}
       >
-        <Modal.Header closeButton className={modalCSS}>
-          <Modal.Title>Locked</Modal.Title>
-        </Modal.Header>
+        <div className="bg-yellow-200 border-gray-400">
+          <Modal.Header closeButton>
+            <Modal.Title>Locked</Modal.Title>
+          </Modal.Header>
 
-        <Modal.Body className={modalCSS}>This item is locked, probably because it is being edited by another user.</Modal.Body>
-        <Modal.Footer className={modalCSS}>
-          <Button variant="secondary" onClick={handleClose}>Close</Button>
-        </Modal.Footer>
+          <Modal.Body >
+            <div>This item is locked, probably because it is being edited by another user.</div>
+            <div className="mt-2">Note: Posts are unlocked after 1 hour from time of last save.</div>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>Close</Button>
+          </Modal.Footer>
+
+        </div>
       </Modal>
+
     </div>
   );
 };

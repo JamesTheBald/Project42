@@ -14,8 +14,7 @@ import unlockAll from "../functions/unlockAll";
 
 const posnLog = false;  //  true logs Zoompan positions panX and panY
 const recdLog = false;  //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
-const evntLog = true;  //  true logs events, e.g. onClick, onKeyDown
-
+const evntLog = false;  //  true logs events, e.g. onClick, onKeyDown
 
 const stubScale = 0.2;
 const imageWidth = 3840; // Set these to equal background image dimensions
@@ -42,6 +41,7 @@ const emptyTopic = {
   positionX: 200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 200,
 };
+
 
 const AlphaComponent = () => {
  
@@ -90,11 +90,33 @@ const AlphaComponent = () => {
     // recdLog && console.log("updateZoomPan() zoomedOrPanned.current=", zoomedOrPanned.current);
   }
 
+
+  const scrollToTopLeft = () => {   // from https://gist.github.com/romanonthego/223d2efe17b72098326c82718f283adb
+    try {
+      // trying to use new API - https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+    } catch (error) {
+      // just a fallback for older browsers
+      console.log("Using fallback scrolling method")
+      window.scrollTo(0, 0);
+    }
+  }
+
   const resetZoom = () => {
     setZoomScale(minZoomScale);
     setPanX(initialPanX);
     setPanY(initialPanY);
+    scrollToTopLeft();
   }
+
+  // useEffect(() => {
+  //   window.focus()
+  //   resetZoom();
+  // }, []);
 
 
   useEffect(() => {
@@ -131,7 +153,7 @@ const AlphaComponent = () => {
     }
   };
 
-  // Retrive tfrom DB into postingsDataArray, so postingsDataArray is never null
+  // Retrive from DB into postingsDataArray, so postingsDataArray is never null
   if (!postingsDataArray) {
     console.log("postingsDataArray is falsy so retrieving it from the DB. In the interim setting it to [emptyPost]");
     setPostingsDataArray([emptyPost]);

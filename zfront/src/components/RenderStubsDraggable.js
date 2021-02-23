@@ -30,6 +30,16 @@ const RenderStubsDraggable = (props) => {
   let posnY = [];
   stubDragged.current = false;
 
+  const millisecondsSinceUpdated = (postDraft) => {
+    const then = Date.parse(postDraft.updatedAt)
+    const now = Date.now()
+    console.log("This post was edited at ", then)
+    console.log("Current time is ", now)
+    console.log("Difference is ", now-then)
+    return now-then
+  }
+
+
   //Open MainModal when stub is clicked without dragging
   const handleOnStop = (post, index) => (event, data) => {
     // Above line uses 'currying'. See https://www.carlrippon.com/using-currying-to-pass-additional-data-to-react-event-handlers/
@@ -37,8 +47,10 @@ const RenderStubsDraggable = (props) => {
     console.log("RenderStubsDraggable.js handleOnStop  x=", data.x, " y=", data.y);
     posnLog && console.log("RenderStubsDraggable.js posnX[", index, "] = ", posnX[index], ", posnY[", index, "] = ", posnY[index]);
 
-    if (post.locked) {
-      console.log("RenderStubsDraggble.js handleOnStop - post is locked");
+   
+    if (post.locked && (millisecondsSinceUpdated(post) < 3600000) ) {
+
+      console.log("RenderStubsDraggble.js handleOnStop - post is locked, for less than an hour");
       setShowWarningModalLocked(true);
 
     } else if (data.x === posnX[index] && data.y === posnY[index]) {
@@ -48,6 +60,7 @@ const RenderStubsDraggable = (props) => {
       setPostDraft(post);
       lockPost(post, index); // writes lock to DB but doesn't update state vars (postDraft, postingsDataArray)
       setShowMainModal(true);
+
     } else {
       // if dragged, update positionX&Y in post and on the database
       console.log("RenderStubsNonDraggble.js handleOnStop - post was dragged")  // ADD A WARNING POPUP
