@@ -51,7 +51,7 @@ const RenderTopicsDraggable = (props) => {
           posnX[index] = topic.positionX;
           posnY[index] = topic.positionY;
 
-          console.log("RenderTopicsDraggable posnX=", posnX[index], ", posnY=", posnY[index]);
+          posnLog && console.log("RenderTopicsDraggable posnX=", posnX[index], ", posnY=", posnY[index]);
           return (
             <div key={index} className="absolute">
               {/* Absolute positioning of above div is necessary for topics below to position properly */}

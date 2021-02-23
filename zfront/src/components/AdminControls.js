@@ -6,8 +6,8 @@ import retrievePosts from '../functions/retrievePosts';
 import retrieveTopics from '../functions/retrieveTopics';
 import unarchiveAllPosts from '../functions/unarchiveAllPosts';
 import unarchiveAllTopics from '../functions/unarchiveAllTopics';
-import removeAllPosts from '../functions/removeAllPosts';
-import removeAllTopics from '../functions/removeAllTopics';
+// import removeAllPosts from '../functions/removeAllPosts';
+// import removeAllTopics from '../functions/removeAllTopics';
 
 
 const AdminControls = (props) => {

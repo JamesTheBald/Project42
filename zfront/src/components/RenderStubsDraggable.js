@@ -93,8 +93,7 @@ const RenderStubsDraggable = (props) => {
                 allowAnyClick={true}
                 defaultPosition={{ x: posnX[index], y: posnY[index] }}
                 disabled={dragStopped}
-                // style={{zIndex: "-9999"}}
-                >
+              >
                 <div className="stubWrapper">
                   {/* Above line's absolute positioning is required. Scaling must be in line below.  */}
                   <div className="flex flex-col items-center" style={{transform: `scale(${stubScale})`}}>

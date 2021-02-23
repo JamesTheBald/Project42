@@ -18,7 +18,8 @@ import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 // import removeAllTopics from "../functions/removeAllTopics";
 
 
-const posnLog = false;  //  true logs Zoompan positions panX and panY
+const posnLogKey = true;  //  true logs most important Zoompan scale and panX & panY positions
+const posnLog = false;  //  true logs all Zoompan scale and panX & panY positions
 const recdLog = false;  //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
 const evntLog = false;  //  true logs events, e.g. onClick, onKeyDown
 
@@ -28,6 +29,9 @@ const imageWidth = 7680; // Set these to equal background image dimensions
 const imageHeight = 4320;
 const initialPanX = 0;
 const initialPanY = 80;
+
+const blurKickInZoomLevel = 1;
+const blurRampUpRate = 4;
 
 const extraZoomOutFactor = 0.9;
 const minZoomScaleByWidth = (screen.width/imageWidth) * extraZoomOutFactor;
@@ -62,7 +66,7 @@ const AlphaComponent = () => {
   useEffect ( ()=> {
     console.log ("AlphaComponent.js first run. minZoomScale=",minZoomScale);
     console.log ("based on screen.width=", screen.width, " and screen.height=", screen.height);
-  }, [minZoomScale]);
+  }, []);
 
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [postingsDataArray, setPostingsDataArray] = useState();
@@ -82,8 +86,10 @@ const AlphaComponent = () => {
   const [currTopicIndex, setCurrTopicIndex] = useState(0);
   const [topicDraft, setTopicDraft] = useState(emptyTopic);
   const [creatingTopicFlag, setCreatingTopicFlag] = useState(false);
+  const [blurLevel, setBlurLevel] = useState(false);
 
   const stubsDraggable = useRef(null);
+  const backgroundImage = useRef(null);
   const stubDragged = useRef(false);
   const topicDragged = useRef(false);
   // const zoomedOrPanned = useRef(false);
@@ -97,10 +103,14 @@ const AlphaComponent = () => {
   recdLog && console.log("topicDraft=", topicDraft);
 
   const updateZoomPan = (stats) => {
-    posnLog && console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", panX=",stats.positionX, ', panY=',stats.positionY);
+    posnLogKey && console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", and blurLevel=", blurLevel);
+    posnLogKey && console.log("AlphaComponent.js updateZoomPan() panX=",stats.positionX, ', panY=',stats.positionY);
     setZoomScale(stats.scale);
     setPanX(stats.positionX);
     setPanY(stats.positionY);
+
+    setBlurLevel((zoomScale < blurKickInZoomLevel) ? 1 : (zoomScale*blurRampUpRate - blurKickInZoomLevel * blurRampUpRate -1 +0.5))
+
     // zoomedOrPanned.current = true;
     // recdLog && console.log("updateZoomPan() zoomedOrPanned.current=", zoomedOrPanned.current);
   }
@@ -141,7 +151,10 @@ const AlphaComponent = () => {
     let adjustedPanY = imageHeight / 2 - imageHeight / (2 * zoomScale) + panY / zoomScale;
 
     stubsDraggable.current.style.transform = `scale(${zoomScale}) translate(${adjustedPanX}px, ${adjustedPanY}px)`;
+    backgroundImage.current.style.transform = `scale(${zoomScale}) translate(${adjustedPanX}px, ${adjustedPanY}px)`;
+
   }, [zoomScale, panX, panY]);
+  
 
   useEffect(() => {
     console.log("AlphaComponent - useEffect EventListeners 'keyup' & keydown' added")
@@ -219,9 +232,10 @@ const AlphaComponent = () => {
   };
 
 
+
   // MAIN AlphaComponent RETURN
   return (
-    <div className="background" style={{width: `${imageWidth}px`, height: `${imageHeight}px`}}>
+    <div className="backgroundColor" style={{width: `${imageWidth}px`, height: `${imageHeight}px`}}>
       
       <NavBar className="absolute"
         emptyPost={emptyPost}
@@ -242,7 +256,13 @@ const AlphaComponent = () => {
         setCreatingTopicFlag={setCreatingTopicFlag}
         setTopicDraft={setTopicDraft}
         resetZoom={resetZoom}
-        // recdLog={recdLog}
+        recdLog={recdLog}
+      />
+
+      <div
+        ref={backgroundImage}
+        className="backgroundImage absolute"
+        style={{filter: `blur(${blurLevel}px)`}}
       />
 
 
@@ -250,8 +270,11 @@ const AlphaComponent = () => {
       <div
         ref={stubsDraggable}
         onClick={(event) => createPostAtMouseClick(event)}
-        className="backdrop absolute"
+        className="absolute"    // className="absolute" is required here
+        style={{width: `${imageWidth}px`, height: `${imageHeight}px`}}
       >
+      
+
         {dragMode && (
           <>
             <RenderStubsDraggable
@@ -310,7 +333,7 @@ const AlphaComponent = () => {
           setCreatingTopicFlag={setCreatingTopicFlag}
           setTopicDraft={setTopicDraft}
           stubScale={stubScale}
-
+          blurLevel={blurLevel}
           posnLog={posnLog}
           recdLog={recdLog}
         />

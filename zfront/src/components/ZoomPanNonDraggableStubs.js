@@ -24,6 +24,7 @@ class ZoomPanNonDraggableStubs extends Component {
     let userVoted = this.props.userVoted;
     const setUserVoted = this.props.setUserVoted;
     const stubScale = this.props.stubScale;
+    let blurLevel = this.props.blurLevel;
 
     let topicsDataArray = this.props.topicsDataArray;
     const setCurrTopicIndex = this.props.setCurrTopicIndex;
@@ -60,7 +61,12 @@ class ZoomPanNonDraggableStubs extends Component {
             <>
               <TransformComponent>
                 
-                <div className="backdrop bg-black">
+                <div className="bg-black">
+
+                  <div className="backgroundImage" 
+                        style={{filter: `blur(${blurLevel}px)`}}
+                  />
+
                   <RenderStubsNonDraggable
                     postingsDataArray={postingsDataArray}
                     currPostIndex={currPostIndex}
