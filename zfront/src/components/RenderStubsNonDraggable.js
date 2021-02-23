@@ -27,20 +27,31 @@ const RenderStubsNonDraggable = (props) => {
   recdLog && console.log("RenderStubsNonDraggable.js begins. postingsDataArray=", postingsDataArray);
 
   const handleOnClick = (post, index) => (evnt) => {
-    evnt.stopPropagation();
+    evnt.stopPropagation();   // J: Meant to stop 'bubbling but I'm not sure it does anything or is even needed
 
     recdLog && console.log("RenderStubsNonDraggble.js handleOnClick post=", post);
-    if (!post.locked) {
+    if (post.locked && (millisecondsSinceUpdated(post) < 3600000)) {
+      console.log("RenderStubsNonDraggble.js handleOnClick - post is locked");
+      setShowWarningModalLocked(true);
+    } else {
       setCreatingPostFlag(false);
       setCurrPostIndex(index);
       setPostDraft(post);
       lockPost(post, index); // writes lock to DB but doesn't update state vars (postDraft, postingsDataArray)
       setShowMainModal(true);
-    } else {
-      console.log("RenderStubsNonDraggble.js handleOnClick - post is locked");
-      setShowWarningModalLocked(true);
     }
   };
+
+
+  const millisecondsSinceUpdated = (postDraft) => {
+    const then = Date.parse(postDraft.updatedAt)
+    const now = Date.now()
+    console.log("This post was edited at ", then)
+    console.log("Current time is ", now)
+    console.log("Difference is ", now-then)
+    return now-then
+  }
+
 
   if (postingsDataArray?.[0]?._id) {
     return (
