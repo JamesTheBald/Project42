@@ -15,15 +15,3 @@
 @layer components { .stub .attributeContainer { @apply flex flex-col justify-between items-center w-3/12 p-2 rounded-r-lg }}
 
 
-
-
-@layer components { .topic .mainTopic { @apply text-7xl }}
-@layer components { .topic .subTopic { @apply text-3xl }}
-@layer components { .topic .subSubTopic { @apply text-md }}
-
-@layer components { .topic .backgnd.subTopic { @apply px-3 radius-md }}
-@layer components { .topic .backgnd.subSubTopic { @apply px-1 radius-sm }}
-
-
-
-

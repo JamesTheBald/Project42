@@ -27,7 +27,7 @@ const stubScale = 0.2;
 
 const imageWidth = 4676; // Set these to equal background image dimensions, in pixels
 const imageHeight = 1998;
-const initialPanX = 0;
+const initialPanX = -100;
 const initialPanY = 0;
 
 const blurKickInZoomLevel = 2.25;
@@ -49,8 +49,8 @@ const emptyPost = {
   contentType: "",
   spiciness: "",
   upvotes: 0,
-  positionX: 200, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
-  positionY: 200,
+  positionX: 1000, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
+  positionY: 1000,
   locked: false,
   archived: false
 };
@@ -58,8 +58,8 @@ const emptyPost = {
 const emptyTopic = {
   topic: "",
   topicLevel: "Main Topic",
-  positionX: 200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
-  positionY: 200,
+  positionX: 1200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
+  positionY: 1200,
   locked: false,
   archived: false
 };

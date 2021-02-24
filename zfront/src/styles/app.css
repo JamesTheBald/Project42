@@ -26,21 +26,22 @@ div {
 }
 
 
- .topic {
-  color: rgba(253, 230, 138);
-  z-index: 20
-}
 
- .topic .backgnd { 
-  opacity: 70%;
+/* @layer components { .topic .subTopic { @apply text-3xl px-3 rounded-md}}
+@layer components { .topic .subSubTopic { @apply text-md px-2 rounded-sm }} */
+
+/* .mainTopic {
+  color: rgb(255, 218, 72);
   background-color: rgba(117, 117, 117);
+  opacity: 90%;
+  z-index: 40;
+
+  size: 4.75rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  border-radius: 0.75rem;
-  transform: translateY(-100%);
-  left: 50%;
-  transform: translateX(-50%)
-}
+  border-radius: 1rem;
+} */
+
 
 
 .tooltipBase {
