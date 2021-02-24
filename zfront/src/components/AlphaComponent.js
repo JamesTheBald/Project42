@@ -32,6 +32,7 @@ const extraZoomOutFactor = 1.1;
 const minZoomScaleByWidth = (screen.width/imageWidth) * extraZoomOutFactor;
 const minZoomScaleByHeight = (screen.height/imageHeight) * extraZoomOutFactor;
 const minZoomScale = (minZoomScaleByWidth < minZoomScaleByHeight) ? minZoomScaleByWidth : minZoomScaleByHeight;
+const maxZoomScale = 12;
 
 const emptyPost = {
   title: "",
@@ -240,6 +241,8 @@ const AlphaComponent = () => {
         setCreatingTopicFlag={setCreatingTopicFlag}
         setTopicDraft={setTopicDraft}
         resetZoom={resetZoom}
+        minZoomScale={minZoomScale}
+        maxZoomScale={maxZoomScale}
         zoomScale={zoomScale}
         setZoomScale={setZoomScale}
         zoomSpeed={zoomSpeed}
@@ -298,6 +301,7 @@ const AlphaComponent = () => {
           updateZoomPan={updateZoomPan}
           zoomScale={zoomScale}
           minZoomScale={minZoomScale}
+          maxZoomScale={maxZoomScale}
           panX={panX}
           panY={panY}
           zoomSpeed={zoomSpeed}

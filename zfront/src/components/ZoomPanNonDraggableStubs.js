@@ -9,6 +9,7 @@ class ZoomPanNonDraggableStubs extends Component {
     const updateZoomPan = this.props.updateZoomPan;
     let zoomScale = this.props.zoomScale;
     const minZoomScale = this.props.minZoomScale;
+    const maxZoomScale = this.props.maxZoomScale;
     let panX = this.props.panX;
     let panY = this.props.panY;
     let zoomSpeed = this.props.zoomSpeed;
@@ -51,7 +52,7 @@ class ZoomPanNonDraggableStubs extends Component {
           options={{
             // See "Options prop elements" on https://www.npmjs.com/package/react-draggable
             minScale: minZoomScale,
-            maxScale: 15,
+            maxScale: maxZoomScale,
             centerContent: false,
             limitToBounds: false,
             // limitToWrapper: false,
