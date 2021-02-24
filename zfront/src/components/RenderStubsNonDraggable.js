@@ -121,10 +121,10 @@ const RenderStubsNonDraggable = (props) => {
                 {/* Tooltip - content and formatting must match RenderStubsDraggable's! */}
                 <span className="tooltipItself  flex flex-col items-center">
 
-                  <div className={`w-96 p-2  bg-gray-200 rounded-lg  opacity-90`}>
+                  <div className={`w-96 p-2  bg-gray-200 rounded-lg`}>
                     <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
                   </div>
-                  <div className={`opacity-90`} style={{ transform: "translateY(-8px)" }}>
+                  <div style={{ transform: "translateY(-8px)" }}>
                     <AiOutlineCaretDown className="text-3xl  text-gray-200" />
                   </div>
 

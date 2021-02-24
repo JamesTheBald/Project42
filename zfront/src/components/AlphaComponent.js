@@ -28,10 +28,15 @@ const blurKickInZoomLevel = 2.25;
 const blurStepOnStart = 0;  // step change in blurring (in pixels) when blurKickInZoomLevel is reached
 const blurRampUpRate = 1.5;   // as a multiplier of zoomLevel, to give pixels of blur
 
-const extraZoomOutFactor = 1.1;
-const minZoomScaleByWidth = (screen.width/imageWidth) * extraZoomOutFactor;
-const minZoomScaleByHeight = (screen.height/imageHeight) * extraZoomOutFactor;
+const extraZoomOutFactor = 0.88;
+const displayWidth = window.innerWidth;
+const displayHeight = window.innerHeight;
+
+
+const minZoomScaleByWidth = (displayWidth/imageWidth) * extraZoomOutFactor;
+const minZoomScaleByHeight = (displayHeight/imageHeight) * extraZoomOutFactor;
 const minZoomScale = (minZoomScaleByWidth < minZoomScaleByHeight) ? minZoomScaleByWidth : minZoomScaleByHeight;
+console.log("Pre-AlphaComponent: minZoomScaleByWidth=",minZoomScaleByWidth,", minZoomScaleByHeight", minZoomScaleByHeight)
 const maxZoomScale = 12;
 
 const emptyPost = {
@@ -61,7 +66,7 @@ const AlphaComponent = () => {
 
   useEffect ( ()=> {
     console.log ("AlphaComponent.js first run. minZoomScale=",minZoomScale);
-    console.log ("based on screen.width=", screen.width, " and screen.height=", screen.height);
+    console.log ("based on displayWidth=", displayWidth, " and displayHeight=", displayHeight);
   }, []);
 
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);

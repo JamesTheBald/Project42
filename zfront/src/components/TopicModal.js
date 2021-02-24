@@ -84,7 +84,7 @@ const TopicModal = (props) => {
           <div name="dropdown-title-container" className="flex flex-col">
             
             <div className="flex items-center">
-              <div className="mr-4 text-xl">Hierarchy Level:</div>
+              <div className="ml-1 mr-4 text-xl">Hierarchy Level:</div>
               <Dropdown>
                 <Dropdown.Toggle size="sm" id="dropdown-basic" className="text-xl text-blue-600 flex items-center rounded-lg bg-white border-none">
                   {(topicDraft.topicLevel === "") ?
@@ -101,10 +101,11 @@ const TopicModal = (props) => {
                 </Dropdown.Menu>
               </Dropdown>
             </div>
+
             <input
               name="topic"
               type="text"
-              className="text-2xl w-full mb-2 p-2 pl-4 outline-none rounded-lg font-500 bg-gray-200"
+              className="text-2xl w-full mt-3 mb-2 p-2 pl-4 outline-none rounded-lg bg-gray-200"
               placeholder="Click to enter topic title here"
               value={topicDraft.topic}
               onChange={handleInputChange}

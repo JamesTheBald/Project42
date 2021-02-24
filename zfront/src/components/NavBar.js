@@ -119,10 +119,10 @@ const NavBar = (props) => {
             <DropdownButton
               // id="variants-outline-Primary"
               // id={`dropdown-variants-Secondary`}
-              style={{backgroundColor: "white"}}
+              style={{backgroundColor: "rgba(245, 245, 245)"}}
               title={searchTerm}
               onSelect={handleSelect}
-              className="ml-12 mb-1"
+              className="ml-12 mr-1 mb-1"
             >
               <Dropdown.Item eventKey="Search by Title ">Search by Title</Dropdown.Item>
               <Dropdown.Item eventKey="Search by Tag ">Search by Tag</Dropdown.Item>
@@ -134,7 +134,7 @@ const NavBar = (props) => {
                                                               {/* Yes, this next section is quite 'WET'. Oops! */}
             {/* Search by Title */} 
             {searchTerm === "Search by Title " && (   // string must exactly match eventKey above
-              <div className="mx-4  flex flex-row">
+              <div className="mx-2  flex flex-row">
                 <input
                   type="text"
                   className="searchTextInput"
@@ -144,7 +144,7 @@ const NavBar = (props) => {
                 >
                 </input>
                 <button
-                  className="ml-3 stdButton"
+                  className="ml-2 stdButton"
                               // px-3 py-1 text-gray-800 bg-gray-400 border border-gray-800 rounded shadow-sm
                   onClick={() => onClickFindByTitle(searchTitle, setPostingsDataArray)}>
                   Search
@@ -154,7 +154,7 @@ const NavBar = (props) => {
 
             {/* Search by Tag */}
             {searchTerm === "Search by Tag " && (
-              <div className="mx-4  flex flex-row">
+              <div className="mx-2  flex flex-row">
                 <input
                   type="text"
                   className="searchTextInput"
@@ -164,7 +164,7 @@ const NavBar = (props) => {
                 >
                 </input>
                 <button
-                  className="ml-3 stdButton"
+                  className="ml-2 stdButton"
                   onClick={() => onClickFindByTags(searchTags, setPostingsDataArray)}>
                   Search
                 </button>
@@ -173,7 +173,7 @@ const NavBar = (props) => {
 
             {/* Search by Contributor Name */}
             {searchTerm === "Search by Contributor " && (
-              <div className="flex flex-row">
+              <div className="mx-2 flex flex-row">
                 <input
                   type="text ml-3"
                   className="searchTextInput"
@@ -183,7 +183,7 @@ const NavBar = (props) => {
                 >
                 </input>
                 <button
-                  className="ml-3 stdButton"
+                  className="ml-2 stdButton"
                   onClick={() => onClickFindByName(searchName, setPostingsDataArray)}>
                   Search
                 </button>
@@ -191,7 +191,7 @@ const NavBar = (props) => {
             )}
 
             <button
-              className="stdButton ml-3"
+              className="stdButton"
               onClick={() => {
                 setSearchTitle("");
                 onClickFindByTitle(searchTitle, setPostingsDataArray);
@@ -205,7 +205,7 @@ const NavBar = (props) => {
 
             <div className="flex flexrow items-center pt-1">
               <button
-                className="ml-16 stdButton py-0"
+                className="ml-14 stdButton py-0"
                 onClick={() => setZoomScale( () => zoomIn() )}>
                 +
               </button>
