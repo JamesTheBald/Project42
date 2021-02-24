@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GiChiliPepper } from 'react-icons/gi';
-import { TiDeleteOutline } from 'react-icons/ti';
+import { IoRemoveCircleOutline } from 'react-icons/io5';
 
 
 const SpicinessSelector = (props) => {
@@ -55,7 +55,7 @@ const SpicinessSelector = (props) => {
         <>
           <div
             name="pepper-box"
-            className="flex flex-col"
+            className="flex"
           >
             <div
               name="mild-pepper-group"
@@ -72,8 +72,8 @@ const SpicinessSelector = (props) => {
                 }}
               >
                 <GiChiliPepper
-                  size="24"
-                  className="text-green-600"
+                  size="30"
+                  className="text-gray-600"
                 />
               </div>
               <div 
@@ -84,7 +84,7 @@ const SpicinessSelector = (props) => {
                   setHideSpicyPeppers(false);
                 }}
               >
-                <TiDeleteOutline
+                <IoRemoveCircleOutline
                   className="cursor-pointer text-gray-400"
                   size="16"
                   hidden = {hideDeleteButton}
@@ -106,12 +106,8 @@ const SpicinessSelector = (props) => {
                 }}
               >
                 <GiChiliPepper
-                  size="24"
-                  className="text-yellow-500"
-                />
-                <GiChiliPepper
-                  size="24"
-                  className="text-yellow-500"
+                  size="30"
+                  className="text-gray-600"
                 />
               </div>
               <div
@@ -122,7 +118,7 @@ const SpicinessSelector = (props) => {
                   setHideSpicyPeppers(false);
                 }}
               >
-                <TiDeleteOutline
+                <IoRemoveCircleOutline
                   className="cursor-pointer text-gray-400"
                   size="16"
                   hidden = {hideDeleteButton}
@@ -145,16 +141,8 @@ const SpicinessSelector = (props) => {
                 }}
               >
                 <GiChiliPepper
-                  size="24"
-                  className="text-red-500"
-                />
-                <GiChiliPepper
-                  size="24"
-                  className="text-red-500"
-                />
-                <GiChiliPepper
-                  size="24"
-                  className="text-red-500"
+                  size="30"
+                  className="text-gray-600"
                 />
               </div>
               <div
@@ -165,7 +153,7 @@ const SpicinessSelector = (props) => {
                   setHideMediumPeppers(false);
                 }}
               >
-                <TiDeleteOutline
+                <IoRemoveCircleOutline
                   className="cursor-pointer text-gray-400"
                   size="16"
                   hidden = {hideDeleteButton}
@@ -178,7 +166,7 @@ const SpicinessSelector = (props) => {
         <>
           <div
             name="mild-pepper-group"
-            className={postDraft.spiciness == "mild" ? "opacity-100 flex items-center" : "opacity-50 cursor-pointer"}
+            className={postDraft.spiciness == "mild" ? "opacity-100 flex w-full items-center justify-center relative" : "opacity-50 cursor-pointer"}
             hidden={hideMildPepper}
           >
             <div
@@ -191,21 +179,22 @@ const SpicinessSelector = (props) => {
               }}
             >
               <GiChiliPepper
-                size="24"
+                size="30"
                 className="text-green-600"
               />
             </div>
             <div 
               name="DltBtnOnClickHousing"
+              className="absolute right-5"
               onClick = {() => {
                 resetSelectedSpiciness("");
                 setHideMediumPeppers(false);
                 setHideSpicyPeppers(false);
               }}
             >
-              <TiDeleteOutline
+              <IoRemoveCircleOutline
                 className="cursor-pointer text-gray-400"
-                size="16"
+                size="24"
                 hidden = {hideDeleteButton}
               />
             </div>
@@ -215,7 +204,7 @@ const SpicinessSelector = (props) => {
         <>
           <div
             name="medium-peppers-group"
-            className={postDraft.spiciness == "medium" ? "opacity-100 flex items-center justify-end" : "opacity-50 cursor-pointer justify-end"}
+            className={postDraft.spiciness == "medium" ? "opacity-100 flex w-full items-center justify-center relative" : "opacity-50 cursor-pointer justify-end"}
             hidden={hideMediumPeppers}
           >
             <div
@@ -228,25 +217,26 @@ const SpicinessSelector = (props) => {
               }}
             >
               <GiChiliPepper
-                size="24"
+                size="30"
                 className="text-yellow-500"
               />
               <GiChiliPepper
-                size="24"
+                size="30"
                 className="text-yellow-500"
               />
             </div>
             <div
               name = "DltBtnOnClickHousing"
+              className="absolute right-4"
               onClick = {() => {
                 resetSelectedSpiciness("");
                 setHideMildPepper(false);
                 setHideSpicyPeppers(false);
               }}
             >
-              <TiDeleteOutline
+              <IoRemoveCircleOutline
                 className="cursor-pointer text-gray-400"
-                size="16"
+                size="24"
                 hidden = {hideDeleteButton}
               />
             </div>
@@ -256,7 +246,7 @@ const SpicinessSelector = (props) => {
         <>
           <div
             name="spicy-peppers-group"
-            className={postDraft.spiciness == "spicy" ? "opacity-100 flex items-center justify-end" : "opacity-50 cursor-pointer justify-end"}
+            className={postDraft.spiciness == "spicy" ? "opacity-100 w-full flex items-center justify-center relative" : "opacity-50 cursor-pointer justify-end"}
             hidden={hideSpicyPeppers}
           >
             <div
@@ -270,29 +260,30 @@ const SpicinessSelector = (props) => {
               }}
             >
               <GiChiliPepper
-                size="24"
+                size="30"
                 className="text-red-500"
               />
               <GiChiliPepper
-                size="24"
+                size="30"
                 className="text-red-500"
               />
               <GiChiliPepper
-                size="24"
+                size="30"
                 className="text-red-500"
               />
             </div>
             <div
               name="DltBtnOnClickHousing"
+              className="absolute right-5"
               onClick={() => {
                 resetSelectedSpiciness("");
                 setHideMildPepper(false);
                 setHideMediumPeppers(false);
               }}
             >
-              <TiDeleteOutline
+              <IoRemoveCircleOutline
                 className="cursor-pointer text-gray-400"
-                size="16"
+                size="24"
                 hidden = {hideDeleteButton}
               />
             </div>
