@@ -1,10 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
+import Button from "react-bootstrap/Button";
 import WarningModalEdits from "./WarningModalEdits";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { GrSave } from "react-icons/gr";
-import { BsArrowCounterclockwise } from "react-icons/bs";
 import submitTopic from "../functions/submitTopic";
 // import deleteTopic from "../functions/deleteTopic";
 import unlockTopic from "../functions/unlockTopic";
@@ -63,7 +61,7 @@ const TopicModal = (props) => {
     unlockTopic(topicDraft, currTopicIndex, recdLog);
   };
 
-  const changeContentType = (passedContentType) => {
+  const changeTopicHierarchy = (passedContentType) => {
     setTopicDraft((currDraft) => {
       const newTopicDraft = { ...currDraft, topicLevel: passedContentType };
       return newTopicDraft;
@@ -74,7 +72,7 @@ const TopicModal = (props) => {
   return (
     <>
       <Modal
-        size="md"  // Large is size of MainModal. Leave this out for size Medium
+        size="lg"  // Large is size of MainModal. Leave this out for size Medium
         centered
         show={showTopicModal}
         animation={false}
@@ -82,15 +80,21 @@ const TopicModal = (props) => {
           safeModalHide(madeEdits);
         }}
       >
-        <Modal.Body>
-          <div>
-
-            <div className="flex items-center">
-
-              <div className="text-xl font-500 mx-3">Topic Hierarchy Level:</div>
-
+        <Modal.Body className="p-4">
+          <div name="dropdown-title-container" className="flex flex-col">
+            <input
+              name="topic"
+              type="text"
+              className="text-2xl w-full mb-2 p-2 pl-4 outline-none rounded-lg font-500 focus:bg-gray-200 hover:bg-gray-200"
+              placeholder="Click to enter topic title here"
+              value={topicDraft.topic}
+              onChange={handleInputChange}
+            />
+            
+            <div className="flex items-center ml-4">
+              <div className="mr-4 text-lg">Hierarchy Level:</div>
               <Dropdown>
-                <Dropdown.Toggle id="dropdown-basic" className="px-3 mx-2 my-2 text-lg text-gray-800 bg-gray-200 border border-gray-700 rounded-lg shadow-sm">
+                <Dropdown.Toggle size="sm" id="dropdown-basic" className="text-lg text-blue-600 flex items-center rounded-lg bg-white border-none">
                   {(topicDraft.topicLevel === "") ?
                     <>Topic Hierarchy Level</>
                     :
@@ -99,49 +103,36 @@ const TopicModal = (props) => {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => {changeContentType("Main Topic")}}>Main Topic</Dropdown.Item>
-                  <Dropdown.Item onClick={() => {changeContentType("Sub-Topic")}}>Sub-Topic</Dropdown.Item>
-                  <Dropdown.Item onClick={() => {changeContentType("Sub-Sub-Topic")}}>Sub-Sub-Topic</Dropdown.Item>
+                  <Dropdown.Item onClick={() => {changeTopicHierarchy("Main Topic")}}>Main Topic</Dropdown.Item>
+                  <Dropdown.Item onClick={() => {changeTopicHierarchy("Sub-Topic")}}>Sub-Topic</Dropdown.Item>
+                  <Dropdown.Item onClick={() => {changeTopicHierarchy("Sub-Sub-Topic")}}>Sub-Sub-Topic</Dropdown.Item>
                 </Dropdown.Menu>
-              </Dropdown>
+            </Dropdown>
             </div>
 
-            <input
-              name="topic"
-              type="text"
-              className="text-xl w-full mx-2 mt-3 p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
-              placeholder="Click to enter title here"
-              value={topicDraft.topic}
-              onChange={handleInputChange}
-            />
           </div>
         </Modal.Body>
 
-        <Modal.Footer>
-          <button
-            className="stdButton"
+        <Modal.Footer className="flex-nowrap relative">
+          <Button
+            className="flex items-center bg-white hover:bg-red-100 border-none absolute left-2"
+            onClick={() => setShowWarningTopicDeleteModal(true)}
+          >
+            <div className="text-red-400 hover:text-red-600">Archive Topic</div>
+          </Button>
+
+          <Button
+            className="flex items-center bg-white hover:bg-gray-100 border-blue-600 hover:border-blue-700 opacity-70 hover:opacity-100"
             onClick={() => {
               console.log("TopicModal.js Clicked Abandon Changes");
               setShowTopicModal(false);
-            }}>
-            <div className="flex flex-row items-center">
-              <BsArrowCounterclockwise className="text-lg"/>
-              <div className="pl-2 py-1">Abandon Changes</div>
-            </div>
-          </button>
-
-          <button
-            className="stdButton"
-            onClick={() => setShowWarningTopicDeleteModal(true)}
+            }}
           >
-            <div className="flex flex-row items-center">
-              <FaRegTrashAlt/>
-              <div className="pl-2 py-1">Archive Topic</div>
-            </div>
-          </button>
+            <div className="text-blue-700">Abandon Changes</div>
+          </Button>
 
-          <button
-            className="stdButton"
+          <Button
+            className="flex items-center bg-blue-600 border-blue-600 hover:bg-blue-700 hover:border-blue-700"
             onClick={() => {
               submitTopic(
                 emptyTopic,
@@ -153,12 +144,11 @@ const TopicModal = (props) => {
                 creatingTopicFlag,
                 recdLog
               );
-            }}>
-            <div className="flex flex-row items-center">
-              <GrSave/>
-              <div className="pl-2 py-1">Save Changes</div>
-            </div>
-          </button>
+            }}
+          >
+            Save Changes
+          </Button>
+
         </Modal.Footer>
 
         <WarningModalEdits showWarningModalEdits={showWarningModalEdits} setshowWarningModalEdits={setshowWarningModalEdits} />

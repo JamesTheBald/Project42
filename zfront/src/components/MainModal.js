@@ -225,7 +225,7 @@ const MainModal = (props) => {
           <Modal.Footer className="relative">
             <Button
               onClick={() => setShowWarningDeleteModal(true)}
-              className="flex items-center self-start bg-white border-none text-red-400 absolute left-2 hover:text-red-600"
+              className="flex items-center self-start bg-white hover:bg-red-100 border-none text-red-400 absolute left-2 hover:text-red-600"
             >
               Archive Post
             </Button>
