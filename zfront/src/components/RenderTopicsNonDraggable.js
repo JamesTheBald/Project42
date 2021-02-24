@@ -23,11 +23,10 @@ const RenderTopicsNonDraggable = (props) => {
             <div
               key={index}
               className="flex flex-col items-center absolute text-gray-800"
-              style={{ top: topic.positionY, left: topic.positionX }} // , zIndex: -1
+              style={{ top: topic.positionY, left: topic.positionX }}
             >
               {/* Topic Stub */}
               <div
-                // className="z-10"
                 onClick={() => {
                   setCreatingTopicFlag(false);
                   setCurrTopicIndex(index);
@@ -37,15 +36,30 @@ const RenderTopicsNonDraggable = (props) => {
 
                 {/* Be sure to use the same formatting on RenderTopicsDraggable.js  */}
                 {/* (This is WET but React-Draggable doesn't seem to work on sub-components.)  */}
-                <div className="text-blue-400 px-3 py-1 bg-gray-800 opacity-90  rounded-xl z-10">
+                <div className="topic relative">
                   {(topic.topicLevel === "Main Topic") ?
-                    topic.topic ? <div className="text-9xl">{topic.topic}</div> : <div> Click to edit </div>
+                    topic.topic ? 
+                    <div className="mainTopic">
+                      {topic.topic}
+                      <div className="backgnd">{topic.topic}</div>
+                    </div> 
+                    : <div> Click to edit </div>
 
                   : (topic.topicLevel === "Sub-Topic") ?
-                    topic.topic ? <div className="text-5xl">{topic.topic}</div> : <div> Click to edit </div>
-
-                  : 
-                    topic.topic ? <div className="text-md">{topic.topic}</div> : <div> Click to edit </div>
+                    topic.topic ?
+                    <div className="subTopic">
+                      {topic.topic}
+                      <div className="backgnd subTopic">{topic.topic}</div>
+                    </div> 
+                    : <div> Click to edit </div>
+            
+                  : topic.topic ? 
+                    <div className="subSubTopic">
+                      {topic.topic}
+                      <div className="backgnd subSubTopic">{topic.topic}</div>
+                    </div> 
+                    : <div> Click to edit </div>
+                    
                   }
                 </div>
 

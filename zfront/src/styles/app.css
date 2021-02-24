@@ -8,23 +8,40 @@ div {
 }
 
 .backgroundImage {
-  background-image: url('../images/tuscany-italy-landscape.jpg');
+  background-image: url('../images/4915_wide_scaled.jpg');
   /* background-color: #dae3f4; */
 
   object-fit: contain;
-  height: 2160px;   /* Set equal to height of the image. Also set imageHeight on AlphaComponent.js ~line 24 */
-  width: 3840px;    /* Set equal to the width of the image. Also set imageWidth on AlphaComponen.js */
+  width: 4676px;    /* Set equal to the width of the image. Also set imageWidth on AlphaComponen.js */
+  height: 1998px;   /* Set equal to height of the image. Also set imageHeight on AlphaComponent.js ~line 24 */
 }
 /* tuscany-italy-landscape.jpg   height: 2160px;   width: 3840px; */
 /* purple-red_nebula_starfield_Darker_3840px.jpg height: 5120px;  width: 2880px */
 /* ../images/galaxy_over_waters_&_cloud_7680px.jpg   height: 4320px;  width: 7680px; */
 
-
 .backgroundColor {
-  background-color: #5d2f17
-  /* #9c5924 */
-   /* #d7974c; */
+  background-color: #130b08
+  /* Observatory background colors: foreground ground: #130b08  */
+  /* Italian countryside background colors: #9c5924 or #d7974c; */
 }
+
+
+ .topic {
+  color: rgba(253, 230, 138);
+  z-index: 20
+}
+
+ .topic .backgnd { 
+  opacity: 70%;
+  background-color: rgba(117, 117, 117);
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  border-radius: 0.75rem;
+  transform: translateY(-100%);
+  left: 50%;
+  transform: translateX(-50%)
+}
+
 
 .tooltipBase {
   position: relative;
@@ -47,11 +64,3 @@ div {
   color: magenta
 }
 
-/* .controls {
-  font-size: 20px;
-  padding: 10px;
-  margin: 1px;
-  background: #92adba;
-  border-radius: 3px;
-  z-index: 20;
-} */

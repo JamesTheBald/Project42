@@ -25,19 +25,19 @@ const evntLog = false;  //  true logs events, e.g. onClick, onKeyDown
 
 const stubScale = 0.2;
 
-const imageWidth = 3840; // Set these to equal background image dimensions
-const imageHeight = 2160;
+const imageWidth = 4676; // Set these to equal background image dimensions, in pixels
+const imageHeight = 1998;
 const initialPanX = 0;
-const initialPanY = 80;
+const initialPanY = 0;
 
-const blurKickInZoomLevel = 0.8;
-const blurStepOnStart = 3;  // in pixels of blur
-const blurRampUpRate = 12;   // as a multiplier of zoomLevel, to give pixels of blur
+const blurKickInZoomLevel = 2.25;
+const blurStepOnStart = 0;  // step change in blurring (in pixels) when blurKickInZoomLevel is reached
+const blurRampUpRate = 1.5;   // as a multiplier of zoomLevel, to give pixels of blur
 // const blurKickInZoomLevel = 0.5;
 // const blurStepOnStart = 15;
 // const blurRampUpRate = 3;
 
-const extraZoomOutFactor = 0.9;
+const extraZoomOutFactor = 1.1;
 const minZoomScaleByWidth = (screen.width/imageWidth) * extraZoomOutFactor;
 const minZoomScaleByHeight = (screen.height/imageHeight) * extraZoomOutFactor;
 const minZoomScale = (minZoomScaleByWidth < minZoomScaleByHeight) ? minZoomScaleByWidth : minZoomScaleByHeight;
@@ -85,7 +85,7 @@ const AlphaComponent = () => {
   // const [zoomSpeed, setZoomSpeed] = useState(200);
   const [panX, setPanX] = useState(initialPanX);
   const [panY, setPanY] = useState(initialPanY);
-  const [sliderValue, setSliderValue] = useState(200);
+  const [zoomSpeed, setZoomSpeed] = useState(200);
 
   const [topicsDataArray, setTopicsDataArray] = useState();
   const [showTopicModal, setShowTopicModal] = useState(false);
@@ -242,7 +242,7 @@ const AlphaComponent = () => {
   // MAIN AlphaComponent RETURN
   return (
     <div className="backgroundColor" style={{width: `${imageWidth}px`, height: `${imageHeight}px`}}>
-      
+
       <NavBar className="absolute"
         emptyPost={emptyPost}
         showWelcomeModal={showWelcomeModal}
@@ -263,8 +263,9 @@ const AlphaComponent = () => {
         setTopicDraft={setTopicDraft}
         resetZoom={resetZoom}
         zoomScale={zoomScale}
-        sliderValue={sliderValue}
-        setSliderValue={setSliderValue}
+        setZoomScale={setZoomScale}
+        zoomSpeed={zoomSpeed}
+        setZoomSpeed={setZoomSpeed}
         recdLog={recdLog}
       />
 
@@ -279,7 +280,7 @@ const AlphaComponent = () => {
       <div
         ref={stubsDraggable}
         onClick={(event) => createPostAtMouseClick(event)}
-        className="absolute"    // className="absolute" is required here
+        className="absolute z-0"    // className="absolute" is required here
         style={{width: `${imageWidth}px`, height: `${imageHeight}px`}}
       >
       
@@ -322,7 +323,7 @@ const AlphaComponent = () => {
           minZoomScale={minZoomScale}
           panX={panX}
           panY={panY}
-          sliderValue={sliderValue}
+          zoomSpeed={zoomSpeed}
           // zoomedOrPanned={zoomedOrPanned}
 
           postingsDataArray={postingsDataArray}

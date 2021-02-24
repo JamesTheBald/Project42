@@ -72,7 +72,6 @@ const RenderStubsNonDraggable = (props) => {
                 // onMouseEnter={() => showToolTip(index)}
                 // onMouseLeave={() => hideToolTip(index)}
                 onClick={handleOnClick(post, index)}
-                // style={{  zIndex: "9999" }}
               >
                 <div
                   name="title-contributor-container"
