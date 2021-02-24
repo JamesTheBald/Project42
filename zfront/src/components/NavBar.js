@@ -73,7 +73,7 @@ const NavBar = (props) => {
       <nav className="w-full h-20 z-50 flex items-center text-blue-700 bg-gray-100 border-b border-gray-500 shadow-md relative">
         <div className="flex flex-row items-center z-50 relative">
 
-          <div className="p-2 text-2xl mx-4 font-roundy font-700 hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
+          <div className="p-2 text-2xl ml-8 mr-4 font-roundy font-700 hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
             Project 42
           </div>
           <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} animation={false} />

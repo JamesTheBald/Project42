@@ -78,7 +78,7 @@ const RenderTopicsDraggable = (props) => {
                   : <div> Click to edit </div>
           
                 : topic.topic ? 
-                  <div className="text-lg px-2 py-1 text-yellow-400 bg-gray-800 opacity-80 rounded-md">
+                  <div className="text-md px-2 py-1 text-yellow-400 bg-gray-800 opacity-80 rounded-md">
                     {topic.topic}
                   </div> 
                   : <div> Click to edit </div>
