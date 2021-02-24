@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
+import DropdownMenu from "react-bootstrap/DropdownMenu";
 
 import WelcomeModal from "./WelcomeModal";
 import ZoomSpeedSlider from "./ZoomSpeedSlider";
@@ -40,10 +40,10 @@ const NavBar = (props) => {
   // const recdLog=props.recdLog;
   
 
-  const handleSelect = (event) => {
-    console.log(event);
-    setSearchTerm(event);
-  };
+  // const handleSelect = (event) => {
+  //   console.log("NavBar.js handleSelect event=",event);
+  //   setSearchTerm(event);
+  // };
 
   const zoomIn = () => {
     setZoomScale(currZoomScale => {
@@ -81,7 +81,7 @@ const NavBar = (props) => {
           <div className="flex flex-row items-center pt-1">
             {/* 'Create Post' link */}
             <div
-              className="ml-8 p-2 pt-2 font-500 hover:text-blue-400"
+              className="ml-10 px-2 font-500 hover:text-blue-400"
               onClick={() => {
                 console.log("NavBar.js 'Create Post' Clicked. So creatingPostFlag=true");
                 setCreatingPostFlag(true);
@@ -99,7 +99,7 @@ const NavBar = (props) => {
 
             {/* 'Create Topic' link */}
             <div
-              className="ml-4 p-2 pt-2 font-500 hover:text-blue-400"
+              className="ml-5 px-2 font-500 hover:text-blue-400"
               onClick={() => {
                 console.log("NavBar.js 'Create Topic' Clicked. So creatingTopicFlag=true");
                 setCreatingTopicFlag(true);
@@ -114,21 +114,23 @@ const NavBar = (props) => {
               Create Topic
             </div>
 
-
-
-            <DropdownButton
-              // id="variants-outline-Primary"
-              // id={`dropdown-variants-Secondary`}
-              style={{backgroundColor: "rgba(245, 245, 245)"}}
-              title={searchTerm}
-              onSelect={handleSelect}
-              className="ml-12 mr-1 mb-1"
-            >
-              <Dropdown.Item eventKey="Search by Title ">Search by Title</Dropdown.Item>
-              <Dropdown.Item eventKey="Search by Tag ">Search by Tag</Dropdown.Item>
-              <Dropdown.Item eventKey="Search by Contributor ">Search by Contributor</Dropdown.Item>
-            </DropdownButton>
-            
+            <Dropdown>
+              <Dropdown.Toggle
+                // id="variants-outline-Primary"
+                // id={`dropdown-variants-Secondary`}
+                // style={{backgroundColor: "rgba(245, 245, 245)"}}
+                title={searchTerm}
+                // onClick={setSearchTerm()}
+                className="ml-14 mr-1 text-sm text-gray-800 bg-gray-300 border-gray-700"
+              >
+                {searchTerm}
+              </Dropdown.Toggle>
+              <DropdownMenu>
+                <Dropdown.Item onSelect={ () => setSearchTerm("Search by Title ")}>Search by Title</Dropdown.Item>
+                <Dropdown.Item onSelect={ () => setSearchTerm("Search by Tag ")}>Search by Tag</Dropdown.Item>
+                <Dropdown.Item onSelect={ () => setSearchTerm("Search by Contributor ")}>Search by Contributor</Dropdown.Item>
+              </DropdownMenu>
+            </Dropdown>
 
 
                                                               {/* Yes, this next section is quite 'WET'. Oops! */}
@@ -144,8 +146,7 @@ const NavBar = (props) => {
                 >
                 </input>
                 <button
-                  className="ml-2 stdButton"
-                              // px-3 py-1 text-gray-800 bg-gray-400 border border-gray-800 rounded shadow-sm
+                  className="ml-2 stdButton bg-gray-300 hover:text-blue-600"
                   onClick={() => onClickFindByTitle(searchTitle, setPostingsDataArray)}>
                   Search
                 </button>
@@ -164,7 +165,7 @@ const NavBar = (props) => {
                 >
                 </input>
                 <button
-                  className="ml-2 stdButton"
+                  className="ml-2 stdButton bg-gray-300 hover:text-blue-600"
                   onClick={() => onClickFindByTags(searchTags, setPostingsDataArray)}>
                   Search
                 </button>
@@ -183,7 +184,7 @@ const NavBar = (props) => {
                 >
                 </input>
                 <button
-                  className="ml-2 stdButton"
+                  className="ml-2 stdButton bg-gray-300 hover:text-blue-600"
                   onClick={() => onClickFindByName(searchName, setPostingsDataArray)}>
                   Search
                 </button>
@@ -191,7 +192,7 @@ const NavBar = (props) => {
             )}
 
             <button
-              className="stdButton"
+              className="stdButton bg-gray-300 hover:text-blue-600"
               onClick={() => {
                 setSearchTitle("");
                 onClickFindByTitle(searchTitle, setPostingsDataArray);
@@ -205,28 +206,28 @@ const NavBar = (props) => {
 
             <div className="flex flexrow items-center pt-1">
               <button
-                className="ml-14 stdButton py-0"
+                className="ml-14 stdButton py-0 bg-gray-100 hover:text-blue-600"
                 onClick={() => setZoomScale( () => zoomIn() )}>
                 +
               </button>
 
               <button
-                className="ml-2 stdButton py-0"
+                className="ml-2 stdButton py-0 bg-gray-100 hover:text-blue-600"
                 onClick={() => setZoomScale( () => zoomOut() )}>
                 -
               </button>
 
               <button
-                className="ml-2 stdButton py-0"
+                className="ml-2 stdButton bg-gray-300 py-0 hover:text-blue-600"
                 onClick={() => resetZoom() }>
-                Reset Zoom
+                Reset
               </button>
 
               <div className="flex items-center">
 
-                <div className="ml-12 mr-2 font-500">Zoom Speed</div>
+                <div className="ml-14 mr-2 font-500">Zoom Speed</div>
 
-                <div className="pt-1">
+                <div className="pt-2">
                   <ZoomSpeedSlider 
                     zoomSpeed={zoomSpeed} 
                     setZoomSpeed={setZoomSpeed} 

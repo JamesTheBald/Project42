@@ -21,14 +21,14 @@ const stubScale = 0.2;
 
 const imageWidth = 4676; // Set these to equal background image dimensions, in pixels
 const imageHeight = 1998;
-const initialPanX = -100;
+const initialPanX = 0;
 const initialPanY = 0;
 
 const blurKickInZoomLevel = 2.25;
 const blurStepOnStart = 0;  // step change in blurring (in pixels) when blurKickInZoomLevel is reached
 const blurRampUpRate = 1.5;   // as a multiplier of zoomLevel, to give pixels of blur
 
-const extraZoomOutFactor = 0.88;
+const extraZoomOutFactor = 1;
 const displayWidth = window.innerWidth;
 const displayHeight = window.innerHeight;
 
