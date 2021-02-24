@@ -5,7 +5,9 @@
 
 @layer components { .modalField { @apply w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200; }}
 
-@layer components { .stdButton { @apply px-3 py-1 text-gray-800 bg-gray-400 border border-gray-800 rounded-lg shadow-sm }}
+@layer components { .stdButton { @apply px-2 py-1 text-sm text-gray-700 bg-gray-200 border border-gray-700 rounded-lg shadow-sm }}
+@layer components { .searchTextInput { @apply w-48 p-1 text-gray-800 bg-white rounded-lg border border-gray-600 shadow-inner }}
+
 
 
 @layer components { .stubWrapper { @apply text-xs flex flex-col items-center absolute text-gray-900 }}
