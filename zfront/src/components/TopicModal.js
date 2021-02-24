@@ -107,7 +107,7 @@ const TopicModal = (props) => {
                   <Dropdown.Item onClick={() => {changeTopicHierarchy("Sub-Topic")}}>Sub-Topic</Dropdown.Item>
                   <Dropdown.Item onClick={() => {changeTopicHierarchy("Sub-Sub-Topic")}}>Sub-Sub-Topic</Dropdown.Item>
                 </Dropdown.Menu>
-            </Dropdown>
+              </Dropdown>
             </div>
 
           </div>
