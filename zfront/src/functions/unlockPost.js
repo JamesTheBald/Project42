@@ -5,10 +5,9 @@ const unlockPost = (post, index, recdLog) => {
   recdLog && console.log("unlockPost.js updatePostOnDB post=", post);
 
   post = { ...post, locked: false };
+  console.log("unlockPost.js runs. post=",post)
 
-  updatePostOnDB(post, index).then((response) => {
-    console.log("unlockPost.js updatePostOnDB response=", response);
-  });
+  updatePostOnDB(post, index);
 }
 
 export default unlockPost;

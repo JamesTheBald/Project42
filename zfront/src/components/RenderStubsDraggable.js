@@ -22,6 +22,7 @@ const RenderStubsDraggable = (props) => {
   const stubScale = props.stubScale;
   const recdLog = props.recdLog;
   const posnLog = props.posnLog;
+  const evntLog = props.posnLog;
 
   const [showWarningModalLocked, setShowWarningModalLocked] = useState(false);
   const [dragStopped, setDragStopped] = useState(true);
@@ -96,7 +97,7 @@ const RenderStubsDraggable = (props) => {
               >
                 <div className="stubWrapper">
                   {/* Above line's absolute positioning is required. Scaling must be in line below.  */}
-                  <div className="flex flex-col items-center" style={{transform: `scale(${stubScale})`}}>
+                  <div className="flex flex-col items-center relative" style={{transform: `scale(${stubScale})`}}>
 
 
                     {/* Stub */}
@@ -148,8 +149,8 @@ const RenderStubsDraggable = (props) => {
                     </div>
 
 
-                    {/*  Dragging Selection Overlay: an invisible area that overlays the stub, to limit expance of stub dragging selectibility */}
-                    <span className="tooltipItself visible w-60 h-24" // transform -translate-y-24
+                    {/*  Dragging Selection Overlay: an invisible area over the stub, to limit expance of stub dragging selectibility */}
+                    <span className="w-60 h-24 z-50"
                       style={{position: "absolute",
                         bottom: "0%",
                         left: "50%",
@@ -157,15 +158,15 @@ const RenderStubsDraggable = (props) => {
                       }}
                       onMouseEnter={ () => {
                         setDragStopped(false)
-                        console.log("Moused over Dragging Selection Overlay. dragStopped=",dragStopped)
+                        evntLog && console.log("Moused over Dragging Selection Overlay. dragStopped=",dragStopped)
                       }}
                       onMouseMove={ () => {
                         setDragStopped(false)
-                        console.log("Mouse moved over Dragging Selection Overlay. dragStopped=",dragStopped)
+                        evntLog && console.log("Mouse moved over Dragging Selection Overlay. dragStopped=",dragStopped)
                       }} 
                       onMouseLeave={ () => {
                         setDragStopped(true)
-                        console.log("Mouse Left Dragging Selection Overlay. dragStopped=",dragStopped)
+                        evntLog && console.log("Mouse Left Dragging Selection Overlay. dragStopped=",dragStopped)
                       }}
                     />
 

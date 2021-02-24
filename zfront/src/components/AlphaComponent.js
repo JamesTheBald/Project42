@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-// import Button from "react-bootstrap/Button";
 
 import NavBar from "./NavBar";
 import MainModal from "./MainModal";
@@ -11,17 +10,12 @@ import AdminControls from "./AdminControls";
 import retrievePosts from "../functions/retrievePosts";
 import retrieveTopics from "../functions/retrieveTopics";
 import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
-// import unlockAll from "../functions/unlockAll";
-// import unarchiveAllPosts from "../functions/unarchiveAllPosts";
-// import unarchiveAllTopics from "../functions/unarchiveAllTopics";
-// import removeAllPosts from "../functions/removeAllPosts";
-// import removeAllTopics from "../functions/removeAllTopics";
 
 
-const posnLogKey = true;  //  true logs most important Zoompan scale and panX & panY positions
+const posnLogKey = false;  //  true logs most important Zoompan scale and panX & panY positions
 const posnLog = false;  //  true logs all Zoompan scale and panX & panY positions
 const recdLog = false;  //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
-const evntLog = false;  //  true logs events, e.g. onClick, onKeyDown
+const evntLog = true;  //  true logs events, e.g. onClick, onKeyDown
 
 const stubScale = 0.2;
 
@@ -33,9 +27,6 @@ const initialPanY = 0;
 const blurKickInZoomLevel = 2.25;
 const blurStepOnStart = 0;  // step change in blurring (in pixels) when blurKickInZoomLevel is reached
 const blurRampUpRate = 1.5;   // as a multiplier of zoomLevel, to give pixels of blur
-// const blurKickInZoomLevel = 0.5;
-// const blurStepOnStart = 15;
-// const blurRampUpRate = 3;
 
 const extraZoomOutFactor = 1.1;
 const minZoomScaleByWidth = (screen.width/imageWidth) * extraZoomOutFactor;
@@ -82,10 +73,9 @@ const AlphaComponent = () => {
   const [dragMode, setDragMode] = useState(false);
   const [adminMode, setAdminMode] = useState(false);
   const [zoomScale, setZoomScale] = useState(minZoomScale);
-  // const [zoomSpeed, setZoomSpeed] = useState(200);
   const [panX, setPanX] = useState(initialPanX);
   const [panY, setPanY] = useState(initialPanY);
-  const [zoomSpeed, setZoomSpeed] = useState(200);
+  const [zoomSpeed, setZoomSpeed] = useState(250);
 
   const [topicsDataArray, setTopicsDataArray] = useState();
   const [showTopicModal, setShowTopicModal] = useState(false);
@@ -98,11 +88,9 @@ const AlphaComponent = () => {
   const backgroundImage = useRef(null);
   const stubDragged = useRef(false);
   const topicDragged = useRef(false);
-  // const zoomedOrPanned = useRef(false);
-  // zoomedOrPanned.current = false;
 
 
-  console.log("AlphaComponent.js begins...");
+  recdLog && console.log("AlphaComponent.js begins...");
   recdLog && console.log("postingsDataArray=", postingsDataArray);
   recdLog && console.log("postDraft=", postDraft);
   recdLog && console.log("topicsDataArray=", topicsDataArray);
@@ -116,9 +104,6 @@ const AlphaComponent = () => {
     setPanY(stats.positionY);
 
     setBlurLevel((zoomScale < blurKickInZoomLevel) ? 1 : (zoomScale*blurRampUpRate - blurKickInZoomLevel * blurRampUpRate -1 +blurStepOnStart))
-
-    // zoomedOrPanned.current = true;
-    // recdLog && console.log("updateZoomPan() zoomedOrPanned.current=", zoomedOrPanned.current);
   }
 
 
@@ -144,15 +129,8 @@ const AlphaComponent = () => {
     scrollToTopLeft();
   }
 
-  // useEffect(() => {
-  //   window.focus()
-  //   resetZoom();
-  // }, []);
-
 
   useEffect(() => {
-    // console.log("AlphaComponent.js useEffect zoomScale=", zoomScale);
-    // console.log("AlphaComponent.js useEffect ref.current =", ref.current);
     let adjustedPanX = imageWidth / 2 - imageWidth / (2 * zoomScale) + panX / zoomScale;
     let adjustedPanY = imageHeight / 2 - imageHeight / (2 * zoomScale) + panY / zoomScale;
 
@@ -275,7 +253,6 @@ const AlphaComponent = () => {
         style={{filter: `blur(${blurLevel}px)`}}
       />
 
-
       {/* Draggable Mode */}
       <div
         ref={stubsDraggable}
@@ -284,7 +261,6 @@ const AlphaComponent = () => {
         style={{width: `${imageWidth}px`, height: `${imageHeight}px`}}
       >
       
-
         {dragMode && (
           <>
             <RenderStubsDraggable
@@ -300,6 +276,7 @@ const AlphaComponent = () => {
               stubScale={stubScale}
               recdLog={recdLog}
               posnLog={posnLog}
+              evntLog={evntLog}
             />
             <RenderTopicsDraggable
               topicsDataArray={topicsDataArray}
@@ -324,7 +301,6 @@ const AlphaComponent = () => {
           panX={panX}
           panY={panY}
           zoomSpeed={zoomSpeed}
-          // zoomedOrPanned={zoomedOrPanned}
 
           postingsDataArray={postingsDataArray}
           currPostIndex={currPostIndex}

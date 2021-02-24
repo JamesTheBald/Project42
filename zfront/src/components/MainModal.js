@@ -78,7 +78,11 @@ const MainModal = (props) => {
     } else {
       setShowMainModal(false);
     }
-    unlockPost(postDraft, currPostIndex, recdLog);
+    if (postDraft?._id) {
+      unlockPost(postDraft, currPostIndex, recdLog);
+    } else {
+      console.log("unlockPost not called because postDraft?._id is falsy")
+    }
   };
 
   return (

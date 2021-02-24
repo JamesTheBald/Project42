@@ -31,7 +31,7 @@ const NavBar = (props) => {
   const setCreatingTopicFlag= props.setCreatingTopicFlag;
   const setTopicDraft= props.setTopicDraft;
   const resetZoom= props.resetZoom;
-  let zoomScale = props.zoomScale;
+  // let zoomScale = props.zoomScale;
   let setZoomScale = props.setZoomScale;
   let zoomSpeed = props.zoomSpeed;
   const setZoomSpeed = props.setZoomSpeed;
@@ -204,7 +204,7 @@ const NavBar = (props) => {
               />
             </div>
 
-            <div>Zoom={zoomScale}</div>
+            {/* <div>Zoom={zoomScale}</div> */}
 
           </div>
 

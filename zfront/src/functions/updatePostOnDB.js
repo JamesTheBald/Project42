@@ -3,7 +3,7 @@ import PostingsAxios from "../services/PostingsAxios";
 const updatePostOnDB = (postDraft, currPostIndex) => {
   console.log("updatePostOnDB.js: writing postDraft=", postDraft, "to currPostIndex=", currPostIndex);
 
-  if (postDraft) {
+  if (postDraft?._id) {
 
     return PostingsAxios.update(postDraft._id, postDraft)
       .then((response) => {
@@ -14,7 +14,7 @@ const updatePostOnDB = (postDraft, currPostIndex) => {
       });
 
   } else {
-    console.log("updatePostOnDB.js: Error - received falsy postDraft");
+      console.log("updatePostOnDB.js: Error - received falsy postDraft?._id postDraft=", postDraft);
     return null
   }
 }

@@ -3,7 +3,7 @@ import updatePostOnDB from "../functions/updatePostOnDB";
 
 const lockPost = (post, index) => {
 
-  console.log("lockPost.js runs...");
+  console.log("lockPost.js runs. post=", post);
   post = { ...post, locked: true };
 
   updatePostOnDB(post, index)

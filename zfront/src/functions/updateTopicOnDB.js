@@ -3,7 +3,7 @@ import TopicsAxios from "../services/TopicsAxios";
 const updateTopicOnDB = (topicDraft, currTopicIndex) => {
   console.log("updateTopicOnDB.js: writing topicDraft=", topicDraft, "to currTopicIndex=", currTopicIndex);
 
-  if (topicDraft) {
+  if (topicDraft?._id) {
 
     return TopicsAxios.update(topicDraft._id, topicDraft)
       .then((response) => {
@@ -14,7 +14,7 @@ const updateTopicOnDB = (topicDraft, currTopicIndex) => {
       });
 
   } else {
-    console.log("updateTopicOnDB.js: Error - received falsy topicDraft");
+    console.log("updateTopicOnDB.js: Error - received falsy topicDraft?._id");
     return null
   }
 }
