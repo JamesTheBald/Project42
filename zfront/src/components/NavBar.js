@@ -3,7 +3,7 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 
 import WelcomeModal from "./WelcomeModal";
-import RangeSlider from "./RangeSlider";
+import ZoomSpeedSlider from "./ZoomSpeedSlider";
 import onClickFindByTitle from "../functions/onClickFindByTitle";
 import onClickFindByTags from "../functions/onClickFindByTag";
 import onClickFindByName from "../functions/onClickFindByName";
@@ -32,8 +32,9 @@ const NavBar = (props) => {
   const setTopicDraft= props.setTopicDraft;
   const resetZoom= props.resetZoom;
   let zoomScale = props.zoomScale;
-  let sliderValue = props.sliderValue;
-  const setSliderValue = props.setSliderValue;
+  let setZoomScale = props.setZoomScale;
+  let zoomSpeed = props.zoomSpeed;
+  const setZoomSpeed = props.setZoomSpeed;
   // const recdLog=props.recdLog;
   
 
@@ -45,8 +46,11 @@ const NavBar = (props) => {
 
   return (
     <>
-      <nav className="w-full h-20 flex items-center text-blue-200 bg-blue-900 fixed z-50">
-        <div className="flex flex-row items-baseline">
+      <nav className="w-full h-20 z-50 flex items-center text-blue-800 bg-gray-300 border-b border-gray-500 shadow-md relative"
+          // style={{ zIndex: 999}}
+          // backgroundColor: "#28436e"
+      >
+        <div className="flex flex-row items-baseline z-50 relative">
 
           <div className="p-2 text-2xl mx-4  hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
             Project 42
@@ -99,8 +103,8 @@ const NavBar = (props) => {
             <Dropdown.Item eventKey="Search by Tag ">Search by Tag</Dropdown.Item>
             <Dropdown.Item eventKey="Search by Contributor ">Search by Contributor</Dropdown.Item>
           </DropdownButton>
-
-          {/* Search by Title */}
+                                                            {/* Yes, this next section is quite 'WET'. Oops! */}
+          {/* Search by Title */} 
           {searchTerm === "Search by Title " && (   // string must exactly match eventKey above
             <div className="mx-4  flex flex-row">
               <input
@@ -112,7 +116,8 @@ const NavBar = (props) => {
               >
               </input>
               <button
-                className="ml-3 px-3 text-gray-800 bg-gray-300 rounded  hover:text-blue-600"
+                className="ml-3 stdButton"
+                             // px-3 py-1 text-gray-800 bg-gray-400 border border-gray-800 rounded shadow-sm
                 onClick={() => onClickFindByTitle(searchTitle, setPostingsDataArray)}>
                 Search
               </button>
@@ -131,7 +136,7 @@ const NavBar = (props) => {
               >
               </input>
               <button
-                className="ml-3 px-3 text-gray-800 bg-gray-300 rounded  hover:text-blue-600"
+                className="ml-3 stdButton"
                 onClick={() => onClickFindByTags(searchTags, setPostingsDataArray)}>
                 Search
               </button>
@@ -150,7 +155,7 @@ const NavBar = (props) => {
               >
               </input>
               <button
-                className="ml-3 px-3 text-gray-800 bg-gray-300 rounded  hover:text-blue-600"
+                className="ml-3 stdButton"
                 onClick={() => onClickFindByName(searchName, setPostingsDataArray)}>
                 Search
               </button>
@@ -158,7 +163,7 @@ const NavBar = (props) => {
           )}
 
           <button
-            className="px-2 py-1 text-gray-800 bg-gray-300 rounded  hover:text-blue-600"
+            className="stdButton"
             onClick={() => {
               setSearchTitle("");
               onClickFindByTitle(searchTitle, setPostingsDataArray);
@@ -172,7 +177,19 @@ const NavBar = (props) => {
 
 
           <button
-            className="ml-16 px-2 py-1 text-gray-800 bg-yellow-200 rounded  hover:text-blue-600 "
+            className="ml-16 px-3 py-1 text-gray-800 bg-yellow-200 rounded  hover:text-blue-600 "
+            onClick={() => setZoomScale( (currZoomScale) => setZoomScale(currZoomScale * (1 + zoomSpeed/400) ))}>
+            +
+          </button>
+
+          <button
+            className="ml-4 px-3 py-1 text-gray-800 bg-yellow-200 rounded  hover:text-blue-600 "
+            onClick={() => setZoomScale( (currZoomScale) => setZoomScale(currZoomScale * (1 - zoomSpeed/400) ))}>
+            -
+          </button>
+
+          <button
+            className="ml-4 px-2 py-1 text-gray-800 bg-yellow-200 rounded  hover:text-blue-600 "
             onClick={() => resetZoom() }>
             Reset Zoom
           </button>
@@ -181,12 +198,17 @@ const NavBar = (props) => {
 
             <div className="ml-10 mr-4">Zoom Speed:</div>
             <div className="pt-1">
-              <RangeSlider 
-                sliderValue={sliderValue} 
-                setSliderValue={setSliderValue} 
+              <ZoomSpeedSlider 
+                zoomSpeed={zoomSpeed} 
+                setZoomSpeed={setZoomSpeed} 
               />
             </div>
+
+            <div>Zoom={zoomScale}</div>
+
           </div>
+
+
 
         </div>
       </nav>

@@ -119,7 +119,7 @@ const TopicModal = (props) => {
 
         <Modal.Footer>
           <button
-            className="standardButton"
+            className="stdButton"
             onClick={() => {
               console.log("TopicModal.js Clicked Abandon Changes");
               setShowTopicModal(false);
@@ -131,7 +131,7 @@ const TopicModal = (props) => {
           </button>
 
           <button
-            className="standardButton"
+            className="stdButton"
             onClick={() => setShowWarningTopicDeleteModal(true)}
           >
             <div className="flex flex-row items-center">
@@ -141,7 +141,7 @@ const TopicModal = (props) => {
           </button>
 
           <button
-            className="standardButton"
+            className="stdButton"
             onClick={() => {
               submitTopic(
                 emptyTopic,
