@@ -7,10 +7,11 @@ import ContentTypeSelector from "./ContentTypeSelector";
 import SpicinessSelector from "./SpicinessSelector";
 import VoteCounter from "./VoteCounter";
 import WarningModalEdits from "./WarningModalEdits";
-import { FaRegUser, FaRegTrashAlt } from "react-icons/fa";
-import { AiOutlineTags } from "react-icons/ai";
+import { AiOutlineUser, AiOutlineTags } from "react-icons/ai";
 import { GrSave } from "react-icons/gr";
 import { BsArrowCounterclockwise } from "react-icons/bs";
+import { FiArchive } from "react-icons/fi";
+import { BiBullseye } from "react-icons/bi";
 import submitPost from "../functions/submitPost";
 import WarningDeleteModal from "../components/WarningDeleteModal";
 import unlockPost from "../functions/unlockPost";
@@ -126,7 +127,7 @@ const MainModal = (props) => {
                 type="text"
                 required
                 maxLength="75"
-                className="text-xl w-full p-1 font-500 focus:bg-gray-200 hover:bg-gray-200"
+                className="text-2xl w-full p-2 my-4 font-500 rounded-lg outline-none focus:bg-gray-200 hover:bg-gray-200"
                 placeholder="Click to enter title of post here"
                 value={postDraft.title}
                 onChange={handleInputChange}
@@ -134,23 +135,9 @@ const MainModal = (props) => {
               />
             </>
 
-            <div className="flex flex-row items-center p-1 mt-2">
-              <FaRegUser size="24" />
-              <input
-                name="contributors"
-                type="text"
-                required
-                className="modalField p-2"
-                placeholder="Enter firstname and last initial. e.g. Margo P."
-                value={postDraft.contributors}
-                onChange={handleInputChange}
-                onKeyDown={handleEnter}
-              />
-            </div>
-
             {postDraft?.createdAt && postDraft.updatedAt ? ( // If there aren't any dates, just skip this
               <>
-                <div className="flex flex-row p-1 mt-2">
+                <div className="flex flex-row p-2 mt-2">
                   {" "}
                   {/* Dates are read-only, and only shown for existing posts */}
                   <div className="flex flex-row">
@@ -165,14 +152,28 @@ const MainModal = (props) => {
               </>
             ) : (
                 <></>
-              )}
+            )}
 
             <div className="flex flex-row items-center p-1 mt-2">
-              <AiOutlineTags size="30" />
+              <AiOutlineUser size="30" className="text-blue-600"/>
+              <input
+                name="contributors"
+                type="text"
+                required
+                className="modalField p-2 rounded-lg outline-none"
+                placeholder="Enter firstname and last initial. (e.g. Margo P.)"
+                value={postDraft.contributors}
+                onChange={handleInputChange}
+                onKeyDown={handleEnter}
+              />
+            </div>
+
+            <div className="flex flex-row items-center p-1 mt-2">
+              <AiOutlineTags size="30" className="text-blue-600"/>
               <input
                 name="tags"
                 type="text"
-                className="modalField"
+                className="modalField p-2 rounded-lg outline-none"
                 placeholder="What tags are related to your post?"
                 value={postDraft.tags}
                 onChange={handleInputChange}
@@ -180,66 +181,65 @@ const MainModal = (props) => {
               />
             </div>
 
-            <ContentTypeSelector postDraft={postDraft} setPostDraft={setPostDraft}></ContentTypeSelector>
-
-            <div className="flex flex-row justify-between items-center w-2/5 p-1 mt-2">
-              <div className="font-500">Spiciness:</div>
-              <SpicinessSelector postDraft={postDraft} setPostDraft={setPostDraft} />
-            </div>
-
-            <div className="flex flex-row items-center w-2/5 p-1 mt-2">
-              <div className="font-500 w-1/2">Upvotes: </div>
-              <div className="w-4" />
-              <VoteCounter
-                postingsDataArray={postingsDataArray}
-                index={-1}
-                postDraft={postDraft}
-                setPostDraft={setPostDraft}
-                userVoted={userVoted}
-                setUserVoted={setUserVoted}
-              />
-            </div>
-
-            <div className="flex flex-col w-full p-1 mt-2">
-              <div className="font-500">Purpose:</div>
+            <div className="flex w-full p-1 mt-2">
+              <BiBullseye size="28" className="mt-1.5 text-blue-600"/>
               <textarea
                 name="purpose"
                 type="text"
-                className="w-full p-2"
+                className="modalField w-full p-2 outline-none rounded-lg"
                 value={postDraft.purpose}
                 placeholder="What does your post help readers accomplish?"
                 onChange={handleInputChange}
               />
             </div>
 
+
+            <div
+              name="contentType-spiciness-upvote-container"
+              className="flex pt-2 px-2 h-14 justify-between w-full"
+            >
+              <div className="w-1/3 mr-0.5 h-full flex justify-center items-center bg-gray-200 border-l border-r border-t rounded-t-lg">
+                <ContentTypeSelector postDraft={postDraft} setPostDraft={setPostDraft}></ContentTypeSelector>
+              </div>
+              <div className="w-1/3 h-full flex justify-center items-center bg-gray-200 border-l border-r border-t rounded-t-lg">
+                <SpicinessSelector postDraft={postDraft} setPostDraft={setPostDraft} />
+              </div>
+              <div className="w-1/3 ml-0.5 h-full flex justify-center items-center bg-gray-200 border-l border-r border-t rounded-t-lg">
+                <VoteCounter
+                  postingsDataArray={postingsDataArray}
+                  index={-1}
+                  postDraft={postDraft}
+                  setPostDraft={setPostDraft}
+                  userVoted={userVoted}
+                  setUserVoted={setUserVoted}
+                />
+              </div>
+            </div>
+
+
             <RichTextEditor postDraft={postDraft} setPostDraft={setPostDraft} />
+
+
           </Modal.Body>
 
-          <Modal.Footer>
-            <button
-              className="px-3 py-1 mx-2 bg-gray-200 border border-gray-700 rounded-lg shadow-sm"
-
-              onClick={() => {
-                console.log("MainModal.js Clicked Abandon Changes");
-                setShowMainModal(false);
-              }}>
-              <div className="flex flex-row items-center">
-                <BsArrowCounterclockwise className="text-lg"/>
-                <div className="pl-2 py-1">Abandon Changes</div>
-              </div>
-            </button>
-
+          <Modal.Footer className="relative">
             <Button
-              variant="danger"
               onClick={() => setShowWarningDeleteModal(true)}
+              className="flex items-center self-start bg-white border-none text-red-400 absolute left-2 hover:text-red-600"
             >
               Archive Post
-              <FaRegTrashAlt />
             </Button>
-
-            <Button type="submit">
+            <Button
+                className="flex items-center self-start bg-white text-blue-600 border-blue-600 hover:text-blue-700 hover:border-blue-700 hover:bg-gray-100"
+                onClick={() => {
+                  console.log("MainModal.js Clicked Abandon Changes");
+                  setShowMainModal(false);
+                }}
+              >
+                Abandon Changes
+            </Button>
+            <Button type="submit" className="flex items-center bg-blue-600 hover:bg-blue-700 border-blue-600">
               Save Changes
-              <GrSave />
             </Button>
           </Modal.Footer>
         </form>

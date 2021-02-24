@@ -5,12 +5,11 @@ import 'suneditor/dist/css/suneditor.min.css';
 
 const RichTextEditor = (props) => {
 
-  const [showToolbar, setShowToolbar] = useState(false)
+  const [showToolbar, setShowToolbar] = useState(false);
   let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
 
 
-  // Declare functions
   const handleSunEditorChange = (content) => {
 
     setPostDraft((currDraft) => {

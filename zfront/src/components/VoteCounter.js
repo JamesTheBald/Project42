@@ -38,8 +38,8 @@ const VoteCounter = (props) => {
               name="upvote-container"
               className="flex justify-center items-center w-1/2"
             >
-              { postDraft.upvotes }
-              <div onClick = { () => handleVoteCountChange()} className="m-2">
+              <div className="text-blue-600"> {postDraft.upvotes} </div>
+              <div onClick = { () => handleVoteCountChange()} className="m-2 text-blue-600">
                 <BiUpArrow/>
               </div>
             </div>
