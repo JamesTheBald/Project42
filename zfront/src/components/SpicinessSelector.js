@@ -73,7 +73,7 @@ const SpicinessSelector = (props) => {
               >
                 <GiChiliPepper
                   size="30"
-                  className="text-gray-600"
+                  className="text-gray-600 hover:text-green-700"
                 />
               </div>
               <div 
@@ -107,7 +107,7 @@ const SpicinessSelector = (props) => {
               >
                 <GiChiliPepper
                   size="30"
-                  className="text-gray-600"
+                  className="text-gray-600 hover:text-yellow-600"
                 />
               </div>
               <div
@@ -142,7 +142,7 @@ const SpicinessSelector = (props) => {
               >
                 <GiChiliPepper
                   size="30"
-                  className="text-gray-600"
+                  className="text-gray-600 hover:text-red-600"
                 />
               </div>
               <div
