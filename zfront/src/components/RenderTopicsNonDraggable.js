@@ -36,27 +36,24 @@ const RenderTopicsNonDraggable = (props) => {
 
                 {/* Be sure to use the same formatting on RenderTopicsDraggable.js  */}
                 {/* (This is WET but React-Draggable doesn't seem to work on sub-components.)  */}
-                <div className="topic relative">
+                <div>
                   {(topic.topicLevel === "Main Topic") ?
                     topic.topic ? 
-                    <div className="mainTopic">
+                    <div className="text-7xl px-6 text-yellow-400 bg-gray-800 opacity-80 rounded-xl">
                       {topic.topic}
-                      <div className="backgnd">{topic.topic}</div>
                     </div> 
                     : <div> Click to edit </div>
 
                   : (topic.topicLevel === "Sub-Topic") ?
                     topic.topic ?
-                    <div className="subTopic">
+                    <div className="text-3xl px-4 py-1 text-yellow-400 bg-gray-800 opacity-80 rounded-lg">
                       {topic.topic}
-                      <div className="backgnd subTopic">{topic.topic}</div>
                     </div> 
                     : <div> Click to edit </div>
             
                   : topic.topic ? 
-                    <div className="subSubTopic">
+                    <div className="text-lg px-2 py-1 text-yellow-400 bg-gray-800 opacity-80 rounded-md">
                       {topic.topic}
-                      <div className="backgnd subSubTopic">{topic.topic}</div>
                     </div> 
                     : <div> Click to edit </div>
                     
