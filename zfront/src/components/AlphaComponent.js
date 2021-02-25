@@ -46,8 +46,8 @@ const emptyPost = {
   contentType: "",
   spiciness: "",
   upvotes: 0,
-  positionX: 1200, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
-  positionY: 1150,
+  positionX: 1041, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
+  positionY: 1000,
   locked: false,
   archived: false
 };
