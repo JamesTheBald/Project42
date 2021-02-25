@@ -42,7 +42,9 @@ class ZoomPanNonDraggableStubs extends Component {
           scale={zoomScale}
           positionX={panX}
           positionY={panY}
-          onZoomChange={updateZoomPan}
+          // onZoomChange={updateZoomPan}  // removed as per https://github.com/prc5/react-zoom-pan-pinch/issues/84
+          onWheel={updateZoomPan}
+
           onPanning={updateZoomPan} 
           onPanningStop={updateZoomPan}
           onPinching={updateZoomPan}    // Guessing here!

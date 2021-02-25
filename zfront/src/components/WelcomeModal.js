@@ -42,8 +42,8 @@ function WelcomeModal(props) {
 
       <Modal.Body>
         <div className="text-lg text-center">
-          <div className="mt-10 text-xl italic text-gray-400">&quot;The answer to the great question of life the universe and everything is… 42!&quot;</div>
-          <div className="mt-4 text-md text-right mr-16 text-gray-400">- Supercomputer Deep Thought</div>
+          <div className="mt-10 text-xl italic text-gray-600">&quot;The answer to the great question of life the universe and everything is… 42!&quot;</div>
+          <div className="mt-4 text-md text-right mr-16 text-gray-600">- Supercomputer Deep Thought</div>
 
           <div className="text-left text-blue-700">
             <div className="mt-12 text-xl font-500 ml-12 ">Instructions</div>
