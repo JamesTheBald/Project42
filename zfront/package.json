@@ -3,14 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.1.1",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "autoprefixer": "^10.2.3",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
-    "postcss": "^8.2.4",
     "react": "^16.13.1",
     "react-bootstrap": "^1.4.3",
     "react-dom": "^16.13.1",
@@ -19,25 +18,27 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^4.0.1",
     "react-zoom-pan-pinch": "^1.6.1",
-    "suneditor-react": "^2.15.2",
-    "tailwindcss": "^2.0.2"
+    "suneditor-react": "^2.15.2"
   },
   "devDependencies": {
+    "@tailwindcss/postcss7-compat": "^2.0.3",
+    "autoprefixer": "^9.8.6",
     "eslint": "^7.19.0",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "postcss-cli": "^8.3.1"
+    "postcss": "^8.2.6",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
-    "tailbuild": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
-    "tailwatch": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css --watch",
-    "build:css": "postcss src/styles/tailwind.css -o src/styles/main.css",
     "tailwind:build": "NODE_ENV=production postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
     "tailwind:dev": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
+    "tailbuild": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
+    "tailwatch": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css --watch",
     "prestart": "npm run tailwind:dev",
     "prebuild": "npm run tailwind:build",
     "lint": "eslint ."
