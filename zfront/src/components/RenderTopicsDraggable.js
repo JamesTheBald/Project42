@@ -1,6 +1,7 @@
 import React from "react";
 import Draggable from "react-draggable";
 import updateTopicOnDB from "../functions/updateTopicOnDB";
+import TopicFormat from "./TopicFormat";
 
 
 const RenderTopicsDraggable = (props) => {
@@ -60,30 +61,9 @@ const RenderTopicsDraggable = (props) => {
                 defaultPosition={{ x: posnX[index], y: posnY[index] }}
               >
 
-              {/* Be sure to use the same formatting on RenderTopicsNonDraggable.js  */}
-              {/* (This is WET but React-Draggable doesn't seem to work on sub-components.)  */}
-              <div className="relative">
-                {(topic.topicLevel === "Main Topic") ?
-                  topic.topic ? 
-                  <div className="text-7xl px-6 text-yellow-400 bg-gray-800 opacity-80 rounded-xl">
-                    {topic.topic}
-                  </div> 
-                  : <div> Click to edit </div>
-
-                  : (topic.topicLevel === "Sub-Topic") ?
-                  topic.topic ?
-                  <div className="text-3xl px-4 py-1 text-yellow-400 bg-gray-800 opacity-80 rounded-lg">
-                    {topic.topic}
-                  </div> 
-                  : <div> Click to edit </div>
-          
-                : topic.topic ? 
-                  <div className="text-md px-2 py-1 text-yellow-400 bg-gray-800 opacity-80 rounded-md">
-                    {topic.topic}
-                  </div> 
-                  : <div> Click to edit </div>
-                }
-              </div>
+                <div>
+                  <TopicFormat topic={topic} />
+                </div>
 
               </Draggable>
             </div>
