@@ -15,9 +15,9 @@ import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 const posnLogKey = false;  //  true logs most important Zoompan scale and panX & panY positions
 const posnLog = false;  //  true logs all Zoompan scale and panX & panY positions
 const recdLog = false;  //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
-const evntLog = true;  //  true logs events, e.g. onClick, onKeyDown
+const evntLog = false;  //  true logs events, e.g. onClick, onKeyDown
 
-const stubScale = 0.2;
+const stubScale = 0.25;
 
 const imageWidth = 4676; // Set these to equal background image dimensions, in pixels
 const imageHeight = 1998;
@@ -39,8 +39,12 @@ const minZoomScale = (minZoomScaleByWidth < minZoomScaleByHeight) ? minZoomScale
 console.log("Pre-AlphaComponent: minZoomScaleByWidth=",minZoomScaleByWidth,", minZoomScaleByHeight", minZoomScaleByHeight)
 const maxZoomScale = 12;
 
+const minZoomSpeed = 40;
+const maxZoomSpeed = 600;
+
+
 const emptyPost = {
-  title: "",
+  title: "Click to Edit",
   contributors: "",
   tags: "",
   contentType: "",
@@ -53,7 +57,7 @@ const emptyPost = {
 };
 
 const emptyTopic = {
-  topic: "",
+  topic: "Click to Edit",
   topicLevel: "Main Topic",
   positionX: 1200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 1200,
@@ -81,7 +85,7 @@ const AlphaComponent = () => {
   const [zoomScale, setZoomScale] = useState(minZoomScale);
   const [panX, setPanX] = useState(initialPanX);
   const [panY, setPanY] = useState(initialPanY);
-  const [zoomSpeed, setZoomSpeed] = useState(250);
+  const [zoomSpeed, setZoomSpeed] = useState(400);
 
   const [topicsDataArray, setTopicsDataArray] = useState();
   const [showTopicModal, setShowTopicModal] = useState(false);
@@ -184,7 +188,7 @@ const AlphaComponent = () => {
   if (!postingsDataArray) {
     console.log("postingsDataArray is falsy so retrieving it from the DB. In the interim setting it to [emptyPost]");
     setPostingsDataArray([emptyPost]);
-    retrievePosts(setPostingsDataArray, emptyPost);
+    retrievePosts(setPostingsDataArray, emptyPost, recdLog);
   }
 
   // Retrive from DB into topicsDataArray, so topicsDataArray is never null
@@ -252,6 +256,8 @@ const AlphaComponent = () => {
         setZoomScale={setZoomScale}
         zoomSpeed={zoomSpeed}
         setZoomSpeed={setZoomSpeed}
+        minZoomSpeed={minZoomSpeed}
+        maxZoomSpeed={maxZoomSpeed}
         recdLog={recdLog}
       />
 
@@ -380,6 +386,7 @@ const AlphaComponent = () => {
           setPostingsDataArray = {setPostingsDataArray}
           topicsDataArray = {topicsDataArray}
           setTopicsDataArray = {setTopicsDataArray}
+          recdLog = {recdLog}
         />
 
       }

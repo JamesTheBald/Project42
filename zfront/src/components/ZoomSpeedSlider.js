@@ -5,6 +5,8 @@ const ZoomSpeedSlider = (props) => {
   
   let zoomSpeed = props.zoomSpeed;
   const setZoomSpeed = props.setZoomSpeed;
+  const minZoomSpeed = props.minZoomSpeed;
+  const maxZoomSpeed = props.maxZoomSpeed;
   
   return (
     <div>
@@ -13,8 +15,8 @@ const ZoomSpeedSlider = (props) => {
         height: "25px",
         color: "#d34444"
       }}
-        min={40} 
-        max={500}
+        min={minZoomSpeed} 
+        max={maxZoomSpeed}
         type="range"
         value={zoomSpeed}
         id="myRange"

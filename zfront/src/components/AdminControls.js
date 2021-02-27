@@ -18,7 +18,9 @@ const AdminControls = (props) => {
   const setPostingsDataArray = props.setPostingsDataArray
   const topicsDataArray = props.topicsDataArray
   const setTopicsDataArray = props.setTopicsDataArray
+  const recdLog = props.recdLog
 
+  
   return (
     <div>
       
@@ -39,7 +41,7 @@ const AdminControls = (props) => {
           <Button
             variant="outline-secondary"
             className="mx-2"
-            onClick={() => unarchiveAllPosts(setPostingsDataArray, emptyPost)}
+            onClick={() => unarchiveAllPosts(setPostingsDataArray, emptyPost, recdLog)}
           >
             Unarchive All Posts
           </Button>

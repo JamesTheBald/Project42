@@ -37,6 +37,9 @@ const NavBar = (props) => {
   let setZoomScale = props.setZoomScale;
   let zoomSpeed = props.zoomSpeed;
   const setZoomSpeed = props.setZoomSpeed;
+  const minZoomSpeed = props.minZoomSpeed;
+  const maxZoomSpeed = props.maxZoomSpeed;
+
   // const recdLog=props.recdLog;
   
 
@@ -70,7 +73,7 @@ const NavBar = (props) => {
 
   return (
     <>
-      <nav className="w-full h-20 z-50 flex items-center text-blue-700 bg-gray-100 border-b border-gray-500 shadow-md relative">
+      <nav className="w-full h-20 z-50 flex items-center text-blue-700 bg-white border-b border-gray-500 shadow-md relative">
         <div className="flex flex-row items-center z-50 relative">
 
           <div className="p-2 text-2xl ml-8 mr-4 font-roundy font-700 hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
@@ -230,7 +233,9 @@ const NavBar = (props) => {
                 <div className="pt-2">
                   <ZoomSpeedSlider 
                     zoomSpeed={zoomSpeed} 
-                    setZoomSpeed={setZoomSpeed} 
+                    setZoomSpeed={setZoomSpeed}
+                    minZoomSpeed={minZoomSpeed}
+                    maxZoomSpeed={maxZoomSpeed}
                   />
                 </div>
               </div>

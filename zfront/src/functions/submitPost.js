@@ -23,14 +23,14 @@ const submitPost = (
 
     createPostOnDataArray(setPostingsDataArray, postDraft);
     createPostOnDB(postDraft).then(() => {
-      retrievePosts(setPostingsDataArray, emptyPost); // Time for a hard-update
+      retrievePosts(setPostingsDataArray, emptyPost, recdLog); // Time for a hard-update
     });
   } else {
     if (postingsDataArray?.[currPostIndex]?._id) {
       console.log("submitPost.js running updatePostOnDB and updatePostOnDataArray");
       updatePostOnDataArray(setPostingsDataArray, postDraft, currPostIndex);
       updatePostOnDB(postDraft, currPostIndex).then(() => {
-        retrievePosts(setPostingsDataArray, emptyPost); // Time for a hard-update
+        retrievePosts(setPostingsDataArray, emptyPost, recdLog); // Time for a hard-update
       });
     } else {
       console.log("submitPost.js 'Save Post' clicked but postingsDataArray[currentPostIndex] has bad ._id!!");
