@@ -11,11 +11,10 @@ import retrievePosts from "../functions/retrievePosts";
 import retrieveTopics from "../functions/retrieveTopics";
 import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 
-
-const posnLogKey = false;  //  true logs most important Zoompan scale and panX & panY positions
-const posnLog = false;  //  true logs all Zoompan scale and panX & panY positions
-const recdLog = false;  //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
-const evntLog = false;  //  true logs events, e.g. onClick, onKeyDown
+const posnLogKey = false; //  true logs most important Zoompan scale and panX & panY positions
+const posnLog = false; //  true logs all Zoompan scale and panX & panY positions
+const recdLog = false; //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
+const evntLog = false; //  true logs events, e.g. onClick, onKeyDown
 
 const stubScale = 0.25;
 
@@ -25,23 +24,26 @@ const initialPanX = 0;
 const initialPanY = 0;
 
 const blurKickInZoomLevel = 2.25;
-const blurStepOnStart = 0;  // step change in blurring (in pixels) when blurKickInZoomLevel is reached
-const blurRampUpRate = 1.5;   // as a multiplier of zoomLevel, to give pixels of blur
+const blurStepOnStart = 0; // step change in blurring (in pixels) when blurKickInZoomLevel is reached
+const blurRampUpRate = 1.5; // as a multiplier of zoomLevel, to give pixels of blur
 
 const extraZoomOutFactor = 1;
 const displayWidth = window.innerWidth;
 const displayHeight = window.innerHeight;
 
-
-const minZoomScaleByWidth = (displayWidth/imageWidth) * extraZoomOutFactor;
-const minZoomScaleByHeight = (displayHeight/imageHeight) * extraZoomOutFactor;
-const minZoomScale = (minZoomScaleByWidth < minZoomScaleByHeight) ? minZoomScaleByWidth : minZoomScaleByHeight;
-console.log("Pre-AlphaComponent: minZoomScaleByWidth=",minZoomScaleByWidth,", minZoomScaleByHeight", minZoomScaleByHeight)
+const minZoomScaleByWidth = (displayWidth / imageWidth) * extraZoomOutFactor;
+const minZoomScaleByHeight = (displayHeight / imageHeight) * extraZoomOutFactor;
+const minZoomScale = minZoomScaleByWidth < minZoomScaleByHeight ? minZoomScaleByWidth : minZoomScaleByHeight;
+console.log(
+  "Pre-AlphaComponent: minZoomScaleByWidth=",
+  minZoomScaleByWidth,
+  ", minZoomScaleByHeight",
+  minZoomScaleByHeight
+);
 const maxZoomScale = 12;
 
 const minZoomSpeed = 40;
 const maxZoomSpeed = 600;
-
 
 const emptyPost = {
   title: "Click to Edit",
@@ -53,7 +55,7 @@ const emptyPost = {
   positionX: 1041, // Coordinates for post's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 1000,
   locked: false,
-  archived: false
+  archived: false,
 };
 
 const emptyTopic = {
@@ -62,15 +64,13 @@ const emptyTopic = {
   positionX: 1200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 1200,
   locked: false,
-  archived: false
+  archived: false,
 };
 
-
 const AlphaComponent = () => {
-
-  useEffect ( ()=> {
-    console.log ("AlphaComponent.js first run. minZoomScale=",minZoomScale);
-    console.log ("based on displayWidth=", displayWidth, " and displayHeight=", displayHeight);
+  useEffect(() => {
+    console.log("AlphaComponent.js first run. minZoomScale=", minZoomScale);
+    console.log("based on displayWidth=", displayWidth, " and displayHeight=", displayHeight);
   }, []);
 
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
@@ -95,10 +95,8 @@ const AlphaComponent = () => {
   const [blurLevel, setBlurLevel] = useState(false);
 
   const stubsDraggable = useRef(null);
-  const backgroundImage = useRef(null);
   const stubDragged = useRef(false);
   const topicDragged = useRef(false);
-
 
   recdLog && console.log("AlphaComponent.js begins...");
   recdLog && console.log("postingsDataArray=", postingsDataArray);
@@ -107,51 +105,51 @@ const AlphaComponent = () => {
   recdLog && console.log("topicDraft=", topicDraft);
 
   const updateZoomPan = (stats) => {
-    posnLogKey && console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", and blurLevel=", blurLevel);
-    posnLogKey && console.log("AlphaComponent.js updateZoomPan() panX=",stats.positionX, ', panY=',stats.positionY);
+    posnLogKey &&
+      console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", and blurLevel=", blurLevel);
+    posnLogKey && console.log("AlphaComponent.js updateZoomPan() panX=", stats.positionX, ", panY=", stats.positionY);
     setZoomScale(stats.scale);
     setPanX(stats.positionX);
     setPanY(stats.positionY);
+    setBlurLevel(
+      zoomScale < blurKickInZoomLevel
+        ? 1
+        : zoomScale * blurRampUpRate - blurKickInZoomLevel * blurRampUpRate - 1 + blurStepOnStart
+    );
+  };
 
-    setBlurLevel((zoomScale < blurKickInZoomLevel) ? 1 : (zoomScale*blurRampUpRate - blurKickInZoomLevel * blurRampUpRate -1 +blurStepOnStart))
-  }
-
-
-  const scrollToTopLeft = () => {   // from https://gist.github.com/romanonthego/223d2efe17b72098326c82718f283adb
+  const scrollToTopLeft = () => {
+    // from https://gist.github.com/romanonthego/223d2efe17b72098326c82718f283adb
     try {
       // trying to use new API - https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
       window.scroll({
         top: 0,
         left: 0,
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     } catch (error) {
       // just a fallback for older browsers
-      console.log("Using fallback scrolling method")
+      console.log("Using fallback scrolling method");
       window.scrollTo(0, 0);
     }
-  }
+  };
 
   const resetZoom = () => {
-    setZoomScale(minZoomScale);
-    setPanX(initialPanX);
-    setPanY(initialPanY);
-    scrollToTopLeft();
-  }
-
+    // setZoomScale(minZoomScale);
+    // setPanX(initialPanX);
+    // setPanY(initialPanY);
+    // scrollToTopLeft();
+  };
 
   useEffect(() => {
     let adjustedPanX = imageWidth / 2 - imageWidth / (2 * zoomScale) + panX / zoomScale;
     let adjustedPanY = imageHeight / 2 - imageHeight / (2 * zoomScale) + panY / zoomScale;
 
     stubsDraggable.current.style.transform = `scale(${zoomScale}) translate(${adjustedPanX}px, ${adjustedPanY}px)`;
-    backgroundImage.current.style.transform = `scale(${zoomScale}) translate(${adjustedPanX}px, ${adjustedPanY}px)`;
-
   }, [zoomScale, panX, panY]);
-  
 
   useEffect(() => {
-    console.log("AlphaComponent - useEffect EventListeners 'keyup' & keydown' added")
+    console.log("AlphaComponent - useEffect EventListeners 'keyup' & keydown' added");
     // from: https://stackoverflow.com/questions/59546928/keydown-up-events-with-react-hooks-not-working-properly
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
@@ -181,7 +179,6 @@ const AlphaComponent = () => {
       setAdminMode(false);
       evntLog && console.log("AlphaComponent.js handleKeyUp() Alt key released");
     }
-
   };
 
   // Retrive from DB into postingsDataArray, so postingsDataArray is never null
@@ -198,24 +195,25 @@ const AlphaComponent = () => {
     retrieveTopics(setTopicsDataArray, emptyTopic);
   }
 
-
   const createPostAtMouseClick = (event) => {
     // This function needs the event object, so may need currying to move to external file.
-    console.log("createPostAtMouseClick stubDragged.current=", stubDragged.current, " and dragMode=",dragMode);
-    
+    console.log("createPostAtMouseClick stubDragged.current=", stubDragged.current, " and dragMode=", dragMode);
+
     if (dragMode && !stubDragged.current && !topicDragged.current) {
       const offsetX = event.pageX - window.pageXOffset; // - currentTargetRect.left;
       const offsetY = event.pageY - window.pageYOffset; // - currentTargetRect.top;
-      posnLog && console.log("createPostAtMouseClick event.pageX=", event.pageX, "  window.pageXOffset=",window.pageXOffset);
-      posnLog && console.log("createPostAtMouseClick event.pageY=", event.pageY, "  window.pageYOffset=",window.pageYOffset);
+      posnLog &&
+        console.log("createPostAtMouseClick event.pageX=", event.pageX, "  window.pageXOffset=", window.pageXOffset);
+      posnLog &&
+        console.log("createPostAtMouseClick event.pageY=", event.pageY, "  window.pageYOffset=", window.pageYOffset);
 
       console.log("AlphaComponent.js createPostAtMouseClick: creatingPostFlag=true");
       setCreatingPostFlag(true);
-  
+
       const emptyPostWithCoords = { ...emptyPost, positionX: offsetX, positionY: offsetY };
       setPostDraft(emptyPostWithCoords);
       console.log("AlphaComponent.js createPostAtMouseClick: setting postDraft to", emptyPostWithCoords);
-  
+
       setCurrPostIndex(() => {
         const newCurrPostIndex = postingsDataArray.length; // No need for .length-1 cos we just added an element
         console.log("AlphaComponent.js createPostAtMouseClick: newCurrPostIndex=", newCurrPostIndex);
@@ -225,13 +223,11 @@ const AlphaComponent = () => {
     }
   };
 
-
-
-  // MAIN AlphaComponent RETURN
+  // MAIN AlphaComponent
   return (
-    <div className="backgroundColor" style={{width: `${imageWidth}px`, height: `${imageHeight}px`}}>
-
-      <NavBar className="absolute"
+    <div className="backgroundColor" style={{ width: `${imageWidth}px`, height: `${imageHeight}px` }}>
+      <NavBar
+        className="absolute"
         emptyPost={emptyPost}
         showWelcomeModal={showWelcomeModal}
         setShowWelcomeModal={setShowWelcomeModal}
@@ -241,11 +237,10 @@ const AlphaComponent = () => {
         setCurrPostIndex={setCurrPostIndex}
         setCreatingPostFlag={setCreatingPostFlag}
         setPostDraft={setPostDraft}
-
-        emptyTopic ={emptyTopic}
-        setShowTopicModal ={setShowTopicModal}
-        topicsDataArray ={topicsDataArray}
-        setTopicsDataArray ={setTopicsDataArray}
+        emptyTopic={emptyTopic}
+        setShowTopicModal={setShowTopicModal}
+        topicsDataArray={topicsDataArray}
+        setTopicsDataArray={setTopicsDataArray}
         setCurrTopicIndex={setCurrTopicIndex}
         setCreatingTopicFlag={setCreatingTopicFlag}
         setTopicDraft={setTopicDraft}
@@ -261,22 +256,18 @@ const AlphaComponent = () => {
         recdLog={recdLog}
       />
 
-      <div
-        ref={backgroundImage}
-        className="backgroundImage absolute"
-        style={{filter: `blur(${blurLevel}px)`}}
-      />
 
       {/* Draggable Mode */}
       <div
         ref={stubsDraggable}
         onClick={(event) => createPostAtMouseClick(event)}
         className="absolute z-0"    // className="absolute" is required here
-        style={{width: `${imageWidth}px`, height: `${imageHeight}px`}}
+        style={{ width: `${imageWidth}px`, height: `${imageHeight}px` }}
       >
-      
         {dragMode && (
           <>
+            <div className="backgroundImage absolute" style={{ filter: `blur(${blurLevel}px)` }} />
+
             <RenderStubsDraggable
               postingsDataArray={postingsDataArray}
               setCurrPostIndex={setCurrPostIndex}
@@ -305,18 +296,19 @@ const AlphaComponent = () => {
         )}
       </div>
 
-
       {/* ZoomPan mode */}
       {!dragMode && (
         <ZoomPanNonDraggableStubs
           updateZoomPan={updateZoomPan}
           zoomScale={zoomScale}
-          minZoomScale={minZoomScale}
-          maxZoomScale={maxZoomScale}
           panX={panX}
           panY={panY}
+          minZoomScale={minZoomScale}
+          maxZoomScale={maxZoomScale}
+          initialPanX={initialPanX}
+          initialPanY={initialPanY}
           zoomSpeed={zoomSpeed}
-
+          
           postingsDataArray={postingsDataArray}
           currPostIndex={currPostIndex}
           setCurrPostIndex={setCurrPostIndex}
@@ -328,12 +320,12 @@ const AlphaComponent = () => {
           userVoted={userVoted}
           setUserVoted={setUserVoted}
 
-          emptyTopic={emptyTopic}
-          setShowTopicModal={setShowTopicModal}
           topicsDataArray={topicsDataArray}
           setCurrTopicIndex={setCurrTopicIndex}
-          setCreatingTopicFlag={setCreatingTopicFlag}
+          setShowTopicModal={setShowTopicModal}
           setTopicDraft={setTopicDraft}
+          setCreatingTopicFlag={setCreatingTopicFlag}
+
           stubScale={stubScale}
           blurLevel={blurLevel}
           posnLog={posnLog}
@@ -348,7 +340,7 @@ const AlphaComponent = () => {
           setShowMainModal={setShowMainModal}
           postingsDataArray={postingsDataArray}
           setPostingsDataArray={setPostingsDataArray}
-          currPostIndex={currPostIndex} //C: currPostIndex points to the element in the postings array that we're interested in
+          currPostIndex={currPostIndex}
           setCurrPostIndex={setCurrPostIndex}
           postDraft={postDraft}
           setPostDraft={setPostDraft}
@@ -365,7 +357,7 @@ const AlphaComponent = () => {
           setShowTopicModal={setShowTopicModal}
           topicsDataArray={topicsDataArray}
           setTopicsDataArray={setTopicsDataArray}
-          currTopicIndex={currTopicIndex} //C: currTopicIndex points to the element in the topics array that we're interested in
+          currTopicIndex={currTopicIndex}
           setCurrTopicIndex={setCurrTopicIndex}
           topicDraft={topicDraft}
           setTopicDraft={setTopicDraft}
@@ -374,22 +366,19 @@ const AlphaComponent = () => {
         />
       )}
 
-      {dragMode && <div>Drag items to desired positions</div>}
+      {/* {dragMode && <div>Drag items to desired positions</div>} */}
 
-
-      {adminMode &&
-    
-        <AdminControls 
-          emptyPost = {emptyPost}
-          emptyTopic = {emptyTopic}
-          postingsDataArray = {postingsDataArray}
-          setPostingsDataArray = {setPostingsDataArray}
-          topicsDataArray = {topicsDataArray}
-          setTopicsDataArray = {setTopicsDataArray}
-          recdLog = {recdLog}
+      {adminMode && (
+        <AdminControls
+          emptyPost={emptyPost}
+          emptyTopic={emptyTopic}
+          postingsDataArray={postingsDataArray}
+          setPostingsDataArray={setPostingsDataArray}
+          topicsDataArray={topicsDataArray}
+          setTopicsDataArray={setTopicsDataArray}
+          recdLog={recdLog}
         />
-
-      }
+      )}
     </div>
   );
 };

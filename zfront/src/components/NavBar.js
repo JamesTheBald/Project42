@@ -31,9 +31,9 @@ const NavBar = (props) => {
   const setCreatingTopicFlag= props.setCreatingTopicFlag;
   const setTopicDraft= props.setTopicDraft;
   const resetZoom= props.resetZoom;
-  const minZoomScale = props.minZoomScale;
-  const maxZoomScale = props.maxZoomScale;
-  let zoomScale = props.zoomScale;
+  // const minZoomScale = props.minZoomScale;
+  // const maxZoomScale = props.maxZoomScale;
+  // let zoomScale = props.zoomScale;
   let setZoomScale = props.setZoomScale;
   let zoomSpeed = props.zoomSpeed;
   const setZoomSpeed = props.setZoomSpeed;
@@ -49,25 +49,25 @@ const NavBar = (props) => {
   // };
 
   const zoomIn = () => {
-    setZoomScale(currZoomScale => {
-      const newZoomScale = currZoomScale * (1 + zoomSpeed/400);
-      if (newZoomScale < maxZoomScale) {
-        return newZoomScale
-      } else {
-        return maxZoomScale
-      } 
-    })
+    // setZoomScale(currZoomScale => {
+    //   const newZoomScale = currZoomScale * (1 + zoomSpeed/400);
+    //   if (newZoomScale < maxZoomScale) {
+    //     return newZoomScale
+    //   } else {
+    //     return maxZoomScale
+    //   } 
+    // })
   }
   
   const zoomOut = () => {
-    setZoomScale(currZoomScale => {
-      const newZoomScale = currZoomScale / (1 + zoomSpeed/400);
-      if (newZoomScale > minZoomScale) {
-        return newZoomScale
-      } else {
-        return minZoomScale
-      } 
-    })
+    // setZoomScale(currZoomScale => {
+    //   const newZoomScale = currZoomScale / (1 + zoomSpeed/400);
+    //   if (newZoomScale > minZoomScale) {
+    //     return newZoomScale
+    //   } else {
+    //     return minZoomScale
+    //   } 
+    // })
   }
 
 

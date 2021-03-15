@@ -9,15 +9,15 @@ div {
 
 .backgroundImage {
   background-image: url('../images/4915_wide_scaled.jpg');
-  /* background-color: #dae3f4; */
-
   object-fit: contain;
   width: 4676px;    /* Set equal to the width of the image. Also set imageWidth on AlphaComponen.js */
   height: 1998px;   /* Set equal to height of the image. Also set imageHeight on AlphaComponent.js ~line 24 */
 }
+
 /* tuscany-italy-landscape.jpg   height: 2160px;   width: 3840px; */
 /* purple-red_nebula_starfield_Darker_3840px.jpg height: 5120px;  width: 2880px */
 /* ../images/galaxy_over_waters_&_cloud_7680px.jpg   height: 4320px;  width: 7680px; */
+
 
 .backgroundColor {
   background-color: #130b08

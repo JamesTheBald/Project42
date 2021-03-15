@@ -25,7 +25,7 @@ const RenderStubsDraggable = (props) => {
   const evntLog = props.posnLog;
 
   const [showWarningModalLocked, setShowWarningModalLocked] = useState(false);
-  const [dragStopped, setDragStopped] = useState(true);
+  const [dragStopped, setUndraggable] = useState(true);
 
   let posnX = [];
   let posnY = [];
@@ -157,15 +157,15 @@ const RenderStubsDraggable = (props) => {
                         transform: "translateX(-50%)"
                       }}
                       onMouseEnter={ () => {
-                        setDragStopped(false)
+                        setUndraggable(false)
                         evntLog && console.log("Moused over Dragging Selection Overlay. dragStopped=",dragStopped)
                       }}
                       onMouseMove={ () => {
-                        setDragStopped(false)
+                        setUndraggable(false)
                         evntLog && console.log("Mouse moved over Dragging Selection Overlay. dragStopped=",dragStopped)
                       }} 
                       onMouseLeave={ () => {
-                        setDragStopped(true)
+                        setUndraggable(true)
                         evntLog && console.log("Mouse Left Dragging Selection Overlay. dragStopped=",dragStopped)
                       }}
                     />

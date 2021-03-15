@@ -31,11 +31,11 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "NODE_ENV=development craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "tailwind:build": "NODE_ENV=production postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
+    "tailwind:build": "NODE_ENV=development postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
     "tailwind:dev": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
     "tailbuild": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
     "tailwatch": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css --watch",

@@ -69,8 +69,6 @@ const RenderStubsNonDraggable = (props) => {
               {/* Stub */}
               <div
                 className="tooltipBase stub"
-                // onMouseEnter={() => showToolTip(index)}
-                // onMouseLeave={() => hideToolTip(index)}
                 onClick={handleOnClick(post, index)}
               >
                 <div
