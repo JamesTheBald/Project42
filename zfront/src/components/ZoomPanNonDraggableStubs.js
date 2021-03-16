@@ -28,35 +28,41 @@ class ZoomPanNonDraggableStubs extends Component {
     const setCreatingPostFlag = props.setCreatingPostFlag;
     let userVoted = props.userVoted;
     const setUserVoted = props.setUserVoted;
-    
+
     let topicsDataArray = props.topicsDataArray;
     const setCurrTopicIndex = props.setCurrTopicIndex;
     const setShowTopicModal = props.setShowTopicModal;
     const setTopicDraft = props.setTopicDraft;
     const setCreatingTopicFlag = props.setCreatingTopicFlag;
-    
+
     const stubScale = props.stubScale;
     let blurLevel = props.blurLevel;
+    const displayWidth = props.displayWidth;
+    const imageWidth = props.imageWidth;
+    const scrollToTopLeft = props.scrollToTopLeft;
     const posnLog = props.posnLog;
     const recdLog = props.recdLog;
+
+    // console.log("ZoomPanNonDraggableStubs, minZoomScale=",minZoomScale);
+    // console.log("ZoomPanNonDraggableStubs, panX=",panX);
+    // console.log("ZoomPanNonDraggableStubs, panY=",panY);
+    console.log("ZoomPanNonDraggableStubs, imageWidth=", imageWidth);
+    console.log("ZoomPanNonDraggableStubs, displayWidth=", displayWidth);
 
 
     return (
       <div className="z-0">
-
         <TransformWrapper
           defaultScale={zoomScale}
           defaultPositionX={panX}
           defaultPositionY={panY}
-
           // onZoomChange={updateZoomPan}  // do not use - per https://github.com/prc5/react-zoom-pan-pinch/issues/84
           onWheelStop={updateZoomPan}
           onPanningStop={updateZoomPan}
           onPinchingStop={updateZoomPan}
-          enablePadding={false}
-          doubleClick={{disabled: true}}
-          wheel={{step: zoomSpeed}}
-
+          // enablePadding={false}
+          doubleClick={{ disabled: true }}
+          wheel={{ step: zoomSpeed }}
           options={{
             minScale: minZoomScale,
             maxScale: maxZoomScale,
@@ -67,13 +73,13 @@ class ZoomPanNonDraggableStubs extends Component {
           // zoomIn = {{step: 70, animationTime: 200}}
           // zoomOut = {{step: 70, animationTime: 200}}
           // reset = {{animationTime: 200}}
-          >
-
-          {({ setTransform, scale, positionX, positionY, zoomIn, zoomOut, ...rest }) => (
+        >
+          {({ setTransform, ...rest }) => (
+            // Note that positionX & Y here are different to positionX & Y used to locate the stubs and topics
             <>
               <TransformComponent>
                 <div>
-                  <div className="backgroundImage" style={{filter: `blur(${blurLevel}px)`}} />
+                  <div className="backgroundImage" style={{ filter: `blur(${blurLevel}px)` }} />
 
                   <RenderStubsNonDraggable
                     postingsDataArray={postingsDataArray}
@@ -104,24 +110,32 @@ class ZoomPanNonDraggableStubs extends Component {
                 </div>
               </TransformComponent>
 
-              <div className="flex flex-row text-gray-400 text-xl py-2">
-                <button className="px-3 border border-gray-200 rounded" onClick={zoomIn}>+</button>
-                <button className="px-3 border border-gray-200 rounded" onClick={zoomOut}>-</button>
-                <button className="px-3 border border-gray-200 rounded" onClick={() => {
-                    setTransform(initialPanX, initialPanY, minZoomScale, 200, "linear")
+              {/* Reset button etc */}
+              <div
+                className="absolute w-24 z-50 flex flex-col text-sm text-gray-700"
+                style={{ top: "90px", left: `${displayWidth-40}px`, transform: "translateX(-100%)"}}
+                //-minZoomScale*500+80
+                // imageWidth -    , transform: "translateX(-50%)"
+              >
+                <button
+                  className="py-1  bg-gray-300  rounded-lg shadow-lg  border border-gray-800"
+                  onClick={() => {
+                    setTransform(initialPanX, initialPanY, minZoomScale, 200, "linear");
+                    scrollToTopLeft();
                   }}
                 >
-                  Reset
+                  Reset Zoom
                 </button>
-                <div className="px-3">Scale = {scale} </div>
-                <div className="px-3">PositionX = {positionX} </div>
-                <div className="px-3">PositionY = {positionY} </div>
-
+                {/* <div className="mt-2 bg-gray-200 border border-gray-800 rounded shadow-lg">
+                  <div className="px-2 py-1">scale = {scale.toFixed(3)}</div>
+                  <div className="px-2 py-1">positionX = {positionX.toFixed(0)}</div>
+                  <div className="px-2 py-1">positionY = {positionY.toFixed(0)}</div>
+                </div> */}
               </div>
+
             </>
           )}
         </TransformWrapper>
-
       </div>
     );
   }

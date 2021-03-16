@@ -29,12 +29,12 @@ const NavBar = (props) => {
   let topicsDataArray = props.topicsDataArray;
   const setCurrTopicIndex= props.setCurrTopicIndex;
   const setCreatingTopicFlag= props.setCreatingTopicFlag;
-  const setTopicDraft= props.setTopicDraft;
-  const resetZoom= props.resetZoom;
+  const setTopicDraft = props.setTopicDraft;
+
   // const minZoomScale = props.minZoomScale;
   // const maxZoomScale = props.maxZoomScale;
   // let zoomScale = props.zoomScale;
-  let setZoomScale = props.setZoomScale;
+  // let setZoomScale = props.setZoomScale;
   let zoomSpeed = props.zoomSpeed;
   const setZoomSpeed = props.setZoomSpeed;
   const minZoomSpeed = props.minZoomSpeed;
@@ -48,32 +48,32 @@ const NavBar = (props) => {
   //   setSearchTerm(event);
   // };
 
-  const zoomIn = () => {
-    // setZoomScale(currZoomScale => {
-    //   const newZoomScale = currZoomScale * (1 + zoomSpeed/400);
-    //   if (newZoomScale < maxZoomScale) {
-    //     return newZoomScale
-    //   } else {
-    //     return maxZoomScale
-    //   } 
-    // })
-  }
+  // const zoomIn = () => {
+  //   setZoomScale(currZoomScale => {
+  //     const newZoomScale = currZoomScale * (1 + zoomSpeed/400);
+  //     if (newZoomScale < maxZoomScale) {
+  //       return newZoomScale
+  //     } else {
+  //       return maxZoomScale
+  //     } 
+  //   })
+  // }
   
-  const zoomOut = () => {
-    // setZoomScale(currZoomScale => {
-    //   const newZoomScale = currZoomScale / (1 + zoomSpeed/400);
-    //   if (newZoomScale > minZoomScale) {
-    //     return newZoomScale
-    //   } else {
-    //     return minZoomScale
-    //   } 
-    // })
-  }
+  // const zoomOut = () => {
+  //   setZoomScale(currZoomScale => {
+  //     const newZoomScale = currZoomScale / (1 + zoomSpeed/400);
+  //     if (newZoomScale > minZoomScale) {
+  //       return newZoomScale
+  //     } else {
+  //       return minZoomScale
+  //     } 
+  //   })
+  // }
 
 
   return (
     <>
-      <nav className="w-full h-20 z-50 flex items-center text-blue-700 bg-white border-b border-gray-500 shadow-md relative">
+      <nav className="w-full h-20 z-40 flex items-center text-blue-700 bg-white border-b border-gray-500 shadow-md relative">
         <div className="flex flex-row items-center z-50 relative">
 
           <div className="p-2 text-2xl ml-8 mr-4 font-roundy font-700 hover:text-blue-400" onClick={() => setShowWelcomeModal(true)}>
@@ -208,7 +208,7 @@ const NavBar = (props) => {
             </button>
 
             <div className="flex flexrow items-center pt-1">
-              <button
+              {/* <button
                 className="ml-14 stdButton py-0 bg-gray-100 hover:text-blue-600"
                 onClick={() => setZoomScale( () => zoomIn() )}>
                 +
@@ -222,9 +222,11 @@ const NavBar = (props) => {
 
               <button
                 className="ml-2 stdButton bg-gray-300 py-0 hover:text-blue-600"
-                onClick={() => resetZoom() }>
+                onMouseDown={setResetZoomPan(true)}
+                onMouseUp={setResetZoomPan(false)}
+              >
                 Reset
-              </button>
+              </button> */}
 
               <div className="flex items-center">
 

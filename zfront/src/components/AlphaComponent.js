@@ -18,7 +18,7 @@ const evntLog = false; //  true logs events, e.g. onClick, onKeyDown
 
 const stubScale = 0.25;
 
-const imageWidth = 4676; // Set these to equal background image dimensions, in pixels
+const imageWidth = 4676;  // Set these to equal background image dimensions, in pixels
 const imageHeight = 1998;
 const initialPanX = 0;
 const initialPanY = 0;
@@ -33,13 +33,9 @@ const displayHeight = window.innerHeight;
 
 const minZoomScaleByWidth = (displayWidth / imageWidth) * extraZoomOutFactor;
 const minZoomScaleByHeight = (displayHeight / imageHeight) * extraZoomOutFactor;
-const minZoomScale = minZoomScaleByWidth < minZoomScaleByHeight ? minZoomScaleByWidth : minZoomScaleByHeight;
-console.log(
-  "Pre-AlphaComponent: minZoomScaleByWidth=",
-  minZoomScaleByWidth,
-  ", minZoomScaleByHeight",
-  minZoomScaleByHeight
-);
+const minZoomScale = (minZoomScaleByWidth < minZoomScaleByHeight) ? minZoomScaleByWidth : minZoomScaleByHeight;
+console.log("Pre-AlphaComponent: minZoomScaleByWidth=", minZoomScaleByWidth);
+console.log("Pre-AlphaComponent: minZoomScaleByHeight=", minZoomScaleByHeight);
 const maxZoomScale = 12;
 
 const minZoomSpeed = 40;
@@ -85,7 +81,7 @@ const AlphaComponent = () => {
   const [zoomScale, setZoomScale] = useState(minZoomScale);
   const [panX, setPanX] = useState(initialPanX);
   const [panY, setPanY] = useState(initialPanY);
-  const [zoomSpeed, setZoomSpeed] = useState(400);
+  const [zoomSpeed, setZoomSpeed] = useState(300);
 
   const [topicsDataArray, setTopicsDataArray] = useState();
   const [showTopicModal, setShowTopicModal] = useState(false);
@@ -105,8 +101,7 @@ const AlphaComponent = () => {
   recdLog && console.log("topicDraft=", topicDraft);
 
   const updateZoomPan = (stats) => {
-    posnLogKey &&
-      console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", and blurLevel=", blurLevel);
+    posnLogKey && console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", blurLevel=", blurLevel);
     posnLogKey && console.log("AlphaComponent.js updateZoomPan() panX=", stats.positionX, ", panY=", stats.positionY);
     setZoomScale(stats.scale);
     setPanX(stats.positionX);
@@ -134,14 +129,10 @@ const AlphaComponent = () => {
     }
   };
 
-  const resetZoom = () => {
-    // setZoomScale(minZoomScale);
-    // setPanX(initialPanX);
-    // setPanY(initialPanY);
-    // scrollToTopLeft();
-  };
-
   useEffect(() => {
+
+    console.log("AlphaComponent.js useEffect() zoomScale=", zoomScale, "panX=" ,panX, ", panY=", panY);
+
     let adjustedPanX = imageWidth / 2 - imageWidth / (2 * zoomScale) + panX / zoomScale;
     let adjustedPanY = imageHeight / 2 - imageHeight / (2 * zoomScale) + panY / zoomScale;
 
@@ -244,24 +235,22 @@ const AlphaComponent = () => {
         setCurrTopicIndex={setCurrTopicIndex}
         setCreatingTopicFlag={setCreatingTopicFlag}
         setTopicDraft={setTopicDraft}
-        resetZoom={resetZoom}
-        minZoomScale={minZoomScale}
-        maxZoomScale={maxZoomScale}
-        zoomScale={zoomScale}
-        setZoomScale={setZoomScale}
+        // minZoomScale={minZoomScale}
+        // maxZoomScale={maxZoomScale}
+        // zoomScale={zoomScale}
+        // setZoomScale={setZoomScale}
         zoomSpeed={zoomSpeed}
         setZoomSpeed={setZoomSpeed}
         minZoomSpeed={minZoomSpeed}
         maxZoomSpeed={maxZoomSpeed}
-        recdLog={recdLog}
+        // recdLog={recdLog}
       />
-
 
       {/* Draggable Mode */}
       <div
         ref={stubsDraggable}
         onClick={(event) => createPostAtMouseClick(event)}
-        className="absolute z-0"    // className="absolute" is required here
+        className="absolute z-0" // className="absolute" is required here
         style={{ width: `${imageWidth}px`, height: `${imageHeight}px` }}
       >
         {dragMode && (
@@ -308,7 +297,7 @@ const AlphaComponent = () => {
           initialPanX={initialPanX}
           initialPanY={initialPanY}
           zoomSpeed={zoomSpeed}
-          
+
           postingsDataArray={postingsDataArray}
           currPostIndex={currPostIndex}
           setCurrPostIndex={setCurrPostIndex}
@@ -328,6 +317,9 @@ const AlphaComponent = () => {
 
           stubScale={stubScale}
           blurLevel={blurLevel}
+          displayWidth={displayWidth}
+          imageWidth={imageWidth}
+          scrollToTopLeft={scrollToTopLeft}
           posnLog={posnLog}
           recdLog={recdLog}
         />

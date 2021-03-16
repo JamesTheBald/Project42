@@ -42,14 +42,15 @@ function WelcomeModal(props) {
 
       <Modal.Body>
         <div className="text-lg text-center">
-          <div className="mt-10 text-xl italic text-gray-600">&quot;The answer to the great question of life the universe and everything is… 42!&quot;</div>
+          <div className="mt-10 text-xl italic text-gray-800">&quot;The answer to the great question of life the universe and everything is… 42!&quot;</div>
           <div className="mt-4 text-md text-right mr-16 text-gray-600">- Supercomputer Deep Thought</div>
 
           <div className="text-left text-blue-700">
-            <div className="mt-12 text-xl font-500 ml-12 ">Instructions</div>
-            <div className="mt-3 ml-24">Use your mouse scroll wheel to zoom in &amp; out, and click-n-drag to pan.</div>
-            <div className="mt-2 ml-24">Click on a post to view or edit it. Click on a field to edit it.</div>
-            <div className="mt-2 ml-24 mb-10">Hold Shift to drag any post or topic heading to a new location</div>
+            <div className="mt-10 text-xl font-500 ml-12 ">Instructions</div>
+            <div className="mt-3 ml-24">Use your mouse scroll wheel to zoom in &amp; out; click-and-drag to move around.</div>
+            <div className="mt-2 ml-24">Click on any post or topic to view or edit it.</div>
+            <div className="mt-2 ml-24">To move post or topic hold Shift and then drag-and-drop it.</div>
+            <div className="mt-3 ml-24 mb-10 text-md text-gray-600">For best performance set your brower zoom level to 100%.</div>
           </div>
         </div>
       </Modal.Body>
@@ -58,7 +59,7 @@ function WelcomeModal(props) {
         <input
           name="passwordField"
           hidden={hidePasswordField}
-          className="p-0.5 pl-3.5 outline-none border border-blue-900 rounded-2xl placeholder-gray-400"
+          className="p-0.5 pl-3.5 outline-none border border-blue-900 rounded-2xl placeholder-gray-500"
           placeholder={placeholder}
           type="password"
           required
@@ -73,7 +74,7 @@ function WelcomeModal(props) {
         >
           <Button
             disabled={disableExploreButton}
-            className="flex items-center bg-gray-400 border-none ml-2"
+            className="flex items-center bg-gray-500 border-none ml-2"
           >
             <div className="mr-2">Explore</div>
             <BsLock size="18" className="text-blue-900"/>
