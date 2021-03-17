@@ -12,10 +12,10 @@ class ZoomPanNonDraggableStubs extends Component {
     let zoomScale = props.zoomScale;
     let panX = props.panX;
     let panY = props.panY;
-    const minZoomScale = props.minZoomScale;
+    let minZoomScale = props.minZoomScale;
     const maxZoomScale = props.maxZoomScale;
-    const initialPanX = props.initialPanX;
-    const initialPanY = props.initialPanY;
+    // const initialPanX = props.initialPanX;
+    // const initialPanY = props.initialPanY;
     let zoomSpeed = props.zoomSpeed;
 
     let postingsDataArray = props.postingsDataArray;
@@ -37,22 +37,25 @@ class ZoomPanNonDraggableStubs extends Component {
 
     const stubScale = props.stubScale;
     let blurLevel = props.blurLevel;
-    const displayWidth = props.displayWidth;
-    const imageWidth = props.imageWidth;
-    const scrollToTopLeft = props.scrollToTopLeft;
+    // const displayWidth = props.displayWidth;
+    // const imageWidth = props.imageWidth;
+    // const scrollToTopLeft = props.scrollToTopLeft;
     const posnLog = props.posnLog;
     const recdLog = props.recdLog;
 
     // console.log("ZoomPanNonDraggableStubs, minZoomScale=",minZoomScale);
     // console.log("ZoomPanNonDraggableStubs, panX=",panX);
     // console.log("ZoomPanNonDraggableStubs, panY=",panY);
-    console.log("ZoomPanNonDraggableStubs, imageWidth=", imageWidth);
-    console.log("ZoomPanNonDraggableStubs, displayWidth=", displayWidth);
+    // console.log("ZoomPanNonDraggableStubs, imageWidth=", imageWidth);
+    // console.log("ZoomPanNonDraggableStubs, displayWidth=", displayWidth);
 
 
     return (
       <div className="z-0">
         <TransformWrapper
+          scale={zoomScale}
+          positionX={panX}
+          positionY={panY}
           defaultScale={zoomScale}
           defaultPositionX={panX}
           defaultPositionY={panY}
@@ -74,7 +77,7 @@ class ZoomPanNonDraggableStubs extends Component {
           // zoomOut = {{step: 70, animationTime: 200}}
           // reset = {{animationTime: 200}}
         >
-          {({ setTransform, ...rest }) => (
+          {() => (
             // Note that positionX & Y here are different to positionX & Y used to locate the stubs and topics
             <>
               <TransformComponent>
@@ -110,8 +113,8 @@ class ZoomPanNonDraggableStubs extends Component {
                 </div>
               </TransformComponent>
 
-              {/* Reset button etc */}
-              <div
+              {/* Built-In Reset Function */}
+              {/* <div
                 className="absolute w-24 z-50 flex flex-col text-sm text-gray-700"
                 style={{ top: "90px", left: `${displayWidth-40}px`, transform: "translateX(-100%)"}}
                 //-minZoomScale*500+80
@@ -126,12 +129,12 @@ class ZoomPanNonDraggableStubs extends Component {
                 >
                   Reset Zoom
                 </button>
-                {/* <div className="mt-2 bg-gray-200 border border-gray-800 rounded shadow-lg">
+                <div className="mt-2 bg-gray-200 border border-gray-800 rounded shadow-lg">
                   <div className="px-2 py-1">scale = {scale.toFixed(3)}</div>
                   <div className="px-2 py-1">positionX = {positionX.toFixed(0)}</div>
                   <div className="px-2 py-1">positionY = {positionY.toFixed(0)}</div>
-                </div> */}
-              </div>
+                </div>
+              </div> */}
 
             </>
           )}

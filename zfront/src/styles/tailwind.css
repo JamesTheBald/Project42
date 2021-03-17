@@ -3,17 +3,26 @@
 @tailwind utilities;
 
 
-@layer components { .modalField { @apply w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200; }}
+@layer components {
+  
+  .modalField { @apply w-full ml-2 p-1 focus:bg-gray-200 hover:bg-gray-200; }
 
-@layer components { .stdButton { @apply px-2 py-1 text-sm text-gray-700 bg-gray-200 border border-gray-700 rounded-lg shadow-sm }}
-@layer components { .searchTextInput { @apply w-48 p-1 text-gray-800 bg-white rounded-lg border border-gray-600 shadow-inner }}
+  .stdButton { @apply px-1 lg:px-2 py-0.5 lg:py-1  text-xs lg:text-sm
+         text-gray-800 bg-gray-200 border border-gray-700 rounded-lg shadow-sm }
+  .stdButton:hover {@apply bg-gray-400 transition duration-300}
 
+  .stdButton.dark { @apply bg-gray-400 }
+  .stdButton.dark:hover {@apply bg-gray-200}
 
+  .searchTextInput {@apply ml-2 w-36 lg:w-44  flex flex-row  text-gray-800
+    text-xs lg:text-sm  p-0.5 lg:px-1.5  border border-gray-600 rounded-lg shadow-inner }
+  
+  .stubWrapper { @apply text-xs flex flex-col items-center absolute text-gray-900 }
+  .stub { @apply flex w-60 bg-gray-200 border border-gray-900 rounded-lg opacity-80 z-10 }
+  .stub .fadeOutContainer { @apply w-1/2 h-4 absolute bottom-0 right-0  bg-gradient-to-l from-gray-200 }
+  .stub .titleContainer { @apply flex flex-col items-start w-3/4 p-3 relative  border-r border-gray-900 }
+  .stub .attributeContainer { @apply flex flex-col justify-between items-center w-3/12 p-2 rounded-r-lg }
 
-@layer components { .stubWrapper { @apply text-xs flex flex-col items-center absolute text-gray-900 }}
-@layer components { .stub { @apply flex w-60 bg-gray-200 border border-gray-900 rounded-lg opacity-80 z-10 }}
-@layer components { .stub .fadeOutContainer { @apply w-1/2 h-4 absolute bottom-0 right-0  bg-gradient-to-l from-gray-200 }}
-@layer components { .stub .titleContainer { @apply flex flex-col items-start w-3/4 p-3 relative  border-r border-gray-900 }}
-@layer components { .stub .attributeContainer { @apply flex flex-col justify-between items-center w-3/12 p-2 rounded-r-lg }}
+}
 
 

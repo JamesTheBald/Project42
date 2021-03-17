@@ -17,11 +17,11 @@ module.exports = {
    theme: {
 
       screens: {
-         'xs': '400px',
-         'sm': '600px',
-         'md': '800px',
+         'xs': '480px',
+         'sm': '720px',
+         'md': '900px',
          'lg': '1000px',
-         'xl': '1200px',
+         'xl': '1300px',
          '2xl': '1600px'
       },
 
@@ -116,6 +116,7 @@ module.exports = {
             '80': '20rem',
             '88': '22rem',
             '100': '25rem',
+            '110': '27.rem',
             '120': '30rem',
             '140': '35rem',
             '150': '37.5rem',

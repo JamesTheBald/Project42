@@ -17,29 +17,26 @@ const recdLog = false; //  true logs state variables aka 'records', e.g. posting
 const evntLog = false; //  true logs events, e.g. onClick, onKeyDown
 
 const stubScale = 0.25;
+const extraZoomOutFactor = 1;
 
 const imageWidth = 4676;  // Set these to equal background image dimensions, in pixels
 const imageHeight = 1998;
 const initialPanX = 0;
 const initialPanY = 0;
 
+let displayWidth;
+const displayHeight = window.innerHeight;
+let minZoomScaleByHeight = (displayHeight / imageHeight) * extraZoomOutFactor;
+
+let minZoomScale;
+const maxZoomScale = 12;
+const minZoomSpeed = 40;
+const maxZoomSpeed = 600;
+
 const blurKickInZoomLevel = 2.25;
 const blurStepOnStart = 0; // step change in blurring (in pixels) when blurKickInZoomLevel is reached
 const blurRampUpRate = 1.5; // as a multiplier of zoomLevel, to give pixels of blur
 
-const extraZoomOutFactor = 1;
-const displayWidth = window.innerWidth;
-const displayHeight = window.innerHeight;
-
-const minZoomScaleByWidth = (displayWidth / imageWidth) * extraZoomOutFactor;
-const minZoomScaleByHeight = (displayHeight / imageHeight) * extraZoomOutFactor;
-const minZoomScale = (minZoomScaleByWidth < minZoomScaleByHeight) ? minZoomScaleByWidth : minZoomScaleByHeight;
-console.log("Pre-AlphaComponent: minZoomScaleByWidth=", minZoomScaleByWidth);
-console.log("Pre-AlphaComponent: minZoomScaleByHeight=", minZoomScaleByHeight);
-const maxZoomScale = 12;
-
-const minZoomSpeed = 40;
-const maxZoomSpeed = 600;
 
 const emptyPost = {
   title: "Click to Edit",
@@ -63,11 +60,9 @@ const emptyTopic = {
   archived: false,
 };
 
+
 const AlphaComponent = () => {
-  useEffect(() => {
-    console.log("AlphaComponent.js first run. minZoomScale=", minZoomScale);
-    console.log("based on displayWidth=", displayWidth, " and displayHeight=", displayHeight);
-  }, []);
+  useEffect(() => { console.log("AlphaComponent.js is first run") }, []);
 
   const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [postingsDataArray, setPostingsDataArray] = useState();
@@ -100,6 +95,17 @@ const AlphaComponent = () => {
   recdLog && console.log("topicsDataArray=", topicsDataArray);
   recdLog && console.log("topicDraft=", topicDraft);
 
+
+  if (displayWidth !== window.innerWidth) {
+    displayWidth = window.innerWidth;
+    let minZoomScaleByWidth = (displayWidth / imageWidth) * extraZoomOutFactor;
+    minZoomScale = (minZoomScaleByWidth < minZoomScaleByHeight) ? minZoomScaleByWidth : minZoomScaleByHeight;
+    console.log("AlphaComponent: displayWidth=", displayWidth, ", displayHeight=", displayHeight );
+    console.log("AlphaComponent: minZoomScaleByWidth=", minZoomScaleByWidth);
+    console.log("AlphaComponent: minZoomScaleByHeight=", minZoomScaleByHeight);
+    console.log("AlphaComponent: So minZoomScale=", minZoomScale);
+  }
+
   const updateZoomPan = (stats) => {
     posnLogKey && console.log("AlphaComponent.js updateZoomPan() zoomScale=", stats.scale, ", blurLevel=", blurLevel);
     posnLogKey && console.log("AlphaComponent.js updateZoomPan() panX=", stats.positionX, ", panY=", stats.positionY);
@@ -112,6 +118,13 @@ const AlphaComponent = () => {
         : zoomScale * blurRampUpRate - blurKickInZoomLevel * blurRampUpRate - 1 + blurStepOnStart
     );
   };
+
+  const resetZoom = () => {
+    setZoomScale(minZoomScale);
+    setPanX(initialPanX);
+    setPanY(initialPanY);
+    scrollToTopLeft();
+  }
 
   const scrollToTopLeft = () => {
     // from https://gist.github.com/romanonthego/223d2efe17b72098326c82718f283adb
@@ -235,14 +248,16 @@ const AlphaComponent = () => {
         setCurrTopicIndex={setCurrTopicIndex}
         setCreatingTopicFlag={setCreatingTopicFlag}
         setTopicDraft={setTopicDraft}
-        // minZoomScale={minZoomScale}
-        // maxZoomScale={maxZoomScale}
+        minZoomScale={minZoomScale}
+        maxZoomScale={maxZoomScale}
         // zoomScale={zoomScale}
-        // setZoomScale={setZoomScale}
+        setZoomScale={setZoomScale}
+        resetZoom={resetZoom}
         zoomSpeed={zoomSpeed}
         setZoomSpeed={setZoomSpeed}
         minZoomSpeed={minZoomSpeed}
         maxZoomSpeed={maxZoomSpeed}
+        displayWidth={displayWidth}
         // recdLog={recdLog}
       />
 
