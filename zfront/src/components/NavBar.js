@@ -14,7 +14,6 @@ const NavBar = (props) => {
   const [searchTags, setSearchTags] = useState("");
   const [searchName, setSearchName] = useState("");
   const [searchTerm, setSearchTerm] = useState("Title ");
-  const [showToolMenu, setShowToolMenu] = useState(false);
 
   const emptyPost = props.emptyPost;
   let showWelcomeModal = props.showWelcomeModal;
@@ -43,6 +42,9 @@ const NavBar = (props) => {
   const minZoomSpeed = props.minZoomSpeed;
   const maxZoomSpeed = props.maxZoomSpeed;
   const displayWidth = props.displayWidth;
+  let showToolMenu = props.showToolMenu;
+  const setShowToolMenu = props.setShowToolMenu;
+  
   // const recdLog=props.recdLog;
 
   // const handleSelect = (event) => {

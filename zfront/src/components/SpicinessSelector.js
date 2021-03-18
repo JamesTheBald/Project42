@@ -5,12 +5,8 @@ import { IoRemoveCircleOutline } from 'react-icons/io5';
 
 const SpicinessSelector = (props) => {
 
-
-
   let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
-
-
 
   // Don't move this function! It needs to be placed BEFORE its call on line 28
   const conditionalDltBtnState = () => {
@@ -24,7 +20,6 @@ const SpicinessSelector = (props) => {
       return false;
     }
   }
-
 
 
   const [hideMildPepper, setHideMildPepper] = useState(false);
@@ -53,18 +48,13 @@ const SpicinessSelector = (props) => {
     <>
       {(postDraft.spiciness === "") ? 
         <>
-          <div
-            name="pepper-box"
-            className="flex"
-          >
+          <div name="no-spiciness-selected-pepper-group" className="flex flex-row  text-gray-600">
             <div
               name="mild-pepper-group"
               className={postDraft.spiciness == "mild" ? "opacity-100 flex items-center" : "opacity-50 cursor-pointer"}
               hidden={hideMildPepper}
             >
               <div
-                name = "pepperOnClickHousing"
-                className="flex justify-end"
                 onClick={() => {
                   handleSpicinessChange("mild");
                   setHideMediumPeppers(true);
@@ -72,12 +62,12 @@ const SpicinessSelector = (props) => {
                 }}
               >
                 <GiChiliPepper
-                  size="30"
-                  className="text-gray-600 hover:text-green-700"
+                  size="26"
+                  className="hover:text-green-600"
                 />
               </div>
               <div 
-                name="DltBtnOnClickHousing"
+                name="delete-button-onClick-housing"
                 onClick = {() => {
                   resetSelectedSpiciness("");
                   setHideMediumPeppers(false);
@@ -85,20 +75,19 @@ const SpicinessSelector = (props) => {
                 }}
               >
                 <IoRemoveCircleOutline
-                  className="cursor-pointer text-gray-400"
+                  className="cursor-pointer text-gray-500"
                   size="16"
                   hidden = {hideDeleteButton}
                 />
               </div>
             </div>
+
             <div
               name="medium-peppers-group"
               className={postDraft.spiciness == "medium" ? "opacity-100 flex items-center justify-end" : "opacity-50 cursor-pointer justify-end"}
               hidden={hideMediumPeppers}
             >
               <div
-                name="pepperOnClickHousing"
-                className="flex justify-end"
                 onClick={() => {
                   handleSpicinessChange("medium");
                   setHideMildPepper(true);
@@ -106,12 +95,12 @@ const SpicinessSelector = (props) => {
                 }}
               >
                 <GiChiliPepper
-                  size="30"
-                  className="text-gray-600 hover:text-yellow-600"
+                  size="26"
+                  className="hover:text-yellow-600"
                 />
               </div>
               <div
-                name = "DltBtnOnClickHousing"
+                name = "delete-button-onClick-housing"
                 onClick = {() => {
                   resetSelectedSpiciness("");
                   setHideMildPepper(false);
@@ -119,19 +108,19 @@ const SpicinessSelector = (props) => {
                 }}
               >
                 <IoRemoveCircleOutline
-                  className="cursor-pointer text-gray-400"
+                  className="cursor-pointer text-gray-500"
                   size="16"
                   hidden = {hideDeleteButton}
                 />
               </div>
             </div>
+
             <div
               name="spicy-peppers-group"
               className={postDraft.spiciness == "spicy" ? "opacity-100 flex items-center justify-end" : "opacity-50 cursor-pointer justify-end"}
               hidden={hideSpicyPeppers}
             >
               <div
-                name="pepperOnClickHousing"
                 className="flex justify-end"
                 onClick={() => {
                   handleSpicinessChange("spicy");
@@ -141,12 +130,12 @@ const SpicinessSelector = (props) => {
                 }}
               >
                 <GiChiliPepper
-                  size="30"
-                  className="text-gray-600 hover:text-red-600"
+                  size="26"
+                  className="hover:text-red-600"
                 />
               </div>
               <div
-                name="DltBtnOnClickHousing"
+                name="delete-button-onClick-housing"
                 onClick={() => {
                   resetSelectedSpiciness("");
                   setHideMildPepper(false);
@@ -154,7 +143,7 @@ const SpicinessSelector = (props) => {
                 }}
               >
                 <IoRemoveCircleOutline
-                  className="cursor-pointer text-gray-400"
+                  className="cursor-pointer text-gray-500"
                   size="16"
                   hidden = {hideDeleteButton}
                 />
@@ -170,7 +159,6 @@ const SpicinessSelector = (props) => {
             hidden={hideMildPepper}
           >
             <div
-              name = "pepperOnClickHousing"
               className="flex justify-end"
               onClick={() => {
                 handleSpicinessChange("mild");
@@ -179,12 +167,12 @@ const SpicinessSelector = (props) => {
               }}
             >
               <GiChiliPepper
-                size="30"
-                className="text-green-600"
+                size="26"
+                className="text-green-500"
               />
             </div>
             <div 
-              name="DltBtnOnClickHousing"
+              name="delete-button-onClick-housing"
               className="absolute right-5"
               onClick = {() => {
                 resetSelectedSpiciness("");
@@ -193,7 +181,7 @@ const SpicinessSelector = (props) => {
               }}
             >
               <IoRemoveCircleOutline
-                className="cursor-pointer text-gray-400"
+                className="cursor-pointer text-gray-500"
                 size="24"
                 hidden = {hideDeleteButton}
               />
@@ -208,7 +196,6 @@ const SpicinessSelector = (props) => {
             hidden={hideMediumPeppers}
           >
             <div
-              name="pepperOnClickHousing"
               className="flex justify-end"
               onClick={() => {
                 handleSpicinessChange("medium");
@@ -217,16 +204,16 @@ const SpicinessSelector = (props) => {
               }}
             >
               <GiChiliPepper
-                size="30"
+                size="26"
                 className="text-yellow-500"
               />
               <GiChiliPepper
-                size="30"
+                size="26"
                 className="text-yellow-500"
               />
             </div>
             <div
-              name = "DltBtnOnClickHousing"
+              name = "delete-button-onClick-housing"
               className="absolute right-4"
               onClick = {() => {
                 resetSelectedSpiciness("");
@@ -235,7 +222,7 @@ const SpicinessSelector = (props) => {
               }}
             >
               <IoRemoveCircleOutline
-                className="cursor-pointer text-gray-400"
+                className="cursor-pointer text-gray-500"
                 size="24"
                 hidden = {hideDeleteButton}
               />
@@ -246,12 +233,11 @@ const SpicinessSelector = (props) => {
         <>
           <div
             name="spicy-peppers-group"
-            className={postDraft.spiciness == "spicy" ? "opacity-100 w-full flex items-center justify-center relative" : "opacity-50 cursor-pointer justify-end"}
+            className={postDraft.spiciness == "spicy" ? "opacity-100 w-full flex items-center justify-end relative" : "opacity-50 cursor-pointer justify-end"}
             hidden={hideSpicyPeppers}
           >
             <div
-              name="pepperOnClickHousing"
-              className="flex justify-end"
+              className="flex justify-start"
               onClick={() => {
                 handleSpicinessChange("spicy");
                 setHideMildPepper(true);
@@ -260,21 +246,21 @@ const SpicinessSelector = (props) => {
               }}
             >
               <GiChiliPepper
-                size="30"
+                size="26"
                 className="text-red-500"
               />
               <GiChiliPepper
-                size="30"
+                size="26"
                 className="text-red-500"
               />
               <GiChiliPepper
-                size="30"
+                size="26"
                 className="text-red-500"
               />
             </div>
             <div
-              name="DltBtnOnClickHousing"
-              className="absolute right-5"
+              name="delete-button-onClick-housing"
+              // className="absolute right-5"
               onClick={() => {
                 resetSelectedSpiciness("");
                 setHideMildPepper(false);
@@ -282,7 +268,7 @@ const SpicinessSelector = (props) => {
               }}
             >
               <IoRemoveCircleOutline
-                className="cursor-pointer text-gray-400"
+                className="cursor-pointer text-gray-500 ml-1 mr-2"
                 size="24"
                 hidden = {hideDeleteButton}
               />

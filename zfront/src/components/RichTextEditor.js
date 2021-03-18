@@ -8,6 +8,7 @@ const RichTextEditor = (props) => {
   const [showToolbar, setShowToolbar] = useState(false);
   let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
+  const setShowMainModalFooter = props.setShowMainModalFooter;
 
 
   const handleSunEditorChange = (content) => {
@@ -22,9 +23,10 @@ const RichTextEditor = (props) => {
   return(
     <>
       <SunEditor
+        lang="en"
         name="content"
         type="text"
-        className="modalField"
+        // className="modalField"
         placeholder="Click to edit content"
         value={postDraft.content}
         setContents={postDraft.content}
@@ -32,13 +34,17 @@ const RichTextEditor = (props) => {
         showToolbar={showToolbar}
         onFocus={() => {
           setShowToolbar(true)
+          setShowMainModalFooter(false)
         }}
         onBlur={() => {
           setShowToolbar(false)
+          setShowMainModalFooter(true)
         }}
         onChange={handleSunEditorChange}
         setOptions={{
-          height: 200,
+          height: "auto",
+          maxHeight: 600,
+          defaultStyle: 'font-family: Arial; font-size: 16px;',
           buttonList: [
             ["undo", "redo"],
             ["font", "fontSize", "formatBlock", "textStyle"],

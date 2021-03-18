@@ -39,7 +39,7 @@ const blurRampUpRate = 1.5; // as a multiplier of zoomLevel, to give pixels of b
 
 
 const emptyPost = {
-  title: "Click to Edit",
+  title: "", // Click to Enter Title of New Post
   contributors: "",
   tags: "",
   contentType: "",
@@ -52,7 +52,7 @@ const emptyPost = {
 };
 
 const emptyTopic = {
-  topic: "Click to Edit",
+  topic: "",  // Click to Enter Title of New Topic
   topicLevel: "Main Topic",
   positionX: 1200, // Coordinates for topic's location. Don't confuse with panX & panY (screen pan distances)
   positionY: 1200,
@@ -84,6 +84,8 @@ const AlphaComponent = () => {
   const [topicDraft, setTopicDraft] = useState(emptyTopic);
   const [creatingTopicFlag, setCreatingTopicFlag] = useState(false);
   const [blurLevel, setBlurLevel] = useState(false);
+  const [showToolMenu, setShowToolMenu] = useState(false);
+
 
   const stubsDraggable = useRef(null);
   const stubDragged = useRef(false);
@@ -100,6 +102,7 @@ const AlphaComponent = () => {
     displayWidth = window.innerWidth;
     let minZoomScaleByWidth = (displayWidth / imageWidth) * extraZoomOutFactor;
     minZoomScale = (minZoomScaleByWidth < minZoomScaleByHeight) ? minZoomScaleByWidth : minZoomScaleByHeight;
+    setShowToolMenu(false);
     console.log("AlphaComponent: displayWidth=", displayWidth, ", displayHeight=", displayHeight );
     console.log("AlphaComponent: minZoomScaleByWidth=", minZoomScaleByWidth);
     console.log("AlphaComponent: minZoomScaleByHeight=", minZoomScaleByHeight);
@@ -258,6 +261,8 @@ const AlphaComponent = () => {
         minZoomSpeed={minZoomSpeed}
         maxZoomSpeed={maxZoomSpeed}
         displayWidth={displayWidth}
+        showToolMenu={showToolMenu}
+        setShowToolMenu={setShowToolMenu}
         // recdLog={recdLog}
       />
 

@@ -6,7 +6,6 @@ const ContentTypeSelector = (props) => {
   let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
 
-
   const changeContentType = (passedContentType) => {
     setPostDraft((currDraft) => {
       const newPostDraft = { ...currDraft, contentType: passedContentType };
@@ -18,7 +17,7 @@ const ContentTypeSelector = (props) => {
   return (
     <>
       <Dropdown>
-        <Dropdown.Toggle id="dropdown-basic" className="bg-gray-200 border-none flex items-center text-blue-600">
+        <Dropdown.Toggle id="dropdown-basic" className="text-sm lg:text-md bg-gray-200 border-none text-blue-600 p-0">
           {(postDraft.contentType === "") ?
             <>Primary Content Type</>
             :
