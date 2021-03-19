@@ -22,9 +22,9 @@ const AdminControls = (props) => {
 
   
   return (
-    <div>
+    <div className="relative">
       
-      <div className="flex flexrow items-center">
+      <div className="flex flexrow items-center z-50">
           <div className="text-xl mx-3 text-gray-700">Admin Controls:</div>
 
           <Button

@@ -233,7 +233,7 @@ const SpicinessSelector = (props) => {
         <>
           <div
             name="spicy-peppers-group"
-            className={postDraft.spiciness == "spicy" ? "opacity-100 w-full flex items-center justify-end relative" : "opacity-50 cursor-pointer justify-end"}
+            className={postDraft.spiciness == "spicy" ? "opacity-100 w-full flex items-center justify-center relative" : "opacity-50 cursor-pointer justify-end"}
             hidden={hideSpicyPeppers}
           >
             <div
@@ -260,7 +260,7 @@ const SpicinessSelector = (props) => {
             </div>
             <div
               name="delete-button-onClick-housing"
-              // className="absolute right-5"
+              className="lg:absolute lg:right-5"
               onClick={() => {
                 resetSelectedSpiciness("");
                 setHideMildPepper(false);

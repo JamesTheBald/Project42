@@ -12,7 +12,13 @@
     
     .stdButton.dark { @apply bg-gray-400 hover:bg-gray-200}
     
-  .modalField { @apply w-full ml-2 p-2 rounded-lg outline-none  hover:bg-gray-200 hover:text-gray-600 }
+  .modalField { @apply px-2 py-1 align-middle  rounded-lg outline-none  hover:bg-gray-200 hover:text-gray-600 }
+  .modalField:focus { @apply bg-gray-200 text-gray-700 }
+
+  .iconContainer {@apply w-14 h-12 flex justify-center items-center  text-blue-600}
+  
+  .modalFieldSpacer {@apply w-full h-2 flex-shrink-0 bg-red-200}
+
   .modalTab {@apply flex justify-center items-center bg-gray-200 border border-b-0 border-gray-300 rounded-t-xl}
 
   .searchTextInput {@apply ml-2 w-36 lg:w-44  flex flex-row  text-gray-800

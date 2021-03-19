@@ -1,5 +1,5 @@
 import React from "react";
-import TopicFormat from "./TopicFormat";
+import Topic from "./Topic";
 
 const RenderTopicsNonDraggable = (props) => {
 
@@ -35,7 +35,7 @@ const RenderTopicsNonDraggable = (props) => {
                   setShowTopicModal(true);
                 }}>
                   
-                  <TopicFormat topic={topic} />
+                  <Topic topic={topic} />
                   
               </div>
             </div>

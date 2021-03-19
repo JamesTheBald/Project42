@@ -14,6 +14,7 @@ const submitPost = (
   creatingPostFlag,
   recdLog
 ) => {
+  
   console.log("submitPost.js Clicked 'Save Post' creatingPostFlag=", creatingPostFlag);
   recdLog && console.log("submitPost.js saving to postingsDataArray=", postingsDataArray);
   recdLog && console.log("submitPost.js saving postDraft=", postDraft);

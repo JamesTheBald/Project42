@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 
-import PopupContent from "./PopupContent";
-import VoteCounter from "./VoteCounter";
-import RenderSpiciness from "./RenderSpiciness";
 import lockPost from "../functions/lockPost";
-import { AiOutlineCaretDown } from "react-icons/ai";
 import WarningModalLocked from "./WarningModalLocked";
+import Stub from "./Stub";
 
 
 const RenderStubsNonDraggable = (props) => {
@@ -29,7 +26,7 @@ const RenderStubsNonDraggable = (props) => {
   const handleOnClick = (post, index) => (evnt) => {
     evnt.stopPropagation();   // J: Meant to stop 'bubbling but I'm not sure it does anything or is even needed
 
-    recdLog && console.log("RenderStubsNonDraggble.js handleOnClick post=", post);
+    console.log("RenderStubsNonDraggble.js handleOnClick post=", post);
     if (post.locked && (millisecondsSinceUpdated(post) < 3600000)) {
       console.log("RenderStubsNonDraggble.js handleOnClick - post is locked");
       setShowWarningModalLocked(true);
@@ -57,7 +54,6 @@ const RenderStubsNonDraggable = (props) => {
     return (
       <>
         {postingsDataArray.map((post, index) => {
-          recdLog && console.log("RenderStubs .map: index=", index, " and post=", post);
           posnLog && console.log('RenderStubsNonDraggable begins. post=',post.positionX,', post.positionY=',post.positionY)
 
           return (
@@ -66,79 +62,21 @@ const RenderStubsNonDraggable = (props) => {
               className="stubWrapper"
               style={{  transform: `scale(${stubScale})`, top: post.positionY, left: post.positionX, }}
             >
-              {/* Stub */}
-              <div
-                className="tooltipBase stub"
-                onClick={handleOnClick(post, index)}
-              >
-                <div
-                  name="title-contributor-container"
-                  className="titleContainer"
-                >
-                  {post.title ? (
-                    <div>
-                      <div className="h-8.5  overflow-hidden font-500 relative">{post.title}
-                      
-                        {post.title.length > 60 && (
-                          <div
-                            name="fade-out-title-container"
-                            className="fadeOutContainer"
-                          />
-                        )}
-                      </div>
-
-                    </div>
-                  ) : (
-                    <div>Click to edit</div>
-                  )}
-
-                  <div className="mt-3 text-gray-700 w-full truncate overflow-hidden">
-                    {post.contributors}
-                  </div>
-                </div>
-
-                <div name="stub-attribute-container"
-                  className="attributeContainer"
-                >
-                  <div className="text-gray-700"> {post.contentType} </div>
-
-                  <div className="my-1.5">
-                    <RenderSpiciness spiciness={post.spiciness} />
-                  </div>
-
-                  <VoteCounter
-                    postingsDataArray={postingsDataArray}
-                    userVoted={userVoted}
-                    setUserVoted={setUserVoted}
-                    postDraft={postDraft}
-                    setPostDraft={setPostDraft}
-                    index={index}
-                  />
-                </div>
-
-                {/* Tooltip - content and formatting must match RenderStubsDraggable's! */}
-                <span className="tooltipItself  flex flex-col items-center">
-
-                  <div className={`w-96 p-2  bg-gray-200 rounded-lg`}>
-                    <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
-                  </div>
-                  <div style={{ transform: "translateY(-8px)" }}>
-                    <AiOutlineCaretDown className="text-3xl  text-gray-200" />
-                  </div>
-
-                </span>
-
-              </div>
-
-              {/* this matches the 'Dragging Selection Overlay' box on RenderStubsDraggable  */}
-              {/* <div className="invisible w-56 h-24 transform -translate-y-24" /> */}
-
+              <Stub
+                post={post}
+                index={index}
+                handleOnClick={handleOnClick}
+                postingsDataArray={postingsDataArray}
+                postDraft={postDraft}
+                setPostDraft={setPostDraft}
+                userVoted={userVoted}
+                setUserVoted={setUserVoted}
+              />
 
               <WarningModalLocked
                 showWarningModalLocked={showWarningModalLocked}
                 setShowWarningModalLocked={setShowWarningModalLocked}
               />
-
 
             </div>
           );

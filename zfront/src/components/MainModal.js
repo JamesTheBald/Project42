@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import RichTextEditor from "./RichTextEditor";
 import TextareaAutosize from 'react-textarea-autosize';
 import { AiOutlineUser, AiOutlineTags } from "react-icons/ai";
-import { BiBullseye } from "react-icons/bi";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { BsInfoSquare } from "react-icons/bs";
+import { BiCalendar } from "react-icons/bi";
 
 import convertISODate from "../functions/convertISODate";
 import ContentTypeSelector from "./ContentTypeSelector";
@@ -15,8 +16,10 @@ import WarningModalEdits from "./WarningModalEdits";
 import submitPost from "../functions/submitPost";
 import WarningDeleteModal from "../components/WarningDeleteModal";
 import unlockPost from "../functions/unlockPost";
+// import { BsWatch } from "react-icons/bs";
 
 const MainModal = (props) => {
+
   const emptyPost = props.emptyPost;
   let currPostIndex = props.currPostIndex;
   let showMainModal = props.showMainModal;
@@ -33,45 +36,43 @@ const MainModal = (props) => {
   const [showWarningModalEdits, setshowWarningModalEdits] = useState(false);
   const [showWarningDeleteModal, setShowWarningDeleteModal] = useState(false);
   const [showMainModalFooter, setShowMainModalFooter] = useState(true);
-  let madeEdits = useRef();
 
-  useEffect(() => {
-    madeEdits.current = false;
-  }, []);
+  console.log("MainModal.js begins. postDraft=", postDraft);
 
-  // console.log("MainModal.js Begins.");
-  // console.log("MainModal.js: postDraft=", postDraft);
 
-  const handleInputChange = (evnt) => {
-    madeEdits.current = true;
+  const { register, handleSubmit, watch, errors, formState: { isDirty }, } = useForm({
+    defaultValues: {
+      title: postDraft?.title,
+      contributors: postDraft?.contributors,
+      tags: postDraft?.tags,
+      purpose: postDraft?.purpose 
+    }
+  })
 
-    recdLog && console.log("MainModal handleInputChange event=", evnt);
-    const { name, value } = evnt.target;
 
-    setPostDraft((currDraft) => {
-      const newPostDraft = { ...currDraft, [name]: value };
-      // Brackets [] around 'name' are so the VALUE of name is used for the key and not just the string 'name'.
-      recdLog && console.log("MainModal.js: handleInputChange: setting postDraft to", newPostDraft);
-      return newPostDraft;
-    });
+  const onSubmit = (data) => {
+    recdLog && console.log("MainModal.js onSubmit data=",data);
+
+    let newPostDraft;
+    newPostDraft = {...postDraft, ...data, locked:false };
+    delete newPostDraft.submit;
+    console.log("MainModal.js onSubmit: newPostDraft for submitPost()=", newPostDraft);
+
+    submitPost(
+      emptyPost,
+      newPostDraft,
+      postingsDataArray,
+      setPostingsDataArray,
+      currPostIndex,
+      setShowMainModal,
+      creatingPostFlag
+    );
   };
 
-  // Switch focus to next input field when Enter is pressed
-  function handleEnter(evnt) {
-    // From: https://stackoverflow.com/questions/38577224/focus-on-next-field-when-pressing-enter-react-js
-    if (evnt.keyCode === 13) {
-      const form = evnt.target.form;
-      const index = Array.prototype.indexOf.call(form, evnt.target);
-      form.elements[index + 1].focus();
-      evnt.preventDefault();
-    }
-  }
 
-  const safeModalHide = (madeEdits) => {
-    console.log("safeModalHide madeEdits.current =", madeEdits.current);
-
-    if (madeEdits.current) {
-      console.log("safeModalHide warning issued, showing WarningModalEdits", madeEdits.current);
+  const safeModalHide = () => {
+    if (isDirty) {
+      console.log("safeModalHide warning issued, showing WarningModalEdits");
       setshowWarningModalEdits(true);
     } else {
       setShowMainModal(false);
@@ -83,8 +84,9 @@ const MainModal = (props) => {
     }
   };
 
-  
-  let paddingBody = (window.innerWidth<=1000) ? 2 : 4;
+
+  let paddingBody = (window.innerWidth<=1000) ? 2 : 4;  // So Bootstrap modal body padding is responsive.
+
 
 
   return (
@@ -94,105 +96,116 @@ const MainModal = (props) => {
         centered
         show={showMainModal}
         animation={false}
-        onHide={() => {
-          safeModalHide(madeEdits);
-        }}
+        onHide={() => safeModalHide()}
       >
-        <form
-          onSubmit={() => {
-            submitPost(
-              emptyPost,
-              postDraft,
-              postingsDataArray,
-              setPostingsDataArray,
-              currPostIndex,
-              setShowMainModal,
-              creatingPostFlag
-            );
-          }}
-        >
-
+        <form onSubmit={handleSubmit(onSubmit)}>
+          
           <Modal.Body>
-            <div className={`px-${paddingBody}`}>  {/* Bootstrap modal suppresses Tailwind responsive breakpoint prefixes */}
-              <>
+            <div className={`px-${paddingBody}`}>  {/* because Bootstrap modal suppresses Tailwind responsive breakpoint prefixes */}
+            
+              {/* Title field */}
+              <div className="mt-3">
                 <input
                   name="title"
-                  type="text"
-                  required
-                  maxLength="75"
-                  className="modalField text-2xl font-500 mt-3 mb-2"
-                  placeholder="Click to enter title of new post here"
-                  value={postDraft.title}
-                  onChange={handleInputChange}
-                  onKeyDown={handleEnter}
+                  ref={register({ required: true })}
+                  className={`modalField w-full text-2xl font-500 
+                  ${(watch('title')===emptyPost?.title) && 'text-gray-500' }`}  // Grayed out until edited
                 />
-              </>
+                {errors.title && <p className="ml-3 text-yellow-600 font-500">Please enter a title</p>}
+              </div>
 
-              {postDraft?.createdAt && postDraft.updatedAt ? ( // If there aren't any dates, just skip this
-                <>
-                  <div className="flex flex-row ml-1 mt-3">
-                  
-                    <FaRegCalendarAlt size="20" className="ml-0.5 text-blue-600" />
 
-                    {/* Dates are read-only, and only shown for existing posts */}
-                    <div className="flex flex-row" style={{paddingLeft: 1.3+"rem"}}>
-                      <div className="font-500">Created:</div>
-                      <div className="ml-2">{convertISODate(postDraft.createdAt)}</div>
-                    </div>
-                    <div className="ml-10 flex flex-row">
-                      <div className="font-500">Modified:</div>
-                      <div className="ml-2">{convertISODate(postDraft.updatedAt)}</div>
-                    </div>
+              {/* Contributors & Dates fields (stacked or side-by-side, depending on window size) */}
+              <div className="mt-2.5 xl:mt-2  w-full flex flex-col items-start xl:flex-row">
+
+                <div className="pr-4 w-full xl:w-1/2  flex flex-row items-center bg-green-200">
+                {/* ml-1.5 xl:ml-0.5 pr-4  */}
+                  <div className="iconContainer bg-yellow-200">
+                    <AiOutlineUser size="26" />
                   </div>
-                </>
-              ) : (
-                <></>
-              )}
+                  
+                  <input
+                    name="contributors"
+                    ref={register({ required: true })}
+                    className={`modalField w-full bg-blue-200 ${(watch('contributors')===emptyPost?.contributors) && 'text-gray-500' }`}
+                  />
+                </div>
+                {errors.contributors && <p className="ml-12 text-yellow-600 font-500">Please enter at least 1 contributor name</p>}
 
-              <div className="flex flex-row items-center" style={{marginLeft: 0.25+"rem", marginTop: 0.8+"rem"}}>
-                <AiOutlineUser size="30" className="text-blue-600" />
-                <input
-                  name="contributors"
-                  type="text"
-                  required
-                  className="modalField"
-                  placeholder="Contributors' firstnames and last initial (e.g. Tony E.)"
-                  value={postDraft.contributors}
-                  onChange={handleInputChange}
-                  onKeyDown={handleEnter}
-                />
+                {/* Show Dates for existing posts only */}
+                {(postDraft?.createdAt && postDraft.updatedAt) && (
+                  <div className="w-full xl:w-1/2 flex flex-row items-center bg-green-200">
+                    <div className="iconContainer bg-yellow-200">
+                      <BiCalendar size="26" />
+                    </div>  
+                    <span className="modalField w-1/2 bg-blue-200">
+                      <span>Created:</span>
+                      <span className="ml-2">{convertISODate(postDraft.createdAt)}</span>
+                    </span>
+                    <span className="modalField w-1/2">
+                      <span>Modified:</span>
+                      <span className="ml-2">{convertISODate(postDraft.updatedAt)}</span>
+                    </span>
+                  </div>
+                )}
+
               </div>
 
-              <div className="flex flex-row items-center m-1">
-                <AiOutlineTags size="28" className="text-blue-600" />
-                <input
-                  name="tags"
-                  type="text"
-                  className="modalField"
-                  placeholder="What tags are related to your post?"
-                  value={postDraft.tags}
-                  onChange={handleInputChange}
-                  onKeyDown={handleEnter}
-                />
+              {/* <div className="w-full h-2 bg-gray-200"></div> */}
+
+              {/* Description & Tags fields (stacked or side-by-side, depending on window size) */}
+              <div className="w-full  flex flex-col xl:flex-row xl:items-start">
+
+                {/* Description field */}
+                <div className="pr-4 w-full xl:w-1/2  flex flex-row items-start
+                 bg-green-200">
+                  <div className="iconContainer bg-yellow-200">
+                    <BsInfoSquare size="22" className="align-top"/>
+                  </div>
+                  <div className="w-full flex flex-col align-start  bg-yellow-200">
+                    <div className="modalFieldSpacer" />
+                    <TextareaAutosize
+                      name="purpose"
+                      type="text"
+                      ref={register}
+                      minRows="1"
+                      maxRows="3"
+                      className={`modalField w-full bg-blue-200
+                      ${(watch('purpose')===emptyPost?.purpose) && 'text-gray-500' }`}  // Grayed out until edited
+                    />
+                    <div className="modalFieldSpacer h-1" />
+                  </div>
+                </div>
+
+                {/* AiOutlineTags size="28"  */}
+
+                {/* Tags field */}
+                <div className="pr-4 w-full xl:w-1/2  flex flex-row items-start
+                 bg-green-200">
+                  <div className="iconContainer bg-yellow-200">
+                    <AiOutlineTags size="28" className="align-top"/>
+                  </div>
+                  <div className="w-full flex flex-col align-start  bg-yellow-200">
+                    <div className="modalFieldSpacer" />
+                    <TextareaAutosize
+                      name="tags"
+                      type="text"
+                      ref={register}
+                      minRows="1"
+                      maxRows="3"
+                      className={`modalField w-full bg-blue-200
+                      ${(watch('tags')===emptyPost?.tags) && 'text-gray-500' }`}  // Grayed out until edited
+                    />
+                    <div className="modalFieldSpacer h-1" />
+
+                  </div>
+                </div>
+
               </div>
 
-              {/* Purpose field */}
-              <div className="flex w-full mt-1 mx-1">
-                <BiBullseye size="26" className="mt-1.5 text-blue-600" />
-                <TextareaAutosize
-                  name="purpose"
-                  type="text"
-                  minRows="1"
-                  maxRows="3"
-                  className="modalField"
-                  value={postDraft.purpose}
-                  placeholder="Purpose: What does your post help readers accomplish?"
-                  onChange={handleInputChange}
-                />
-              </div>
 
               {/* Primary Content Type, Spiciness, Upvotes */}
-              <div className="mt-4 px-2 h-12 w-full  flex justify-between ">
+              <div className="mt-2 px-2 h-12 w-full  flex justify-between ">
 
                 <div className="w-5/12 modalTab">
                   <ContentTypeSelector postDraft={postDraft} setPostDraft={setPostDraft}></ContentTypeSelector>
@@ -221,40 +234,47 @@ const MainModal = (props) => {
 
           </Modal.Body>
 
-        {showMainModalFooter ?
-          <>
-            <Modal.Footer className="relative">
-              <Button
-                onClick={() => setShowWarningDeleteModal(true)}
-                className="flex items-center self-start bg-white hover:bg-red-100 border-none text-red-400 absolute left-2 hover:text-red-600"
-              >
-                Archive Post
-              </Button>
-              <Button
-                className="flex items-center self-start bg-white text-blue-600 border-blue-600 hover:text-blue-700 hover:border-blue-700 hover:bg-gray-100"
-                onClick={() => {
-                  console.log("MainModal.js Clicked Abandon Changes");
-                  setShowMainModal(false);
-                }}
-              >
-                Abandon Changes
-              </Button>
-              <Button type="submit" className="flex items-center bg-blue-600 hover:bg-blue-700 border-blue-600">
-                Save &amp; Close
-              </Button>
-            </Modal.Footer>
-          </>
-          :
-          <>
-            <Modal.Footer className="relative">
-              <Button type="submit" className="bg-gray-600 hover:bg-gray-700 border-gray-600">
-                Exit Editor
-              </Button>
+          {showMainModalFooter ?
+            <>
+              <Modal.Footer className="relative">
+                <Button
+                  onClick={() => setShowWarningDeleteModal(true)}
+                  className="absolute left-2 flex items-center self-start bg-white hover:bg-red-100 border-none text-red-400 
+                   hover:text-red-600"
+                >
+                  Archive Post
+                </Button>
 
-            </Modal.Footer>
-          </>
-        }
+                <Button
+                  className="self-start bg-white text-blue-600 border-blue-600
+                           hover:text-blue-700 hover:border-blue-700 hover:bg-gray-100"
+                  onClick={() => {
+                    console.log("MainModal.js Clicked Abandon Changes");
+                    setShowMainModal(false);
+                  }}
+                >
+                  Abandon Changes
+                </Button>
+
+                <Button name="submit" type="submit" ref={register} 
+                  className="flex items-center bg-blue-600 hover:bg-blue-700 border-blue-600">
+                  Save &amp; Close
+                </Button>
+              </Modal.Footer>
+            </>
+            :
+            <>
+              <Modal.Footer className="relative">
+                <Button  className="bg-gray-600 hover:bg-gray-700 border-gray-600">
+                    {/* type="submit" */}
+                  Exit Text Editor
+                </Button>
+
+              </Modal.Footer>
+            </>
+          }
           
+
         </form>
 
         <WarningModalEdits

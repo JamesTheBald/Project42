@@ -73,7 +73,7 @@ exports.findAll = (req, res) => {
 
   postingsModel.find(condition)
     .then(data => {
-      console.log ("data=",data)
+      console.log ("postingsController.sj retrived ",data.length," postings")
       res.send(data);
     })
     .catch(err => {

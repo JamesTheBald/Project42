@@ -8,7 +8,8 @@ const topicsRoutes = require("./app/routes/topicsRoutes.js");
 const PORT = process.env.PORT || 8082;
 
 var corsOptions = {
-  origin: "http://localhost:8083"               //J: Should we put the port number in a variable?
+  origin: "http://localhost:8083",               //J: Should we put the port number in a variable?
+  origin: "http://localhost:8084"
 };
 
 const exprs = express();                                // J: This runs the express function, to initialize it.

@@ -24,11 +24,12 @@ const imageHeight = 1998;
 const initialPanX = 0;
 const initialPanY = 0;
 
-let displayWidth;
+let displayWidth = window.innerWidth;
+let minZoomScaleByWidth = (displayWidth / imageWidth) * extraZoomOutFactor;
 const displayHeight = window.innerHeight;
 let minZoomScaleByHeight = (displayHeight / imageHeight) * extraZoomOutFactor;
+let minZoomScale = (minZoomScaleByWidth < minZoomScaleByHeight) ? minZoomScaleByWidth : minZoomScaleByHeight;
 
-let minZoomScale;
 const maxZoomScale = 12;
 const minZoomSpeed = 40;
 const maxZoomSpeed = 600;
@@ -39,9 +40,10 @@ const blurRampUpRate = 1.5; // as a multiplier of zoomLevel, to give pixels of b
 
 
 const emptyPost = {
-  title: "", // Click to Enter Title of New Post
-  contributors: "",
-  tags: "",
+  title: "Click to enter title of new post here",
+  contributors: "Firstname & last initial of each contributor (e.g. Tony E.)",
+  tags: "What tags are related to your post?",
+  purpose: "Please enter a brief description. What is this post about?",
   contentType: "",
   spiciness: "",
   upvotes: 0,
@@ -147,7 +149,7 @@ const AlphaComponent = () => {
 
   useEffect(() => {
 
-    console.log("AlphaComponent.js useEffect() zoomScale=", zoomScale, "panX=" ,panX, ", panY=", panY);
+    posnLog && console.log("AlphaComponent.js useEffect() zoomScale=", zoomScale, "panX=" ,panX, ", panY=", panY);
 
     let adjustedPanX = imageWidth / 2 - imageWidth / (2 * zoomScale) + panX / zoomScale;
     let adjustedPanY = imageHeight / 2 - imageHeight / (2 * zoomScale) + panY / zoomScale;
@@ -233,38 +235,53 @@ const AlphaComponent = () => {
   // MAIN AlphaComponent
   return (
     <div className="backgroundColor" style={{ width: `${imageWidth}px`, height: `${imageHeight}px` }}>
-      <NavBar
-        className="absolute"
-        emptyPost={emptyPost}
-        showWelcomeModal={showWelcomeModal}
-        setShowWelcomeModal={setShowWelcomeModal}
-        setShowMainModal={setShowMainModal}
-        postingsDataArray={postingsDataArray}
-        setPostingsDataArray={setPostingsDataArray}
-        setCurrPostIndex={setCurrPostIndex}
-        setCreatingPostFlag={setCreatingPostFlag}
-        setPostDraft={setPostDraft}
-        emptyTopic={emptyTopic}
-        setShowTopicModal={setShowTopicModal}
-        topicsDataArray={topicsDataArray}
-        setTopicsDataArray={setTopicsDataArray}
-        setCurrTopicIndex={setCurrTopicIndex}
-        setCreatingTopicFlag={setCreatingTopicFlag}
-        setTopicDraft={setTopicDraft}
-        minZoomScale={minZoomScale}
-        maxZoomScale={maxZoomScale}
-        // zoomScale={zoomScale}
-        setZoomScale={setZoomScale}
-        resetZoom={resetZoom}
-        zoomSpeed={zoomSpeed}
-        setZoomSpeed={setZoomSpeed}
-        minZoomSpeed={minZoomSpeed}
-        maxZoomSpeed={maxZoomSpeed}
-        displayWidth={displayWidth}
-        showToolMenu={showToolMenu}
-        setShowToolMenu={setShowToolMenu}
-        // recdLog={recdLog}
-      />
+      <div className="flex flex-row">
+        
+        <NavBar
+          className="absolute"
+          emptyPost={emptyPost}
+          showWelcomeModal={showWelcomeModal}
+          setShowWelcomeModal={setShowWelcomeModal}
+          setShowMainModal={setShowMainModal}
+          postingsDataArray={postingsDataArray}
+          setPostingsDataArray={setPostingsDataArray}
+          setCurrPostIndex={setCurrPostIndex}
+          setCreatingPostFlag={setCreatingPostFlag}
+          setPostDraft={setPostDraft}
+          emptyTopic={emptyTopic}
+          setShowTopicModal={setShowTopicModal}
+          topicsDataArray={topicsDataArray}
+          setTopicsDataArray={setTopicsDataArray}
+          setCurrTopicIndex={setCurrTopicIndex}
+          setCreatingTopicFlag={setCreatingTopicFlag}
+          setTopicDraft={setTopicDraft}
+          minZoomScale={minZoomScale}
+          maxZoomScale={maxZoomScale}
+          // zoomScale={zoomScale}
+          setZoomScale={setZoomScale}
+          resetZoom={resetZoom}
+          zoomSpeed={zoomSpeed}
+          setZoomSpeed={setZoomSpeed}
+          minZoomSpeed={minZoomSpeed}
+          maxZoomSpeed={maxZoomSpeed}
+          displayWidth={displayWidth}
+          showToolMenu={showToolMenu}
+          setShowToolMenu={setShowToolMenu}
+          // recdLog={recdLog}
+        />
+
+        {adminMode && (
+          <AdminControls
+            emptyPost={emptyPost}
+            emptyTopic={emptyTopic}
+            postingsDataArray={postingsDataArray}
+            setPostingsDataArray={setPostingsDataArray}
+            topicsDataArray={topicsDataArray}
+            setTopicsDataArray={setTopicsDataArray}
+            recdLog={recdLog}
+          />
+        )}
+      </div> 
 
       {/* Draggable Mode */}
       <div
@@ -300,6 +317,8 @@ const AlphaComponent = () => {
               setCreatingTopicFlag={setCreatingTopicFlag}
               topicDragged={topicDragged}
               stubScale={stubScale}
+              posnLog={posnLog}
+              evntLog={evntLog}
             />
           </>
         )}
@@ -348,6 +367,7 @@ const AlphaComponent = () => {
       {/* Present for both DragMode and !DragMode, but often hidden */}
       {showMainModal && (
         <MainModal
+          emptyPost={emptyPost}
           showMainModal={showMainModal}
           setShowMainModal={setShowMainModal}
           postingsDataArray={postingsDataArray}
@@ -378,19 +398,6 @@ const AlphaComponent = () => {
         />
       )}
 
-      {/* {dragMode && <div>Drag items to desired positions</div>} */}
-
-      {adminMode && (
-        <AdminControls
-          emptyPost={emptyPost}
-          emptyTopic={emptyTopic}
-          postingsDataArray={postingsDataArray}
-          setPostingsDataArray={setPostingsDataArray}
-          topicsDataArray={topicsDataArray}
-          setTopicsDataArray={setTopicsDataArray}
-          recdLog={recdLog}
-        />
-      )}
     </div>
   );
 };
