@@ -26,7 +26,7 @@ const WarningTopicDeleteModal = (props) => {
         show={showWarningTopicDeleteModal}
         onHide={handleClose}
       >
-        <Modal.Body closeButton className="p-6 pt-7 pb-4  flex flex-col border-2 border-gray-600 bg-gray-50 shadow-lg">
+        <Modal.Body className="p-6 pt-7 pb-4  flex flex-col border-2 border-gray-600 bg-gray-50 shadow-lg">
           <div className="text-2xl mx-auto text-center font-600 text-yellow-600">
             Are you sure you want to archive this topic?
           </div>

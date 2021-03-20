@@ -3,6 +3,10 @@ import React from 'react'
 const Topic = (props) => {
 
   const topic = props.topic;
+  const index = props.index;
+  const prepAndOpenTopicModal = props.prepAndOpenTopicModal;
+
+
   const topicTitle = topic.topic || "Click to Edit"
   let topicClassName = "";
 
@@ -14,7 +18,12 @@ const Topic = (props) => {
 
   return (
     <div>
-      <div className={`text-yellow-300 relative z-10 ${topicClassName}`}>{topicTitle}</div>
+      <div
+        className={`text-yellow-300 relative z-10 ${topicClassName}`}
+        onClick={ () => prepAndOpenTopicModal(topic, index) }
+      >
+        {topicTitle}
+      </div>
       <div className={`bg-gray-800 relative transform -translate-y-full opacity-60 z-0 ${topicClassName}`}>
         {topicTitle}
       </div>

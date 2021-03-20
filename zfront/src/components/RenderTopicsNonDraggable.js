@@ -13,6 +13,14 @@ const RenderTopicsNonDraggable = (props) => {
 
   recdLog && console.log("RenderTopicsNonDraggable.js begins. topicsDataArray=", topicsDataArray);
 
+  const prepAndOpenTopicModal = (topic, index) => {
+    setCreatingTopicFlag(false);
+    setCurrTopicIndex(index);
+    setTopicDraft(topic);
+    setShowTopicModal(true);
+  }
+
+
   if (topicsDataArray?.[0]?._id) {
     return (
       <>
@@ -26,18 +34,9 @@ const RenderTopicsNonDraggable = (props) => {
               className="flex flex-col items-center absolute text-gray-800"
               style={{ top: topic.positionY, left: topic.positionX }}
             >
-              {/* Topic Stub */}
-              <div
-                onClick={() => {
-                  setCreatingTopicFlag(false);
-                  setCurrTopicIndex(index);
-                  setTopicDraft(topic);
-                  setShowTopicModal(true);
-                }}>
-                  
-                  <Topic topic={topic} />
-                  
-              </div>
+              
+              <Topic topic={topic} index={index} prepAndOpenTopicModal={prepAndOpenTopicModal} />
+              
             </div>
           );
         })}
