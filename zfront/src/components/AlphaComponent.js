@@ -122,6 +122,7 @@ const AlphaComponent = () => {
         ? 1
         : zoomScale * blurRampUpRate - blurKickInZoomLevel * blurRampUpRate - 1 + blurStepOnStart
     );
+    setShowToolMenu(false);
   };
 
   const resetZoom = () => {

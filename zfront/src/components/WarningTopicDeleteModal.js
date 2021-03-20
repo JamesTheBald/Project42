@@ -8,14 +8,11 @@ const WarningTopicDeleteModal = (props) => {
   const showWarningTopicDeleteModal = props.showWarningTopicDeleteModal;
   const setShowWarningTopicDeleteModal = props.setShowWarningTopicDeleteModal;
   const topicDraft = props.topicDraft;
-  // const setTopicDraft = props.setTopicDraft
   const topicsDataArray = props.topicsDataArray;
   const setTopicsDataArray = props.setTopicsDataArray;
   const currTopicIndex = props.currTopicIndex;
   const setShowTopicModal = props.setShowTopicModal;
   const creatingTopicFlag = props.creatingTopicFlag;
-
-  const modalBackgroundColor = "bg-yellow-200";
 
   const handleClose = () => setShowWarningTopicDeleteModal(false)
   
@@ -29,31 +26,32 @@ const WarningTopicDeleteModal = (props) => {
         show={showWarningTopicDeleteModal}
         onHide={handleClose}
       >
-        <Modal.Header closeButton className={modalBackgroundColor}>
-          <Modal.Title>Are you sure you want to archive this topic?</Modal.Title>
-        </Modal.Header>
+        <Modal.Body closeButton className="p-6 pt-7 pb-4  flex flex-col border-2 border-gray-600 bg-gray-50 shadow-lg">
+          <div className="text-2xl mx-auto text-center font-600 text-yellow-600">
+            Are you sure you want to archive this topic?
+          </div>
 
-        <Modal.Footer className={modalBackgroundColor}>
+          <div className="mt-8 flex flex-row justify-around">
+            <Button variant="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
 
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
+            <Button variant="secondary" 
+              onClick={() => {
+                deleteTopic(
+                  topicDraft,
+                  topicsDataArray,
+                  setTopicsDataArray,
+                  currTopicIndex,
+                  setShowTopicModal,
+                  creatingTopicFlag
+                );
+              }}>
+              Archive Topic
+            </Button>
+          </div>
 
-          <Button variant="secondary" 
-            onClick={() => {
-              deleteTopic(
-                topicDraft,
-                topicsDataArray,
-                setTopicsDataArray,
-                currTopicIndex,
-                setShowTopicModal,
-                creatingTopicFlag
-              );
-            }}>
-            Archive Topic
-          </Button>
-
-        </Modal.Footer>
+        </Modal.Body>
       </Modal>
     </div>
   );

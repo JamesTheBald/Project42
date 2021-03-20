@@ -19,7 +19,7 @@ const WarningDeleteModal = (props) => {
   
 
   return (
-    <div className="bg-orange-200">
+    <div>
       <Modal
         size="sm"
         centered
@@ -27,14 +27,13 @@ const WarningDeleteModal = (props) => {
         show={showWarningDeleteModal}
         onHide={handleClose}
       >
-        <div className="bg-yellow-200 border-gray-400">
 
-          <Modal.Header closeButton>
-            <Modal.Title>Are you sure you want to archive this post?</Modal.Title>
-          </Modal.Header>
+        <Modal.Body closeButton className="p-6 pt-7 pb-4  flex flex-col border-2 border-gray-600 bg-gray-50 shadow-lg">
+          <div className="text-2xl mx-auto text-center font-600 text-yellow-600">
+            Are you sure you want to archive this post?
+          </div>
 
-          <Modal.Footer>
-
+          <div className="mt-8 flex flex-row justify-around">
             <Button variant="secondary" onClick={handleClose}>
               Cancel
             </Button>
@@ -52,9 +51,8 @@ const WarningDeleteModal = (props) => {
               }}>
               Archive Post
             </Button>
-
-          </Modal.Footer>
-        </div>
+          </div>
+        </Modal.Body>
       </Modal>
     </div>
   );

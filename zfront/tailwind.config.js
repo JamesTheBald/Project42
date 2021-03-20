@@ -71,14 +71,6 @@ module.exports = {
    
          colors: {
 
-            evu: {
-               'lt-green': '#90C44E',     // graphics
-               'lt-blue':  '#1E90B4',     // title text
-               'green': '#9ccb3b',
-               'blue':  '#1D9DC0',        // graphics
-               'gray':  '#444543',  //Used #4c4c4c on logo text
-            }, 
-
             blue: {
                100: '#ebf8ff',
                200: '#bee3f8',

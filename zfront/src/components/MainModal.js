@@ -118,27 +118,27 @@ const MainModal = (props) => {
               {/* Contributors & Dates fields (stacked or side-by-side, depending on window size) */}
               <div className="mt-2.5 xl:mt-2  w-full flex flex-col items-start xl:flex-row">
 
-                <div className="pr-4 w-full xl:w-1/2  flex flex-row items-center bg-green-200">
-                {/* ml-1.5 xl:ml-0.5 pr-4  */}
-                  <div className="iconContainer bg-yellow-200">
+                {/* Contributors */}
+                <div className="pr-2 w-full xl:w-1/2  flex flex-row items-center ">
+                  <div className="iconContainer ">
                     <AiOutlineUser size="26" />
                   </div>
                   
                   <input
                     name="contributors"
                     ref={register({ required: true })}
-                    className={`modalField w-full bg-blue-200 ${(watch('contributors')===emptyPost?.contributors) && 'text-gray-500' }`}
+                    className={`modalField w-full  ${(watch('contributors')===emptyPost?.contributors) && 'text-gray-500' }`}
                   />
                 </div>
                 {errors.contributors && <p className="ml-12 text-yellow-600 font-500">Please enter at least 1 contributor name</p>}
 
                 {/* Show Dates for existing posts only */}
                 {(postDraft?.createdAt && postDraft.updatedAt) && (
-                  <div className="w-full xl:w-1/2 flex flex-row items-center bg-green-200">
-                    <div className="iconContainer bg-yellow-200">
+                  <div className="pl-2 w-full xl:w-1/2 flex flex-row items-center ">
+                    <div className="iconContainer ">
                       <BiCalendar size="26" />
                     </div>  
-                    <span className="modalField w-1/2 bg-blue-200">
+                    <span className="modalField w-1/2 ">
                       <span>Created:</span>
                       <span className="ml-2">{convertISODate(postDraft.createdAt)}</span>
                     </span>
@@ -157,20 +157,21 @@ const MainModal = (props) => {
               <div className="w-full  flex flex-col xl:flex-row xl:items-start">
 
                 {/* Description field */}
-                <div className="pr-4 w-full xl:w-1/2  flex flex-row items-start
-                 bg-green-200">
-                  <div className="iconContainer bg-yellow-200">
+                <div className="pr-2 w-full xl:w-1/2  flex flex-row items-start
+                 ">
+                  <div className="iconContainer ">
                     <BsInfoSquare size="22" className="align-top"/>
                   </div>
-                  <div className="w-full flex flex-col align-start  bg-yellow-200">
+                  <div className="w-full flex flex-col align-start  ">
                     <div className="modalFieldSpacer" />
                     <TextareaAutosize
                       name="purpose"
                       type="text"
                       ref={register}
                       minRows="1"
-                      maxRows="3"
-                      className={`modalField w-full bg-blue-200
+                      maxRows="4"
+                      spellCheck="false"
+                      className={`modalField w-full
                       ${(watch('purpose')===emptyPost?.purpose) && 'text-gray-500' }`}  // Grayed out until edited
                     />
                     <div className="modalFieldSpacer h-1" />
@@ -180,20 +181,20 @@ const MainModal = (props) => {
                 {/* AiOutlineTags size="28"  */}
 
                 {/* Tags field */}
-                <div className="pr-4 w-full xl:w-1/2  flex flex-row items-start
-                 bg-green-200">
-                  <div className="iconContainer bg-yellow-200">
+                <div className="px-2 w-full xl:w-1/2  flex flex-row items-start">
+                  <div className="iconContainer ">
                     <AiOutlineTags size="28" className="align-top"/>
                   </div>
-                  <div className="w-full flex flex-col align-start  bg-yellow-200">
+                  <div className="w-full flex flex-col align-start">
                     <div className="modalFieldSpacer" />
                     <TextareaAutosize
                       name="tags"
                       type="text"
                       ref={register}
                       minRows="1"
-                      maxRows="3"
-                      className={`modalField w-full bg-blue-200
+                      maxRows="2"
+                      spellCheck="false"
+                      className={`modalField w-full
                       ${(watch('tags')===emptyPost?.tags) && 'text-gray-500' }`}  // Grayed out until edited
                     />
                     <div className="modalFieldSpacer h-1" />
