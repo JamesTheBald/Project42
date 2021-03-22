@@ -23,14 +23,15 @@
     "suneditor-react": "^2.15.2"
   },
   "devDependencies": {
+    "@tailwindcss/jit": "^0.1.6",
     "@tailwindcss/postcss7-compat": "^2.0.3",
     "autoprefixer": "^9.8.6",
     "eslint": "^7.19.0",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "postcss": "^8.2.6",
+    "postcss": "^8.2.8",
     "postcss-cli": "^8.3.1",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.4"
   },
   "scripts": {
     "start": "NODE_ENV=development craco start",

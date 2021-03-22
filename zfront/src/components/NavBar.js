@@ -34,7 +34,7 @@ const NavBar = (props) => {
 
   let minZoomScale = props.minZoomScale;
   const maxZoomScale = props.maxZoomScale;
-  // let zoomScale = props.zoomScale;
+  let zoomScale = props.zoomScale;
   let setZoomScale = props.setZoomScale;
   const resetZoom = props.resetZoom;
   let zoomSpeed = props.zoomSpeed;
@@ -105,11 +105,11 @@ const NavBar = (props) => {
 
   return (
     <>
-      <nav className="h-20  flex flex-row items-center text-blue-700 bg-gray-100 shadow-md relative z-50"
+      <nav className="h-20  flex flex-row items-center bg-gray-50 shadow-md relative z-50"
             style={{width: displayWidth+"px"}}
       >
         <div
-          className="p-2 text-2xl xl:text-3xl ml-8 font-roundy font-700 hover:text-blue-500"
+          className="p-2 text-2xl xl:text-3xl ml-8 font-roundy font-700 text-indigo-800 hover:text-indigo-500"
           onClick={() => setShowWelcomeModal(true)}
         >
           SwarmShare
@@ -119,9 +119,9 @@ const NavBar = (props) => {
         <Dropdown>
           <Dropdown.Toggle
             title={searchTerm}
-            className="ml-12 xl:ml-16 mr-1 text-xs xl:text-sm px-1.5 xl:px-3  py-0.5 xl:py-1.5
-            text-gray-800 bg-gray-400 border-gray-700 rounded-lg shadow-sm
-            hover:bg-gray-200 transition duration-300"
+            className="ml-12 xl:ml-20 mr-1 text-sm px-1.5 xl:px-3  py-0.5 xl:py-1.5
+            text-gray-800 bg-gray-200 border-gray-700 rounded-lg shadow-sm
+            hover:bg-gray-400 transition duration-300"
           >
             {searchTerm}
           </Dropdown.Toggle>
@@ -208,15 +208,16 @@ const NavBar = (props) => {
         {/* Tools on NavBar */}
         <div className="inline xl:hidden absolute right-12">   {/* <!-- 'Hamburger' Icon --> */}
           <a onClick={ () => toggleToolMenu() }>
-            <FaBars size="28" className="text-gray-800"/> 
+            <FaBars size="28" className="text-indigo-800"/> 
           </a>
         </div>
 
         { displayWidth >=1300 ?
-          <div className="ml-12 p-2  w-110  flex flex-row justify-between items-center">
+          <div className="ml-20 p-2  w-110  flex flex-row justify-between items-center">
             <NavBarToolMenu 
               createPost = {createPost}
               createTopic = {createTopic}
+              zoomScale = {zoomScale}
               setZoomScale = {setZoomScale}
               zoomIn = {zoomIn}
               zoomOut = {zoomOut}
@@ -229,13 +230,15 @@ const NavBar = (props) => {
           </div>
           :
           showToolMenu &&
-          <div className="p-2 py-3 h-48 flex flex-col justify-between items-center  
-                        bg-gray-200  border-gray-700 rounded-xl  absolute" 
+          // Small-screen, collapsed toolbar
+          <div className="p-3 h-48 flex flex-col justify-between items-center  
+                        bg-gray-50  border-gray-700 rounded-xl  absolute" 
             style={{right: 30+"px", top: 75+"px", borderWidth: 1+"px" }}
           >
             <NavBarToolMenu 
               createPost = {createPost}
               createTopic = {createTopic}
+              zoomScale = {zoomScale}
               setZoomScale = {setZoomScale}
               zoomIn = {zoomIn}
               zoomOut = {zoomOut}

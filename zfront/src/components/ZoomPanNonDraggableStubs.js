@@ -82,7 +82,17 @@ class ZoomPanNonDraggableStubs extends Component {
             <>
               <TransformComponent>
                 <div>
-                  <div className="backgroundImage" style={{ filter: `blur(${blurLevel}px)` }} />
+                  <div className="backgroundImage "  />
+                  {/* style={{ filter: `blur(${blurLevel}px)` }} */}
+                  <RenderTopicsNonDraggable
+                    topicsDataArray={topicsDataArray}
+                    setCurrTopicIndex={setCurrTopicIndex}
+                    setShowTopicModal={setShowTopicModal}
+                    setTopicDraft={setTopicDraft}
+                    setCreatingTopicFlag={setCreatingTopicFlag}
+                    posnLog={posnLog}
+                    recdLog={recdLog}
+                  />
 
                   <RenderStubsNonDraggable
                     postingsDataArray={postingsDataArray}
@@ -95,21 +105,11 @@ class ZoomPanNonDraggableStubs extends Component {
                     setCreatingPostFlag={setCreatingPostFlag}
                     userVoted={userVoted}
                     setUserVoted={setUserVoted}
-                    // zoomedOrPanned={zoomedOrPanned}
                     stubScale={stubScale}
                     posnLog={posnLog}
                     recdLog={recdLog}
                   />
-                  <RenderTopicsNonDraggable
-                    topicsDataArray={topicsDataArray}
-                    setCurrTopicIndex={setCurrTopicIndex}
-                    setShowTopicModal={setShowTopicModal}
-                    setTopicDraft={setTopicDraft}
-                    setCreatingTopicFlag={setCreatingTopicFlag}
-                    // zoomedOrPanned={zoomedOrPanned}
-                    posnLog={posnLog}
-                    recdLog={recdLog}
-                  />
+
                 </div>
               </TransformComponent>
 

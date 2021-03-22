@@ -5,14 +5,15 @@
 @layer components {
   
   
-  .stdButton { @apply px-1 lg:px-2 py-0.5 lg:py-1  text-xs lg:text-sm
-    text-gray-800 bg-gray-200 border border-gray-700 rounded-lg shadow-sm }
-    .stdButton:hover {@apply bg-gray-400 transition duration-300}
+  .stdButton { @apply px-1 xl:px-2 py-0.5 xl:py-1  text-xs xl:text-sm
+    text-gray-800 bg-indigo-50 border border-indigo-gray rounded-lg shadow-sm }
+    .stdButton:hover {@apply text-indigo-900 bg-indigo-100 transition duration-300}
     
-    .stdButton.dark { @apply bg-gray-400 hover:bg-gray-200}
+    .stdButton.dark { @apply bg-gray-200 border-gray-600 hover:bg-gray-400}
     
+
   .modalField { @apply px-2 py-1 align-middle  rounded-lg outline-none  hover:bg-gray-200 hover:text-gray-600 }
-  .modalField:focus { @apply bg-gray-200 text-gray-700 }
+  .modalField:focus { @apply bg-red-200 text-gray-700 }
 
   .iconContainer {@apply w-14 h-12 flex justify-center items-center  text-blue-600}
   
@@ -20,14 +21,14 @@
 
   .modalTab {@apply flex justify-center items-center bg-gray-200 border border-b-0 border-gray-300 rounded-t-xl}
 
-  .searchTextInput {@apply ml-2 w-36 lg:w-44  flex flex-row  text-gray-800
-    text-xs lg:text-sm  p-0.5 lg:px-1.5  border border-gray-600 rounded-lg shadow-inner }
+  .searchTextInput {@apply ml-2 w-36 xl:w-44  flex flex-row  text-gray-800
+    text-xs xl:text-sm  p-0.5 xl:px-1.5  border border-gray-600 rounded-lg shadow-inner }
   
   .stubWrapper { @apply text-xs flex flex-col items-center absolute text-gray-900 }
-  .stub { @apply flex w-60 bg-gray-200 border border-gray-900 rounded-lg opacity-80 z-10 }
+  .stub { @apply flex w-60 bg-gray-50 border border-gray-900 rounded-lg opacity-90 z-10 }
   .stub .fadeOutContainer { @apply w-1/2 h-4 absolute bottom-0 right-0  bg-gradient-to-l from-gray-200 }
   .stub .titleContainer { @apply flex flex-col items-start w-3/4 p-3 relative  border-r border-gray-900 }
-  .stub .attributeContainer { @apply flex flex-col justify-between items-center w-3/12 p-2 rounded-r-lg }
+  .stub .attributeContainer { @apply flex flex-col justify-between items-center w-3/12 px-2 pt-3 pb-2.5 rounded-r-lg }
 
 }
 

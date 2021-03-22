@@ -9,9 +9,8 @@ module.exports = {
    },
    
    purge: [
-      './src/**/*.html',
-      './src/**/*.jsx',
-      './src/**/*.js',
+    './public/**/*.html',
+    './src/**/*.{js,jsx,ts,tsx,vue}',
    ],
 
    theme: {
@@ -70,6 +69,11 @@ module.exports = {
       extend: {
    
          colors: {
+
+            indigo: {
+              gray: '#807caa',
+              // Was '#5d598b',
+            },
 
             blue: {
                100: '#ebf8ff',

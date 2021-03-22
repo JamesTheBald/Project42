@@ -12,6 +12,7 @@ const ZoomSpeedSlider = (props) => {
     <div>
       <input
         // Formatting is in rangeSlider.css
+        className="slider"
         min={minZoomSpeed} 
         max={maxZoomSpeed}
         type="range"

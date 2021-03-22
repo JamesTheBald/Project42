@@ -56,7 +56,7 @@ const Stub = (props) => {
       {/* Tooltip  */}
       <span className="tooltipItself  flex flex-col items-center">
 
-        <div className={`w-96 p-2  bg-gray-200 rounded-lg`}>
+        <div className={`w-96 p-2  bg-gray-100 rounded-lg`}>
           <PopupContent post={post} postDraft={postDraft} setPostDraft={setPostDraft} />
         </div>
         <div style={{ transform: "translateY(-8px)" }}>

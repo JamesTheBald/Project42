@@ -14,13 +14,13 @@ import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 const posnLogKey = false; //  true logs most important Zoompan scale and panX & panY positions
 const posnLog = false; //  true logs all Zoompan scale and panX & panY positions
 const recdLog = false; //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
-const evntLog = false; //  true logs events, e.g. onClick, onKeyDown
+const evntLog = true; //  true logs events, e.g. onClick, onKeyDown
 
 const stubScale = 0.25;
 const extraZoomOutFactor = 1;
 
-const imageWidth = 4676;  // Set these to equal background image dimensions, in pixels
-const imageHeight = 1998;
+const imageWidth = 4600;  // Set these to equal background image dimensions (in app.css), in pixels
+const imageHeight = 2000;
 const initialPanX = 0;
 const initialPanY = 0;
 
@@ -34,9 +34,9 @@ const maxZoomScale = 12;
 const minZoomSpeed = 40;
 const maxZoomSpeed = 600;
 
-const blurKickInZoomLevel = 2.25;
-const blurStepOnStart = 0; // step change in blurring (in pixels) when blurKickInZoomLevel is reached
-const blurRampUpRate = 1.5; // as a multiplier of zoomLevel, to give pixels of blur
+const blurKickInZoomLevel = 20;
+const blurStepOnStart = 3; // step change in blurring (in pixels) when blurKickInZoomLevel is reached
+const blurRampUpRate = 4; // as a multiplier of zoomLevel, to give pixels of blur
 
 
 const emptyPost = {
@@ -152,6 +152,7 @@ const AlphaComponent = () => {
 
     posnLog && console.log("AlphaComponent.js useEffect() zoomScale=", zoomScale, "panX=" ,panX, ", panY=", panY);
 
+    // convert from react-zoom-pan-pinch's coordinate system to window's
     let adjustedPanX = imageWidth / 2 - imageWidth / (2 * zoomScale) + panX / zoomScale;
     let adjustedPanY = imageHeight / 2 - imageHeight / (2 * zoomScale) + panY / zoomScale;
 
@@ -210,17 +211,24 @@ const AlphaComponent = () => {
     console.log("createPostAtMouseClick stubDragged.current=", stubDragged.current, " and dragMode=", dragMode);
 
     if (dragMode && !stubDragged.current && !topicDragged.current) {
-      const offsetX = event.pageX - window.pageXOffset; // - currentTargetRect.left;
-      const offsetY = event.pageY - window.pageYOffset; // - currentTargetRect.top;
-      posnLog &&
-        console.log("createPostAtMouseClick event.pageX=", event.pageX, "  window.pageXOffset=", window.pageXOffset);
-      posnLog &&
-        console.log("createPostAtMouseClick event.pageY=", event.pageY, "  window.pageYOffset=", window.pageYOffset);
+      // const offsetX = event.pageX - window.pageXOffset; // - currentTargetRect.left;
+      // const posX = event.pageX*imageWidth/displayWidth;
+
+      const posX = (imageWidth / 2 - imageWidth / (2 * zoomScale) + event.pageX / zoomScale)*imageWidth/displayWidth;
+
+
+      // const offsetY = event.pageY - window.pageYOffset; // - currentTargetRect.top;
+      const posY = (event.pageY+80)*imageHeight/displayHeight;    // 80px to account for the Navbar
+
+      // posnLog &&
+        console.log("createPostAtMouseClick offsetX=", posX, "so event.pageX=", event.pageX);
+      // posnLog &&
+        console.log("createPostAtMouseClick offsetY=", posY, "so event.pageY=", event.pageY);
 
       console.log("AlphaComponent.js createPostAtMouseClick: creatingPostFlag=true");
       setCreatingPostFlag(true);
 
-      const emptyPostWithCoords = { ...emptyPost, positionX: offsetX, positionY: offsetY };
+      const emptyPostWithCoords = { ...emptyPost, positionX: posX, positionY: posY };
       setPostDraft(emptyPostWithCoords);
       console.log("AlphaComponent.js createPostAtMouseClick: setting postDraft to", emptyPostWithCoords);
 
@@ -258,7 +266,7 @@ const AlphaComponent = () => {
           setTopicDraft={setTopicDraft}
           minZoomScale={minZoomScale}
           maxZoomScale={maxZoomScale}
-          // zoomScale={zoomScale}
+          zoomScale={zoomScale}
           setZoomScale={setZoomScale}
           resetZoom={resetZoom}
           zoomSpeed={zoomSpeed}
@@ -293,7 +301,20 @@ const AlphaComponent = () => {
       >
         {dragMode && (
           <>
-            <div className="backgroundImage absolute" style={{ filter: `blur(${blurLevel}px)` }} />
+            <div className="backgroundImage absolute" />
+            {/* style={{ width: `${displayWidth}px`, height: `${displayHeight}px`}} */}
+            {/* filter: `blur(${blurLevel}px)` */}
+            <RenderTopicsDraggable
+              topicsDataArray={topicsDataArray}
+              setCurrTopicIndex={setCurrTopicIndex}
+              setShowTopicModal={setShowTopicModal}
+              setTopicDraft={setTopicDraft}
+              setCreatingTopicFlag={setCreatingTopicFlag}
+              topicDragged={topicDragged}
+              stubScale={stubScale}
+              posnLog={posnLog}
+              evntLog={evntLog}
+            />
 
             <RenderStubsDraggable
               postingsDataArray={postingsDataArray}
@@ -310,17 +331,7 @@ const AlphaComponent = () => {
               posnLog={posnLog}
               evntLog={evntLog}
             />
-            <RenderTopicsDraggable
-              topicsDataArray={topicsDataArray}
-              setCurrTopicIndex={setCurrTopicIndex}
-              setShowTopicModal={setShowTopicModal}
-              setTopicDraft={setTopicDraft}
-              setCreatingTopicFlag={setCreatingTopicFlag}
-              topicDragged={topicDragged}
-              stubScale={stubScale}
-              posnLog={posnLog}
-              evntLog={evntLog}
-            />
+
           </>
         )}
       </div>
