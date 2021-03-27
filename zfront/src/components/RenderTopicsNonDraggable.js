@@ -25,19 +25,19 @@ const RenderTopicsNonDraggable = (props) => {
     return (
       <>
         {topicsDataArray.map((topic, index) => {
-          // console.log("RenderTopicsNonDraggable .map: index=", index, " and topic=", topic);
+          recdLog && console.log("RenderTopicsNonDraggable .map: index=", index, " and topic=", topic);
           posnLog && console.log('RenderTopicsNonDraggable topic.positionX=',topic.positionX,', topic.positionY=',topic.positionY)
 
           return (
             <div
               key={index}
-              className="flex flex-col items-center absolute text-gray-800"
+              className="flex flex-col items-center absolute text-gray-800 invisible"
               style={{ top: topic.positionY, left: topic.positionX }}
+              onClick={() => prepAndOpenTopicModal(topic, index)}
             >
-              
-              <Topic topic={topic} index={index} prepAndOpenTopicModal={prepAndOpenTopicModal} />
-              
+              <Topic topic={topic} />
             </div>
+            
           );
         })}
       </>

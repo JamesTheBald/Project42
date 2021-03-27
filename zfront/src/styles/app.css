@@ -6,21 +6,20 @@ div {
 
 .backgroundImage {
   background-image: url('../images/sky/blue_hour_sky_by_creationsbyirene_Scaled.jpg');
-  /* object-fit: fill; */
-  /* width: 4600px;    /* Set equal to the width of the image. Also set imageWidth on AlphaComponen.js */
-  /* height: 2000px;   Set equal to height of the image. Also set imageHeight on AlphaComponent.js ~line 24 */
+  object-fit: fill;
+  width: 4600px;   /* Set equal to the width of the image. Also set imageWidth on AlphaComponent.js */
+  height: 2000px;  /* Set equal to height of the image. Also set imageHeight on AlphaComponent.js ~line 24 */
 }
 
+/* tuscany-italy-landscape.jpg   height: 2160px;   width: 3840px; */
+/* purple-red_nebula_starfield_Darker_3840px.jpg height: 5120px;  width: 2880px */
+/* ../images/galaxy_over_waters_&_cloud_7680px.jpg   height: 4320px;  width: 7680px; */
 
-:root {
-  --veryDarkIndigo: hsl(243, 43%, 25%);
-  --darkIndigo: hsl(243, 43%, 35%);
-}
 
 .backgroundColor {
-  background-color: var(--veryDarkIndigo);
-  /* #2c2974 = Tailwind Indigo '950' */
-  /* was #2b215f */
+  background-color: #1c1c53
+  /* Observatory background colors: foreground ground: #130b08  */
+  /* Italian countryside background colors: #9c5924 or #d7974c; */
 }
 
 
@@ -30,11 +29,11 @@ div {
 
 .tooltipBase .tooltipItself {
   visibility: hidden;       
+
   position: absolute;
   bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
-  z-index: 80;
+  transform: translateX(-50%)
 }
 
 .tooltipBase:hover .tooltipItself {

@@ -7,7 +7,7 @@ import ZoomSpeedSlider from "./ZoomSpeedSlider";
 const NavBarToolMenu = (props) => {
   const createPost = props.createPost;
   const createTopic = props.createTopic;
-  const zoomScale = props.zoomScale;
+  // const zoomScale = props.zoomScale;
   const setZoomScale = props.setZoomScale;
   const zoomIn = props.zoomIn;
   const zoomOut = props.zoomOut;
@@ -55,9 +55,9 @@ const NavBarToolMenu = (props) => {
         />
       </div>
 
-      <div className="ml-10">
+      {/* <div className="ml-10">
           Zoom Scale: {zoomScale}
-      </div>
+      </div> */}
     </>
   );
 };

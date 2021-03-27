@@ -10,14 +10,13 @@ import onClickFindByName from "../functions/onClickFindByName";
 import NavBarToolMenu from "./NavBarToolMenu";
 
 const NavBar = (props) => {
+  const [showWelcomeModal, setShowWelcomeModal] = useState(true);
   const [searchTitle, setSearchTitle] = useState("");
   const [searchTags, setSearchTags] = useState("");
   const [searchName, setSearchName] = useState("");
   const [searchTerm, setSearchTerm] = useState("Title ");
 
   const emptyPost = props.emptyPost;
-  let showWelcomeModal = props.showWelcomeModal;
-  const setShowWelcomeModal = props.setShowWelcomeModal;
   const setShowMainModal = props.setShowMainModal;
   let postingsDataArray = props.postingsDataArray;
   const setPostingsDataArray = props.setPostingsDataArray;
@@ -44,8 +43,7 @@ const NavBar = (props) => {
   const displayWidth = props.displayWidth;
   let showToolMenu = props.showToolMenu;
   const setShowToolMenu = props.setShowToolMenu;
-  
-  // const recdLog=props.recdLog;
+    // const recdLog=props.recdLog;
 
   // const handleSelect = (event) => {
   //   console.log("NavBar.js handleSelect event=",event);
@@ -102,26 +100,27 @@ const NavBar = (props) => {
   const toggleToolMenu = () => { showToolMenu ? setShowToolMenu(false) : setShowToolMenu(true) };
 
 
-
   return (
     <>
-      <nav className="h-20  flex flex-row items-center bg-gray-50 shadow-md relative z-50"
-            style={{width: displayWidth+"px"}}
-      >
+      <nav className="h-20  w-full flex flex-row items-center bg-gray-50 shadow-md relative z-50">
+        
         <div
-          className="p-2 text-2xl xl:text-3xl ml-8 font-roundy font-700 text-indigo-800 hover:text-indigo-500"
-          onClick={() => setShowWelcomeModal(true)}
+          className="p-2 text-2xl xl:text-3xl ml-8 font-roundy font-700 text-indigo-title hover:text-indigo-500"
+          onClick={() => {
+            console.log("Title clicked on");
+            setShowWelcomeModal(true)}
+          }
         >
           SwarmShare
         </div>
-        <WelcomeModal show={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} animation={false} />
+        <WelcomeModal showWelcomeModal={showWelcomeModal} onHide={() => setShowWelcomeModal(false)} />
 
         <Dropdown>
           <Dropdown.Toggle
             title={searchTerm}
-            className="ml-12 xl:ml-20 mr-1 text-sm px-1.5 xl:px-3  py-0.5 xl:py-1.5
-            text-gray-800 bg-gray-200 border-gray-700 rounded-lg shadow-sm
-            hover:bg-gray-400 transition duration-300"
+            className="ml-12 xl:ml-20 mr-1 text-sm px-1.5 xl:px-3  py-0.5 xl:py-1 
+            text-indigo-900 bg-indigo-50 border-indigo-gray  rounded-lg shadow-sm
+            hover:bg-indigo-100 transition duration-300"
           >
             {searchTerm}
           </Dropdown.Toggle>
@@ -144,7 +143,7 @@ const NavBar = (props) => {
               onChange={(event) => setSearchTitle(event.target.value)}
             />
             <button
-              className="ml-2 py-1 stdButton dark"
+              className="ml-2 py-1 stdButton"
               onClick={() => onClickFindByTitle(searchTitle, setPostingsDataArray)}
             >
               Search
@@ -163,7 +162,7 @@ const NavBar = (props) => {
               onChange={(event) => setSearchTags(event.target.value)}
             />
             <button
-              className="ml-2 stdButton dark"
+              className="ml-2 stdButton"
               onClick={() => onClickFindByTags(searchTags, setPostingsDataArray)}
             >
               Search
@@ -182,7 +181,7 @@ const NavBar = (props) => {
               onChange={(event) => setSearchName(event.target.value)}
             />
             <button
-              className="ml-2 stdButton dark"
+              className="ml-2 stdButton"
               onClick={() => onClickFindByName(searchName, setPostingsDataArray)}
             >
               Search
@@ -191,7 +190,7 @@ const NavBar = (props) => {
         )}
 
         <button
-          className="stdButton dark ml-2"
+          className="stdButton ml-2"
           onClick={() => {
             setSearchTitle("");
             onClickFindByTitle(searchTitle, setPostingsDataArray);

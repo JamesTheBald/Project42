@@ -23,29 +23,34 @@ const RenderStubsNonDraggable = (props) => {
 
   recdLog && console.log("RenderStubsNonDraggable.js begins. postingsDataArray=", postingsDataArray);
 
+  const prepAndOpenPostModal = (post, index) => {
+    setCreatingPostFlag(false);
+    setCurrPostIndex(index);
+    setPostDraft(post);
+    lockPost(post, index); // writes lock to DB but doesn't update state vars (postDraft, postingsDataArray)
+    setShowMainModal(true);
+  }
+
+
   const handleOnClick = (post, index) => (evnt) => {
     evnt.stopPropagation();   // J: Meant to stop 'bubbling but I'm not sure it does anything or is even needed
-
     console.log("RenderStubsNonDraggble.js handleOnClick post=", post);
+
     if (post.locked && (millisecondsSinceUpdated(post) < 3600000)) {
       console.log("RenderStubsNonDraggble.js handleOnClick - post is locked");
       setShowWarningModalLocked(true);
     } else {
-      setCreatingPostFlag(false);
-      setCurrPostIndex(index);
-      setPostDraft(post);
-      lockPost(post, index); // writes lock to DB but doesn't update state vars (postDraft, postingsDataArray)
-      setShowMainModal(true);
+      prepAndOpenPostModal(post, index);
     }
   };
 
 
   const millisecondsSinceUpdated = (postDraft) => {
-    const then = Date.parse(postDraft.updatedAt)
-    const now = Date.now()
-    console.log("This post was edited at ", then)
-    console.log("Current time is ", now)
-    console.log("Difference is ", now-then)
+    const then = Date.parse(postDraft.updatedAt);
+    const now = Date.now();
+    console.log("This post was edited at ", then);
+    console.log("Current time is ", now);
+    console.log("Difference is ", now-then);
     return now-then
   }
 
@@ -59,19 +64,22 @@ const RenderStubsNonDraggable = (props) => {
           return (
             <div
               key={index}
-              className="stubWrapper"
+              className="stubWrapper absolute invisible"
+              // Invisible utility is used so that the unscaled container div doesn't appear.
+              // Absolute positioning is required here. Scaling must be in line below.
               style={{  transform: `scale(${stubScale})`, top: post.positionY, left: post.positionX, }}
             >
-              <Stub
-                post={post}
-                index={index}
-                handleOnClick={handleOnClick}
-                postingsDataArray={postingsDataArray}
-                postDraft={postDraft}
-                setPostDraft={setPostDraft}
-                userVoted={userVoted}
-                setUserVoted={setUserVoted}
-              />
+              <div onClick={handleOnClick(post,index)}>
+                <Stub
+                  post={post}
+                  index={index}
+                  postingsDataArray={postingsDataArray}
+                  postDraft={postDraft}
+                  setPostDraft={setPostDraft}
+                  userVoted={userVoted}
+                  setUserVoted={setUserVoted}
+                />
+              </div>
 
               <WarningModalLocked
                 showWarningModalLocked={showWarningModalLocked}

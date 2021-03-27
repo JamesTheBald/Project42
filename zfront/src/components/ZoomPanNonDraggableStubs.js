@@ -36,7 +36,7 @@ class ZoomPanNonDraggableStubs extends Component {
     const setCreatingTopicFlag = props.setCreatingTopicFlag;
 
     const stubScale = props.stubScale;
-    let blurLevel = props.blurLevel;
+    // let blurLevel = props.blurLevel;
     // const displayWidth = props.displayWidth;
     // const imageWidth = props.imageWidth;
     // const scrollToTopLeft = props.scrollToTopLeft;

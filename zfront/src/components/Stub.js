@@ -7,20 +7,19 @@ import RenderSpiciness from "./RenderSpiciness";
 
 
 const Stub = (props) => {
-
   const post = props.post;
   const index = props.index;
-  const handleOnClick = props.handleOnClick;
   const postingsDataArray = props.postingsDataArray;
   let postDraft = props.postDraft;
   const setPostDraft = props.setPostDraft;
   let userVoted = props.userVoted;
   const setUserVoted = props.setUserVoted;
+  // const handleOnClick = props.handleOnClick;
 
 
   return (
-    <div className="tooltipBase stub" onClick={handleOnClick(post, index)}>
-
+    <div className="tooltipBase stub visible">
+{/*  onClick={handleOnClick(post, index)} */}
       <div className="titleContainer">
         {post.title ? (
           <div className="h-8.5 overflow-hidden font-500 relative">

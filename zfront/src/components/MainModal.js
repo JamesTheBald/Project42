@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 import RichTextEditor from "./RichTextEditor";
 import TextareaAutosize from 'react-textarea-autosize';
 import { AiOutlineUser, AiOutlineTags } from "react-icons/ai";
@@ -37,7 +37,7 @@ const MainModal = (props) => {
   const [showWarningDeleteModal, setShowWarningDeleteModal] = useState(false);
   const [showMainModalFooter, setShowMainModalFooter] = useState(true);
 
-  console.log("MainModal.js begins. postDraft=", postDraft);
+  recdLog && console.log("MainModal.js begins. postDraft=", postDraft);
 
 
   const { register, handleSubmit, watch, errors, formState: { isDirty }, } = useForm({
@@ -238,15 +238,15 @@ const MainModal = (props) => {
           {showMainModalFooter ?
             <>
               <Modal.Footer className="relative">
-                <Button
+                <button
                   onClick={() => setShowWarningDeleteModal(true)}
                   className="absolute left-2 flex items-center self-start bg-white hover:bg-red-100 border-none text-red-400 
                    hover:text-red-600"
                 >
                   Archive Post
-                </Button>
+                </button>
 
-                <Button
+                <button
                   className="self-start bg-white text-blue-600 border-blue-600
                            hover:text-blue-700 hover:border-blue-700 hover:bg-gray-100"
                   onClick={() => {
@@ -255,21 +255,21 @@ const MainModal = (props) => {
                   }}
                 >
                   Abandon Changes
-                </Button>
+                </button>
 
-                <Button name="submit" type="submit" ref={register} 
+                <button name="submit" type="submit" ref={register} 
                   className="flex items-center bg-blue-600 hover:bg-blue-700 border-blue-600">
                   Save &amp; Close
-                </Button>
+                </button>
               </Modal.Footer>
             </>
             :
             <>
               <Modal.Footer className="relative">
-                <Button  className="bg-gray-600 hover:bg-gray-700 border-gray-600">
+                <button  className="bg-gray-600 hover:bg-gray-700 border-gray-600">
                     {/* type="submit" */}
                   Exit Text Editor
-                </Button>
+                </button>
 
               </Modal.Footer>
             </>
