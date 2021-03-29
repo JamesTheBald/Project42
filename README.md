@@ -10,4 +10,4 @@ A '2.5-dimensional mindmap' for easily sharing learning resources
 Credits:
 Original version (Feb 2021): James Murphy, Collin Anda and 'Yemi Obayemi, building on code by BeZKoder
 
-Final version (Apr 2021): James Murphy
+Final refinements, hosting (Apr 2021): James Murphy
