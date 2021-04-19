@@ -4,11 +4,6 @@ const postingsModel = db.postings;
 
 // Create and Save a new Posting
 exports.create = (req, res) => {
-  // // Validate request
-  // if (!req.body.title) { 
-  //     res.status(400).send({ message: "Validation Error - Title Cannot Be Empty" });
-  //   return;
-  // }
 
   // Create a Posting
   const posting = new postingsModel({
@@ -41,6 +36,7 @@ exports.create = (req, res) => {
     });
 };
 
+
 // Retrieve all Postings from the database.
 exports.findAll = (req, res) => {
   const title = req.query.title;
@@ -50,15 +46,8 @@ exports.findAll = (req, res) => {
   console.log("postingsController.js findAll req.query=",req.query)
   console.log("postingsController.js findAll title=",title)
 
-
   let condition = { archived: false };
-  // let condition = { };
-
-  // condition = title && {...condition, title: { $regex: new RegExp(title), $options: "i" } }
-  // condition = tags && {...condition, tags: { $regex: new RegExp(tags), $options: "i" } }
-  // condition = name && {...condition, contributors: { $regex: new RegExp(name), $options: "i" } }
   console.log("postingsController.js findAll condition=",condition)
-
 
   if (title) {
     condition = title ? { archived: false, title: { $regex: new RegExp(title), $options: "i" } } : {};   // $options: "i" means case insensitive
@@ -68,8 +57,7 @@ exports.findAll = (req, res) => {
     condition = name ? {archived: false, contributors: { $regex: new RegExp(name), $options: "i" } } : {};
   }
 
-  console.log("postingsController.js findAll condition=",condition)
-
+  console.log("postingsController.js with search terms, findAll condition=",condition)
 
   postingsModel.find(condition)
     .then(data => {
@@ -192,5 +180,29 @@ exports.deleteAll = (req, res) => {
           err.message || "Some error occurred while removing all postings."
       });
     });
+};
+
+
+
+const upload = require("../middleware/uploadMiddleware");
+
+exports.uploadFiles = async (req, res) => {
+  try {
+    await upload(req, res);
+    console.log(req.files);
+
+    if (req.files.length <= 0) {
+      return res.send(`You must select at least 1 file.`);
+    }
+    return res.send(`Files have been uploaded.`);
+
+  } catch (error) {
+    console.log(error);
+
+    if (error.code === "LIMIT_UNEXPECTED_FILE") {
+      return res.send("Too many files to upload.");
+    }
+    return res.send(`Error when trying upload many files: ${error}`);
+  }
 };
 

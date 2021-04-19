@@ -8,7 +8,7 @@ const topicsRoutes = require("./app/routes/topicsRoutes.js");
 const PORT = process.env.PORT || 8082;
 
 var corsOptions = {
-  origin: ["http://localhost:8083", "http://localhost:8084"]               //J: Should we put the port number in a variable?
+  origin: ["http://localhost:8083", "http://localhost:8084"]   //J: Should we put the port number in a variable?
 };
 
 const exprs = express();                                // J: This runs the express function, to initialize it.
@@ -33,11 +33,11 @@ db.mongoose
 
 
 // simple route (not actually called by the frontend)
-exprs.get("/", (req, res) => {res.json({ message: "Welcome to the EvolveU Learnings Tips and Resources hub" })});
+exprs.get("/", (req, res) => {res.json({ message: "Welcome to the SwarmShare server" })});
 
 
-postingsRoutes(exprs);   //J: run the postingRoutes functions (from "/routes/postingRoutes.js"), passing to them the express package
-topicsRoutes(exprs);   //J: run the postingRoutes functions (from "/routes/postingRoutes.js"), passing to them the express package
+postingsRoutes(exprs);   //J: run the postingRoutes function, passing to them the express package
+topicsRoutes(exprs);   //J: run the postingRoutes function, passing to them the express package
 
 
 // set port, listen for requests

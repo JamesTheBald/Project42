@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownMenu from "react-bootstrap/DropdownMenu";
 import { FaBars } from "react-icons/fa";
@@ -100,12 +102,14 @@ const NavBar = (props) => {
   const toggleToolMenu = () => { showToolMenu ? setShowToolMenu(false) : setShowToolMenu(true) };
 
 
+
   return (
     <>
       <nav className="h-20  w-full flex flex-row items-center bg-gray-50 shadow-md relative z-50">
         
         <div
-          className="p-2 text-2xl xl:text-3xl ml-8 font-roundy font-700 text-indigo-title hover:text-indigo-500"
+          className="p-2 text-2xl xl:text-3xl ml-8 font-roundy font-700 text-indigo-800 hover:text-indigo-500"
+          // style={{textShadow: "0.8px 0.8px 1.5px #aaaaaa"}}
           onClick={() => {
             console.log("Title clicked on");
             setShowWelcomeModal(true)}
@@ -119,12 +123,15 @@ const NavBar = (props) => {
           <Dropdown.Toggle
             title={searchTerm}
             className="ml-12 xl:ml-20 mr-1 text-sm px-1.5 xl:px-3  py-0.5 xl:py-1 
-            text-indigo-900 bg-indigo-50 border-indigo-gray  rounded-lg shadow-sm
+            text-gray-800 bg-gray-200 border border-gray-600  rounded-lg shadow-sm outline-none
             hover:bg-indigo-100 transition duration-300"
           >
             {searchTerm}
+
           </Dropdown.Toggle>
-          <DropdownMenu>
+          <DropdownMenu
+            className=""
+          >
             <Dropdown.Item onSelect={() => setSearchTerm("Title ")}>Search by Title</Dropdown.Item>
             <Dropdown.Item onSelect={() => setSearchTerm("Tag ")}>Search by Tag</Dropdown.Item>
             <Dropdown.Item onSelect={() => setSearchTerm("Contributor ")}>Search by Contributor</Dropdown.Item>
@@ -205,14 +212,16 @@ const NavBar = (props) => {
 
 
         {/* Tools on NavBar */}
-        <div className="inline xl:hidden absolute right-12">   {/* <!-- 'Hamburger' Icon --> */}
+        <div className="inline xl:hidden absolute"
+          style={{left: `${window.innerWidth-75}px`}}
+        >   {/* <!-- 'Hamburger' Icon --> */}
           <a onClick={ () => toggleToolMenu() }>
             <FaBars size="28" className="text-indigo-800"/> 
           </a>
         </div>
 
         { displayWidth >=1300 ?
-          <div className="ml-20 p-2  w-110  flex flex-row justify-between items-center">
+          <div className="p-2  w-110  flex flex-row justify-between items-center">
             <NavBarToolMenu 
               createPost = {createPost}
               createTopic = {createTopic}
@@ -231,8 +240,9 @@ const NavBar = (props) => {
           showToolMenu &&
           // Small-screen, collapsed toolbar
           <div className="p-3 h-48 flex flex-col justify-between items-center  
-                        bg-gray-50  border-gray-700 rounded-xl  absolute" 
-            style={{right: 30+"px", top: 75+"px", borderWidth: 1+"px" }}
+                        bg-gray-100  border-gray-700 rounded-xl  absolute" 
+            style={{left: `${window.innerWidth-215}px`, top: 85+"px"}}
+
           >
             <NavBarToolMenu 
               createPost = {createPost}

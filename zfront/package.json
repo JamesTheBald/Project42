@@ -8,8 +8,11 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "autoprefixer": "^9.8.6",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "postcss": "^8.2.10",
+    "postcss-cli": "^8.3.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.4.3",
     "react-dom": "^16.13.1",
@@ -21,25 +24,20 @@
     "react-scripts": "^4.0.1",
     "react-textarea-autosize": "^8.3.2",
     "react-zoom-pan-pinch": "^1.6.1",
-    "suneditor-react": "^2.15.2"
+    "suneditor-react": "^2.15.2",
+    "tailwindcss": "^2.0.1-compat"
   },
   "devDependencies": {
-    "@tailwindcss/jit": "^0.1.6",
-    "@tailwindcss/postcss7-compat": "^2.0.3",
-    "autoprefixer": "^9.8.6",
     "eslint": "^7.19.0",
     "eslint-plugin-react": "^7.22.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "postcss": "^8.2.8",
-    "postcss-cli": "^8.3.1",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.4"
+    "eslint-plugin-react-hooks": "^4.2.0"
   },
   "scripts": {
     "start": "NODE_ENV=development craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "tailwind:build": "NODE_ENV=development postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
+    "tailwind:build": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
     "tailwind:dev": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
     "tailbuild": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css",
     "tailwatch": "postcss src/styles/tailwind.css -o src/styles/tailwind_built.css --watch",

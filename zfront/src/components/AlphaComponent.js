@@ -13,7 +13,7 @@ import retrieveTopics from "../functions/retrieveTopics";
 import ZoomPanNonDraggableStubs from "./ZoomPanNonDraggableStubs";
 
 const posnLogKey = false; //  true logs most important Zoompan scale and panX & panY positions
-const posnLog = true; //  true logs all Zoompan scale and panX & panY positions
+const posnLog = false; //  true logs all Zoompan scale and panX & panY positions
 const recdLog = false; //  true logs state variables aka 'records', e.g. postingsDataArray, postDraft, topicsDataArray
 const evntLog = false; //  true logs events, e.g. onClick, onKeyDown
 

@@ -23,6 +23,7 @@
       "react-hooks/exhaustive-deps": "warn",
       "react/prop-types": "off",
       "no-unused-vars": "warn",
-      "react/jsx-closing-tag-location": "warn"
+      "react/jsx-closing-tag-location": "warn",
+      "padding-line-between-statements": "warn"
     }
 }

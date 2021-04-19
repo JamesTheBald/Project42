@@ -10,6 +10,7 @@ module.exports = (func) => {
   router.put("/", postings.unarchiveAll);         // Unarchive all Postings
   router.delete("/:id", postings.delete);     // Delete a Posting with id
   router.delete("/", postings.deleteAll);     // Create a new Posting
+  router.post("/upload", postings.uploadFiles);  // Upload multiple files
 
   func.use("/api/postings", router);   //J: "Binds application-level middleware to an instance of the func object (i.e. the Express package)
                                        // Mounts to the path given. So this adds /api/postings to all of the URL paths above (sez Greg)

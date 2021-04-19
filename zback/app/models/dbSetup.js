@@ -7,7 +7,7 @@ const db = {
   mongoose: mongoose,
   url: dbConfig.url,
   postings: require("./postingsModel.js")(mongoose),   // This sets the value of db.postings to be the function defined in
-  topics: require("./topicsModel.js")(mongoose)                     // postingsModel.js, to which it passes the standard Mongoose package 
+  topics: require("./topicsModel.js")(mongoose)        // postingsModel.js, to which it passes the standard Mongoose package 
 };
 
 module.exports = db;
