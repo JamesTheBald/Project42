@@ -1,10 +1,14 @@
-# EvolveU-Project3
+# EvolveU Capstone Project - SwarmShare
 
-TEAM MEMBERS:
-Collin
-James
-Yemi
+A '2.5-dimensional mindmap' for easily sharing learning resources
 
-Facilitator: Al
+- Zoom-pan navigation (using mouse/touchpad)
+- Drag-and-drag positioning of elements (while pressing Shift)
+- Rich text editor (with URL links and video) + file saving for diverse content
+- Search function
 
-PS - Hi folks! Let's talk about how we want to lay out our files. My first thought is that we put a Create-React-App environment (with the plugins for Tailwind*), straight off the root directory, then all work within that. (Though this still leaves a lot to discuss.)     (*I can set up the Tailwind part.)
+Credits:
+Original version (Feb 2021): James Murphy, Collin Anda and 'Yemi Obayemi, building on MERN CRUD app by BeZKoder:
+  https://bezkoder.com/react-node-express-mongodb-mern-stack/
+
+Refinements, hosting (Apr 2021): James Murphy
